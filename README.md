@@ -4,6 +4,8 @@ i-Code CNES is a static code analysis tool to help developpers write code compli
 
 By now it is a plug-in eclipse, but it could be/will be modified into a standalone application.
 
+Source code is not available yet, but will be sooner as possible.
+
 Release 1.0.0
 =============
 Release 1.0.0 is composed of 3 features :
