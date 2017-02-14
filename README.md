@@ -6,12 +6,35 @@ By now it is a plug-in eclipse, but it could be/will be modified into a standalo
 
 Source code is not available yet, but will be sooner as possible.
 
+Release 2.0.0
+=============
+Release 2.0.0 is composed of 4 features :
+* i-Code CNES Core
+* i-Code CNES Fortran 77 - check rules and metrics for Fortran 77
+* i-Code CNES Fortran 90 - check rules and metrics for Fortran 90
+* i-Code CNES Shell - check rules for Shell
+
+Bug fixes :
+* Fix generation warnings
+* Fix violation location
+* Fix F77.MET.Nesting regarding the keyword "Function" 
+
+Note :
+* Add xml export
+* Simplify menu bar
+* Open the file on double-clic on a metric value.
+* Add filters on violations view
+* Add sorters on violations view
+* Preference pages refactoring
+* Add logs on few violations
+
 Release 1.0.0
 =============
 Release 1.0.0 is composed of 3 features :
 * i-Code CNES Core
 * i-Code CNES Fortran 77 - checks rules and metrics for Fortran 77
 * i-Code CNES Fortran 90 - checks rules and metrics for Fortran 90
+
 
 Feedback and Support
 ====================
