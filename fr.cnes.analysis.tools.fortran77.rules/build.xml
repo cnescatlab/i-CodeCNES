@@ -1,0 +1,528 @@
+<project name="Rules" default="generate-all" basedir=".">
+
+	<property name="jflex-jar" value="lib/jflex-1.6.1/lib/jflex-1.6.1.jar">
+	</property>
+	<property name="dest" value="src/fr/cnes/analysis/tools/fortran77/rules">
+	</property>
+
+	<target name="generate-all">
+		<antcall target="generate-COMDATAFloatCompare">
+		</antcall>
+		<antcall target="generate-COMDATAInitialisation">
+		</antcall>
+		<antcall target="generate-COMDATAInvariant">
+		</antcall>
+		<antcall target="generate-COMDATALoopCondition">
+		</antcall>
+		<antcall target="generate-COMDATANotUsed">
+		</antcall>
+		<antcall target="generate-COMDESIGNAlloc">
+		</antcall>
+		<antcall target="generate-COMDESIGNActiveWait">
+		</antcall>
+		<antcall target="generate-COMFLOWAbort">
+		</antcall>
+		<antcall target="generate-COMFLOWBooleanExpression">
+		</antcall>
+		<antcall target="generate-COMFLOWCheckCodeReturn">
+		</antcall>
+		<antcall target="generate-COMFLOWCheckUser">
+		</antcall>
+		<antcall target="generate-COMFLOWExit">
+		</antcall>
+		<antcall target="generate-COMFLOWExitLoop">
+		</antcall>
+		<antcall target="generate-COMFLOWFileExistence">
+		</antcall>
+		<antcall target="generate-COMFLOWFilePath">
+		</antcall>
+		<antcall target="generate-COMINSTBoolNegation">
+		</antcall>
+		<antcall target="generate-COMINSTBrace">
+		</antcall>
+		<antcall target="generate-COMINSTCodeComment">
+		</antcall>
+		<antcall target="generate-COMINSTGoTo">
+		</antcall>
+		<antcall target="generate-COMINSTLoopCondition">
+		</antcall>
+		<antcall target="generate-COMNAMEHomonymy">
+		</antcall>
+		<antcall target="generate-COMPRESIndent">
+		</antcall>
+		<antcall target="generate-COMPRESLengthLine">
+		</antcall>
+		<antcall target="generate-COMPROJECTHeader">
+		</antcall>
+		<antcall target="generate-COMTYPEExpression">
+		</antcall>
+		<antcall target="generate-F77BLOCCommon">
+		</antcall>
+		<antcall target="generate-F77BLOCElse">
+		</antcall>
+		<antcall target="generate-F77BLOCFunction">
+		</antcall>
+		<antcall target="generate-F77BLOCLoop">
+		</antcall>
+		<antcall target="generate-F77DATAArray">
+		</antcall>
+		<antcall target="generate-F77DATACommon">
+		</antcall>
+		<antcall target="generate-F77DATADouble">
+		</antcall>
+		<antcall target="generate-F77DATAInitialisation">
+		</antcall>
+		<antcall target="generate-F77DATAIO">
+		</antcall>
+		<antcall target="generate-F77DATALoopDO">
+		</antcall>
+		<antcall target="generate-F77DATAParameter">
+		</antcall>
+		<antcall target="generate-F77ERROpenRead">
+		</antcall>
+		<antcall target="generate-F77INSTAssign">
+		</antcall>
+		<antcall target="generate-F77INSTDimension">
+		</antcall>
+		<antcall target="generate-F77INSTEquivalence">
+		</antcall>
+		<antcall target="generate-F77INSTFunction">
+		</antcall>
+		<antcall target="generate-F77INSTIf">
+		</antcall>
+		<antcall target="generate-F77INSTInclude">
+		</antcall>
+		<antcall target="generate-F77INSTPause">
+		</antcall>
+		<antcall target="generate-F77INSTReturn">
+		</antcall>
+		<antcall target="generate-F77INSTSave">
+		</antcall>
+		<antcall target="generate-F77METLine">
+		</antcall>
+		<antcall target="generate-F77NAMEGenericIntrinsic">
+		</antcall>
+		<antcall target="generate-F77NAMEIntrinsic">
+		</antcall>
+		<antcall target="generate-F77NAMEKeyWords">
+		</antcall>
+		<antcall target="generate-F77NAMELabel">
+		</antcall>
+		<antcall target="generate-F77PROTODeclaration">
+		</antcall>
+		<antcall target="generate-F77REFIO">
+		</antcall>
+		<antcall target="generate-F77REFOpen">
+		</antcall>
+		<antcall target="generate-F77REFParameter">
+		</antcall>
+		<antcall target="generate-F77TYPEBasic">
+		</antcall>
+		<antcall target="generate-F77TYPEHollerith">
+		</antcall>
+	</target>
+
+	<target name="generate-COMDATAFloatCompare">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">			
+			<arg value="lex/COMDATAFloatCompare.lex" />
+		</java>
+		<move file="lex/COMDATAFloatCompare.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATAInitialisation">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATAInitialisation.lex" />
+		</java>
+		<move file="lex/COMDATAInitialisation.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATAInvariant">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATAInvariant.lex" />
+		</java>
+		<move file="lex/COMDATAInvariant.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATALoopCondition">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATALoopCondition.lex" />
+		</java>
+		<move file="lex/COMDATALoopCondition.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATANotUsed">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATANotUsed.lex" />
+		</java>
+		<move file="lex/COMDATANotUsed.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDESIGNAlloc">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDESIGNAlloc.lex" />
+		</java>
+		<move file="lex/COMDESIGNAlloc.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDESIGNActiveWait">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDESIGNActiveWait.lex" />
+		</java>
+		<move file="lex/COMDESIGNActiveWait.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWAbort">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWAbort.lex" />
+		</java>
+		<move file="lex/COMFLOWAbort.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWBooleanExpression">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWBooleanExpression.lex" />
+		</java>
+		<move file="lex/COMFLOWBooleanExpression.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWCheckCodeReturn">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWCheckCodeReturn.lex" />
+		</java>
+		<move file="lex/COMFLOWCheckCodeReturn.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWCheckUser">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWCheckUser.lex" />
+		</java>
+		<move file="lex/COMFLOWCheckUser.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWExit">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWExit.lex" />
+		</java>
+		<move file="lex/COMFLOWExit.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWExitLoop">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWExitLoop.lex" />
+		</java>
+		<move file="lex/COMFLOWExitLoop.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWFileExistence">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWFileExistence.lex" />
+		</java>
+		<move file="lex/COMFLOWFileExistence.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWFilePath">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWFilePath.lex" />
+		</java>
+		<move file="lex/COMFLOWFilePath.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTBoolNegation">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTBoolNegation.lex" />
+		</java>
+		<move file="lex/COMINSTBoolNegation.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTBrace">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTBrace.lex" />
+		</java>
+		<move file="lex/COMINSTBrace.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTCodeComment">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTCodeComment.lex" />
+		</java>
+		<move file="lex/COMINSTCodeComment.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTGoTo">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTGoTo.lex" />
+		</java>
+		<move file="lex/COMINSTGoTo.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTLoopCondition">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTLoopCondition.lex" />
+		</java>
+		<move file="lex/COMINSTLoopCondition.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMNAMEHomonymy">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMNAMEHomonymy.lex" />
+		</java>
+		<move file="lex/COMNAMEHomonymy.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMPRESIndent">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMPRESIndent.lex" />
+		</java>
+		<move file="lex/COMPRESIndent.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMPRESLengthLine">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMPRESLengthLine.lex" />
+		</java>
+		<move file="lex/COMPRESLengthLine.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMPROJECTHeader">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMPROJECTHeader.lex" />
+		</java>
+		<move file="lex/COMPROJECTHeader.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMTYPEExpression">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMTYPEExpression.lex" />
+		</java>
+		<move file="lex/COMTYPEExpression.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77BLOCCommon">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77BLOCCommon.lex" />
+		</java>
+		<move file="lex/F77BLOCCommon.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77BLOCElse">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77BLOCElse.lex" />
+		</java>
+		<move file="lex/F77BLOCElse.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77BLOCFunction">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/GetFunctionName.lex" />
+		</java>
+		<move file="lex/GetFunctionName.java" todir="${dest}">
+		</move>
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77BLOCFunction.lex" />
+		</java>
+		<move file="lex/F77BLOCFunction.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77BLOCLoop">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77BLOCLoop.lex" />
+		</java>
+		<move file="lex/F77BLOCLoop.java" todir="${dest}" />
+	</target>
+	<target name="generate-F77DATAArray">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATAArray.lex" />
+		</java>
+		<move file="lex/F77DATAArray.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77DATACommon">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATACommon.lex" />
+		</java>
+		<move file="lex/F77DATACommon.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77DATADouble">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATADouble.lex" />
+		</java>
+		<move file="lex/F77DATADouble.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77DATAInitialisation">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATAInitialisation.lex" />
+		</java>
+		<move file="lex/F77DATAInitialisation.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77DATAIO">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATAIO.lex" />
+		</java>
+		<move file="lex/F77DATAIO.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77DATALoopDO">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATALoopDO.lex" />
+		</java>
+		<move file="lex/F77DATALoopDO.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77DATAParameter">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77DATAParameter.lex" />
+		</java>
+		<move file="lex/F77DATAParameter.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77ERROpenRead">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77ERROpenRead.lex" />
+		</java>
+		<move file="lex/F77ERROpenRead.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTAssign">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTAssign.lex" />
+		</java>
+		<move file="lex/F77INSTAssign.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTDimension">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTDimension.lex" />
+		</java>
+		<move file="lex/F77INSTDimension.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTEquivalence">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTEquivalence.lex" />
+		</java>
+		<move file="lex/F77INSTEquivalence.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTFunction">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTFunction.lex" />
+		</java>
+		<move file="lex/F77INSTFunction.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTIf">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTIf.lex" />
+		</java>
+		<move file="lex/F77INSTIf.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTInclude">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTInclude.lex" />
+		</java>
+		<move file="lex/F77INSTInclude.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTPause">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTPause.lex" />
+		</java>
+		<move file="lex/F77INSTPause.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTReturn">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTReturn.lex" />
+		</java>
+		<move file="lex/F77INSTReturn.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77INSTSave">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77INSTSave.lex" />
+		</java>
+		<move file="lex/F77INSTSave.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77METLine">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77METLine.lex" />
+		</java>
+		<move file="lex/F77METLine.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77NAMEGenericIntrinsic">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77NAMEGenericIntrinsic.lex" />
+		</java>
+		<move file="lex/F77NAMEGenericIntrinsic.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77NAMEIntrinsic">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77NAMEIntrinsic.lex" />
+		</java>
+		<move file="lex/F77NAMEIntrinsic.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77NAMEKeyWords">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77NAMEKeyWords.lex" />
+		</java>
+		<move file="lex/F77NAMEKeyWords.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77NAMELabel">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77NAMELabel.lex" />
+		</java>
+		<move file="lex/F77NAMELabel.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77PROTODeclaration">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77PROTODeclaration.lex" />
+		</java>
+		<move file="lex/F77PROTODeclaration.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77REFIO">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77REFIO.lex" />
+		</java>
+		<move file="lex/F77REFIO.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77REFOpen">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77REFOpen.lex" />
+		</java>
+		<move file="lex/F77REFOpen.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77REFParameter">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77REFParameter.lex" />
+		</java>
+		<move file="lex/F77REFParameter.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77TYPEBasic">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77TYPEBasic.lex" />
+		</java>
+		<move file="lex/F77TYPEBasic.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F77TYPEHollerith">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F77TYPEHollerith.lex" />
+		</java>
+		<move file="lex/F77TYPEHollerith.java" todir="${dest}">
+		</move>
+	</target>
+</project>

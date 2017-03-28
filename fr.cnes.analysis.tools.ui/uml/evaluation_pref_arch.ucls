@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.rules.RulePreferenceContainer" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RulePreferenceContainer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2065" y="645"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.rules.RulePreferenceLabelProvider" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RulePreferenceLabelProvider.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2455" y="646"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.PreferenceLabelProvider" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/PreferenceLabelProvider.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1661" y="950"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.PreferenceContainer" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/PreferenceContainer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1663" y="646"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.MetricPreferencePage" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/MetricPreferencePage.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1272" y="98"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.metrics.MetricEditingSupport" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricEditingSupport.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="929" y="96"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.rules.RuleEditingSupport" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RuleEditingSupport.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2454" y="98"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.AbstractEvaluationPreference" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/AbstractEvaluationPreference.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1664" y="99"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.RulePreferencePage" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/RulePreferencePage.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2064" y="98"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.metrics.MetricPreferenceLabelProvider" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricPreferenceLabelProvider.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="906" y="614"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.metrics.MetricPreferenceContainer" 
+    project="fr.cnes.analysis.tools.ui" 
+    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricPreferenceContainer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1265" y="646"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="12">    
+    <bendpoint x="907" y="950"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="16">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="18">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <generalization id="20">    
+    <bendpoint x="2455" y="951"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <dependency id="21">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="22">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="23">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="24">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="25">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

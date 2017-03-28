@@ -1,0 +1,44 @@
+<project name="Metrics" default="generate-all" basedir=".">
+
+	<property name="jflex-jar" value="lib/jflex-1.4.3/lib/JFlex.jar">
+	</property>
+	<property name="dest" value="src/fr/cnes/analysis/tools/shell/metrics">
+	</property>
+
+	<target name="generate-all">
+		<antcall target="generate-MET-ComplexitySimplified"></antcall>
+		<antcall target="generate-MET-Nesting"></antcall>
+		<antcall target="generate-MET-LineOfCode"></antcall>
+		<antcall target="generate-MET-RatioComment"></antcall>
+	</target>
+
+	<target name="generate-MET-ComplexitySimplified">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/SHMETComplexitySimplified.lex" />
+		</java>
+		<move file="lex/SHMETComplexitySimplified.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-MET-Nesting">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/SHMETNesting.lex" />
+		</java>
+		<move file="lex/SHMETNesting.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-MET-LineOfCode">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/SHMETLineOfCode.lex" />
+		</java>
+		<move file="lex/SHMETLineOfCode.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-MET-RatioComment">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/SHMETRatioComment.lex" />
+		</java>
+		<move file="lex/SHMETRatioComment.java" todir="${dest}">
+		</move>
+	</target>
+	
+</project>
