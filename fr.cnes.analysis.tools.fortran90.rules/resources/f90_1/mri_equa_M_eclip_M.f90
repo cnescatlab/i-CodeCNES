@@ -1,0 +1,108 @@
+subroutine mri_equa_M_eclip_M (model, jul1950_t1, jul1950_t2, mat_pass, retour)
+
+! (C) Copyright CNES - MSLIB - 1998-2003
+
+!************************************************************************
+!
+! But:  Calcul de la matrice de passage du repere EQUAtorial MOYen a T1 au repere ECLIPtique MOYen a T2.
+! ===
+!
+! Note d'utilisation: - Routine interne
+! ==================   
+!
+!$Historique
+! ==========
+!   + Version 1.0 (SP 266 ed01 rev00): creation a partir de la routine MRQCMO de la MSLIB f77
+!                         (Date: 09/1998 - Realisation: Veronique Lepine)
+!   + Version 2.0 (DE 362 ed01 rev00): suppression des commentaires sur la limitation sur les dates et des codes retour, revision clef de modele
+!                         (Date: 08/1999 - Realisation: Sylvain Vresk)
+!   + Version 4.0 (FA 476 ed01 rev00): correction du nom de l'include
+!                         (Date: 02/2003 - Realisation: Guylaine Prat)
+!   + Version 4.1 (DE globale 482 ed01 rev00): Corrections qualite
+!                         (Date: 05/2003 - Realisation: Veronique Lepine)
+!   + Version 6.5 : DM-ID 548 : diminution du nombre de fichiers sources
+!                   (Date: 10/2006 - Realisation: Atos origin)
+!   + Version 6.6 : DM-ID 616 remplacement des modules de constantes *_mslib 
+!       par le module global parametre_mslib
+!                   (Date: 05/2007 - Realisation: Atos origin)
+!   + Version 6.8 : DM-ID 859 : utilisation de transpose3
+!                   (Date: 03/2008 - Realisation: Atos origin)
+!   + Version 6.9 : DM-ID 1058 : Suppression des warnings G95
+!                   (Date: 09/2008 - Realisation: Atos origin)
+!VERSION:V6.13:FA-ID:1410:30/09/2010:Ajout marqueur fin historique
+!
+!Revision 362 2013/02/15 bbjc
+!DM-ID 1513: Suppression des warnings de compilation
+!
+!$FinHistorique
+!
+!************************************************************************
+
+! Modules
+! =======
+use int_rep_internes, only : mri_eclip_M_equa_M
+
+use type_mslib
+use parametre_mslib
+
+! Declarations
+! ============
+implicit none
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+integer, intent(in)                 :: model      ! indicateur du modele --> pm_lieske: LIESKE 
+type(tm_jour_sec), intent(in)       :: jul1950_t1 ! date du repere initial
+type(tm_jour_sec), intent(in)       :: jul1950_t2 ! date du repere final
+
+real(pm_reel), dimension(3,3), intent(out) :: mat_pass ! matrice de passage
+integer, intent(out)                ::  retour
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! Autres declarations
+! -------------------
+
+real(pm_reel), dimension(3,3)  ::   mat_pass1(3,3)     ! matrice intermediaire
+integer                        ::   modele_precession  ! modele de precession associe a "model" en entree
+type(tm_code_retour) :: code_retour_local
+
+character(len=pm_longueur_info_utilisateur), parameter :: info_utilisateur = &
+                     '@(#) Fichier MSLIB mri_equa_M_eclip_M.f90: derniere modification V6.13 >'
+
+! Ne pas toucher a la ligne suivante
+character(len=pm_longueur_rcs_id), parameter :: rcs_id =' $Id: mri_equa_M_eclip_M.f90 362 2013-02-15 18:01:28Z bbjc $ '
+
+!************************************************************************
+
+! initialisation de la valeur du code retour
+! ..........................................
+retour = pm_OK
+
+if (model == pm_lieske) then
+
+   ! calcul de la matrice de passage du repere equatorial moyen a t1 au repere ecliptique moyen a t2
+   ! avec le modele de precession de Lieske (epoque de base : J2000)
+   modele_precession = pm_lieske
+
+   !===============================================================
+   ! calcul de la matrice de passage du repere ecliptique moyen a t2
+   ! au repere  equatorial moyen a t1
+   !===============================================================
+
+   call mri_eclip_M_equa_M (modele_precession, jul1950_t2, jul1950_t1, mat_pass1, retour)
+   ! pas de test de retour car il ne peut etre que nul (controles deja effectues)
+
+   ! =======================
+   ! transposition de matrice
+   ! =======================
+
+   call mu_transpose3(mat_pass1,mat_pass,code_retour_local)
+
+else  ! modele inconnu
+
+   retour = pm_err_ind_model
+
+end if
+
+end subroutine mri_equa_M_eclip_M

@@ -1,0 +1,598 @@
+<project name="Rules" default="generate-all" basedir=".">
+
+	<property name="jflex-jar" value="lib/jflex-1.6.1/lib/jflex-1.6.1.jar">
+	</property>
+	<property name="dest" value="src/fr/cnes/analysis/tools/fortran90/rules">
+	</property>
+
+	<target name="generate-all">
+		<antcall target="generate-COMDATAFloatCompare">
+		</antcall>
+		<antcall target="generate-COMDATAInitialisation">
+		</antcall>
+		<antcall target="generate-COMDATAInvariant">
+		</antcall>
+		<antcall target="generate-COMDATALoopCondition">
+		</antcall>
+		<antcall target="generate-COMDATANotUsed">
+		</antcall>
+		<antcall target="generate-COMDESIGNActiveWait">
+		</antcall>
+		<antcall target="generate-COMDESIGNAlloc">
+		</antcall>
+		<antcall target="generate-COMFLOWAbort">
+		</antcall>
+		<antcall target="generate-COMFLOWBooleanExpression">
+		</antcall>
+		<antcall target="generate-COMFLOWCaseSwitch">
+		</antcall>
+		<antcall target="generate-COMFLOWCheckCodeReturn">
+		</antcall>
+		<antcall target="generate-COMFLOWCheckUser">
+		</antcall>
+		<antcall target="generate-COMFLOWExit">
+		</antcall>
+		<antcall target="generate-COMFLOWExitLoop">
+		</antcall>
+		<antcall target="generate-COMFLOWFileExistence">
+		</antcall>
+		<antcall target="generate-COMFLOWFilePath">
+		</antcall>
+		<antcall target="generate-COMFLOWRecursion">
+		</antcall>
+		<antcall target="generate-COMINSTBoolNegation">
+		</antcall>
+		<antcall target="generate-COMINSTBrace">
+		</antcall>
+		<antcall target="generate-COMINSTCodeComment">
+		</antcall>
+		<antcall target="generate-COMINSTGoTo">
+		</antcall>
+		<antcall target="generate-COMINSTLine">
+		</antcall>
+		<antcall target="generate-COMINSTLoopCondition">
+		</antcall>
+		<antcall target="generate-COMNAMEHomonymy">
+		</antcall>
+		<antcall target="generate-COMPRESIndent">
+		</antcall>
+		<antcall target="generate-COMPRESLengthLine">
+		</antcall>
+		<antcall target="generate-COMPROJECTHeader">
+		</antcall>
+		<antcall target="generate-COMTYPEExpression">
+		</antcall>
+		<antcall target="generate-F90BLOCFile">
+		</antcall>
+		<antcall target="generate-F90DATAArray">
+		</antcall>
+		<antcall target="generate-F90DATAArrayAccess">
+		</antcall>
+		<antcall target="generate-F90DATAConstant">
+		</antcall>
+		<antcall target="generate-F90DATAConstantFloat">
+		</antcall>
+		<antcall target="generate-F90DATADeclaration">
+		</antcall>
+		<antcall target="generate-F90DATAFloat">
+		</antcall>
+		<antcall target="generate-F90DATAParameter">
+		</antcall>
+		<antcall target="generate-F90DESIGNFree">
+		</antcall>
+		<antcall target="generate-F90DESIGNInclude">
+		</antcall>
+		<antcall target="generate-F90DESIGNInterface">
+		</antcall>
+		<antcall target="generate-F90DESIGNIO">
+		</antcall>
+		<antcall target="generate-F90DESIGNObsolete">
+		</antcall>
+		<antcall target="generate-F90ERRAllocate">
+		</antcall>
+		<antcall target="generate-F90ERROpenRead">
+		</antcall>
+		<antcall target="generate-F90INSTAssociated">
+		</antcall>
+		<antcall target="generate-F90INSTEntry">
+		</antcall>
+		<antcall target="generate-F90INSTEquivalence">
+		</antcall>
+		<antcall target="generate-F90INSTIf">
+		</antcall>
+		<antcall target="generate-F90INSTIntent">
+		</antcall>
+		<antcall target="generate-F90INSTNullify">
+		</antcall>
+		<antcall target="generate-F90INSTOnly">
+		</antcall>
+		<antcall target="generate-F90INSTOperator">
+		</antcall>
+		<antcall target="generate-F90INSTPointer">
+		</antcall>
+		<antcall target="generate-F90NAMEGenericIntrinsic">
+		</antcall>
+		<antcall target="generate-F90NAMEKeyWords">
+		</antcall>
+		<antcall target="generate-F90PROTOOverload">
+		</antcall>
+		<antcall target="generate-F90REFArray">
+		</antcall>
+		<antcall target="generate-F90REFInterface">
+		</antcall>
+		<antcall target="generate-F90REFLabel">
+		</antcall>
+		<antcall target="generate-F90REFOpen">
+		</antcall>
+		<antcall target="generate-F90REFVariable">
+		</antcall>
+		<antcall target="generate-F90TYPEDerivate">
+		</antcall>
+		<antcall target="generate-F90TYPEInteger">
+		</antcall>
+		<antcall target="generate-F90TYPEReal">
+		</antcall>
+	</target>
+
+	<target name="generate-COMDATAFloatCompare">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATAFloatCompare.lex" />
+		</java>
+		<move file="lex/COMDATAFloatCompare.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATAInitialisation">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATAInitialisation.lex" />
+		</java>
+		<move file="lex/COMDATAInitialisation.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATAInvariant">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATAInvariant.lex" />
+		</java>
+		<move file="lex/COMDATAInvariant.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATALoopCondition">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATALoopCondition.lex" />
+		</java>
+		<move file="lex/COMDATALoopCondition.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDATANotUsed">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDATANotUsed.lex" />
+		</java>
+		<move file="lex/COMDATANotUsed.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDESIGNAlloc">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDESIGNAlloc.lex" />
+		</java>
+		<move file="lex/COMDESIGNAlloc.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMDESIGNActiveWait">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMDESIGNActiveWait.lex" />
+		</java>
+		<move file="lex/COMDESIGNActiveWait.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWAbort">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWAbort.lex" />
+		</java>
+		<move file="lex/COMFLOWAbort.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWBooleanExpression">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWBooleanExpression.lex" />
+		</java>
+		<move file="lex/COMFLOWBooleanExpression.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWCaseSwitch">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWCaseSwitch.lex" />
+		</java>
+		<move file="lex/COMFLOWCaseSwitch.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWCheckCodeReturn">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWCheckCodeReturn.lex" />
+		</java>
+		<move file="lex/COMFLOWCheckCodeReturn.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWCheckUser">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWCheckUser.lex" />
+		</java>
+		<move file="lex/COMFLOWCheckUser.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWExit">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWExit.lex" />
+		</java>
+		<move file="lex/COMFLOWExit.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWExitLoop">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWExitLoop.lex" />
+		</java>
+		<move file="lex/COMFLOWExitLoop.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWFileExistence">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWFileExistence.lex" />
+		</java>
+		<move file="lex/COMFLOWFileExistence.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWFilePath">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWFilePath.lex" />
+		</java>
+		<move file="lex/COMFLOWFilePath.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMFLOWRecursion">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMFLOWRecursion.lex" />
+		</java>
+		<move file="lex/COMFLOWRecursion.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTBoolNegation">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTBoolNegation.lex" />
+		</java>
+		<move file="lex/COMINSTBoolNegation.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTBrace">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTBrace.lex" />
+		</java>
+		<move file="lex/COMINSTBrace.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTCodeComment">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTCodeComment.lex" />
+		</java>
+		<move file="lex/COMINSTCodeComment.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTGoTo">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTGoTo.lex" />
+		</java>
+		<move file="lex/COMINSTGoTo.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTLine">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTLine.lex" />
+		</java>
+		<move file="lex/COMINSTLine.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMINSTLoopCondition">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMINSTLoopCondition.lex" />
+		</java>
+		<move file="lex/COMINSTLoopCondition.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMNAMEHomonymy">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMNAMEHomonymy.lex" />
+		</java>
+		<move file="lex/COMNAMEHomonymy.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMPRESIndent">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMPRESIndent.lex" />
+		</java>
+		<move file="lex/COMPRESIndent.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMPRESLengthLine">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMPRESLengthLine.lex" />
+		</java>
+		<move file="lex/COMPRESLengthLine.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMPROJECTHeader">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMPROJECTHeader.lex" />
+		</java>
+		<move file="lex/COMPROJECTHeader.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-COMTYPEExpression">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/COMTYPEExpression.lex" />
+		</java>
+		<move file="lex/COMTYPEExpression.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90BLOCFile">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90BLOCFile.lex" />
+		</java>
+		<move file="lex/F90BLOCFile.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATAArray">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATAArray.lex" />
+		</java>
+		<move file="lex/F90DATAArray.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATAArrayAccess">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATAArrayAccess.lex" />
+		</java>
+		<move file="lex/F90DATAArrayAccess.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATAConstant">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATAConstant.lex" />
+		</java>
+		<move file="lex/F90DATAConstant.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATADeclaration">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATADeclaration.lex" />
+		</java>
+		<move file="lex/F90DATADeclaration.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATAConstantFloat">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATAConstantFloat.lex" />
+		</java>
+		<move file="lex/F90DATAConstantFloat.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATAFloat">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATAFloat.lex" />
+		</java>
+		<move file="lex/F90DATAFloat.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DATAParameter">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DATAParameter.lex" />
+		</java>
+		<move file="lex/F90DATAParameter.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DESIGNFree">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNFree.lex" />
+		</java>
+		<move file="lex/F90DESIGNFree.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DESIGNInclude">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNInclude.lex" />
+		</java>
+		<move file="lex/F90DESIGNInclude.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DESIGNInterface">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNInterface.lex" />
+		</java>
+		<move file="lex/F90DESIGNInterface.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DESIGNIO">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNIO.lex" />
+		</java>
+		<move file="lex/F90DESIGNIO.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90DESIGNObsolete">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNObsolete.lex" />
+		</java>
+		<move file="lex/F90DESIGNObsolete.java" todir="${dest}">
+		</move>
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNObsoleteArithmeticalIf.lex" />
+		</java>
+		<move file="lex/F90DESIGNObsoleteArithmeticalIf.java" todir="${dest}">
+		</move>
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNObsoleteDoEnding.lex" />
+		</java>
+		<move file="lex/F90DESIGNObsoleteDoEnding.java" todir="${dest}">
+		</move>
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNObsoleteDoReal.lex" />
+		</java>
+		<move file="lex/F90DESIGNObsoleteDoReal.java" todir="${dest}">
+		</move>
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90DESIGNObsoleteDoShared.lex" />
+		</java>
+		<move file="lex/F90DESIGNObsoleteDoShared.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90ERRAllocate">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90ERRAllocate.lex" />
+		</java>
+		<move file="lex/F90ERRAllocate.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90ERROpenRead">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90ERROpenRead.lex" />
+		</java>
+		<move file="lex/F90ERROpenRead.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTAssociated">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTAssociated.lex" />
+		</java>
+		<move file="lex/F90INSTAssociated.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTEntry">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTEntry.lex" />
+		</java>
+		<move file="lex/F90INSTEntry.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTEquivalence">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTEquivalence.lex" />
+		</java>
+		<move file="lex/F90INSTEquivalence.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTIf">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTIf.lex" />
+		</java>
+		<move file="lex/F90INSTIf.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTIntent">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTIntent.lex" />
+		</java>
+		<move file="lex/F90INSTIntent.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTNullify">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTNullify.lex" />
+		</java>
+		<move file="lex/F90INSTNullify.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTOnly">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTOnly.lex" />
+		</java>
+		<move file="lex/F90INSTOnly.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTOperator">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTOperator.lex" />
+		</java>
+		<move file="lex/F90INSTOperator.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90INSTPointer">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90INSTPointer.lex" />
+		</java>
+		<move file="lex/F90INSTPointer.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90NAMEGenericIntrinsic">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90NAMEGenericIntrinsic.lex" />
+		</java>
+		<move file="lex/F90NAMEGenericIntrinsic.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90NAMEKeyWords">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90NAMEKeyWords.lex" />
+		</java>
+		<move file="lex/F90NAMEKeyWords.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90PROTOOverload">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90PROTOOverload.lex" />
+		</java>
+		<move file="lex/F90PROTOOverload.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90REFArray">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90REFArray.lex" />
+		</java>
+		<move file="lex/F90REFArray.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90REFInterface">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90REFInterface.lex" />
+		</java>
+		<move file="lex/F90REFInterface.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90REFLabel">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90REFLabel.lex" />
+		</java>
+		<move file="lex/F90REFLabel.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90REFOpen">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90REFOpen.lex" />
+		</java>
+		<move file="lex/F90REFOpen.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90REFVariable">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90REFVariable.lex" />
+		</java>
+		<move file="lex/F90REFVariable.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90TYPEDerivate">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90TYPEDerivate.lex" />
+		</java>
+		<move file="lex/F90TYPEDerivate.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90TYPEInteger">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90TYPEInteger.lex" />
+		</java>
+		<move file="lex/F90TYPEInteger.java" todir="${dest}">
+		</move>
+	</target>
+	<target name="generate-F90TYPEReal">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="lex/F90TYPEReal.lex" />
+		</java>
+		<move file="lex/F90TYPEReal.java" todir="${dest}">
+		</move>
+	</target>
+</project>

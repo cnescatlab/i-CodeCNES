@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: i-Code CNES F90 Rules
+Bundle-SymbolicName: fr.cnes.analysis.tools.fortran90.rules;singleton:=true
+Bundle-Version: 2.0.0
+Bundle-Activator: fr.cnes.analysis.tools.fortran90.rules.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ fr.cnes.analysis.tools.fortran90.analyzer;bundle-version="2.0.0",
+ fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: fr.cnes.analysis.tools.fortran90.rules
+Bundle-Vendor: CNES
+Import-Package: org.junit,
+ org.junit.runner,
+ org.junit.runners
