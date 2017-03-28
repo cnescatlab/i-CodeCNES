@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="fr.cnes.analysis.tools.menu" name="fr.cnes.analysis.tools.menu" schema="schema/fr.cnes.analysis.tools.menu.exsd"/>
+   <extension-point id="fr.cnes.analysis.tools.preferencePages.utils" name="fr.cnes.analysis.tools.preferencePages.utils" schema="schema/fr.cnes.analysis.tools.preferencePages.utils.exsd"/>
+   <extension-point id="fr.cnes.analysis.tools.services" name="fr.cnes.analysis.tools.services" schema="schema/fr.cnes.analysis.tools.services.exsd"/>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="fr.cnes.analysis.tools.ui.menu"
+               label="i-Code CNES">
+            <command
+                  commandId="fr.cnes.analysis.tools.all.ui.handler.metricsAndRules"
+                  label="Check Code"
+                  style="push">
+            </command>
+             <command
+                  commandId="fr.cnes.analysis.tools.ui.handler.ClearHandler"
+                  label="Clear All"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.cnes.analysis.tools.ui.view.ViolationsView">
+         <command
+               commandId="org.eclipse.ui.file.export"
+               icon="icons/export.GIF"
+               label="Export Results"
+               style="push">
+            <parameter
+                  name="exportWizardId"
+                  value="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:fr.cnes.analysis.tools.ui.view.MetricsView">
+         <command
+               commandId="org.eclipse.ui.file.export"
+               icon="icons/export.GIF"
+               label="Export Results"
+               style="push">
+            <parameter
+                  name="exportWizardId"
+                  value="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?before=additions">
+         <menu
+               id="fr.cnes.analysis.tools.ui.popupMenu"
+               label="i-Code CNES">
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:fr.cnes.analysis.tools.ui.view.ViolationsView">
+         <command
+               commandId="fr.cnes.analysis.tools.ui.handlers.ShowTreeViewerHandler"
+               id="fr.cnes.analysis.tools.ui.command.ShowTreeViewerHandler.RuleTreeViewer"
+               label="Rule &gt; File &gt; Function &gt; Violation"
+               style="radio">
+            <parameter
+                  name="TreeViewer"
+                  value="RuleTreeViewer">
+            </parameter>
+         </command>
+         <command
+               commandId="fr.cnes.analysis.tools.ui.handlers.ShowTreeViewerHandler"
+               id="fr.cnes.analysis.tools.ui.command.ShowTreeViewerHandler.FileTreeViewer"
+               label="File &gt; Function &gt; Rule &gt; Violation"
+               style="radio">
+            <parameter
+                  name="TreeViewer"
+                  value="FileTreeViewer">
+            </parameter>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+     
+      <command
+            defaultHandler="fr.cnes.analysis.tools.ui.handler.ClearHandler"
+            id="fr.cnes.analysis.tools.ui.handler.ClearHandler"
+            name="Clear All">
+      </command>
+      <command
+            id="fr.cnes.analysis.tools.fortran90.ui.handler.rule"
+            name="Check code">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:true"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+      <command
+            defaultHandler="fr.cnes.analysis.tools.ui.handler.ShowRuleTreeViewerHandler"
+            id="fr.cnes.analysis.tools.ui.handlers.ShowTreeViewerHandler"
+            name="Show Rule TreeViewer">
+         <commandParameter
+               id="TreeViewer"
+               name="TreeViewer">
+         </commandParameter>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="fr.cnes.analysis.tools.ui.view.iCode"
+            class="fr.cnes.analysis.tools.ui.view.ViolationsView"
+            icon="icons/logo-i-code-rouge-16x16.png"
+            id="fr.cnes.analysis.tools.ui.view.ViolationsView"
+            name="i-Code CNES Violations"
+            restorable="true">
+         <description>
+            This view represents all violations found on analyzed file(s).
+         </description>
+      </view>
+      <category
+            id="fr.cnes.analysis.tools.ui.view.iCode"
+            name="i-Code CNES">
+      </category>
+      <view
+            category="fr.cnes.analysis.tools.ui.view.iCode"
+            class="fr.cnes.analysis.tools.ui.view.MetricsView"
+            icon="icons/logo-i-code-rouge-16x16.png"
+            id="fr.cnes.analysis.tools.ui.view.MetricsView"
+            name="i-Code CNES Metrics"
+            restorable="true">
+         <description>
+            This view represents all metrics values found on analyzed file(s).
+         </description>
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="fr.cnes.analysis.tools.all.ui.handler.rule">
+         <class
+               class="fr.cnes.analysis.tools.ui.handler.RuleAnalysisAllHandler">
+         </class>
+         <enabledWhen>
+            <reference
+                  definitionId="resourceSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            commandId="fr.cnes.analysis.tools.all.ui.handler.metric">
+         <class
+               class="fr.cnes.analysis.tools.ui.handler.MetricAnalysisAllHandler">
+         </class>
+         <enabledWhen>
+            <reference
+                  definitionId="resourceSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            commandId="fr.cnes.analysis.tools.all.ui.handler.metricsAndRules">
+         <class
+               class="fr.cnes.analysis.tools.ui.handler.MetricAndRulesAnalysisAllHandler">
+         </class>
+         <enabledWhen>
+            <reference
+                  definitionId="resourceSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="fr.cnes.analysis.tools.ui.preferencepage.MainPreferencePage"
+            id="fr.cnes.analysis.tools.ui.preferencepage.MainPreferencePage"
+            name="i-Code CNES">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="resourceSelected">
+         <with
+               variable="selection">
+            <iterate>
+               <instanceof
+                     value="org.eclipse.core.resources.IResource">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="fr.cnes.analysis.tools.ui.wizard.export.rule.RuleExportWizard"
+            icon="icons/export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
+            name="Violations Export Wizard">
+      </wizard>
+      <wizard
+            class="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            icon="icons/export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            name="Metric Export">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            class="fr.cnes.analysis.tools.ui.wizard.export.rules.RuleExportWizard"
+            icon="icons/export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
+            name="Violations Export Wizard">
+      </wizard>
+      <wizard
+            class="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            icon="icons/export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            name="Metric Export">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="fr.cnes.analysis.tools.ui.editors.EditorFortran"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="false"
+            extensions="f,f90,f77"
+            icon="icons/fortran.png"
+            id="fr.cnes.analysis.tools.ui.editors.EditorFortran"
+            name="Fortran Editor">
+      </editor>
+      <editor
+            class="fr.cnes.analysis.tools.ui.editors.EditorShell"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="false"
+            extensions="sh,ksh"
+            icon="icons/shell.png"
+            id="fr.cnes.analysis.tools.ui.editors.EditorShell"
+            name="Shell editor">
+      </editor>
+   </extension>
+    <extension point="org.eclipse.core.resources.markers" id="fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker"
+  name="i-Code CNES Violation error marker">
+        <super type="org.eclipse.core.resources.textmarker"/>
+        <super type="org.eclipse.core.resources.marker"/>
+        <persistent value="true"/><attribute name="description"/>
+    </extension>
+    <extension point="org.eclipse.core.resources.markers" id="fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker"
+  name="i-Code CNES Violation Warning">
+        <super type="org.eclipse.core.resources.textmarker"/>
+        <super type="org.eclipse.core.resources.marker"/>
+        <persistent value="true"/><attribute name="description"/>
+    </extension>
+    <extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
+        id="violationerror" name="Violation Error">
+    <specification annotationType="fr.cnes.analysis.tools.ui.ViolationError"
+            label="i-Code CNES Violation Error"
+            icon="icons/logo-i-code-rouge-16x16.png"
+            overviewRulerPreferenceKey="clruler"
+            overviewRulerPreferenceValue="true"
+            colorPreferenceKey="clcolor"
+            colorPreferenceValue="255,128,128"
+            textPreferenceKey="cltext"
+            textPreferenceValue="true"
+            verticalRulerPreferenceKey="clvertical"
+            verticalRulerPreferenceValue="true"
+            textStylePreferenceKey="clstyle"
+            textStylePreferenceValue="BOX">
+    </specification>
+    </extension>
+    <extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
+        id="violationwarning" name="Violation Warning">
+    <specification annotationType="fr.cnes.analysis.tools.ui.ViolationWarning"
+            label="i-Code CNES Violation Warning"
+            icon="icons/logo-i-code-orange-16x16.png"
+            overviewRulerPreferenceKey="clruler"
+            overviewRulerPreferenceValue="true"
+            colorPreferenceKey="clcolor"
+            colorPreferenceValue="255,128,64"
+            textPreferenceKey="cltext"
+            textPreferenceValue="true"
+            verticalRulerPreferenceKey="clvertical"
+            verticalRulerPreferenceValue="true"
+            textStylePreferenceKey="clstyle"
+            textStylePreferenceValue="BOX">
+    </specification>
+    </extension>
+    <extension point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerSeverity="0"
+            super="org.eclipse.ui.workbench.texteditor.info"
+            name="fr.cnes.analysis.tools.ui.ViolationError"
+            markerType="fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker"/>
+    </extension>
+    <extension point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerSeverity="0"
+            super="org.eclipse.ui.workbench.texteditor.info"
+            name="fr.cnes.analysis.tools.ui.ViolationWarning"
+            markerType="fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker"/>
+    </extension>
+    <extension point="org.eclipse.ui.decorators">  
+        <decorator
+              adaptable="true"
+              class="fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator"
+              icon="icons/logo-i-code-rouge-8x8.png"
+              id="fr.cnes.analysis.tools.ui.decorators.violationerrordecorator"
+              label="i-Code CNES - Violation error"
+              lightweight="true"
+              location="TOP_RIGHT"
+              state="true">   
+            <enablement>
+                <objectClass name="org.eclipse.core.resources.IResource"/>    
+            </enablement>  
+            <description>
+                Shown when one or several rules of Error criticity are violated.
+            </description>
+        </decorator>
+        <decorator
+              adaptable="true"
+              class="fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator"
+              icon="icons/logo-i-code-orange-8x8.png"
+              id="fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator"
+              label="i-Code CNES - Violation warning"
+              lightweight="true"
+              location="TOP_RIGHT"
+              state="true">   
+            <enablement>
+                <objectClass name="org.eclipse.core.resources.IResource"/>   
+            </enablement>  
+            <description>
+                Shown when one or several rules of Warning criticity are violated.
+            </description>
+            </decorator>
+    </extension>
+    
+</plugin>
