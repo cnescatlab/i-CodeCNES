@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="Cnes ICode" sequenceNumber="1490723597">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.compare" version="3.7.1.v20170103-1805"/>
+<unit id="org.eclipse.emf.databinding.feature.group" version="1.4.0.v20160526-0356"/>
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.6.300.v20161122-1740"/>
+<unit id="org.eclipse.help.ui" version="4.0.200.v20160510-0758"/>
+<unit id="org.eclipse.rcp.feature.group" version="4.6.3.v20170301-0400"/>
+<unit id="org.eclipse.ui.cheatsheets" version="3.5.0.v20160504-0839"/>
+<unit id="org.eclipse.ui.workbench" version="3.108.3.v20170216-1539"/>
+<unit id="org.junit" version="4.12.0.v201504281640"/>
+<repository location="http://download.eclipse.org/releases/neon"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.12.0.v20170209-1843"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.6"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.mockito" version="1.8.4.v201303031500"/>
+<repository location="http://download.eclipse.org/tools/orbit/R-builds/R20170307180635/repository"/>
+</location>
+</locations>
+</target>

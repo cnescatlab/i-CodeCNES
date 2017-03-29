@@ -1,0 +1,26 @@
+target "Cnes ICode"
+
+with source requirements 
+
+
+
+location "http://download.eclipse.org/releases/neon" {
+	org.eclipse.rcp.feature.group
+	org.eclipse.ui.workbench
+	org.eclipse.emf.databinding.feature.group
+	org.eclipse.ui.cheatsheets
+	org.eclipse.help.ui
+	org.eclipse.compare
+	org.eclipse.equinox.executable.feature.group
+	org.junit
+}
+
+ // Ajout du delta pack
+location "http://download.eclipse.org/eclipse/updates/4.6" {
+	org.eclipse.equinox.sdk.feature.group
+}
+
+location "http://download.eclipse.org/tools/orbit/R-builds/R20170307180635/repository" {
+	org.mockito [1.8.4,1.9.0)
+}
+
