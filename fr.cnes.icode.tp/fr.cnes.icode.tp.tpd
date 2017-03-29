@@ -22,5 +22,6 @@ location "http://download.eclipse.org/eclipse/updates/4.6" {
 
 location "http://download.eclipse.org/tools/orbit/R-builds/R20170307180635/repository" {
 	org.mockito [1.8.4,1.9.0)
+	org.hamcrest [1.1.0,2.0.0)
 }
 
