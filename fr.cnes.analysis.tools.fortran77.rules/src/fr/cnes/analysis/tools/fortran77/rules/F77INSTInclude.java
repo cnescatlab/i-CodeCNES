@@ -739,10 +739,11 @@ public class F77INSTInclude extends AbstractRule {
 	}
 	
 	private String getProjectPath(String filePath) {
-		String str[]= filePath.split("\\\\");
+		String sep = File.separator.equals("/") ? "/" : "\\\\";
+		String str[]= filePath.split(sep);
 		String ret = "";
 		for(int i = 0; i < str.length -1; i++) {
-			ret = ret + str[i] + "\\";
+			ret = ret + str[i] + File.separator;
 		}
 		return ret;
 	}
