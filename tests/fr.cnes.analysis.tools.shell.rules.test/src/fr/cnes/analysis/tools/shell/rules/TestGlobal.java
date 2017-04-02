@@ -32,197 +32,196 @@ import fr.cnes.analysis.tools.analyzer.RuleAnalysisJob;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 public class TestGlobal {
-    /** This list contains all the violations when the analyse is executed **/
-    public static List<Violation> list      = new LinkedList<Violation>();
-    List<IPath>                   listFiles = new LinkedList<IPath>();
+	/** This list contains all the violations when the analyse is executed **/
+	public static List<Violation> list = new LinkedList<Violation>();
+	List<IPath> listFiles = new LinkedList<IPath>();
 
-    /**********************/
-    /** PARAMS TO DEFINE **/
-    /**********************/
+	/**********************/
+	/** PARAMS TO DEFINE **/
+	/**********************/
 
-    /** Folder where the function find files to execute the analyze **/
-    final String       resources       = "/resources/shell";
-    /** Extension of the files to be analyzed **/
-    final List<String> extensions      = new ArrayList<String>(Arrays.asList("sh", "ksh"));
-    /** Id to execute the analysis **/
-    final String       ruleExtensionId = "fr.cnes.analysis.tools.shell.analyzer.rule";
+	/** Folder where the function find files to execute the analyze **/
+	final String resources = "/resources/shell";
+	/** Extension of the files to be analyzed **/
+	final List<String> extensions = new ArrayList<String>(Arrays.asList("sh", "ksh"));
+	/** Id to execute the analysis **/
+	final String ruleExtensionId = "fr.cnes.analysis.tools.shell.analyzer.rule";
 
-    /**
-     * Function test to validate global test. This function do - get all files
-     * in /resources folder - run analysis in this files - export results to
-     * globalTest.txt file - compare file with the last one
-     * 
-     * NOTE: to run this test in jUnit: Run As > jUnit PlugIn in test
-     */
-    @Test
-    public void runGlobalTest() {
-        try {
-            /** File where to save the result of the execution **/
-            File fileResult = new File("resources/globalTest.txt");
-            fileResult.deleteOnExit();
-            /**
-             * File to compare with fileResult. This file is the verified
-             * version of the execution
-             **/
-            File fileResultValidated = new File("resources/globalTestValidated.txt");
+	/**
+	 * Function test to validate global test. This function do - get all files
+	 * in /resources folder - run analysis in this files - export results to
+	 * globalTest.txt file - compare file with the last one
+	 * 
+	 * NOTE: to run this test in jUnit: Run As > jUnit PlugIn in test
+	 */
+	@Test
+	public void runGlobalTest() {
+		try {
+			/** File where to save the result of the execution **/
+			File fileResult = new File("resources/globalTest.txt");
+			fileResult.deleteOnExit();
+			/**
+			 * File to compare with fileResult. This file is the verified
+			 * version of the execution
+			 **/
+			File fileResultValidated = new File("resources/globalTestValidated.txt");
 
-            /** Get resources file **/
-            String resourcesPath = System.getProperty("user.dir") + resources;
-            File folder = new File(resourcesPath);
-            /** Save files into a list **/
-            getFilesIntoFolder(folder);
+			/** Get resources file **/
+			String resourcesPath = System.getProperty("user.dir") + resources;
+			File folder = new File(resourcesPath);
+			/** Save files into a list **/
+			getFilesIntoFolder(folder);
 
-            /** Create the analysis job **/
-            final RuleAnalysisJob analysis = new RuleAnalysisJob(ruleExtensionId, listFiles);
+			/** Create the analysis job **/
+			final RuleAnalysisJob analysis = new RuleAnalysisJob(ruleExtensionId, listFiles);
 
-            /** Add change listener to check when the job is done **/
-            analysis.addJobChangeListener(new JobChangeAdapter() {
-                @Override
-                public void done(final IJobChangeEvent event) {
-                    /** Running rule **/
-                    TestGlobal.list = analysis.getViolations();
-                }
-            });
+			/** Add change listener to check when the job is done **/
+			analysis.addJobChangeListener(new JobChangeAdapter() {
+				@Override
+				public void done(final IJobChangeEvent event) {
+					/** Running rule **/
+					TestGlobal.list = analysis.getViolations();
+				}
+			});
 
-            /** Set job priority and run analysis **/
-            analysis.setUser(true);
-            analysis.setPriority(Job.DECORATE);
-            analysis.schedule();
-            analysis.join();
+			/** Set job priority and run analysis **/
+			analysis.setUser(true);
+			analysis.setPriority(Job.DECORATE);
+			analysis.schedule();
+			analysis.join();
 
-            /** Export values into file **/
-            createExportFile(fileResult);
+			/** Export values into file **/
+			createExportFile(fileResult);
 
-            /** Compare new test with last one **/
-            assertTrue(compareFiles(fileResult, fileResultValidated));
+			/** Compare new test with last one **/
+			assertTrue(compareFiles(fileResult, fileResultValidated));
 
-        } catch (InterruptedException e) {
-            fail("Erreur d'analyse (InterruptedException)");
-        }
+		} catch (InterruptedException e) {
+			fail("Erreur d'analyse (InterruptedException)");
+		}
 
-    }
+	}
 
-    private void getFilesIntoFolder(File folder) {
-        if (folder.isDirectory()) {
-            File[] listOfFiles = folder.listFiles();
-            /** For each file, check the extension and save IPath into List **/
-            for (File file : listOfFiles) {
-                if (file.isDirectory())
-                    getFilesIntoFolder(file);
-                else {
-                    int i = file.getAbsolutePath().lastIndexOf(".");
-                    if (extensions
-                            .contains(file.getAbsolutePath().substring(i + 1).toLowerCase())) {
-                        IPath ipath = new Path(file.getPath());
-                        listFiles.add(ipath);
-                    }
-                }
-            }
-        }
+	private void getFilesIntoFolder(File folder) {
+		if (folder.isDirectory()) {
+			File[] listOfFiles = folder.listFiles();
+			/** For each file, check the extension and save IPath into List **/
+			for (File file : listOfFiles) {
+				if (file.isDirectory())
+					getFilesIntoFolder(file);
+				else {
+					int i = file.getAbsolutePath().lastIndexOf(".");
+					if (extensions.contains(file.getAbsolutePath().substring(i + 1).toLowerCase())) {
+						IPath ipath = new Path(file.getPath());
+						listFiles.add(ipath);
+					}
+				}
+			}
+		}
 
-    }
+	}
 
-    /**
-     * Function to create the error file. The file has the following: RuleName
-     * FileName NumError
-     */
-    private void createExportFile(File fileResult) {
-        try {
-            /** Create result file **/
-            BufferedWriter output = new BufferedWriter(new FileWriter(fileResult));
-            
-            File fileRulesResult = new File("resources/globalRulesTest.txt");
-            fileRulesResult.deleteOnExit();
-            BufferedWriter ruleOutput = new BufferedWriter(new FileWriter(fileRulesResult));
+	/**
+	 * Function to create the error file. The file has the following: RuleName
+	 * FileName NumError
+	 */
+	private void createExportFile(File fileResult) {
+		try {
+			/** Create result file **/
+			BufferedWriter output = new BufferedWriter(new FileWriter(fileResult));
 
-            /** If the list is bigger than one **/
-            if (list.size() > 1) {
-                String rule = list.get(0).getRuleName();
-                String file = list.get(0).getFilePath().lastSegment();
-                ruleOutput.write(rule + " " + file + " " + list.get(0).getLine() + "\n");
-                int errors = 1;
-                /** Iterate over the elements **/
-                for (int i = 1; i < list.size(); i++) {
-                    Violation violation = list.get(i);
-                    /** If the is more errors in the same rule **/
-                    if (violation.getRuleName().equals(rule)) {
-                        /**
-                         * If there is more errors in the same file -> increase
-                         * error
-                         **/
-                        if (violation.getFilePath().lastSegment().equals(file)) {
-                            errors++;
-                        }
-                        /** If the filename has change -> print error **/
-                        else {
-                            output.write(rule + " " + file + " " + errors + "\n");
-                            file = violation.getFilePath().lastSegment();
-                            errors = 1;
-                        }
-                        int line = violation.getLine();
-                        ruleOutput.write(rule + " " + file + " " + line + "\n");
-                    }
-                    /** If rule has change -> print error **/
-                    else {
-                        output.write(rule + " " + file + " " + errors + "\n");
-                        rule = violation.getRuleName();
-                        file = violation.getFilePath().lastSegment();
-                        errors = 1;
-                        int line = violation.getLine();
-                        ruleOutput.write(rule + " " + file + " " + line + "\n");
-                    }
-                }
-            }
-            /** Only one error -> print directly **/
-            else if (list.size() > 0) {
-                output.write(list.get(0).getRuleName() + " "
-                        + list.get(0).getFilePath().lastSegment() + " 1\n");
-                ruleOutput.write(list.get(0).getRuleName() + " " + list.get(0).getFilePath().lastSegment() + " " + list.get(0).getLine() + "\n");
-            }
-            /** After run for all files: close file writer **/
-            output.close();
-            ruleOutput.close();
-        } catch (IOException e) {
-            fail("Erreur d'analyse (IOException)");
-        }
-    }
+			File fileRulesResult = new File("resources/globalRulesTest.txt");
+			fileRulesResult.deleteOnExit();
+			BufferedWriter ruleOutput = new BufferedWriter(new FileWriter(fileRulesResult));
 
-    /**
-     * Comparison between files
-     * 
-     * @return equals indicate the equality of the files
-     */
-    private boolean compareFiles(File fileResult, File fileResultValidated) {
-        boolean equals = true;
-        try {
-            /** Create reader for both files **/
-            FileReader fR1 = new FileReader(fileResult);
-            FileReader fR2 = new FileReader(fileResultValidated);
-            BufferedReader reader1 = new BufferedReader(fR1);
-            BufferedReader reader2 = new BufferedReader(fR2);
+			/** If the list is bigger than one **/
+			if (list.size() > 1) {
+				String rule = list.get(0).getRuleName();
+				String file = list.get(0).getFilePath().lastSegment();
+				ruleOutput.write(rule + " " + file + " " + list.get(0).getLine() + "\n");
+				int errors = 1;
+				/** Iterate over the elements **/
+				for (int i = 1; i < list.size(); i++) {
+					Violation violation = list.get(i);
+					/** If the is more errors in the same rule **/
+					if (violation.getRuleName().equals(rule)) {
+						/**
+						 * If there is more errors in the same file -> increase
+						 * error
+						 **/
+						if (violation.getFilePath().lastSegment().equals(file)) {
+							errors++;
+						}
+						/** If the filename has change -> print error **/
+						else {
+							output.write(rule + " " + file + " " + errors + "\n");
+							file = violation.getFilePath().lastSegment();
+							errors = 1;
+						}
+						int line = violation.getLine();
+						ruleOutput.write(rule + " " + file + " " + line + "\n");
+					}
+					/** If rule has change -> print error **/
+					else {
+						output.write(rule + " " + file + " " + errors + "\n");
+						rule = violation.getRuleName();
+						file = violation.getFilePath().lastSegment();
+						errors = 1;
+						int line = violation.getLine();
+						ruleOutput.write(rule + " " + file + " " + line + "\n");
+					}
+				}
+			}
+			/** Only one error -> print directly **/
+			else if (list.size() > 0) {
+				output.write(list.get(0).getRuleName() + " " + list.get(0).getFilePath().lastSegment() + " 1\n");
+				ruleOutput.write(list.get(0).getRuleName() + " " + list.get(0).getFilePath().lastSegment() + " "
+						+ list.get(0).getLine() + "\n");
+			}
+			/** After run for all files: close file writer **/
+			output.close();
+			ruleOutput.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Erreur d'analyse (IOException)");
+		}
+	}
 
-            /** String for compare **/
-            String line1 = null;
-            String line2 = null;
+	/**
+	 * Comparison between files
+	 * 
+	 * @return equals indicate the equality of the files
+	 */
+	private boolean compareFiles(File fileResult, File fileResultValidated) {
+		boolean equals = true;
+		try {
+			/** Create reader for both files **/
+			FileReader fR1 = new FileReader(fileResult);
+			FileReader fR2 = new FileReader(fileResultValidated);
+			BufferedReader reader1 = new BufferedReader(fR1);
+			BufferedReader reader2 = new BufferedReader(fR2);
 
-            /** Loop over the lines to find differences **/
-            while (((line1 = reader1.readLine()) != null)
-                    && ((line2 = reader2.readLine()) != null)) {
-                if (!line1.equalsIgnoreCase(line2)) {
-                    equals = false;
-                    break;
-                }
-            }
-            reader1.close();
-            reader2.close();
+			/** String for compare **/
+			String line1 = null;
+			String line2 = null;
 
-        } catch (FileNotFoundException e) {
-            fail("Erreur d'analyse (FileNotFoundException)");
-        } catch (IOException e) {
-            fail("Erreur d'analyse (IOException)");
-        }
-        /** Return value **/
-        return equals;
-    }
+			/** Loop over the lines to find differences **/
+			while (((line1 = reader1.readLine()) != null) && ((line2 = reader2.readLine()) != null)) {
+				if (!line1.equalsIgnoreCase(line2)) {
+					equals = false;
+					break;
+				}
+			}
+			reader1.close();
+			reader2.close();
+
+		} catch (FileNotFoundException e) {
+			fail("Erreur d'analyse (FileNotFoundException)");
+		} catch (IOException e) {
+			fail("Erreur d'analyse (IOException)");
+		}
+		/** Return value **/
+		return equals;
+	}
 
 }

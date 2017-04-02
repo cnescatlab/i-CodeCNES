@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.junit.Test;
@@ -21,8 +22,8 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
 import fr.cnes.analysis.tools.analyzer.datas.FileValue;
 import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.shell.metrics.TestUtils;
 import fr.cnes.analysis.tools.shell.metrics.SHMETNesting;
+import fr.cnes.analysis.tools.shell.metrics.TestUtils;
 
 /**
  * This class aims to test Don.Declaration rule. There are 2 functions in this
@@ -44,7 +45,7 @@ public class TestSHMETNesting {
             final AbstractMetric metric = new SHMETNesting();
             final String fileName = "file.sh";
             final IPath file =
-                    new Path(this.getClass().getResource(fileName).getPath());
+                    new Path(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
             // Defining file in the rule instantiation.
             metric.setContribution(TestUtils.getContribution("", ""));
