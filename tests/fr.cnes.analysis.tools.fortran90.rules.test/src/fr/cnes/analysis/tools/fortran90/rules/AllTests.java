@@ -1,8 +1,8 @@
 /************************************************************************************************/
 /* i-Code CNES is a static code analyzer.                                                       */
-/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                               */
-/************************************************************************************************/ 
+/************************************************************************************************/
 
 package fr.cnes.analysis.tools.fortran90.rules;
 
@@ -73,41 +73,23 @@ import fr.cnes.analysis.tools.fortran90.rules.F90.TYPE.Integer.TestF90TYPEIntege
 import fr.cnes.analysis.tools.fortran90.rules.F90.TYPE.Real.TestF90TYPEReal;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestCOMDESIGNAlloc.class,
-        TestCOMDATAFloatCompare.class, TestCOMDATAInitialisation.class,
-        TestCOMDATAInvariant.class, TestCOMDATALoopCondition.class,
-        TestCOMDATANotUsed.class, TestCOMFLOWAbort.class,
-        TestCOMFLOWBooleanExpression.class,
-        TestCOMFLOWCaseSwitch.class, TestCOMFLOWCheckCodeReturn.class,
-        TestCOMFLOWCheckUser.class,
-        TestCOMFLOWExit.class, TestCOMFLOWExitLoop.class,
-        TestCOMFLOWFileExistence.class, TestCOMFLOWFilePath.class,
-        TestCOMFLOWRecursion.class, TestCOMINSTBoolNegation.class,
-        TestCOMINSTBrace.class, TestCOMINSTCodeComment.class,
-        TestCOMINSTGoTo.class, TestCOMINSTLine.class,
-        TestCOMINSTLoopCondition.class, TestCOMNAMEHomonymy.class,
-        TestCOMPROJECTHeader.class,
-        TestCOMPRESIndent.class, TestCOMPRESLengthLine.class,
-        TestCOMTYPEExpression.class, TestF90DESIGNInclude.class,
-        TestF90DESIGNIO.class, TestF90DESIGNFree.class,
-        TestF90DESIGNInterface.class,TestF90DESIGNFree.class,
-        TestF90DESIGNObsolete.class,
-        TestF90BLOCFile.class, TestF90DATAArray.class,
-        TestF90DATAArrayAccess.class, 
-        TestF90DATAConstant.class, TestF90DATAConstantFloat.class,
-        TestF90DATAFloat.class,
-        TestF90DATAParameter.class, TestF90ERRAllocate.class,
-        TestF90ERROpenRead.class, TestF90INSTAssociated.class,
-        TestF90INSTEntry.class, TestF90INSTEquivalence.class,
-        TestF90INSTIf.class, TestF90INSTIntent.class,
-        TestF90INSTNullify.class, TestF90INSTOnly.class,
-        TestF90INSTOperator.class, TestF90INSTPointer.class,
-        TestF90NAMEGenericIntrinsic.class,
-        TestF90NAMEKeyWords.class, TestF90PROTOOverload.class,
-        TestF90REFArray.class, TestF90REFInterface.class, TestF90DESIGNIO.class,
-        TestF90REFLabel.class, TestF90REFOpen.class, TestF90REFVariable.class,
-        TestF90TYPEDerivate.class, TestF90TYPEInteger.class,
-        TestF90TYPEReal.class})
+@SuiteClasses({ TestCOMDESIGNAlloc.class, TestCOMDATAFloatCompare.class, TestCOMDATAInitialisation.class,
+		TestCOMDATAInvariant.class, TestCOMDATALoopCondition.class, TestCOMDATANotUsed.class, TestCOMFLOWAbort.class,
+		TestCOMFLOWBooleanExpression.class, TestCOMFLOWCaseSwitch.class, TestCOMFLOWCheckCodeReturn.class,
+		TestCOMFLOWCheckUser.class, TestCOMFLOWExit.class, TestCOMFLOWExitLoop.class, TestCOMFLOWFileExistence.class,
+		TestCOMFLOWFilePath.class, TestCOMFLOWRecursion.class, TestCOMINSTBoolNegation.class, TestCOMINSTBrace.class,
+		TestCOMINSTCodeComment.class, TestCOMINSTGoTo.class, TestCOMINSTLine.class, TestCOMINSTLoopCondition.class,
+		TestCOMNAMEHomonymy.class, TestCOMPROJECTHeader.class, TestCOMPRESIndent.class, TestCOMPRESLengthLine.class,
+		TestCOMTYPEExpression.class, TestF90DESIGNInclude.class, TestF90DESIGNIO.class, TestF90DESIGNFree.class,
+		TestF90DESIGNInterface.class, TestF90DESIGNFree.class, TestF90DESIGNObsolete.class, TestF90BLOCFile.class,
+		TestF90DATAArray.class, TestF90DATAArrayAccess.class, TestF90DATAConstant.class, TestF90DATAConstantFloat.class,
+		TestF90DATAFloat.class, TestF90DATAParameter.class, TestF90ERRAllocate.class, TestF90ERROpenRead.class,
+		TestF90INSTAssociated.class, TestF90INSTEntry.class, TestF90INSTEquivalence.class, TestF90INSTIf.class,
+		TestF90INSTIntent.class, TestF90INSTNullify.class, TestF90INSTOnly.class, TestF90INSTOperator.class,
+		TestF90INSTPointer.class, TestF90NAMEGenericIntrinsic.class, TestF90NAMEKeyWords.class,
+		TestF90PROTOOverload.class, TestF90REFArray.class, TestF90REFInterface.class, TestF90DESIGNIO.class,
+		TestF90REFLabel.class, TestF90REFOpen.class, TestF90REFVariable.class, TestF90TYPEDerivate.class,
+		TestF90TYPEInteger.class, TestF90TYPEReal.class })
 public class AllTests {
 
 }

@@ -67,25 +67,21 @@ import fr.cnes.analysis.tools.fortran77.rules.F77.TYPE.Basic.TestF77TYPEBasic;
 import fr.cnes.analysis.tools.fortran77.rules.F77.TYPE.Hollerith.TestF77TYPEHollerith;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestCOMDESIGNAlloc.class, TestCOMDATAFloatCompare.class,
-        TestCOMDATAInitialisation.class, TestCOMDATAInvariant.class, TestCOMDATALoopCondition.class,
-        TestCOMDATANotUsed.class, TestCOMFLOWAbort.class, TestCOMDESIGNActiveWait.class,
-        TestCOMFLOWBooleanExpression.class, TestCOMFLOWCheckCodeReturn.class,
-        TestCOMFLOWCheckUser.class, TestCOMFLOWExit.class, TestCOMFLOWExitLoop.class,
-        TestCOMFLOWFileExistence.class, TestCOMFLOWFilePath.class, TestCOMINSTBoolNegation.class,
-        TestCOMINSTBrace.class, TestCOMINSTCodeComment.class, TestCOMINSTGoTo.class,
-        TestCOMINSTLoopCondition.class, TestCOMNAMEHomonymy.class, TestCOMPROJECTHeader.class,
-        TestCOMPRESIndent.class, TestCOMPRESLengthLine.class, TestCOMTYPEExpression.class,
-        TestF77BLOCCommon.class, TestF77BLOCElse.class, TestF77BLOCFunction.class,
-        TestF77BLOCLoop.class, TestF77DATAArray.class, TestF77DATACommon.class,
-        TestF77DATADouble.class, TestF77DATAIO.class, TestF77DATAInitialisation.class,
-        TestF77DATALoopDO.class, TestF77DATAParameter.class, TestF77INSTAssign.class,
-        TestF77INSTDimension.class, TestF77INSTEquivalence.class, TestF77INSTFunction.class,
-        TestF77INSTIf.class, TestF77INSTInclude.class, TestF77INSTPause.class,
-        TestF77INSTReturn.class, TestF77INSTSave.class, TestF77METLine.class,
-        TestF77NAMEGenericIntrinsic.class, TestF77NAMEIntrinsic.class, TestF77NAMEKeyWords.class,
-        TestF77NAMELabel.class, TestF77PROTODeclaration.class, TestF77REFIO.class,
-        TestF77REFParameter.class, TestF77TYPEBasic.class, TestF77TYPEHollerith.class, })
+@SuiteClasses({ TestCOMDESIGNAlloc.class, TestCOMDATAFloatCompare.class, TestCOMDATAInitialisation.class,
+		TestCOMDATAInvariant.class, TestCOMDATALoopCondition.class, TestCOMDATANotUsed.class, TestCOMFLOWAbort.class,
+		TestCOMDESIGNActiveWait.class, TestCOMFLOWBooleanExpression.class, TestCOMFLOWCheckCodeReturn.class,
+		TestCOMFLOWCheckUser.class, TestCOMFLOWExit.class, TestCOMFLOWExitLoop.class, TestCOMFLOWFileExistence.class,
+		TestCOMFLOWFilePath.class, TestCOMINSTBoolNegation.class, TestCOMINSTBrace.class, TestCOMINSTCodeComment.class,
+		TestCOMINSTGoTo.class, TestCOMINSTLoopCondition.class, TestCOMNAMEHomonymy.class, TestCOMPROJECTHeader.class,
+		TestCOMPRESIndent.class, TestCOMPRESLengthLine.class, TestCOMTYPEExpression.class, TestF77BLOCCommon.class,
+		TestF77BLOCElse.class, TestF77BLOCFunction.class, TestF77BLOCLoop.class, TestF77DATAArray.class,
+		TestF77DATACommon.class, TestF77DATADouble.class, TestF77DATAIO.class, TestF77DATAInitialisation.class,
+		TestF77DATALoopDO.class, TestF77DATAParameter.class, TestF77INSTAssign.class, TestF77INSTDimension.class,
+		TestF77INSTEquivalence.class, TestF77INSTFunction.class, TestF77INSTIf.class, TestF77INSTInclude.class,
+		TestF77INSTPause.class, TestF77INSTReturn.class, TestF77INSTSave.class, TestF77METLine.class,
+		TestF77NAMEGenericIntrinsic.class, TestF77NAMEIntrinsic.class, TestF77NAMEKeyWords.class,
+		TestF77NAMELabel.class, TestF77PROTODeclaration.class, TestF77REFIO.class, TestF77REFParameter.class,
+		TestF77TYPEBasic.class, TestF77TYPEHollerith.class, })
 public class AllTests {
 
 }

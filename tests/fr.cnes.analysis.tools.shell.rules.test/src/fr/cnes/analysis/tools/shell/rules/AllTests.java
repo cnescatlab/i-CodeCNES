@@ -59,23 +59,19 @@ import fr.cnes.analysis.tools.shell.rules.SH.REF.Export.TestSHREFExport;
 import fr.cnes.analysis.tools.shell.rules.SH.SYNC.Signals.TestSHSYNCSignals;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestCOMDATAInitialisation.class, TestCOMDATAInvariant.class,
-            TestCOMDATALoopCondition.class, TestCOMDATANotUsed.class, TestCOMDESIGNActiveWait.class,
-            TestCOMFLOWAbort.class, TestCOMFLOWBooleanExpression.class, TestCOMFLOWCaseSwitch.class,
-            TestCOMFLOWExit.class, TestCOMFLOWExitLoop.class, TestCOMFLOWFileExistence.class,
-            TestCOMFLOWFilePath.class, TestCOMFLOWRecursion.class, TestCOMINSTBoolNegation.class,
-            TestCOMINSTBrace.class, TestCOMINSTCodeComment.class, TestCOMINSTLine.class,
-            TestCOMINSTLoopCondition.class, TestCOMNAMEHomonymy.class, TestCOMPRESHeader.class,
-            TestCOMPRESIndent.class, TestCOMPRESLengthLine.class, TestSHDATAIFS.class,
-            TestSHDATAInteger.class, TestSHDESIGNBash.class, TestSHERRHelp.class,
-            TestSHERRNoPipe.class, TestSHERRString.class, TestSHDATAIFS.class,
-            TestSHDESIGNOptions.class, TestSHFLOWCheckArguments.class,
-            TestSHFLOWCheckCodeReturn.class, TestSHFLOWCheckUser.class, TestSHINSTBasename.class,
-            TestSHINSTContinue.class, TestSHINSTGetOpts.class, TestSHINSTFind.class,
-            TestSHINSTInterpreter.class, TestSHINSTLogical.class, TestSHINSTPOSIX.class,
-            TestSHINSTSetShift.class, TestSHINSTVariables.class, TestSHIORedirect.class,
-            TestSHMETLimitAWK.class, TestSHMETLimitSed.class, TestSHMETPipeLine.class,
-            TestSHREFExport.class, TestSHSYNCSignals.class, })
+@SuiteClasses({ TestCOMDATAInitialisation.class, TestCOMDATAInvariant.class, TestCOMDATALoopCondition.class,
+		TestCOMDATANotUsed.class, TestCOMDESIGNActiveWait.class, TestCOMFLOWAbort.class,
+		TestCOMFLOWBooleanExpression.class, TestCOMFLOWCaseSwitch.class, TestCOMFLOWExit.class,
+		TestCOMFLOWExitLoop.class, TestCOMFLOWFileExistence.class, TestCOMFLOWFilePath.class,
+		TestCOMFLOWRecursion.class, TestCOMINSTBoolNegation.class, TestCOMINSTBrace.class, TestCOMINSTCodeComment.class,
+		TestCOMINSTLine.class, TestCOMINSTLoopCondition.class, TestCOMNAMEHomonymy.class, TestCOMPRESHeader.class,
+		TestCOMPRESIndent.class, TestCOMPRESLengthLine.class, TestSHDATAIFS.class, TestSHDATAInteger.class,
+		TestSHDESIGNBash.class, TestSHERRHelp.class, TestSHERRNoPipe.class, TestSHERRString.class, TestSHDATAIFS.class,
+		TestSHDESIGNOptions.class, TestSHFLOWCheckArguments.class, TestSHFLOWCheckCodeReturn.class,
+		TestSHFLOWCheckUser.class, TestSHINSTBasename.class, TestSHINSTContinue.class, TestSHINSTGetOpts.class,
+		TestSHINSTFind.class, TestSHINSTInterpreter.class, TestSHINSTLogical.class, TestSHINSTPOSIX.class,
+		TestSHINSTSetShift.class, TestSHINSTVariables.class, TestSHIORedirect.class, TestSHMETLimitAWK.class,
+		TestSHMETLimitSed.class, TestSHMETPipeLine.class, TestSHREFExport.class, TestSHSYNCSignals.class, })
 public class AllTests {
 
 }

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.junit.Test;
@@ -42,7 +43,7 @@ public class TestF77METNesting {
 	    // Initializing rule and getting error file.
 	    final AbstractMetric metric = new F77METNesting();
 	    final String fileName = "file.f";
-	    final IPath file = new Path(this.getClass().getResource(fileName).getPath());
+	    final IPath file = new Path(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
 	    // Defining file in the rule instantiation.
 	    metric.setContribution(TestUtils.getContribution("", ""));
