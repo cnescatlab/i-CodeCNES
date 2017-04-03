@@ -20,9 +20,14 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -36,153 +41,182 @@ import fr.cnes.analysis.tools.ui.view.MetricsView;
  * analyze function located
  */
 public class MetricAnalysisHandler extends AbstractAnalysisHandler {
-    /** Logger. **/
-    private static final Logger LOGGER = Logger.getLogger(MetricAnalysisHandler.class.getName());
+	/** Logger. **/
+	private static final Logger LOGGER = Logger.getLogger(MetricAnalysisHandler.class.getName());
 
-    /**
-     * List of analyzed files
-     */
-    private final List<String> analyzedFiles = new ArrayList<String>();
+	/**
+	 * List of analyzed files
+	 */
+	private final List<String> analyzedFiles = new ArrayList<String>();
 
-    /**
-     * Package/Explorer chosen for the analysis
-     */
-    private final IProject selectedProject = getActiveProject();
+	/**
+	 * Package/Explorer chosen for the analysis
+	 */
+	private IProject selectedProject;
 
-    /**
-     * @return selectedProject class attribute
-     */
-    public IProject getSelectedProject() {
-        return selectedProject;
-    }
+	public MetricAnalysisHandler() {
+		selectedProject = getActiveProject();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.cnes.analysis.tools.ui.handler.AbstractAnalysisHandler#runAnalysis
-     * (java.util.List, java.lang.String)
-     */
-    @Override
-    public void runAnalysis(final List<IPath> files, final String pAnalyzerID) {
-        LOGGER.finest("Begin runAnalysis method");
+	/**
+	 * @return selectedProject class attribute
+	 */
+	public IProject getSelectedProject() {
+		return selectedProject;
+	}
 
-        // Clear the analyzedFiles list in order to have the new analyzed files
-        analyzedFiles.clear();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.cnes.analysis.tools.ui.handler.AbstractAnalysisHandler#runAnalysis
+	 * (java.util.List, java.lang.String)
+	 */
+	@Override
+	public void runAnalysis(final List<IPath> files, final String pAnalyzerID) {
+		LOGGER.finest("Begin runAnalysis method");
 
-        // Instantiate analyzer
-        final MetricAnalysisJob analysis = new MetricAnalysisJob(pAnalyzerID, files);
+		// Clear the analyzedFiles list in order to have the new analyzed files
+		analyzedFiles.clear();
 
-        // run analysis
-        analysis.setUser(true);
-        analysis.schedule();
+		// Instantiate analyzer
+		final MetricAnalysisJob analysis = new MetricAnalysisJob(pAnalyzerID, files);
 
-        // add change listener to check when the job is done
-        analysis.addJobChangeListener(new JobChangeAdapter() {
+		// run analysis
+		analysis.setUser(true);
+		analysis.schedule();
 
-            @Override
-            public void done(final IJobChangeEvent event) {
-                Display.getDefault().asyncExec(new Runnable() {
+		// add change listener to check when the job is done
+		analysis.addJobChangeListener(new JobChangeAdapter() {
 
-                    @Override
-                    public void run() {
-                        // We generate an XML file only if the analysis wasn't
-                        // interrupted
-                        if (analysis.getResult().isOK()) {
-                            MetricAnalysisHandler.this.updateView(analysis.getValues());
-                        }
-                    }
-                });
-            }
-        });
+			@Override
+			public void done(final IJobChangeEvent event) {
+				Display.getDefault().asyncExec(new Runnable() {
 
-        LOGGER.finest("End runAnalysis method");
-    }
+					@Override
+					public void run() {
+						// We generate an XML file only if the analysis wasn't
+						// interrupted
+						if (analysis.getResult().isOK()) {
+							MetricAnalysisHandler.this.updateView(analysis.getValues());
+						}
+					}
+				});
+			}
+		});
 
-    /**
-     * Update the view
-     * 
-     * @param values
-     *            list of file value .
-     */
-    private void updateView(final List<FileValue> values) {
-        LOGGER.finest("Begin updateView method");
+		LOGGER.finest("End runAnalysis method");
+	}
 
-        try {
-            // get the page
-            final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                    .getActivePage();
+	/**
+	 * Update the view
+	 * 
+	 * @param values
+	 *            list of file value .
+	 */
+	private void updateView(final List<FileValue> values) {
+		LOGGER.finest("Begin updateView method");
 
-            // open view
-            page.showView(MetricsView.VIEW_ID);
+		try {
+			// get the page
+			final IWorkbenchPage page = getPlatformUIProvider().getWorkbench().getActiveWorkbenchWindow()
+					.getActivePage();
 
-            // get view
-            final MetricsView view = (MetricsView) page.findView(MetricsView.VIEW_ID);
+			// open view
+			page.showView(MetricsView.VIEW_ID);
 
-            // show rules analyze results
-            if (view != null) {
-                view.display(values, this.getSelectedProject(), this.getAuthor(), this.getDate());
-                /* Add IMarkers everywhere there is a metric event */
-                view.insertMarkers();
-            }
+			// get view
+			final MetricsView view = (MetricsView) page.findView(MetricsView.VIEW_ID);
 
-        } catch (final PartInitException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
-        } catch (final EmptyProviderException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
-        }
+			// show rules analyze results
+			if (view != null) {
+				view.display(values, this.getSelectedProject(), this.getAuthor(), this.getDate());
+				/* Add IMarkers everywhere there is a metric event */
+				view.insertMarkers();
+			}
 
-        LOGGER.finest("End updateView method");
-    }
+		} catch (final PartInitException exception) {
+			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
+			MessageDialog.openError(getPlatformUIProvider().getWorkbench().getActiveWorkbenchWindow().getShell(),
+					"Internal Error", "Contact support service : \n" + exception.getMessage());
+		} catch (final EmptyProviderException exception) {
+			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
+			MessageDialog.openError(getPlatformUIProvider().getWorkbench().getActiveWorkbenchWindow().getShell(),
+					"Internal Error", "Contact support service : \n" + exception.getMessage());
+		}
 
-    /**
-     * @return The Eclipse user name that ran the analysis
-     */
-    private String getAuthor() {
-        String author = System.getProperty("user.name");
-        if (author.isEmpty()) {
-            author = "Unknown";
-        }
-        return author;
-    }
+		LOGGER.finest("End updateView method");
+	}
 
-    /**
-     * @return Date of the analysis
-     */
-    public String getDate() {
-        final String format = "YYYY-MM-dd";
-        final SimpleDateFormat formater = new SimpleDateFormat(format, Locale.FRANCE);
-        final Date date = new Date();
-        return formater.format(date);
-    }
+	/**
+	 * @return The Eclipse user name that ran the analysis
+	 */
+	private String getAuthor() {
+		String author = System.getProperty("user.name");
+		if (author.isEmpty()) {
+			author = "Unknown";
+		}
+		return author;
+	}
 
-    /**
-     * @return IProject Project selected in the active view
-     */
-    public IProject getActiveProject() {
+	/**
+	 * @return Date of the analysis
+	 */
+	public String getDate() {
+		final String format = "YYYY-MM-dd";
+		final SimpleDateFormat formater = new SimpleDateFormat(format, Locale.FRANCE);
+		final Date date = new Date();
+		return formater.format(date);
+	}
 
-        // Set the project null
-        IProject project = null;
+	/**
+	 * @return IProject Project selected in the active view
+	 */
+	public IProject getActiveProject() {
 
-        // Get the selection
-        final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                .getActivePage().getActivePart().getSite().getSelectionProvider().getSelection();
+		// Set the project null
+		IProject project = null;
 
-        // Get the project of the element selected
-        if (selection instanceof IStructuredSelection) {
-            final Object element = ((IStructuredSelection) selection).getFirstElement();
+		// Get the selection
+		final ISelection selection = getPlatformUIProvider().getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getActivePart().getSite().getSelectionProvider().getSelection();
 
-            if (element instanceof IResource) {
-                project = ((IResource) element).getProject();
-            }
-        }
-        return project;
-    }
+		// Get the project of the element selected
+		if (selection instanceof IStructuredSelection) {
+			final Object element = ((IStructuredSelection) selection).getFirstElement();
+
+			if (element instanceof IResource) {
+				project = ((IResource) element).getProject();
+			}
+		}
+		return project;
+	}
+
+	// --------------------------------------------------------------------------------------------
+	/**
+	 * Some interface and methods to make this class independant of Platform UI
+	 * and simplify tests management ! With Eclipse 4 and injection this would
+	 * be totally useless !
+	 */
+	// --------------------------------------------------------------------------------------------
+	public interface IPlatformUIProvider {
+		public IWorkbench getWorkbench();
+	}
+
+	private IPlatformUIProvider platformUIProvider;
+
+	public MetricAnalysisHandler(IPlatformUIProvider p) {
+		platformUIProvider = p;
+	}
+
+	public IPlatformUIProvider getPlatformUIProvider() {
+		if (platformUIProvider == null)
+			platformUIProvider = new IPlatformUIProvider() {
+				public IWorkbench getWorkbench() {
+					return PlatformUI.getWorkbench();
+				}
+			};
+		return platformUIProvider;
+	}
 
 }
