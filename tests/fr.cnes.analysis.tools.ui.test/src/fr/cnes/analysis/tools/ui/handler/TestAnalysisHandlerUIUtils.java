@@ -21,7 +21,14 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.ui.exception.EmptyResourceException;
@@ -29,6 +36,7 @@ import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
 import fr.cnes.analysis.tools.ui.exception.InvalidResourceTypeException;
 import fr.cnes.analysis.tools.ui.exception.NonAccessibleResourceException;
 import fr.cnes.analysis.tools.ui.exception.UnknownResourceTypeException;
+import fr.cnes.analysis.tools.ui.handler.MetricAnalysisHandler.IPlatformUIProvider;
 import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
 
 /**
@@ -38,28 +46,28 @@ import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
 public class TestAnalysisHandlerUIUtils {
 
 	/** Message for a SecurityException fail. **/
-	public final static String SECURITY_FAIL = "Erreur d'ex�cution (SecurityException).";
+	public final static String SECURITY_FAIL = "Erreur d'exécution (SecurityException).";
 	/** Message for a NoSuchMethodException fail. **/
-	public final static String METHOD_FAIL = "Erreur d'ex�cution (NoSuchMethodException).";
+	public final static String METHOD_FAIL = "Erreur d'exécution (NoSuchMethodException).";
 	/** Message for a IllegalArgumentException fail. **/
-	public final static String ARGUMENT_FAIL = "Erreur d'ex�cution (IllegalArgumentException).";
+	public final static String ARGUMENT_FAIL = "Erreur d'exécution (IllegalArgumentException).";
 	/** Message for a IllegalAccessException fail. **/
-	public final static String ACCESS_FAIL = "Erreur d'ex�cution (IllegalAccessException).";
+	public final static String ACCESS_FAIL = "Erreur d'exécution (IllegalAccessException).";
 	/** Message for a InvocationTargetException fail. **/
-	public final static String TARGET_FAIL = "Erreur d'ex�cution (InvocationTargetException).";
+	public final static String TARGET_FAIL = "Erreur d'exécution (InvocationTargetException).";
 	/** Message for a CoreException fail. **/
-	public final static String CORE_FAIL = "Erreur d'ex�cution (CoreException).";
+	public final static String CORE_FAIL = "Erreur d'exécution (CoreException).";
 
 	/** Message for a EmptyResourceException fail. **/
-	public final static String EMPTY_RES_FAIL = "Erreur d'ex�cution (EmptyResourceException).";
+	public final static String EMPTY_RES_FAIL = "Erreur d'exécution (EmptyResourceException).";
 	/** Message for a InvalidResourceTypeException fail. **/
-	public final static String INVALID_FAIL = "Erreur d'ex�cution (InvalidResourceTypeException).";
+	public final static String INVALID_FAIL = "Erreur d'exécution (InvalidResourceTypeException).";
 	/** Message for a UnknownResourceTypeException fail. **/
-	public final static String UNKNOWN_FAIL = "Erreur d'ex�cution (UnknownResourceTypeException).";
+	public final static String UNKNOWN_FAIL = "Erreur d'exécution (UnknownResourceTypeException).";
 	/** Message for a EmptySelectionException fail. **/
-	public final static String EMPTY_SEL_FAIL = "Erreur d'ex�cution (EmptySelectionException).";
+	public final static String EMPTY_SEL_FAIL = "Erreur d'exécution (EmptySelectionException).";
 	/** Message for a NonAccessibleResourceException fail. **/
-	public final static String ACCES_FAIL = "Erreur d'ex�cution (NonAccessibleResourceException).";
+	public final static String ACCES_FAIL = "Erreur d'exécution (NonAccessibleResourceException).";
 
 	/** Name for retrieve method with a file. **/
 	public final static String[] FILE_EXTENSION = { "f" };
@@ -93,7 +101,7 @@ public class TestAnalysisHandlerUIUtils {
 		} catch (final SecurityException e) {
 			fail(SECURITY_FAIL);
 		} catch (final EmptySelectionException exception) {
-			fail("Erreur d'ex�cution (EmptySelectionException).");
+			fail("Erreur d'exécution (EmptySelectionException).");
 		}
 	}
 
@@ -262,6 +270,41 @@ public class TestAnalysisHandlerUIUtils {
 		}
 	}
 
+	private static  IWorkbench mockedWorkbench =  mock(IWorkbench.class);
+	
+	@BeforeClass
+	public static void mockPlatformUI()
+	{
+		final IWorkbenchWindow ww = mock(IWorkbenchWindow.class);
+		final IWorkbenchPage wp = mock(IWorkbenchPage.class);
+		final IWorkbenchPart wpart = mock(IWorkbenchPart.class);
+		final IWorkbenchPartSite wpsite = mock(IWorkbenchPartSite.class);
+		final ISelectionProvider iselprovider = mock(ISelectionProvider.class);
+		final IStructuredSelection iss = mock(IStructuredSelection.class);
+		final IProject p = mock(IProject.class);
+				
+		when(mockedWorkbench.getActiveWorkbenchWindow()).thenReturn(ww);
+		when(ww.getActivePage()).thenReturn(wp);
+		when(wp.getActivePart()).thenReturn(wpart);
+		when(wpart.getSite()).thenReturn(wpsite);
+		when(wpsite.getSelectionProvider()).thenReturn(iselprovider);
+		when(iselprovider.getSelection()).thenReturn(iss);
+		when(iss.getFirstElement()).thenReturn(p);
+		when(p.getName()).thenReturn("MockedProjectForTests");
+
+	}
+	
+	private IPlatformUIProvider getPlatformUIProviderForTest()
+	{
+		return new MetricAnalysisHandler.IPlatformUIProvider() {
+			
+			@Override
+			public IWorkbench getWorkbench() {
+				// TODO Auto-generated method stub
+				return mockedWorkbench;
+			}
+		};
+	}
 	/**
 	 * Assert that retrievedSelected (with root) returns an error when a project
 	 * is not accessible.
@@ -273,7 +316,7 @@ public class TestAnalysisHandlerUIUtils {
 	public void testRetrieveSelectedWithUnaccessibleProject() throws NonAccessibleResourceException {
 
 		try {
-			new MetricAnalysisHandler();
+			new MetricAnalysisHandler(getPlatformUIProviderForTest());
 			final IWorkspaceRoot root = mock(IWorkspaceRoot.class);
 			final IProject project = mock(IProject.class);
 			final IProject[] projects = { project };
@@ -308,7 +351,7 @@ public class TestAnalysisHandlerUIUtils {
 	public void testRetrieveSelectedWithNoProjects() throws EmptySelectionException {
 
 		try {
-			new MetricAnalysisHandler();
+			new MetricAnalysisHandler(getPlatformUIProviderForTest());
 			final IWorkspaceRoot root = mock(IWorkspaceRoot.class);
 
 			when(root.getProjects()).thenReturn(null);
@@ -802,7 +845,7 @@ public class TestAnalysisHandlerUIUtils {
 	public void testRetrieveFilesFromFolderWithNoMembers() throws EmptyResourceException {
 
 		try {
-			new MetricAnalysisHandler();
+			new MetricAnalysisHandler(getPlatformUIProviderForTest());
 			final IFolder folder = mock(IFolder.class);
 
 			when(folder.isAccessible()).thenReturn(true);
