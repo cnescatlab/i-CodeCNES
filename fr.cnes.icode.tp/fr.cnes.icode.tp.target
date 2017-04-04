@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="Cnes ICode" sequenceNumber="1490823613">
+<target name="Cnes ICode" sequenceNumber="1491344869">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.rcp.feature.group" version="4.6.3.v20170301-0400"/>
@@ -12,6 +12,9 @@
       <unit id="org.eclipse.compare" version="3.7.1.v20170103-1805"/>
       <unit id="org.eclipse.equinox.executable.feature.group" version="3.6.300.v20161122-1740"/>
       <unit id="org.junit" version="4.12.0.v201504281640"/>
+      <unit id="org.eclipse.photran.feature.group" version="9.1.2.201702230108"/>
+      <unit id="org.eclipse.ui.navigator.resources" version="3.5.101.v20161006-0640"/>
+      <unit id="org.eclipse.platform.feature.group" version="4.6.3.v20170301-0400"/>
       <repository location="http://download.eclipse.org/releases/neon"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
