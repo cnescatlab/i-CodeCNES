@@ -105,14 +105,7 @@
 		<module>fr.cnes.icode.repository</module>
 
 		<!-- tests -->
-		<module>tests/fr.cnes.analysis.tools.fortran77.metrics.test</module>
-		<module>tests/fr.cnes.analysis.tools.fortran90.metrics.test</module>
-		<module>tests/fr.cnes.analysis.tools.shell.metrics.test</module>
-		<module>tests/fr.cnes.analysis.tools.fortran90.rules.test</module>
-		<module>tests/fr.cnes.analysis.tools.fortran77.rules.test</module>
-		<module>tests/fr.cnes.analysis.tools.shell.rules.test</module>
-		<module>tests/fr.cnes.analysis.tools.ui.test</module>
-
+		<module>tests</module>
 
 	</modules>
 
