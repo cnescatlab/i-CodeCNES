@@ -36,8 +36,8 @@
 				 <configuration>
 					<products>
 						<product>
-							<id>icode.product</id>
-							<rootFolder>icode</rootFolder>
+							<id>icodeIDE.product</id>
+							<rootFolder>icodeIDE</rootFolder>
 						</product>
 					</products>
 				</configuration> 
