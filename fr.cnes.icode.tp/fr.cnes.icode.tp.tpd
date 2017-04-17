@@ -5,19 +5,13 @@ with source requirements
 
 
 location "http://download.eclipse.org/releases/neon" {
-	org.eclipse.rcp.feature.group
-	org.eclipse.ui.workbench
-	org.eclipse.emf.databinding.feature.group
-	org.eclipse.ui.cheatsheets
-	org.eclipse.help.ui
-	org.eclipse.compare
+	org.eclipse.platform.feature.group
 	org.eclipse.equinox.executable.feature.group
 	org.junit
 	
 	// Features needed for RCP Application with jdt and package explorer
 	org.eclipse.photran.feature.group
 	org.eclipse.ui.navigator.resources
-	org.eclipse.platform.feature.group
 }
 
  // Ajout du delta pack
