@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.ui.exception.EmptyResourceException;
@@ -83,8 +84,7 @@ public abstract class AbstractAnalysisHandler extends AbstractHandler
             LOGGER.finest("Begin execute method");
 
             // retrieve the active selection in the package explorer
-            final IStructuredSelection selection = (IStructuredSelection) PlatformUI.getWorkbench()
-                    .getActiveWorkbenchWindow().getSelectionService().getSelection();
+            final IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
 
             // check selection
             AnalysisHandlerUIUtils.checkSelection(selection);
@@ -99,40 +99,40 @@ public abstract class AbstractAnalysisHandler extends AbstractHandler
         } catch (final EmptySelectionException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            MessageDialog.openError(HandlerUtil.getActiveShell(event),
                     "Empty Selection",
                     "Please, select a file, a folder or a project before launching the analyse.");
         } catch (final EmptyResourceException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
             MessageDialog.openWarning(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            		HandlerUtil.getActiveShell(event),
                     "Empty Resource", exception.getMessage());
         } catch (final NonAccessibleResourceException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
             MessageDialog.openWarning(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            		HandlerUtil.getActiveShell(event),
                     "Accessibility Error", exception.getMessage());
         } catch (final InvalidResourceTypeException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            MessageDialog.openError(HandlerUtil.getActiveShell(event),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         } catch (final UnknownResourceTypeException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            MessageDialog.openError(HandlerUtil.getActiveShell(event),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         } catch (final CoreException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            MessageDialog.openError(HandlerUtil.getActiveShell(event),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         } catch (final NullContributionException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            MessageDialog.openError(HandlerUtil.getActiveShell(event),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         }
         return null;
