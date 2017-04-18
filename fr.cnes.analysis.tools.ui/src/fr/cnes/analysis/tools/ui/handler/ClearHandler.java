@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
@@ -61,7 +62,7 @@ public class ClearHandler extends AbstractHandler {
         } catch (final EmptyProviderException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            MessageDialog.openError(HandlerUtil.getActiveShell(event),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         }
 

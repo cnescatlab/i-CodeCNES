@@ -14,6 +14,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
 import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
@@ -38,8 +39,7 @@ public class MetricAndRulesAnalysisAllHandler extends AbstractHandler {
     public Object execute(final ExecutionEvent event) throws ExecutionException {
         try {
             // retrieve the active selection in the package explorer
-            final IStructuredSelection selection = (IStructuredSelection) PlatformUI.getWorkbench()
-                    .getActiveWorkbenchWindow().getSelectionService().getSelection();
+            final IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
 
             // check selection
             AnalysisHandlerUIUtils.checkSelection(selection);
@@ -58,7 +58,7 @@ public class MetricAndRulesAnalysisAllHandler extends AbstractHandler {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
             MessageDialog.openWarning(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                    HandlerUtil.getActiveShell(event),
                     "Selection is empty", exception.getMessage());
         }
         return null;
