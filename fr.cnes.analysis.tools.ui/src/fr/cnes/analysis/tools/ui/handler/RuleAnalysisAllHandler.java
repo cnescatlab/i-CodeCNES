@@ -22,6 +22,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.ui.exception.EmptyResourceException;
@@ -108,19 +109,19 @@ public class RuleAnalysisAllHandler extends AbstractHandler {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
             MessageDialog.openWarning(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            		HandlerUtil.getActiveShell(event),
                     "The resource is not accessible", exception.getMessage());
         } catch (CoreException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
             MessageDialog.openWarning(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            		HandlerUtil.getActiveShell(event),
                     "Core exception", exception.getMessage());
         } catch (NullContributionException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
             MessageDialog.openWarning(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            		HandlerUtil.getActiveShell(event),
                     "Contribution is null", exception.getMessage());
         }
         return null;
