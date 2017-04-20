@@ -8,12 +8,10 @@ package fr.cnes.analysis.tools.ui.handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -26,7 +24,7 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * Handler to clear the views.
  * 
  */
-public class ClearHandler extends AbstractHandler {
+public class ClearHandler extends UIAndCommandAbstractHandler {
     /** Logger. **/
     private static final Logger LOGGER = Logger.getLogger(ClearHandler.class.getName());
 
@@ -62,7 +60,7 @@ public class ClearHandler extends AbstractHandler {
         } catch (final EmptyProviderException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(HandlerUtil.getActiveShell(event),
+            showError(HandlerUtil.getActiveShell(event),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         }
 
@@ -133,7 +131,7 @@ public class ClearHandler extends AbstractHandler {
             resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker", true,
                     depth);
         } catch (final CoreException exception) {
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                     "Marker deletion problem", exception.getMessage());
         }
     }

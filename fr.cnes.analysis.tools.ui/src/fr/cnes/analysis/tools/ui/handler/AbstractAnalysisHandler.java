@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -42,7 +41,7 @@ import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
  * This class is the Handler that linked together action button on the tool bar
  * and analyze function
  */
-public abstract class AbstractAnalysisHandler extends AbstractHandler implements IExecutableExtension {
+public abstract class AbstractAnalysisHandler extends UIAndCommandAbstractHandler implements IExecutableExtension {
 	/** Logger. **/
 	private static final Logger LOGGER = Logger.getLogger(AbstractAnalysisHandler.class.getName());
 
@@ -118,7 +117,7 @@ public abstract class AbstractAnalysisHandler extends AbstractHandler implements
 			LOGGER.finest("End execute method");
 		} catch (final EmptySelectionException exception) {
 			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
-			MessageDialog.openError(HandlerUtil.getActiveShell(event), "Empty Selection",
+			showError(HandlerUtil.getActiveShell(event), "Empty Selection",
 					"Please, select a file, a folder or a project before launching the analyse.");
 		} catch (final EmptyResourceException exception) {
 			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
@@ -128,19 +127,19 @@ public abstract class AbstractAnalysisHandler extends AbstractHandler implements
 			MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "Accessibility Error", exception.getMessage());
 		} catch (final InvalidResourceTypeException exception) {
 			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
-			MessageDialog.openError(HandlerUtil.getActiveShell(event), "Internal Error",
+			showError(HandlerUtil.getActiveShell(event), "Internal Error",
 					"Contact support service : \n" + exception.getMessage());
 		} catch (final UnknownResourceTypeException exception) {
 			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
-			MessageDialog.openError(HandlerUtil.getActiveShell(event), "Internal Error",
+			showError(HandlerUtil.getActiveShell(event), "Internal Error",
 					"Contact support service : \n" + exception.getMessage());
 		} catch (final CoreException exception) {
 			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
-			MessageDialog.openError(HandlerUtil.getActiveShell(event), "Internal Error",
+			showError(HandlerUtil.getActiveShell(event), "Internal Error",
 					"Contact support service : \n" + exception.getMessage());
 		} catch (final NullContributionException exception) {
 			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
-			MessageDialog.openError(HandlerUtil.getActiveShell(event), "Internal Error",
+			showError(HandlerUtil.getActiveShell(event), "Internal Error",
 					"Contact support service : \n" + exception.getMessage());
 		}
 		return null;

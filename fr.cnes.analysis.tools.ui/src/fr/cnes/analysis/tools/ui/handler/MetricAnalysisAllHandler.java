@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
@@ -18,7 +17,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
@@ -37,7 +35,7 @@ import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
  * Metric Handler.
  *
  */
-public class MetricAnalysisAllHandler extends AbstractHandler {
+public class MetricAnalysisAllHandler extends UIAndCommandAbstractHandler {
     /** Logger. **/
     private static final Logger LOGGER = Logger.getLogger(AbstractAnalysisHandler.class.getName());
 
@@ -109,25 +107,25 @@ public class MetricAnalysisAllHandler extends AbstractHandler {
         } catch (NonAccessibleResourceException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openWarning(
+            showWarning(
             		HandlerUtil.getActiveShell(event),
                     "The resource is not accessible", exception.getMessage());
         } catch (CoreException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openWarning(
+            showWarning(
             		HandlerUtil.getActiveShell(event),
                     "Core exception", exception.getMessage());
         } catch (NullContributionException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openWarning(
+            showWarning(
             		HandlerUtil.getActiveShell(event),
                     "Contribution is null", exception.getMessage());
         } catch (EmptySelectionException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openWarning(
+            showWarning(
             		HandlerUtil.getActiveShell(event),
                     "Selection is empty", exception.getMessage());
         }
