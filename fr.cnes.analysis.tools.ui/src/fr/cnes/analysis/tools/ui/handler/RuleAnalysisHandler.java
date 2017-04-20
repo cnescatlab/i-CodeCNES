@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -123,7 +122,7 @@ public class RuleAnalysisHandler extends AbstractAnalysisHandler {
         } catch (final PartInitException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+            showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                     "Internal Error", "Contact support service : \n" + exception.getMessage());
         }
 
