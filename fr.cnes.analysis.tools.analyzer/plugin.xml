@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="fr.cnes.analysis.tools.analyzer" name="fr.cnes.analysis.tools.analyzer" schema="schema/fr.cnes.analysis.tools.analyzer.exsd"/>
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="*"
+            thread="main"
+            visible="true">
+         <run
+               class="fr.cnes.analysis.tools.analyzer.AnalyzerApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="product"
+         name="Icode command line product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="fr.cnes.analysis.tools.analyzer.application"
+            description="The product to run icode using a commande line "
+            name="Cnes Icode Command Line product">
+      </product>
+   </extension>
+</plugin>
