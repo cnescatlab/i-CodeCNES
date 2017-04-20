@@ -1,0 +1,115 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/ 
+
+/*****************************************************************************/
+/* This file is used to generate a rule checker for Tr.Parametres rule.		 */
+/* For further information on this, we advise you to refer to RNC manuals.	 */
+/* As many comments have been done on the ExampleRule.lex file, this file    */
+/* will restrain its comments on modifications.								 */
+/*																			 */
+/*****************************************************************************/
+
+package fr.cnes.analysis.tools.fortran77.rules;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.List;
+
+import org.eclipse.core.runtime.IPath;
+
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+
+%%
+
+%class F77METLine
+%extends AbstractRule
+%public
+%line
+
+%function run
+%yylexthrow JFlexException
+%type List<Violation>
+
+
+%state COMMENT, NAMING, NEW_LINE, LINE
+
+COMMENT_WORD = \!         | c          | C     | \*
+FREE_COMMENT = \!
+FUNC         = FUNCTION   | function
+PROC         = PROCEDURE  | procedure
+SUB          = SUBROUTINE | subroutine
+PROG         = PROGRAM    | program
+MOD          = MODULE     | module
+TYPE		 = {FUNC}     | {PROC}	   | {SUB} | {PROG} | {MOD}
+VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
+																
+%{
+	String location = "MAIN PROGRAM";
+	
+	int lineChars = 0;
+	boolean showError = false;
+	
+	public F77METLine(){
+	}
+	
+	@Override
+	public void setInputFile(IPath file) throws FileNotFoundException {
+		super.setInputFile(file);
+		this.zzReader = new FileReader(file.toOSString());
+	}
+
+	
+%}
+
+%eofval{
+return getViolations();
+%eofval}
+
+
+%%          
+
+				{FREE_COMMENT}	{yybegin(COMMENT);}
+
+<COMMENT>   	\n             	{yybegin(NEW_LINE);}  
+<COMMENT>   	.              	{}
+
+<NAMING>		{VAR}			{location = location + " " + yytext();
+								 yybegin(COMMENT);}
+<NAMING>    	\n             	{lineChars=0; yybegin(NEW_LINE);}
+<NAMING>    	.              	{lineChars++;
+								 if(lineChars>72 && yytext()!="&" ) {
+								 	setError(location,"There are more than 72 characters in this line.",yyline);
+								 	showError=true; 
+								 }}
+
+<YYINITIAL>  	{COMMENT_WORD} 	{yybegin(COMMENT);}
+<YYINITIAL>		{TYPE}        	{lineChars+=yytext().length(); location = yytext(); yybegin(NAMING);}
+<YYINITIAL> 	\n             	{lineChars=0; yybegin(NEW_LINE);}
+<YYINITIAL> 	.              	{lineChars++; yybegin(LINE);}
+
+
+<NEW_LINE>  	{COMMENT_WORD} 	{yybegin(COMMENT);}
+<NEW_LINE>		{TYPE}        	{lineChars=yytext().length(); location = yytext(); yybegin(NAMING);}
+<NEW_LINE>  	\n             	{lineChars=0; showError=false;}
+<NEW_LINE>  	.              	{lineChars=0; yybegin(LINE);}
+
+
+<LINE>			{TYPE}        	{location = yytext(); lineChars+=yytext().length(); 
+								 if(lineChars>72 && yytext()!="&" && !showError) {
+								 	setError(location,"There are more than 72 characters in this line.",yyline);
+								 	showError=true; 
+								 }
+								 yybegin(NAMING);}
+<LINE>      	\n             	{lineChars=0; showError=false; yybegin(NEW_LINE);}
+<LINE>      	.              	{lineChars++;
+								 if(lineChars>72 && !yytext().equals("&") && !showError) {
+								 	setError(location,"There are more than 72 characters in this line.",yyline+1);
+								 	showError=true; 
+								 }
+								}
+
+				[^]           {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}

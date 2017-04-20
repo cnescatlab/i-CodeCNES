@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: i-Code CNES F77 Analyzer
+Bundle-SymbolicName: fr.cnes.analysis.tools.fortran77.analyzer;singleton:=true
+Bundle-Version: 2.0.0
+Bundle-Activator: fr.cnes.analysis.tools.fortran77.analyzer.Activator
+Require-Bundle: fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0",
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: fr.cnes.analysis.tools.fortran77.analyzer
+Bundle-Vendor: CNES
