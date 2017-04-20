@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!DOCTYPE project>
+<plugin>
+   <extension
+         point="fr.cnes.analysis.tools.fortran90.metric">
+      <Metric
+            class="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+            id="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+            name="F90.MET.ComplexitySimplified">
+      </Metric>
+      <Metric
+            class="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+            id="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+            name="F90.MET.Nesting">
+      </Metric>
+      <Metric
+            class="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+            id="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+            name="F90.MET.LineOfCode">
+      </Metric>
+      <Metric
+            class="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+            id="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+            name="F90.MET.RatioComment">
+      </Metric>
+     
+   </extension>
+</plugin>

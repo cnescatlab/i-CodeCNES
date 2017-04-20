@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Cnes Icode Command Line product" uid="icode.product" id="fr.cnes.analysis.tools.analyzer.product" application="fr.cnes.analysis.tools.analyzer.application" version="2.0.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-consoleLog
+      </programArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher name="icode">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+      <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
+   </vm>
+
+   <plugins>
+      <plugin id="fr.cnes.analysis.tools.analyzer"/>
+      <plugin id="fr.cnes.analysis.tools.fortran77.analyzer"/>
+      <plugin id="fr.cnes.analysis.tools.fortran77.metrics"/>
+      <plugin id="fr.cnes.analysis.tools.fortran77.metrics.test" fragment="true"/>
+      <plugin id="fr.cnes.analysis.tools.fortran77.rules"/>
+      <plugin id="fr.cnes.analysis.tools.fortran77.rules.test" fragment="true"/>
+      <plugin id="fr.cnes.analysis.tools.fortran77.ui"/>
+      <plugin id="fr.cnes.analysis.tools.fortran90.analyzer"/>
+      <plugin id="fr.cnes.analysis.tools.fortran90.metrics"/>
+      <plugin id="fr.cnes.analysis.tools.fortran90.metrics.test" fragment="true"/>
+      <plugin id="fr.cnes.analysis.tools.fortran90.rules"/>
+      <plugin id="fr.cnes.analysis.tools.fortran90.rules.test" fragment="true"/>
+      <plugin id="fr.cnes.analysis.tools.fortran90.ui"/>
+      <plugin id="fr.cnes.analysis.tools.shell.analyzer"/>
+      <plugin id="fr.cnes.analysis.tools.shell.metrics"/>
+      <plugin id="fr.cnes.analysis.tools.shell.metrics.test" fragment="true"/>
+      <plugin id="fr.cnes.analysis.tools.shell.rules"/>
+      <plugin id="fr.cnes.analysis.tools.shell.rules.test" fragment="true"/>
+      <plugin id="fr.cnes.analysis.tools.shell.ui"/>
+      <plugin id="fr.cnes.analysis.tools.ui"/>
+      <plugin id="fr.cnes.analysis.tools.ui.test" fragment="true"/>
+   </plugins>
+
+   <features>
+      <feature id="fr.cnes.icode.feature.core" version="2.0.0"/>
+      <feature id="fr.cnes.icode.feature.fortran77" version="2.0.0"/>
+      <feature id="fr.cnes.icode.feature.fortran90" version="2.0.0"/>
+      <feature id="fr.cnes.icode.feature.shell" version="2.0.0"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

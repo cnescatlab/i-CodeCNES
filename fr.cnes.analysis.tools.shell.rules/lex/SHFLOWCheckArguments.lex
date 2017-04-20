@@ -1,0 +1,138 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
+/* http://www.eclipse.org/legal/epl-v10.html                                               */
+/************************************************************************************************/ 
+
+/**********************************************************************************/
+/* This file is used to generate a rule checker for SH.FLOW.CheckArguments rule.  */
+/* For further information on this, we advise you to refer to RNC manuals.	      */
+/* As many comments have been done on the ExampleRule.lex file, this file         */
+/* will restrain its comments on modifications.								      */
+/*																			      */
+/**********************************************************************************/
+
+package fr.cnes.analysis.tools.shell.rules;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.List;
+
+import org.eclipse.core.runtime.IPath;
+
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+
+%%
+
+%class SHFLOWCheckArguments
+%extends AbstractRule
+%public
+%line
+%ignorecase
+
+%function run
+%yylexthrow JFlexException
+%type List<Violation>
+
+
+%state COMMENT, NAMING, CHECKARGUMENTS, COMMENT_FUNCTION
+
+COMMENT_WORD = \#
+FUNCTION     = "function"
+FUNCT		 = {VAR}{SPACE}*\(\)
+SPACE		 = [\ \r\t\f]
+VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
+STRING		 = \'[^\']*\' | \"[^\"]*\"
+
+COMP		 = "-eq"	| "-ne"		| "-gt"		| "-ge"		|
+			   "-lt"	| "-le"		| \<		| \<\=		|
+			   \>		| \>\=
+ARGS		 = "if"{SPACE}+\[{SPACE}+\$\#{SPACE}+{COMP}
+																
+%{
+	String location = "MAIN PROGRAM";
+	int lastFunctionLine = 0;
+
+    public SHFLOWCheckArguments() {
+    	
+    }
+	
+	@Override
+	public void setInputFile(IPath file) throws FileNotFoundException {
+		super.setInputFile(file);
+		this.zzReader = new FileReader(file.toOSString());
+	}
+			
+%}
+
+%eofval{
+	return getViolations();
+%eofval}
+
+
+%%          
+
+
+
+/************************/
+
+
+
+/************************/
+/* COMMENT STATE	    */
+/************************/
+<COMMENT>   	
+		{
+				\n             	{yybegin(YYINITIAL);}  
+			   	.              	{}
+		}
+		
+<COMMENT_FUNCTION>   	
+		{
+				\n             	{yybegin(CHECKARGUMENTS);}  
+			   	.              	{}
+		}
+		
+		
+/************************/
+/* NAMING STATE	    */
+/************************/
+<NAMING>   	
+		{
+				{VAR}			{location = yytext(); yybegin(CHECKARGUMENTS);}
+				\n             	{yybegin(CHECKARGUMENTS);}  
+			   	.              	{}
+		}
+
+/************************/
+/* YYINITIAL STATE	    */
+/************************/
+<YYINITIAL>
+		{
+			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
+			  	{STRING}		{}
+				{FUNCTION}     	{lastFunctionLine=yyline+1; yybegin(NAMING);}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); lastFunctionLine=yyline+1; yybegin(CHECKARGUMENTS);}
+	      		. | \n         	{}
+		}
+		
+		
+/************************/
+/* CHECKARGUMENTS STATE	*/
+/************************/
+<CHECKARGUMENTS>   	
+		{
+				{ARGS}				{yybegin(YYINITIAL);}
+				{STRING}			{}
+				{SPACE} | \{ | \n	{}
+				{COMMENT_WORD} 		{yybegin(COMMENT_FUNCTION);}
+			   	.              		{setError(location,"The number of parameters received has not been checked.", lastFunctionLine); yybegin(YYINITIAL);}
+		}
+
+
+/************************/
+/* ERROR STATE	        */
+/************************/
+				.|\n            {}
