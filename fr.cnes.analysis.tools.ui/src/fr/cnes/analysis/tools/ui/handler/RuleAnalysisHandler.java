@@ -5,21 +5,15 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -46,10 +40,13 @@ public class RuleAnalysisHandler extends AbstractAnalysisHandler {
      */
     private List<String> analyzedFiles = new ArrayList<String>();
 
-    /**
-     * Selected project for the analysis
-     */
-    private IProject selectedProject = getActiveProject();
+	public RuleAnalysisHandler() {
+		this(null);
+	}
+
+	public RuleAnalysisHandler(IPlatformUIProvider p) {
+		super(p);
+	}
 
     /**
      * Run the analysis on the retrieved files.
@@ -131,57 +128,6 @@ public class RuleAnalysisHandler extends AbstractAnalysisHandler {
         }
 
         LOGGER.finest("End updateView method");
-    }
-
-    /**
-     * @return Date of the analysis
-     */
-    public String getDate() {
-        final String format = "YYYY-MM-dd";
-        final SimpleDateFormat formater = new SimpleDateFormat(format);
-        final Date date = new Date();
-        return (formater.format(date));
-    }
-
-    /**
-     * @return IProject Project selected in the active view
-     */
-    public IProject getActiveProject() {
-
-        // Set the project null
-        IProject project = null;
-
-        // Get the selection
-        final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                .getActivePage().getActivePart().getSite().getSelectionProvider().getSelection();
-
-        // Get the project of the element selected
-        if (selection instanceof IStructuredSelection) {
-            final Object element = ((IStructuredSelection) selection).getFirstElement();
-
-            if (element instanceof IResource) {
-                project = ((IResource) element).getProject();
-            }
-        }
-        return project;
-    }
-
-    /**
-     * @return selectedProject class attribute
-     */
-    public IProject getSelectedProject() {
-        return selectedProject;
-    }
-
-    /**
-     * @return The Eclipse user name that ran the analysis
-     */
-    private String getAuthor() {
-        String author = System.getProperty("user.name");
-        if (author.isEmpty()) {
-            author = "Unknown";
-        }
-        return author;
     }
 
 }

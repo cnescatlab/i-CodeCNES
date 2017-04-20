@@ -5,31 +5,18 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartSite;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 import fr.cnes.analysis.tools.analyzer.MetricAnalysisJob;
 import fr.cnes.analysis.tools.analyzer.datas.FileValue;
@@ -49,20 +36,13 @@ public class MetricAnalysisHandler extends AbstractAnalysisHandler {
 	 */
 	private final List<String> analyzedFiles = new ArrayList<String>();
 
-	/**
-	 * Package/Explorer chosen for the analysis
-	 */
-	private IProject selectedProject;
-
 	public MetricAnalysisHandler() {
-		selectedProject = getActiveProject();
+		this(null);
 	}
 
-	/**
-	 * @return selectedProject class attribute
-	 */
-	public IProject getSelectedProject() {
-		return selectedProject;
+	
+	public MetricAnalysisHandler(IPlatformUIProvider p) {
+		super(p);
 	}
 
 	/*
@@ -148,75 +128,7 @@ public class MetricAnalysisHandler extends AbstractAnalysisHandler {
 		LOGGER.finest("End updateView method");
 	}
 
-	/**
-	 * @return The Eclipse user name that ran the analysis
-	 */
-	private String getAuthor() {
-		String author = System.getProperty("user.name");
-		if (author.isEmpty()) {
-			author = "Unknown";
-		}
-		return author;
-	}
 
-	/**
-	 * @return Date of the analysis
-	 */
-	public String getDate() {
-		final String format = "YYYY-MM-dd";
-		final SimpleDateFormat formater = new SimpleDateFormat(format, Locale.FRANCE);
-		final Date date = new Date();
-		return formater.format(date);
-	}
 
-	/**
-	 * @return IProject Project selected in the active view
-	 */
-	public IProject getActiveProject() {
-
-		// Set the project null
-		IProject project = null;
-
-		// Get the selection
-		final ISelection selection = getPlatformUIProvider().getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.getActivePart().getSite().getSelectionProvider().getSelection();
-
-		// Get the project of the element selected
-		if (selection instanceof IStructuredSelection) {
-			final Object element = ((IStructuredSelection) selection).getFirstElement();
-
-			if (element instanceof IResource) {
-				project = ((IResource) element).getProject();
-			}
-		}
-		return project;
-	}
-
-	// --------------------------------------------------------------------------------------------
-	/**
-	 * Some interface and methods to make this class independant of Platform UI
-	 * and simplify tests management ! With Eclipse 4 and injection this would
-	 * be totally useless !
-	 */
-	// --------------------------------------------------------------------------------------------
-	public interface IPlatformUIProvider {
-		public IWorkbench getWorkbench();
-	}
-
-	private IPlatformUIProvider platformUIProvider;
-
-	public MetricAnalysisHandler(IPlatformUIProvider p) {
-		platformUIProvider = p;
-	}
-
-	public IPlatformUIProvider getPlatformUIProvider() {
-		if (platformUIProvider == null)
-			platformUIProvider = new IPlatformUIProvider() {
-				public IWorkbench getWorkbench() {
-					return PlatformUI.getWorkbench();
-				}
-			};
-		return platformUIProvider;
-	}
 
 }
