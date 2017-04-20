@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
 import fr.cnes.analysis.tools.ui.exception.InvalidResourceTypeException;
 import fr.cnes.analysis.tools.ui.exception.NonAccessibleResourceException;
 import fr.cnes.analysis.tools.ui.exception.UnknownResourceTypeException;
-import fr.cnes.analysis.tools.ui.handler.MetricAnalysisHandler.IPlatformUIProvider;
+import fr.cnes.analysis.tools.ui.handler.AbstractAnalysisHandler.IPlatformUIProvider;
 import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
 
 /**
