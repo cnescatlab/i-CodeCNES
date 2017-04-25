@@ -1,9 +1,13 @@
 <project name="Metrics" default="generate-all" basedir=".">
 
-	<property name="jflex-jar" value="lib/jflex-1.4.3/lib/JFlex.jar">
+	<property name="jflex-jar" value="../fr.cnes.analysis.tools.shell.jflex/lib/jflex-1.4.3/lib/JFlex.jar">
 	</property>
-	<property name="dest" value="src/fr/cnes/analysis/tools/shell/metrics">
+	<property name="dest" value="src-gen/fr/cnes/analysis/tools/shell/metrics">
 	</property>
+
+	<target name="clean">
+		<delete dir="src-gen/fr"/>
+	</target>
 
 	<target name="generate-all">
 		<antcall target="generate-MET-ComplexitySimplified"></antcall>
