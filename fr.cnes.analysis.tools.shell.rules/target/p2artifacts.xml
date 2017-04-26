@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='fr.cnes.analysis.tools.shell.rules' version='2.0.0'>
+    <properties size='5'>
+      <property name='artifact.size' value='341820'/>
+      <property name='download.size' value='341820'/>
+      <property name='maven-groupId' value='fr.cnes.icode'/>
+      <property name='maven-artifactId' value='fr.cnes.analysis.tools.shell.rules'/>
+      <property name='maven-version' value='2.0.0'/>
+    </properties>
+  </artifact>
+</artifacts>

@@ -1,0 +1,5 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran77.metrics.LineOfCode.TestF77METLineOfCode
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.115 sec - in fr.cnes.analysis.tools.fortran77.metrics.LineOfCode.TestF77METLineOfCode
+testRunWithError(fr.cnes.analysis.tools.fortran77.metrics.LineOfCode.TestF77METLineOfCode)  Time elapsed: 0.104 sec

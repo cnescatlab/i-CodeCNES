@@ -1,0 +1,5 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran90.metrics.Nesting.TestF90METNesting
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec - in fr.cnes.analysis.tools.fortran90.metrics.Nesting.TestF90METNesting
+testRunWithError(fr.cnes.analysis.tools.fortran90.metrics.Nesting.TestF90METNesting)  Time elapsed: 0.024 sec

@@ -1,0 +1,5 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.shell.metrics.MET.RatioComment.TestSHMETRatioComment
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 sec - in fr.cnes.analysis.tools.shell.metrics.MET.RatioComment.TestSHMETRatioComment
+testRunWithError(fr.cnes.analysis.tools.shell.metrics.MET.RatioComment.TestSHMETRatioComment)  Time elapsed: 0.013 sec

@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran90.rules.F90.TYPE.Integer.TestF90TYPEInteger
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec - in fr.cnes.analysis.tools.fortran90.rules.F90.TYPE.Integer.TestF90TYPEInteger
+testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.F90.TYPE.Integer.TestF90TYPEInteger)  Time elapsed: 0.008 sec
+testRunWithError(fr.cnes.analysis.tools.fortran90.rules.F90.TYPE.Integer.TestF90TYPEInteger)  Time elapsed: 0.004 sec

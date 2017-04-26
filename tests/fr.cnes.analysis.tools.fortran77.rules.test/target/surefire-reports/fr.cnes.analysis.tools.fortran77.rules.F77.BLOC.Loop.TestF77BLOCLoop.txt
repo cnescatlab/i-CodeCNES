@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran77.rules.F77.BLOC.Loop.TestF77BLOCLoop
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 sec - in fr.cnes.analysis.tools.fortran77.rules.F77.BLOC.Loop.TestF77BLOCLoop
+testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.F77.BLOC.Loop.TestF77BLOCLoop)  Time elapsed: 0.013 sec
+testRunWithError(fr.cnes.analysis.tools.fortran77.rules.F77.BLOC.Loop.TestF77BLOCLoop)  Time elapsed: 0.005 sec
