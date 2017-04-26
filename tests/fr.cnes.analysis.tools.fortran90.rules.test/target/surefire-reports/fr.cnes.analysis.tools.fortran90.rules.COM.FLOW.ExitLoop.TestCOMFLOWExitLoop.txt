@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.ExitLoop.TestCOMFLOWExitLoop
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 sec - in fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.ExitLoop.TestCOMFLOWExitLoop
+testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.ExitLoop.TestCOMFLOWExitLoop)  Time elapsed: 0.025 sec
+testRunWithError(fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.ExitLoop.TestCOMFLOWExitLoop)  Time elapsed: 0.006 sec

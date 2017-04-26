@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran77.rules.F77.INST.Dimension.TestF77INSTDimension
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec - in fr.cnes.analysis.tools.fortran77.rules.F77.INST.Dimension.TestF77INSTDimension
+testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.F77.INST.Dimension.TestF77INSTDimension)  Time elapsed: 0.006 sec
+testRunWithError(fr.cnes.analysis.tools.fortran77.rules.F77.INST.Dimension.TestF77INSTDimension)  Time elapsed: 0.005 sec

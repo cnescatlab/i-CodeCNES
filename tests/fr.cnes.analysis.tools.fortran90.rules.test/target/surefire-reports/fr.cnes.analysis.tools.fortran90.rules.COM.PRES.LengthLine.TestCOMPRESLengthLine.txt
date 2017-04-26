@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran90.rules.COM.PRES.LengthLine.TestCOMPRESLengthLine
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec - in fr.cnes.analysis.tools.fortran90.rules.COM.PRES.LengthLine.TestCOMPRESLengthLine
+testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.COM.PRES.LengthLine.TestCOMPRESLengthLine)  Time elapsed: 0.009 sec
+testRunWithError(fr.cnes.analysis.tools.fortran90.rules.COM.PRES.LengthLine.TestCOMPRESLengthLine)  Time elapsed: 0.006 sec

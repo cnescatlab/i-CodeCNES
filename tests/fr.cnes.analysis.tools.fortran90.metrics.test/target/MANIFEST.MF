@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: fr.cnes.analysis.tools.fortran90.metrics.test
+Export-Package: fr.cnes.analysis.tools.fortran90.metrics
+Bundle-Name: Tests for i-Code CNES F90 Metrics
+Bundle-Version: 2.0.0
+Require-Bundle: org.mockito;bundle-version="1.8.4",org.hamcrest;bundle
+ -version="1.1.0"
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: CNES
+Fragment-Host: fr.cnes.analysis.tools.fortran90.metrics;bundle-version
+ ="2.0.0"
+

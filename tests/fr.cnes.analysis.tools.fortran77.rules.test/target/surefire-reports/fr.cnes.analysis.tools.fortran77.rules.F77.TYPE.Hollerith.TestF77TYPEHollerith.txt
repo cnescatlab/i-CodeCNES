@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran77.rules.F77.TYPE.Hollerith.TestF77TYPEHollerith
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 sec - in fr.cnes.analysis.tools.fortran77.rules.F77.TYPE.Hollerith.TestF77TYPEHollerith
+testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.F77.TYPE.Hollerith.TestF77TYPEHollerith)  Time elapsed: 0.004 sec
+testRunWithError(fr.cnes.analysis.tools.fortran77.rules.F77.TYPE.Hollerith.TestF77TYPEHollerith)  Time elapsed: 0.005 sec
