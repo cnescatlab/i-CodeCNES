@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+Test set: fr.cnes.analysis.tools.fortran90.rules.COM.DATA.Initialisation.TestCOMDATAInitialisation
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 sec - in fr.cnes.analysis.tools.fortran90.rules.COM.DATA.Initialisation.TestCOMDATAInitialisation
+testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.COM.DATA.Initialisation.TestCOMDATAInitialisation)  Time elapsed: 0.012 sec
+testRunWithError(fr.cnes.analysis.tools.fortran90.rules.COM.DATA.Initialisation.TestCOMDATAInitialisation)  Time elapsed: 0.045 sec

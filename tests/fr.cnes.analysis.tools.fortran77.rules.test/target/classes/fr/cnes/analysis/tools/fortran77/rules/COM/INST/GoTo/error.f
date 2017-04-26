@@ -1,0 +1,8 @@
+ PROGRAM ESSAI
+
+      INTEGER i
+		
+	  GOTO 999
+	  
+	   
+  END PROGRAM

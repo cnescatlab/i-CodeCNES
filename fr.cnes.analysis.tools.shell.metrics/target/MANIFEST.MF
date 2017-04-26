@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: fr.cnes.analysis.tools.shell.metrics;singleton:=t
+ rue
+Bundle-Name: i-Code CNES SH Metrics
+Bundle-Version: 2.0.0
+Require-Bundle: org.eclipse.core.runtime,fr.cnes.analysis.tools.analyz
+ er;bundle-version="2.0.0",fr.cnes.analysis.tools.shell.analyzer;bundl
+ e-version="2.0.0"
+Bundle-ManifestVersion: 2
+Bundle-Activator: fr.cnes.analysis.tools.shell.metrics.Activator
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: CNES
+Import-Package: org.junit,org.junit.runner,org.junit.runners
+
