@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran77.rules.F77.REF.Parameter.TestF77REFParameter
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 sec - in fr.cnes.analysis.tools.fortran77.rules.F77.REF.Parameter.TestF77REFParameter
-testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.F77.REF.Parameter.TestF77REFParameter)  Time elapsed: 0.005 sec
-testRunWithError(fr.cnes.analysis.tools.fortran77.rules.F77.REF.Parameter.TestF77REFParameter)  Time elapsed: 0.007 sec

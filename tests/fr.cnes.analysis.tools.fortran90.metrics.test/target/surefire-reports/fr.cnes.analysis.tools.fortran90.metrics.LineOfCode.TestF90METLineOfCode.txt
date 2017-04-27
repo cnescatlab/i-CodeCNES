@@ -1,5 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.metrics.LineOfCode.TestF90METLineOfCode
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 sec - in fr.cnes.analysis.tools.fortran90.metrics.LineOfCode.TestF90METLineOfCode
-testRunWithError(fr.cnes.analysis.tools.fortran90.metrics.LineOfCode.TestF90METLineOfCode)  Time elapsed: 0.021 sec

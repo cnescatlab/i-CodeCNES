@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran77.rules.F77.REF.IO.TestF77REFIO
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 sec - in fr.cnes.analysis.tools.fortran77.rules.F77.REF.IO.TestF77REFIO
-testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.F77.REF.IO.TestF77REFIO)  Time elapsed: 0.004 sec
-testRunWithError(fr.cnes.analysis.tools.fortran77.rules.F77.REF.IO.TestF77REFIO)  Time elapsed: 0.003 sec

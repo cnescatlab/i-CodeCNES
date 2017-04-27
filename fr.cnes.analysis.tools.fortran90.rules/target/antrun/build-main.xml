@@ -2,7 +2,7 @@
 <project name="maven-antrun-" default="main"  >
 <target name="main">
   <ant antfile="build.xml">
-    <target name="generate-all"/>
+    <target name="clean"/>
   </ant>
 </target>
 </project>

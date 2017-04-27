@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.F90.BLOC.File.TestF90BLOCFile
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 sec - in fr.cnes.analysis.tools.fortran90.rules.F90.BLOC.File.TestF90BLOCFile
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.F90.BLOC.File.TestF90BLOCFile)  Time elapsed: 0.009 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.F90.BLOC.File.TestF90BLOCFile)  Time elapsed: 0.005 sec
