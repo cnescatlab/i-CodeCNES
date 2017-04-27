@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.F90.DATA.ConstantFloat.TestF90DATAConstantFloat
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 sec - in fr.cnes.analysis.tools.fortran90.rules.F90.DATA.ConstantFloat.TestF90DATAConstantFloat
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.F90.DATA.ConstantFloat.TestF90DATAConstantFloat)  Time elapsed: 0.006 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.F90.DATA.ConstantFloat.TestF90DATAConstantFloat)  Time elapsed: 0.005 sec

@@ -1,7 +1,0 @@
-INTEGER A
-
-! EQUIVALENCE in a comment
-       WRITE(1,*) "EQUIVALENCE"
-	   WRITE(2,*) 'EQUIVALENCE'
-
-A = 2

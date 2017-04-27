@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.Abort.TestCOMFLOWAbort
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.04 sec - in fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.Abort.TestCOMFLOWAbort
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.Abort.TestCOMFLOWAbort)  Time elapsed: 0.011 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.Abort.TestCOMFLOWAbort)  Time elapsed: 0.018 sec
