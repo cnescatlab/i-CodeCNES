@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.F90.REF.Label.TestF90REFLabel
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 sec - in fr.cnes.analysis.tools.fortran90.rules.F90.REF.Label.TestF90REFLabel
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.F90.REF.Label.TestF90REFLabel)  Time elapsed: 0.007 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.F90.REF.Label.TestF90REFLabel)  Time elapsed: 0.006 sec

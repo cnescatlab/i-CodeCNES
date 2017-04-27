@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.F90.INST.Entry.TestF90INSTEntry
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 sec - in fr.cnes.analysis.tools.fortran90.rules.F90.INST.Entry.TestF90INSTEntry
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.F90.INST.Entry.TestF90INSTEntry)  Time elapsed: 0.005 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.F90.INST.Entry.TestF90INSTEntry)  Time elapsed: 0.004 sec

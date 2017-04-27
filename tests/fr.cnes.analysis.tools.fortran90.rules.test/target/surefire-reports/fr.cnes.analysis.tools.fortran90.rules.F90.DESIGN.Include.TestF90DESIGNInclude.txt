@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.F90.DESIGN.Include.TestF90DESIGNInclude
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.02 sec - in fr.cnes.analysis.tools.fortran90.rules.F90.DESIGN.Include.TestF90DESIGNInclude
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.F90.DESIGN.Include.TestF90DESIGNInclude)  Time elapsed: 0.005 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.F90.DESIGN.Include.TestF90DESIGNInclude)  Time elapsed: 0.007 sec

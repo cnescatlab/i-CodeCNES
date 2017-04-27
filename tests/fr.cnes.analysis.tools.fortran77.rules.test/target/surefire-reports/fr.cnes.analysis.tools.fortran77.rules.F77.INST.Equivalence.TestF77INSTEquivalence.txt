@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran77.rules.F77.INST.Equivalence.TestF77INSTEquivalence
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 sec - in fr.cnes.analysis.tools.fortran77.rules.F77.INST.Equivalence.TestF77INSTEquivalence
-testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.F77.INST.Equivalence.TestF77INSTEquivalence)  Time elapsed: 0.003 sec
-testRunWithError(fr.cnes.analysis.tools.fortran77.rules.F77.INST.Equivalence.TestF77INSTEquivalence)  Time elapsed: 0.003 sec

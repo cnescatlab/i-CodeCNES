@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran77.rules.COM.FLOW.BooleanExpression.TestCOMFLOWBooleanExpression
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 sec - in fr.cnes.analysis.tools.fortran77.rules.COM.FLOW.BooleanExpression.TestCOMFLOWBooleanExpression
-testRunWithoutError(fr.cnes.analysis.tools.fortran77.rules.COM.FLOW.BooleanExpression.TestCOMFLOWBooleanExpression)  Time elapsed: 0.009 sec
-testRunWithError(fr.cnes.analysis.tools.fortran77.rules.COM.FLOW.BooleanExpression.TestCOMFLOWBooleanExpression)  Time elapsed: 0.006 sec

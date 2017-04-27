@@ -1,6 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.CaseSwitch.TestCOMFLOWCaseSwitch
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec - in fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.CaseSwitch.TestCOMFLOWCaseSwitch
-testRunWithoutError(fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.CaseSwitch.TestCOMFLOWCaseSwitch)  Time elapsed: 0.008 sec
-testRunWithError(fr.cnes.analysis.tools.fortran90.rules.COM.FLOW.CaseSwitch.TestCOMFLOWCaseSwitch)  Time elapsed: 0.006 sec

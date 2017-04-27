@@ -1,5 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fr.cnes.analysis.tools.fortran90.rules.TestGlobal_1
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.251 sec - in fr.cnes.analysis.tools.fortran90.rules.TestGlobal_1
-runGlobalTest(fr.cnes.analysis.tools.fortran90.rules.TestGlobal_1)  Time elapsed: 0.25 sec
