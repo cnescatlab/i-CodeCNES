@@ -2,7 +2,7 @@
 <feature
       id="fr.cnes.icode.feature.shell"
       label="iCode CNES Shell"
-      version="2.0.0"
+      version="2.0.0.qualifier"
       provider-name="CNES">
 
    <description url="http://www.example.com/description">
