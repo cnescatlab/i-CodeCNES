@@ -2,7 +2,7 @@
 <feature
       id="fr.cnes.icode.feature.core"
       label="iCode CNES Core"
-      version="2.0.0"
+      version="2.0.0.qualifier"
       provider-name="CNES">
 
    <copyright url="http://www.example.com/copyright">
