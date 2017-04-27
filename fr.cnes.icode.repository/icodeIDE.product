@@ -3,7 +3,6 @@
 
 <product name="Cnes Icode IDE" uid="icodeIDE.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="2.0.0" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -21,7 +20,6 @@
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
       <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
@@ -52,10 +50,10 @@
    </plugins>
 
    <features>
-      <feature id="fr.cnes.icode.feature.core" version="2.0.0"/>
-      <feature id="fr.cnes.icode.feature.fortran77" version="2.0.0"/>
-      <feature id="fr.cnes.icode.feature.fortran90" version="2.0.0"/>
-      <feature id="fr.cnes.icode.feature.shell" version="2.0.0"/>
+      <feature id="fr.cnes.icode.feature.core" version="2.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.fortran77" version="2.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.fortran90" version="2.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.shell" version="2.0.0.qualifier"/>
       <feature id="org.eclipse.photran" version="9.1.2.201702230108"/>
       <feature id="org.eclipse.platform" version="4.6.3.v20170301-0400"/>
       <feature id="org.eclipse.cdt"/>
