@@ -10,6 +10,9 @@
 
 	<properties>
 		<tycho-version>1.0.0</tycho-version>
+		<project.java.version>1.8</project.java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 
@@ -78,7 +81,16 @@
 							<ws>win32</ws>
 							<arch>x86</arch>
 						</environment>
-
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
 					</environments>
 				</configuration>
 			</plugin>
