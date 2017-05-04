@@ -133,7 +133,7 @@ HELP	 	 = "help"
 			    {GETOPTS}		{getopts=true; inGetopts = true;}
 			    {CASE}			{if(inGetopts) {inGetopts = false; lineError=yyline+1; yybegin(CASE);} }
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]        	{}
 		}
 
 
@@ -147,10 +147,10 @@ HELP	 	 = "help"
 				{STRING}			{ }
 				{ESAC}         	 {yybegin(YYINITIAL);}
 				{VAR}			 {}  
-			   	\n | .         	 {}
+			   	[^]         	 {}
 		}
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

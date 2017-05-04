@@ -175,7 +175,7 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 				                                "The keywords " + keyword + " cannot be used as a variable.",
 				                                yyline + 1);
 			    				}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 /************************/
 /* STRING STATE	  	    */
@@ -227,7 +227,7 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 											yybegin(COMMAND);
 										}
 										
-				. | \n					{	escapeNext=false;}
+				[^]					{	escapeNext=false;}
 				
 		}
 
@@ -269,9 +269,9 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 									}
 								}
 
-				. | \n			{}
+				[^]			{}
 		}
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+			[^]            {}

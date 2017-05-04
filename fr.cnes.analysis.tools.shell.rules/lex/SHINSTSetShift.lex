@@ -111,11 +111,11 @@ AVOID		 = "set"{SPACE}+\-"o"{SPACE}+"pipefail"
 			    {SET}			{setError(location,"The keyword SET is not allowed.", yyline+1);}
 			    {SHIFT}			{setError(location,"The keyword SHIFT is not allowed.", yyline+1);}
 			    {AVOID} | {VAR}	{}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

@@ -114,7 +114,7 @@ OR			 = \|\|
 /************************/
 <AVOID>   	
 		{
-			   	\n | .         	{}
+			   	[^]         	{}
 		}
 		
 		
@@ -145,7 +145,7 @@ OR			 = \|\|
 				{OR}			{}
 				{PRINTFSTRING} | {SEDSTRING}	{}
 			    {PIPELINE}		{setError(location,"When the pipe is used in the script the option set -o pipefail is mandatory. ", yyline+1);}
-	      		. | \n         	{}
+	      		[^]         	{}
 	      		{CASE}			{
 	      							inCase=true;
 	      							yybegin(CASE);}
@@ -163,7 +163,7 @@ OR			 = \|\|
 				{OR}			{}
 				{PRINTFSTRING} | {SEDSTRING}	{}
 			    {PIPELINE}		{setError(location,"When the pipe is used in the script the option set -o pipefail is mandatory. ", yyline+1);}
-	      		. | \n         	{}
+	      		[^]	        	{}
 	      		{ESAC}			{
 	      							inCase=false;
 	      							yybegin(YYINITIAL);}
@@ -172,4 +172,4 @@ OR			 = \|\|
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

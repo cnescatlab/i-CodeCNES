@@ -147,11 +147,11 @@ DIRECT_CHECK = {DIRECT_USER} {SPACE}+ {OP} {SPACE}+ {ROOT_VALUE}
 				{DIRECT_CHECK}	{errorLine = 0; checkUser="novar"; yybegin(AVOID);} /* the root user has been checked: go to the end */
 			    {USER}			{errorLine = yyline+1; errorLocation = location; checkUser = yytext().split("=")[0];}
 			    {ROOT}			{checkRootUser(yytext());}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}
