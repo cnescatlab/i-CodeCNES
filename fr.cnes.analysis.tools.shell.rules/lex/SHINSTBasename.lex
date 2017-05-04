@@ -110,11 +110,11 @@ DIRNAME		 = "dirname"{SPACE}+\$"0" | "dirname"{SPACE}+\"\$"0"\"
 			    {BASENAME}		{}
 				{DIRNAME}		{}
 			    {BASENAMEERR}	{setError(location,"The use of the keyword basename before $0 is mandatory.", yyline+1);}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

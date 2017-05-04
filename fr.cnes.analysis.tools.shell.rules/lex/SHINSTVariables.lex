@@ -148,7 +148,7 @@ VAR_ERROR	 = ([\$]({NAME}|{SHELL_VAR}))
 										goodPractice=false;
 										escapeNext=false;
 									}
-				. | \n				{
+				[^]				{
 										escapeNext=false;
 										goodPractice = false;
 									}
@@ -199,12 +199,11 @@ VAR_ERROR	 = ([\$]({NAME}|{SHELL_VAR}))
 										escapeNext=false;
 									}
 			    
-			    
-			    . | \n       	  	{}
+			    [^]		      	  	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

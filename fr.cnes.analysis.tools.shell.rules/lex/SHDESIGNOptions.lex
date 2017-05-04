@@ -134,7 +134,7 @@ ESAC		 = "esac"
 			    {CASE}			{if(inGetopts) {inGetopts = false; lineError=yyline+1; yybegin(CASE);} 
 								 else if (getoptExtern) yybegin(CASELONG);}
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]	        	{}
 		}
 		
 /************************/
@@ -148,8 +148,7 @@ ESAC		 = "esac"
 				v{SPACE}*\)			{version=true;}
 				{ESAC}         	 	{yybegin(YYINITIAL);}
 				{VAR}			 	{}  
-
-			   	\n | .         	 {}
+			   	[^]         		{}
 		}
 
 /************************/
@@ -163,12 +162,11 @@ ESAC		 = "esac"
 				"version"{SPACE}*\)	{versionLong=true;}
 				{ESAC}         	 	{yybegin(YYINITIAL);}
 				{VAR}			 	{}  
-
-			   	\n | .         	 {}
+				[^]         	 	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

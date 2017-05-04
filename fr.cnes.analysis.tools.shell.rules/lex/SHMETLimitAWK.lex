@@ -108,7 +108,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 			    {STRING}		{}
 			    "awk"			{lineError=yyline+1; actions=0; sym=0; yybegin(AWK);}
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 		
 /************************/
@@ -120,11 +120,11 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				\'				{sym++; if(sym==2) {
 									if(actions>5) setError(location,"The AWK expression has more than 5 actions", lineError);
 								}}
-				\n | .         	{}  
+				[^]         	{}  
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+			[^]            {}
