@@ -1,6 +1,6 @@
 <project name="Rules" default="generate-all" basedir=".">
 
-	<property name="jflex-jar" value="../fr.cnes.analysis.tools.shell.jflex/lib/jflex-1.4.3/lib/JFlex.jar">
+	<property name="jflex-jar" value="../fr.cnes.analysis.tools.jflex/lib/jflex-1.6.1/lib/jflex-1.6.1.jar">
 	</property>
 	<property name="dest" value="src-gen/fr/cnes/analysis/tools/shell/rules">
 	</property>

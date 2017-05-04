@@ -152,4 +152,4 @@ REDIRECT 		= {REDIRECT_RIGHT}|{REDIRECT_LEFT}|{REDIRECT_RL}
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

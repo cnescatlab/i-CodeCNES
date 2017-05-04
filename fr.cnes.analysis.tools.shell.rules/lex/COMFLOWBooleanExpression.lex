@@ -123,7 +123,7 @@ BOOL		 = \|\|		| \&\&	| \-"o"	| \-"a"
 								 if (booleanExpressions==5) setError(location,"It is not allowed use five or more conditional expressions in the same instruction.", yyline+1);}
 				\; | {THEN}		{booleanExpressions=0; yybegin(YYINITIAL);}
 				{VAR}			{}
-				\n | .         	{}  
+				[^]         	{}  
 		}
 		
 /************************/
@@ -135,11 +135,11 @@ BOOL		 = \|\|		| \&\&	| \-"o"	| \-"a"
 								 if (booleanExpressions==5) setError(location,"It is not allowed use five or more conditional expressions in the same instruction.", yyline+1);}
 				\; | {DO}		{booleanExpressions=0; yybegin(YYINITIAL);}
 				{VAR}			{}
-				\n | .         	{}  
+				[^]         	{}  
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

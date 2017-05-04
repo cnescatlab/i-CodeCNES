@@ -108,11 +108,11 @@ EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{VAR}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); }
 			    {STRING}		{}
 			    {EXPORT}		{setError(location,"It is forbidden to export functions.", yyline+1);}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

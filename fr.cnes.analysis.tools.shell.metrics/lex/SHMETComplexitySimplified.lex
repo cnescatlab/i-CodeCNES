@@ -141,7 +141,7 @@ CYCLO		 = "while"		| "for"		| "until"	|
 			    				 	 	numMaxCyclo=0;
 			    				 	 	numCyclo=0;
 			    				 	}}
-	      		. | \n         		{}
+	      		[^]          		{}
 		}
 		
 
@@ -150,5 +150,5 @@ CYCLO		 = "while"		| "for"		| "until"	|
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}
 				

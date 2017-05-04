@@ -172,4 +172,4 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+			[^]            {}
