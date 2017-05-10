@@ -17,11 +17,11 @@ package fr.cnes.analysis.tools.fortran77.rules;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
@@ -86,10 +86,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
     }
 	
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		project = getProjectPath(file.toOSString());
-		this.zzReader = new FileReader(file.toOSString());
+		project = getProjectPath(new Path(file.getAbsolutePath()).toOSString());
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	private void analyseFile(String fileN) throws JFlexException {
@@ -104,8 +104,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 			File[] currDir = new File(project).listFiles();
 			getFileFromPath(currDir);
 			if (includeFile != null) {
-				final IPath filePath = new Path(includeFile.getPath());
-				rule.setInputFile(filePath);
+				rule.setInputFile(includeFile);
 	
 				// We verify that there is an error.
 				List<Violation> l = rule.run();

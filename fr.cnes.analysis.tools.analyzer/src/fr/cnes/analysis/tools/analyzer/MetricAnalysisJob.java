@@ -6,6 +6,7 @@
  */ 
 package fr.cnes.analysis.tools.analyzer;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,7 +37,7 @@ public class MetricAnalysisJob extends AbstractAnalysisJob {
      *            list of path for files to analyze
      */
     public MetricAnalysisJob(final String pExtensionId,
-            final List<IPath> pFiles) {
+            final List<File> pFiles) {
         super(pExtensionId, pFiles);
         this.values = new LinkedList<FileValue>();
     }

@@ -17,11 +17,13 @@ package fr.cnes.analysis.tools.fortran77.metrics;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.List;
 
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
@@ -77,11 +79,11 @@ SPACE		 = [\ \r\f\t]
 	}
 	
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(File file) throws FileNotFoundException {
         LOGGER.finest("begin method setInputFile");
-		fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(file.toOSString());
         LOGGER.finest("end method setInputFile");       
 	}
 	

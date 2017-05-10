@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
@@ -28,7 +30,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.Viola
  * The job consist in verifying different attributes of the {@link Violation}
  * and the {@link #container}, creating a new : </br>
  * <ul>
- * <li>{@link FileRuleDescriptor} for {@link Violation#getFilePath()} not in the
+ * <li>{@link FileRuleDescriptor} for {@link Violation#getFile()} not in the
  * container.</li>
  * <li>{@link FunctionDescriptor} for {@link Violation#getLocation()} not in the
  * container, and associating it into it's related descriptors.</li>
@@ -148,22 +150,22 @@ public class ViolationToFileTreeViewerConverter extends Job {
              * to create required new descriptors.
              */
             for (final Violation value : this.inputs) {
-                file = new FileRuleDescriptor(value.getFilePath());
+                file = new FileRuleDescriptor( new Path(value.getFile().getAbsolutePath()));
 
                 if (descriptors.contains(file)) {
                     file = descriptors.get((descriptors.indexOf(file)));
-                    function = new FunctionDescriptor(value.getLocation(), -1, value.getFilePath());
+                    function = new FunctionDescriptor(value.getLocation(), -1,  new Path(value.getFile().getAbsolutePath()));
                     if (file.getDescriptors().contains(function)) {
                         function = file.getDescriptors()
                                 .get(file.getDescriptors().indexOf(function));
                         rule = new RuleDescriptor(value.getRuleId(), value.getRuleName(),
-                                value.getLocation(), -1, value.getFilePath());
+                                value.getLocation(), -1,  new Path(value.getFile().getAbsolutePath()));
                         if (function.getDescriptors().contains(rule)) {
                             rule = function.getDescriptors()
                                     .get(function.getDescriptors().indexOf(rule));
                             viold = new ViolationDescriptor(value.getRuleName(),
                                     value.getLocation(), value.getMessage(), value.getLine(),
-                                    value.getFilePath());
+                                     new Path(value.getFile().getAbsolutePath()));
                             if (rule.getDescriptors().contains(viold)) {
                                 /*
                                  * This shouldn't happen, this mean the
@@ -175,25 +177,25 @@ public class ViolationToFileTreeViewerConverter extends Job {
                         } else {
                             viold = new ViolationDescriptor(value.getRuleName(),
                                     value.getLocation(), value.getMessage(), value.getLine(),
-                                    value.getFilePath());
+                                     new Path(value.getFile().getAbsolutePath()));
                             rule.getDescriptors().add(viold.clone());
                             function.getDescriptors().add(rule.clone());
                         }
                     } else {
                         rule = new RuleDescriptor(value.getRuleId(), value.getRuleName(),
-                                value.getLocation(), -1, value.getFilePath());
+                                value.getLocation(), -1,  new Path(value.getFile().getAbsolutePath()));
                         viold = new ViolationDescriptor(value.getRuleName(), value.getLocation(),
-                                value.getMessage(), value.getLine(), value.getFilePath());
+                                value.getMessage(), value.getLine(),  new Path(value.getFile().getAbsolutePath()));
                         rule.getDescriptors().add(viold.clone());
                         function.getDescriptors().add(rule.clone());
                         file.getDescriptors().add(function.clone());
                     }
                 } else {
                     rule = new RuleDescriptor(value.getRuleId(), value.getRuleName(),
-                            value.getLocation(), -1, value.getFilePath());
+                            value.getLocation(), -1,  new Path(value.getFile().getAbsolutePath()));
                     viold = new ViolationDescriptor(value.getRuleName(), value.getLocation(),
-                            value.getMessage(), value.getLine(), value.getFilePath());
-                    function = new FunctionDescriptor(value.getLocation(), -1, value.getFilePath());
+                            value.getMessage(), value.getLine(),  new Path(value.getFile().getAbsolutePath()));
+                    function = new FunctionDescriptor(value.getLocation(), -1, new Path(value.getFile().getAbsolutePath()));
                     rule.getDescriptors().add(viold.clone());
                     function.getDescriptors().add(rule.clone());
                     file.getDescriptors().add(function.clone());
