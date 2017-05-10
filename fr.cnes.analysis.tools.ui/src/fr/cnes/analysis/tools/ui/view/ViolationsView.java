@@ -495,31 +495,33 @@ public class ViolationsView extends ViewPart implements IExportableView {
                                     true, 1);
                         }
                         // Then we add the new markers
-                        if ("Error".equals(criticity)) {
-
-                            // If the criticity is at level "Error" then we pop
-                            // a
-                            // new ViolationErrorMarker.
-                            ViolationErrorMarker.createMarker(file, line, ruleName,
-                                    ruleName + " | " + message);
-
-                        } else if ("Warning".equals(criticity)) {
-                            // else if the criticity is set on Warning then we
-                            // pop a ViolationWarningMarker
-                            // new ViolationErrorDecorator();
-                            ViolationWarningMarker.createMarker(file, line, ruleName,
-                                    ruleName + " | " + message);
-
-                        } else {
-                            // Last case shouldn't happen if the criticity is
-                            // properly set however we had a
-                            // PROBLEM marker on the line where a rule spotted a
-                            // problem.
-                            IMarker markerProblem;
-                            markerProblem = file.createMarker(IMarker.PROBLEM);
-                            markerProblem.setAttribute(IMarker.LINE_NUMBER, line);
-                            markerProblem.setAttribute(IMarker.MESSAGE, ruleName + " | " + message);
-                            markerProblem.setAttribute("Description", ruleName);
+                        if(file!=null && file.exists()){
+	                        if ("Error".equals(criticity)) {
+	
+	                            // If the criticity is at level "Error" then we pop
+	                            // a
+	                            // new ViolationErrorMarker.
+	                            ViolationErrorMarker.createMarker(file, line, ruleName,
+	                                    ruleName + " | " + message);
+	
+	                        } else if ("Warning".equals(criticity)) {
+	                            // else if the criticity is set on Warning then we
+	                            // pop a ViolationWarningMarker
+	                            // new ViolationErrorDecorator();
+	                            ViolationWarningMarker.createMarker(file, line, ruleName,
+	                                    ruleName + " | " + message);
+	
+	                        } else {
+	                            // Last case shouldn't happen if the criticity is
+	                            // properly set however we had a
+	                            // PROBLEM marker on the line where a rule spotted a
+	                            // problem.
+	                            IMarker markerProblem;
+	                            markerProblem = file.createMarker(IMarker.PROBLEM);
+	                            markerProblem.setAttribute(IMarker.LINE_NUMBER, line);
+	                            markerProblem.setAttribute(IMarker.MESSAGE, ruleName + " | " + message);
+	                            markerProblem.setAttribute("Description", ruleName);
+	                        }
                         }
 
                     }
