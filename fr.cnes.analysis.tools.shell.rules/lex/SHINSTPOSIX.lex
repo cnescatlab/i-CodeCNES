@@ -196,7 +196,7 @@ VAR_ERROR   = ([\$]{ERROR}) | ([\$][\{]{ERROR}[\}])
 								  }
 								}
 			    {ERROR}			{setError(location,"The keyword " + yytext() + " is not allowed.", yyline+1);}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 		
 /************************/
@@ -275,4 +275,4 @@ VAR_ERROR   = ([\$]{ERROR}) | ([\$][\{]{ERROR}[\}])
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

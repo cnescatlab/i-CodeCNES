@@ -300,7 +300,7 @@ FUNCEND		 = \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 			    {VAR}\=			{String var = yytext().substring(0, yytext().length()-1); checkVar(var);}
 				{DECLARE}		{yybegin(DECLARESTATE);}
 				{STRING}		{}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 /************************/
@@ -385,4 +385,4 @@ FUNCEND		 = \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

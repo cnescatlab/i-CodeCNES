@@ -109,11 +109,11 @@ LS			 = "ls" | "/bin/ls"
 			    {STRING}		{}
 			    {LS}			{setError(location,"The use of LS is not allowed. Use FIND instead.", yyline+1);}
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

@@ -188,15 +188,17 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 		}
 		
 <HEADER>
-		{		\n				{yybegin(HEADER_2);}
-				.				{}
+		{		
+			\n				{yybegin(HEADER_2);}
+			.				{}
 		}
 		
 <HEADER_2>
-		{		{COMMENT_WORD}	{yybegin(HEADER);}
-				{FUNCTION}     	{location = yytext(); yybegin(NAMING);}
-				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); loc.add(location); yybegin(NAMING);}
-				. | \n			{yybegin(YYINITIAL);}
+       {		
+       		{COMMENT_WORD}	{yybegin(HEADER);}
+			{FUNCTION}     	{location = yytext(); yybegin(NAMING);}
+			{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); loc.add(location); yybegin(NAMING);}
+			[^]				{yybegin(YYINITIAL);}
 		}
 		
 
@@ -204,4 +206,4 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+			[^]            {}

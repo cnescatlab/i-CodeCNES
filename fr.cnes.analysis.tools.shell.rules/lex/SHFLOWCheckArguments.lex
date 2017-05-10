@@ -115,7 +115,7 @@ ARGS		 = "if"{SPACE}+\[{SPACE}+\$\#{SPACE}+{COMP}
 			  	{STRING}		{}
 				{FUNCTION}     	{lastFunctionLine=yyline+1; yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); lastFunctionLine=yyline+1; yybegin(CHECKARGUMENTS);}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 		
 		
@@ -135,4 +135,4 @@ ARGS		 = "if"{SPACE}+\[{SPACE}+\$\#{SPACE}+{COMP}
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

@@ -292,4 +292,4 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" | "awk
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

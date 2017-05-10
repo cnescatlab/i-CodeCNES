@@ -115,11 +115,11 @@ ESAC		 = "esac"
 				\*\)			{defaultExpr=true;}
 				{ESAC}			{if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); yybegin(YYINITIAL);}
 				{VAR}			{}
-				\n | .         	{}  
+				[^]         	{}  
 		}
 		
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

@@ -171,7 +171,7 @@ EXPR		 = {VARIABLE} {SPACE}+ {OPER} {SPACE}+ ({STRING}|{INT}|{VARIABLE})
 								 if (ints.contains(var)) ints.add(variableName);
 								 else if (chars.contains(var)) chars.add(variableName);}
 				{SPACE}			{}
-				\n | .         	{yybegin(YYINITIAL);}  
+				[^]         	{yybegin(YYINITIAL);}  
 		}
 		
 /************************/
@@ -188,11 +188,11 @@ EXPR		 = {VARIABLE} {SPACE}+ {OPER} {SPACE}+ ({STRING}|{INT}|{VARIABLE})
 								}
 				{SPACE}			{}
 				\`				{type="none"; yybegin(YYINITIAL);}
-				\n | .         	{}  
+				[^]         	{}  
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}
