@@ -27,6 +27,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -113,8 +115,8 @@ public class ViolationsView extends ViewPart implements IExportableView {
 
             int res = value1.getRuleId().compareTo(value2.getRuleId());
             if (res == 0) {
-                res = value1.getFilePath().toFile().getName()
-                        .compareTo(value2.getFilePath().toFile().getName());
+                res = value1.getFile().getAbsoluteFile()
+                        .compareTo(value2.getFile().getAbsoluteFile());
             }
             return res;
         }
@@ -388,8 +390,8 @@ public class ViolationsView extends ViewPart implements IExportableView {
                             res = viol1.getRuleName().split("\\.")[2]
                                     .compareTo(viol2.getRuleName().split("\\.")[2]);
                             if (res == 0) {
-                                res = viol1.getFilePath().toFile().getName()
-                                        .compareTo(viol2.getFilePath().toFile().getName());
+                                res = viol1.getFile().getAbsolutePath()
+                                        .compareTo(viol2.getFile().getAbsolutePath());
                                 if (res == 0) {
                                     res = viol1.getLine().compareTo(viol2.getLine());
                                     if (res == 0) {
@@ -481,7 +483,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
                                 .getString(violation.getRuleId() + ".Criticity");
                         line = violation.getLine();
                         file = ResourcesPlugin.getWorkspace().getRoot()
-                                .getFileForLocation(violation.getFilePath());
+                                .getFileForLocation(new Path(violation.getFile().getAbsolutePath()).makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getFullPath()));
 
                         // If the file already has marker of type violations
                         // then we clean the file once
@@ -510,16 +512,6 @@ public class ViolationsView extends ViewPart implements IExportableView {
                             ViolationWarningMarker.createMarker(file, line, ruleName,
                                     ruleName + " | " + message);
 
-                        } else {
-                            // Last case shouldn't happen if the criticity is
-                            // properly set however we had a
-                            // PROBLEM marker on the line where a rule spotted a
-                            // problem.
-                            IMarker markerProblem;
-                            markerProblem = file.createMarker(IMarker.PROBLEM);
-                            markerProblem.setAttribute(IMarker.LINE_NUMBER, line);
-                            markerProblem.setAttribute(IMarker.MESSAGE, ruleName + " | " + message);
-                            markerProblem.setAttribute("Description", ruleName);
                         }
 
                     }
@@ -566,7 +558,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
         final FileWriter out = new FileWriter(file);
         out.write("Rule, File, Location, Value, Criticity\n");
         for (final Violation violation : (Violation[]) this.getViewer().getInput()) {
-            out.write(violation.getRuleName() + "," + violation.getFilePath().toFile().getName()
+            out.write(violation.getRuleName() + "," + violation.getFile().getAbsolutePath()
                     + "," + violation.getLocation() + "," + violation.getLine().toString() + "\n");
         }
 
@@ -618,9 +610,8 @@ public class ViolationsView extends ViewPart implements IExportableView {
             // get
             // the filename.
             // -- <xsd:attribute name="language" type="xsd:string" />
-            final String language = violation.getFilePath().getFileExtension();
-            final String fileName = violation.getFilePath()
-                    .makeRelativeTo(this.analysisProject.getLocation()).toString();
+            final String language = this.getFileExtension(file.getAbsolutePath());
+            final String fileName = violation.getFile().getAbsolutePath();
             // The analysisFile element is being added only and only if it's not
             // already in the XML document.
             boolean analysisFileMarked = false;
@@ -666,8 +657,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
 
             resultAttributes.add(new Attribute("resultId", Integer.toString(resultId)));
             resultId++;
-            resultAttributes.add(new Attribute("fileName", violation.getFilePath()
-                    .makeRelativeTo(this.analysisProject.getLocation()).toString()));
+            resultAttributes.add(new Attribute("fileName", violation.getFile().getAbsolutePath()));
             resultAttributes.add(new Attribute("resultLine", violation.getLine().toString()));
 
             /*
@@ -713,6 +703,22 @@ public class ViolationsView extends ViewPart implements IExportableView {
         LOGGER.finest("end method toXML");
 
     }
+    
+    /**
+     * @param fileName
+     * @return The extension name of the file
+     */
+    private String getFileExtension(String fileName) {
+    	String extension = "unknown";
+
+    	int i = fileName.lastIndexOf('.');
+    	int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+
+    	if (i > p) {
+    	    extension = fileName.substring(i+1);
+    	}
+		return extension;
+	}
 
     /**
      * @param file

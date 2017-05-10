@@ -5,6 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -57,9 +58,12 @@ public class MetricAnalysisHandler extends AbstractAnalysisHandler {
 
 		// Clear the analyzedFiles list in order to have the new analyzed files
 		analyzedFiles.clear();
-
+		List<File> analysisFiles = new ArrayList<>();
+		for(IPath file : files){
+			analysisFiles.add(file.toFile());
+		}
 		// Instantiate analyzer
-		final MetricAnalysisJob analysis = new MetricAnalysisJob(pAnalyzerID, files);
+		final MetricAnalysisJob analysis = new MetricAnalysisJob(pAnalyzerID, analysisFiles);
 
 		// run analysis
 		analysis.setUser(true);

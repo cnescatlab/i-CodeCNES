@@ -6,12 +6,14 @@
  */ 
 package fr.cnes.analysis.tools.analyzer.datas;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
@@ -108,7 +110,7 @@ public abstract class AbstractRule extends AbstractEvaluation {
      * (org.eclipse.core.runtime.IPath)
      */
     @Override
-    public void setInputFile(final IPath file) throws FileNotFoundException {
+    public void setInputFile(final File file) throws FileNotFoundException {
         this.violations = new LinkedList<Violation>();
         this.violation =
                 new Violation(this.getContribution().getAttribute("name"),

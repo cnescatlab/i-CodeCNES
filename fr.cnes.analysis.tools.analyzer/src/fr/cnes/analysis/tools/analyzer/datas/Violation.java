@@ -6,6 +6,8 @@
  */ 
 package fr.cnes.analysis.tools.analyzer.datas;
 
+import java.io.File;
+
 import org.eclipse.core.runtime.IPath;
 
 /**
@@ -19,8 +21,8 @@ public class Violation implements Cloneable {
     /** Rule's id. **/
     private String ruleId;
     
-    /** File's path. **/
-    private IPath filePath;
+    /** The analyzed file. **/
+    private File file;
     /** Violation location, such as method, function, etc. **/
     private String location;
     
@@ -37,18 +39,18 @@ public class Violation implements Cloneable {
      *            rule's name
      * @param pRuleId
      *            rule's id
-     * @param pFilePath
-     *            file's path
+     * @param pFile
+     *            analyzed file
      * @param pLocation
      *            violation's location
      * @param pLine
      *            violation's line
      */
     public Violation(final String pRuleName, final String pRuleId,
-            final IPath pFilePath, final String pLocation, final String pMessage, final Integer pLine) {
+            final File pFile, final String pLocation, final String pMessage, final Integer pLine) {
         this.ruleName = pRuleName;
         this.ruleId = pRuleId;
-        this.filePath = pFilePath;
+        this.file = pFile;
         this.location = pLocation;
         this.message = pMessage;
         this.line = pLine;
@@ -61,14 +63,14 @@ public class Violation implements Cloneable {
      *            the rule's name
      * @param pRuleId
      *            the rule's id
-     * @param pFilePath
-     *            the file's path
+     * @param pFile
+     *            the file analyzed
      */
     public Violation(final String pRuleName, final String pRuleId,
-            final IPath pFilePath) {
+            final File pFile) {
         this.ruleName = pRuleName;
         this.ruleId = pRuleId;
-        this.filePath = pFilePath;
+        this.file = pFile;
         this.location = "";
         this.message = "";
         this.line = Integer.MIN_VALUE;
@@ -115,8 +117,8 @@ public class Violation implements Cloneable {
      * 
      * @return the filePath
      */
-    public IPath getFilePath() {
-        return this.filePath;
+    public File getFile() {
+        return this.file;
     }
 
     /**
@@ -158,13 +160,13 @@ public class Violation implements Cloneable {
     }
 
     /**
-     * Setter for file's path.
+     * Setter for file.
      * 
-     * @param pFilePath
-     *            the filePath to set
+     * @param pFile
+     *            the file to set
      */
-    public void setFilePath(final IPath pFilePath) {
-        this.filePath = pFilePath;
+    public void setFile(final File pFile) {
+        this.file = pFile;
     }
 
     /**
@@ -196,7 +198,7 @@ public class Violation implements Cloneable {
         final Violation violation = (Violation) super.clone();
         violation.setRuleName(this.getRuleName());
         violation.setRuleId(this.getRuleId());
-        violation.setFilePath(this.getFilePath());
+        violation.setFile(this.getFile());
         violation.setLocation(this.getLocation());
         violation.setMessage(this.getMessage());
         violation.setLine(this.getLine());
@@ -211,7 +213,7 @@ public class Violation implements Cloneable {
     public boolean equals(final Object object) {
         return (object instanceof Violation)
                 && this.ruleId.equals(((Violation) object).getRuleId())
-                && this.filePath.equals(((Violation) object).getFilePath())
+                && this.file.equals(((Violation) object).getFile())
                 && this.location.equals(((Violation) object).getLocation())
                 && this.message.equals(((Violation)object).getMessage())
                 && (this.line.equals(((Violation) object).getLine()));
