@@ -224,7 +224,7 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 																escapeNext=false;
 															}
 				{COMMENT_WORD}								{escapeNext=false;}
-				. | \n										{escapeNext=false;}											
+				[^]          								{escapeNext=false;}											
 				
 								
 		}		
@@ -266,4 +266,4 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

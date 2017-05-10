@@ -111,7 +111,7 @@ OPTION		 = "-e"		| "--expression" 	| "-f"		| "--file"		|
 			    {STRING}		{}
 			    "sed"			{lineError=yyline+1; actions=0; yybegin(SED);}
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]	        	{}
 		}
 		
 /************************/
@@ -142,4 +142,4 @@ OPTION		 = "-e"		| "--expression" 	| "-f"		| "--file"		|
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}
