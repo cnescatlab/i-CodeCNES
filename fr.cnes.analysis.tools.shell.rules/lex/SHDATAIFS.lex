@@ -109,11 +109,11 @@ IFS			 = "IFS"\=
 			    {STRING}		{}
 			    {IFS}			{setError(location,"The envionment variable IFS can't be modified.", yyline+1);}
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

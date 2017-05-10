@@ -127,11 +127,11 @@ RETURN		 = "return"
 				\} 				{brackets--;
 								 /** End of the function **/
 								 if(brackets==0) yybegin(YYINITIAL); }
-				. | \n			{}
+				[^]			{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+			[^]            {}

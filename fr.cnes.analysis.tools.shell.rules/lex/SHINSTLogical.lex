@@ -107,7 +107,7 @@ ENDCOND		 = "do"		| "then"
 <AVOID>   	
 		{
 				{ENDCOND}		{yybegin(YYINITIAL);}
-			   	\n | .        	{}
+			   	[^]	        	{}
 		}
 
 /************************/
@@ -122,7 +122,7 @@ ENDCOND		 = "do"		| "then"
 			    {COND} 			{yybegin(AVOID);}
 			    {LOGIC}			{yybegin(LOGICAL);}
 			    {VAR}			{}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 		
 /************************/
@@ -141,4 +141,4 @@ ENDCOND		 = "do"		| "then"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}

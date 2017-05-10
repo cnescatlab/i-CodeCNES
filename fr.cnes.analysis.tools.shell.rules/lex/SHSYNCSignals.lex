@@ -107,7 +107,7 @@ TRAP		 = "trap"
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); }
 			    {STRING}		{}
 			    {TRAP}			{yybegin(TRAP);}
-	      		. | \n         	{}
+	      		[^]         	{}
 		}
 		
 /************************/
@@ -125,4 +125,4 @@ TRAP		 = "trap"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				.|\n            {}
+				[^]            {}
