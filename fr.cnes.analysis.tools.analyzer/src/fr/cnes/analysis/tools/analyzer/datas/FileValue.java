@@ -6,6 +6,7 @@
  */ 
 package fr.cnes.analysis.tools.analyzer.datas;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class FileValue {
     private String metricId;
     /** Metric's name. **/
     private String metricName;
-    /** File's path. **/
-    private IPath filePath;
+    /** Analyzed file. **/
+    private File file;
     /** Value of the metric for the file. **/
     private Float value;
     /** List of values inside the file. **/
@@ -34,13 +35,13 @@ public class FileValue {
     /**
      * Constructor of the class with file's path.
      * 
-     * @param pFilePath
+     * @param pFile
      *            the file's path
      */
-    public FileValue(final IPath pFilePath) {
+    public FileValue(final File pFile) {
         this.metricName = "";
         this.metricId = "";
-        this.filePath = pFilePath;
+        this.file = pFile;
         this.value = Float.NaN;
         this.functionValues = new LinkedList<FunctionValue>();
     }
@@ -52,14 +53,14 @@ public class FileValue {
      *            the metric id
      * @param pMetricName
      *            the metric name
-     * @param pFilePath
-     *            the file's path
+     * @param pFile
+     *            the analyzed file
      */
     public FileValue(final String pMetricId, final String pMetricName,
-            final IPath pFilePath) {
+            final File pFile) {
         this.metricId = pMetricId;
         this.metricName = pMetricName;
-        this.filePath = pFilePath;
+        this.file = pFile;
         this.value = Float.NaN;
         this.functionValues = new LinkedList<FunctionValue>();
     }
@@ -83,12 +84,12 @@ public class FileValue {
     }
 
     /**
-     * Getter for file's path.
+     * Getter for file
      * 
-     * @return the filePath
+     * @return the file
      */
-    public IPath getFilePath() {
-        return this.filePath;
+    public File getFile() {
+        return this.file;
     }
 
     /**
@@ -130,13 +131,13 @@ public class FileValue {
     }
 
     /**
-     * Setter for file's path.
+     * Setter for file.
      * 
-     * @param pFilePath
-     *            the filePath to set
+     * @param pFile
+     *            the file to set
      */
-    public void setFilePath(final IPath pFilePath) {
-        this.filePath = pFilePath;
+    public void setFilePath(final File pFile) {
+        this.file = pFile;
     }
 
     /**
@@ -180,8 +181,8 @@ public class FileValue {
         if (object instanceof FileValue) {
             isEqual =
                     this.metricId.equals(((FileValue) object).getMetricId())
-                            && this.filePath.equals(((FileValue) object)
-                                    .getFilePath());
+                            && this.file.equals(((FileValue) object)
+                                    .getFile());
         } else {
             isEqual = false;
         }

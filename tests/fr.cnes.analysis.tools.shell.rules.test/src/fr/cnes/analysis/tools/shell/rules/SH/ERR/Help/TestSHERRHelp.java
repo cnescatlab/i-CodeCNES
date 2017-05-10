@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class TestSHERRHelp {
 
 		try {
 			// Initializing rule and getting error file.
-			final IPath file = new Path(FileLocator.resolve(getClass().getResource(ERROR_FILE)).getFile());
+			final File file = new File(FileLocator.resolve(getClass().getResource(ERROR_FILE)).getFile());
 
 			// Defining file in the rule instantiation.
 			this.rule.setContribution(TestUtils.getContribution("", ""));
@@ -71,7 +72,7 @@ public class TestSHERRHelp {
 			// We verify that the error detected is the right one. There is
 			// only one case of error : a blank common (with no name) is
 			// detected.
-			final String fileName = list.get(0).getFilePath().toFile().getName();
+			final String fileName = list.get(0).getFile().getName();
 			assertEquals("Wrong file name : ", ERROR_FILE, fileName);
 
 			// We verify the values
@@ -100,7 +101,7 @@ public class TestSHERRHelp {
 
 		try {
 			// Initializing rule and getting error file.
-			final IPath file =  new Path(FileLocator.resolve(getClass().getResource(ERROR_FILE_2)).getFile());
+			final File file =  new File(FileLocator.resolve(getClass().getResource(ERROR_FILE_2)).getFile());
 
 			// Defining file in the rule instantiation.
 			this.rule.setContribution(TestUtils.getContribution("", ""));
@@ -120,7 +121,7 @@ public class TestSHERRHelp {
 			// We verify that the error detected is the right one. There is
 			// only one case of error : a blank common (with no name) is
 			// detected.
-			final String fileName = list.get(0).getFilePath().toFile().getName();
+			final String fileName = list.get(0).getFile().getName();
 			assertEquals("Wrong file name : ", ERROR_FILE_2, fileName);
 
 			// We verify the values
@@ -148,7 +149,7 @@ public class TestSHERRHelp {
 	public void testRunWithoutError() {
 		try {
 			// Initializing rule and getting error file.
-			final IPath file = new Path(FileLocator.resolve(getClass().getResource(NO_ERROR_FILE)).getFile());
+			final File file = new File(FileLocator.resolve(getClass().getResource(NO_ERROR_FILE)).getFile());
 
 			// Defining file in the rule instantiation.
 			this.rule.setContribution(TestUtils.getContribution("", ""));

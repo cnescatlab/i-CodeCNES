@@ -8,6 +8,7 @@
 
 package fr.cnes.analysis.tools.analyzer;
 
+import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public abstract class AbstractAnalysisJob extends Job {
     /** Extension id for the analyzer to use. **/
     private String extensionId;
     /** List of files to analyze. **/
-    private List<IPath> files;
+    private List<File> files;
 
     /**
      * Constructor for this Job with extension id in parameter and files' path.
@@ -43,7 +44,7 @@ public abstract class AbstractAnalysisJob extends Job {
      *            list of path for files to analyze
      */
     public AbstractAnalysisJob(final String pExtensionId,
-            final List<IPath> pFiles) {
+            final List<File> pFiles) {
         super("Running analysis...");
         this.extensionId = pExtensionId;
         this.files = pFiles;
@@ -63,7 +64,7 @@ public abstract class AbstractAnalysisJob extends Job {
      * 
      * @return the files
      */
-    public List<IPath> getFiles() {
+    public List<File> getFiles() {
         return this.files;
     }
 
@@ -83,7 +84,7 @@ public abstract class AbstractAnalysisJob extends Job {
      * @param pFiles
      *            the files to set
      */
-    public void setFiles(final List<IPath> pFiles) {
+    public void setFiles(final List<File> pFiles) {
         this.files = pFiles;
     }
 

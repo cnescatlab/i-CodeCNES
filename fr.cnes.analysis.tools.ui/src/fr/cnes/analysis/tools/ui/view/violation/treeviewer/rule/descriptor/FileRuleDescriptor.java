@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 /**
  * Class descriptor for rule's violations in a file.
@@ -147,4 +148,5 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
         clone.setDescriptors(new LinkedList<FunctionRuleDescriptor>(this.descriptors));
         return clone;
     }
+
 }

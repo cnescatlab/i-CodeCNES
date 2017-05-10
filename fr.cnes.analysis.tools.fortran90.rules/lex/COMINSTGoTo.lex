@@ -16,9 +16,10 @@ package fr.cnes.analysis.tools.fortran90.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
@@ -54,9 +55,9 @@ GOTO		 = [^a-zA-Z0-9\_]("go") {SPACE}*("to")
 	}
 	
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(file.toOSString());
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	

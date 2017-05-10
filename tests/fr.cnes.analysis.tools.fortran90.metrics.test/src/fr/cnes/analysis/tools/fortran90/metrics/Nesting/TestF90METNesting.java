@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class TestF90METNesting {
 	    // Initializing rule and getting error file.
 	    final AbstractMetric metric = new F90METNesting();
 	    final String fileName = "file.f";
-	    final IPath file = new Path(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
+	    final File file = new File(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
 	    // Defining file in the rule instantiation.
 	    metric.setContribution(TestUtils.getContribution("", ""));
@@ -52,7 +53,7 @@ public class TestF90METNesting {
 	    // We verify that the metric value detected is the right one.
 	    // Get the list and verify each value
 	    final FileValue fileValue = metric.run();
-	    assertTrue(fileValue.getFilePath().toFile().getName().equals(fileName));
+	    assertTrue(fileValue.getFile().getName().equals(fileName));
 	    assertTrue(fileValue.getValue().isNaN());
 
 	    // Value 1

@@ -7,6 +7,7 @@ package fr.cnes.analysis.tools.ui.view;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -116,8 +118,8 @@ public class MetricsView extends AbstractExportableView {
 
                 int res = value1.getMetricId().compareTo(value2.getMetricId());
                 if (res == 0) {
-                    res = value1.getFilePath().toFile().getName()
-                            .compareTo(value2.getFilePath().toFile().getName());
+                    res = value1.getFile().getAbsolutePath()
+                            .compareTo(value2.getFile().getAbsolutePath());
                 }
                 return res;
             }
@@ -397,8 +399,8 @@ public class MetricsView extends AbstractExportableView {
 
                     int res = value1.getMetricId().compareTo(value2.getMetricId());
                     if (res == 0) {
-                        res = value1.getFilePath().toFile().getName()
-                                .compareTo(value2.getFilePath().toFile().getName());
+                        res = value1.getFile().getAbsolutePath()
+                                .compareTo(value2.getFile().getAbsolutePath());
                     }
                     return res;
                 }
@@ -485,9 +487,8 @@ public class MetricsView extends AbstractExportableView {
             // get
             // the filename.
             // -- <xsd:attribute name="language" type="xsd:string" />
-            final String language = fv.getFilePath().getFileExtension();
-            final String fileName = fv.getFilePath()
-                    .makeRelativeTo(this.analysisProject.getLocation()).toString();
+            final String language = this.getFileExtension(fv.getFile().getAbsolutePath());
+            final String fileName = fv.getFile().getName();
             // The analysisFile element is being added only and only if it's not
             // already in the XML document.
             boolean analysisFileMarked = false;
@@ -537,8 +538,7 @@ public class MetricsView extends AbstractExportableView {
                 resultAttributes.add(new Attribute("resultId", Integer.toString(resultId)));
                 resultId++;
 
-                resultAttributes.add(new Attribute("fileName", fileV.getFilePath()
-                        .makeRelativeTo(this.analysisProject.getLocation()).toString()));
+                resultAttributes.add(new Attribute("fileName", fileV.getFile().getAbsolutePath()));
 
                 resultAttributes.add(new Attribute("resultValue", functionV.getValue().toString()));
 
@@ -568,6 +568,22 @@ public class MetricsView extends AbstractExportableView {
     }
 
     /**
+     * @param fileName
+     * @return The extension name of the file
+     */
+    private String getFileExtension(String fileName) {
+    	String extension = "unknown";
+
+    	int i = fileName.lastIndexOf('.');
+    	int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+
+    	if (i > p) {
+    	    extension = fileName.substring(i+1);
+    	}
+		return extension;
+	}
+
+	/**
      * @param file
      *            The XML file to validate
      * 

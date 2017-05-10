@@ -16,12 +16,13 @@ package fr.cnes.analysis.tools.shell.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
@@ -184,9 +185,9 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" | "awk
     }
 	
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(file.toOSString());
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 		
 %}
