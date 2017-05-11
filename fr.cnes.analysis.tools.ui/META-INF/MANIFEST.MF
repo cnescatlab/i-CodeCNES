@@ -24,7 +24,6 @@ Export-Package: fr.cnes.analysis.tools.ui.exception,
    org.eclipse.swt.widgets,
    org.eclipse.jface.preference,
    org.eclipse.jface.viewers",
- fr.cnes.analysis.tools.ui.services;uses:="org.eclipse.ui,org.eclipse.ui.services,fr.cnes.analysis.tools.ui.preferencepage",
  fr.cnes.analysis.tools.ui.utils;
   uses:="org.eclipse.core.runtime,
    org.eclipse.core.resources,
