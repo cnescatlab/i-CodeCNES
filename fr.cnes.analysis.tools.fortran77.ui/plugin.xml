@@ -136,17 +136,5 @@
          </variable>
       </sourceProvider>
    </extension>
-   <extension
-         point="fr.cnes.analysis.tools.services">
-      <sourceprovider
-            id="fr.cnes.analysis.tools.fortran77.ui.preferencepage.metric">
-      </sourceprovider>
-      <sourceprovider
-            id="fr.cnes.analysis.tools.fortran77.ui.preferencepage.rule">
-      </sourceprovider>
-      <sourceprovider
-            id="fr.cnes.analysis.tools.fortran77.ui.preferencepage.main">
-      </sourceprovider>
-   </extension>
 
 </plugin>
