@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
@@ -32,7 +32,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 public class TestGlobal_3 {
 	/** This list contains all the violations when the analyse is executed **/
 	public static List<Violation> list = new LinkedList<Violation>();
-	List<IPath> listFiles = new LinkedList<IPath>();
+	List<File> listFiles = new LinkedList<File>();
 
 	/**********************/
 	/** PARAMS TO DEFINE **/
@@ -110,8 +110,8 @@ public class TestGlobal_3 {
 				else {
 					int i = file.getAbsolutePath().lastIndexOf(".");
 					if (file.getAbsolutePath().substring(i + 1).equals(extension)) {
-						IPath ipath = new Path(file.getPath());
-						listFiles.add(ipath);
+						
+						listFiles.add(file);
 					}
 				}
 			}
@@ -131,7 +131,7 @@ public class TestGlobal_3 {
 			/** If the list is bigger than one **/
 			if (list.size() > 1) {
 				String rule = list.get(0).getRuleName();
-				String file = list.get(0).getFilePath().lastSegment();
+				String file = new Path(list.get(0).getFile().getAbsolutePath()).lastSegment();
 				int errors = 1;
 				/** Iterate over the elements **/
 				for (int i = 1; i < list.size(); i++) {
@@ -142,13 +142,13 @@ public class TestGlobal_3 {
 						 * If there is more errors in the same file -> increase
 						 * error
 						 **/
-						if (violation.getFilePath().lastSegment().equals(file)) {
+						if (new Path(violation.getFile().getAbsolutePath()).lastSegment().equals(file)) {
 							errors++;
 						}
 						/** If the filename has change -> print error **/
 						else {
 							output.write(rule + " " + file + " " + errors + "\n");
-							file = violation.getFilePath().lastSegment();
+							file = new Path(violation.getFile().getAbsolutePath()).lastSegment();
 							errors = 1;
 						}
 					}
@@ -156,14 +156,14 @@ public class TestGlobal_3 {
 					else {
 						output.write(rule + " " + file + " " + errors + "\n");
 						rule = violation.getRuleName();
-						file = violation.getFilePath().lastSegment();
+						file = new Path(violation.getFile().getAbsolutePath()).lastSegment();
 						errors = 1;
 					}
 				}
 			}
 			/** Only one error -> print directly **/
 			else if (list.size() > 0) {
-				output.write(list.get(0).getRuleName() + " " + list.get(0).getFilePath().lastSegment() + " 1\n");
+				output.write(list.get(0).getRuleName() + " " + new Path(list.get(0).getFile().getAbsolutePath()).lastSegment() + " 1\n");
 			}
 			/** After run for all files: close file writer **/
 			output.close();

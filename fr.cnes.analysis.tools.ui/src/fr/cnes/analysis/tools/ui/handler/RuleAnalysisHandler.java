@@ -5,6 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -64,7 +65,11 @@ public class RuleAnalysisHandler extends AbstractAnalysisHandler {
         analyzedFiles.clear();
 
         // Instantiate analyzer
-        final AbstractAnalysisJob analysis = new RuleAnalysisJob(pAnalyzerID, files);
+        List<File> analysisFiles = new ArrayList<>();
+        for(IPath file : files){
+        	analysisFiles.add(file.toFile());
+        }
+        final AbstractAnalysisJob analysis = new RuleAnalysisJob(pAnalyzerID, analysisFiles);
 
         // run analysis
         analysis.setUser(true);

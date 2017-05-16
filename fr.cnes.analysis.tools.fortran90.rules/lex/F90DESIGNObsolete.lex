@@ -16,12 +16,13 @@ package fr.cnes.analysis.tools.fortran90.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
@@ -83,7 +84,7 @@ CHAR		 = "character" {SPACE}* \*
     }
 	
 	@Override
-    public void setInputFile(final IPath file) throws FileNotFoundException {
+    public void setInputFile(final File file) throws FileNotFoundException {
         super.setInputFile(file);
 		
 		/** Initializing first rule. **/
@@ -102,7 +103,7 @@ CHAR		 = "character" {SPACE}* \*
         this.rule4.setContribution(this.getContribution());
         this.rule4.setInputFile(file);
 		
-        this.zzReader = new FileReader(file.toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
     }
 	
 	/**

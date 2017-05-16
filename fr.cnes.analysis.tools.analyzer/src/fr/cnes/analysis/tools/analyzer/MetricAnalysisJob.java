@@ -6,13 +6,13 @@
  */ 
 package fr.cnes.analysis.tools.analyzer;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -36,7 +36,7 @@ public class MetricAnalysisJob extends AbstractAnalysisJob {
      *            list of path for files to analyze
      */
     public MetricAnalysisJob(final String pExtensionId,
-            final List<IPath> pFiles) {
+            final List<File> pFiles) {
         super(pExtensionId, pFiles);
         this.values = new LinkedList<FileValue>();
     }

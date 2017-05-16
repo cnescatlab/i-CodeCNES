@@ -189,7 +189,7 @@ public class ViolationPartListener implements IPartListener2 {
 
         if (this.getViolations() != null) {
             for (final Violation violation : this.getViolations()) {
-                if (violation.getFilePath().equals(filePath)) {
+                if (violation.getFile().equals(filePath)) {
                     try {
                         // Get cirticity from preferences to insert the correct
                         // icon
