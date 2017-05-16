@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
@@ -130,13 +131,13 @@ public class ViolationToRuleTreeViewerConverter extends Job {
                         .getDescriptors().isEmpty()
                         || !descriptors.get(descriptors.size() - 1).getDescriptors().get(
                                 descriptors.get(descriptors.size() - 1).getDescriptors().size() - 1)
-                                .getFilePath().equals(value.getFilePath())) {
+                                .getFilePath().equals(new Path(value.getFile().getAbsolutePath()))) {
                     file.getDescriptors().clear();
-                    file.setFilePath(value.getFilePath());
+                    file.setFilePath(new Path(value.getFile().getAbsolutePath()));
                     descriptors.get(descriptors.size() - 1).getDescriptors().add(file.clone());
                 }
                 function.setRuleId(value.getRuleId());
-                function.setFilePath(value.getFilePath());
+                function.setFilePath(new Path(value.getFile().getAbsolutePath()));
                 function.setMessage(value.getMessage());
                 function.setLocation(value.getLocation());
                 function.setValue(value.getLine());

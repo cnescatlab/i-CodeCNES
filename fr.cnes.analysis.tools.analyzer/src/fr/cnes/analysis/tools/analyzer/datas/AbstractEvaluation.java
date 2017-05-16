@@ -6,10 +6,10 @@
  */ 
 package fr.cnes.analysis.tools.analyzer.datas;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 
 /**
  * Abstract class implementing the generic application of a rule or metric over
@@ -48,5 +48,5 @@ public abstract class AbstractEvaluation {
      * @throws FileNotFoundException
      *             exception thrown when a file is not found
      */
-    public abstract void setInputFile(IPath file) throws FileNotFoundException;
+    public abstract void setInputFile(File file) throws FileNotFoundException;
 }
