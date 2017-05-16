@@ -16,10 +16,11 @@ package fr.cnes.analysis.tools.fortran90.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
@@ -92,10 +93,10 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
      * eclipse.core.runtime.IPath)
      */
     @Override
-    public final void setInputFile(final IPath file)
+    public final void setInputFile(final File file)
             throws FileNotFoundException {
         super.setInputFile(file);
-        this.zzReader = new FileReader(file.toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
     }
 %}
 

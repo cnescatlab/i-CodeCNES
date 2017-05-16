@@ -10,12 +10,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
+
+
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
@@ -44,8 +45,8 @@ public class TestSHMETRatioComment {
             // Initializing rule and getting error file.
             final AbstractMetric metric = new SHMETRatioComment();
             final String fileName = "file.sh";
-            final IPath file =
-                    new Path(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
+            final File file =
+                    new File(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
             // Defining file in the rule instantiation.
             metric.setContribution(TestUtils.getContribution("", ""));
@@ -54,7 +55,7 @@ public class TestSHMETRatioComment {
             // We verify that the metric value detected is the right one.
             // Get the list and verify each value
             final FileValue fileValue = metric.run();
-            assertTrue(fileValue.getFilePath().toFile().getName()
+            assertTrue(fileValue.getFile().getName()
                     .equals(fileName));
             assertTrue(fileValue.getValue() > 0.34 &&
             		   fileValue.getValue() > 0.35 );

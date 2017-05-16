@@ -6,13 +6,13 @@
  */ 
 package fr.cnes.analysis.tools.analyzer;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -35,7 +35,7 @@ public class RuleAnalysisJob extends AbstractAnalysisJob {
      * @param pFiles
      *            list of path for files to analyze
      */
-    public RuleAnalysisJob(final String pExtensionId, final List<IPath> pFiles) {
+    public RuleAnalysisJob(final String pExtensionId, final List<File> pFiles) {
         super(pExtensionId, pFiles);
         this.violations = new LinkedList<Violation>();
     }
