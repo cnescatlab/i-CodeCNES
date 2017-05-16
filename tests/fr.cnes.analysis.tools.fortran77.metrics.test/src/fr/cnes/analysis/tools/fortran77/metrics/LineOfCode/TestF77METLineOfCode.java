@@ -9,12 +9,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
+
+
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
@@ -43,7 +44,7 @@ public class TestF77METLineOfCode {
 	    // Initializing rule and getting error file.
 	    final AbstractMetric metric = new F77METLineOfCode();
 	    final String fileName = "file.f";
-	    final IPath file = new Path(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
+	    final File file = new File(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
 	    // Defining file in the rule instantiation.
 	    metric.setContribution(TestUtils.getContribution("", ""));
@@ -65,7 +66,7 @@ public class TestF77METLineOfCode {
 	    metricValue = functionValues.get(1);
 	    assertTrue(metricValue.getLocation().equals("subroutine  ostc_lecdon"));
 	    assertTrue(metricValue.getValue() == 45.0);
-	    ;
+	    
 
 	} catch (final FileNotFoundException e) {
 	    fail("Erreur d'analyse (FileNotFoundException)");

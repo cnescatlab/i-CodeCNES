@@ -16,10 +16,11 @@ package fr.cnes.analysis.tools.fortran77.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 
 
@@ -71,9 +72,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
     }
 	
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(file.toOSString());
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	public void checkViolation(final boolean fileFound, final boolean scratchFound, final boolean statusFound, final boolean unknownFound, final boolean positionFound) throws JFlexException {

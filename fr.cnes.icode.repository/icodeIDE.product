@@ -9,6 +9,8 @@
    <launcherArgs>
       <programArgs>-consoleLog
       </programArgs>
+      <vmArgs>-Xmx1024M
+      </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
    </launcherArgs>
@@ -16,6 +18,7 @@
    <windowImages/>
 
    <launcher name="icodeIDE">
+      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
