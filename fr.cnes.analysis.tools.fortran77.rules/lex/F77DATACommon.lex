@@ -16,12 +16,13 @@ package fr.cnes.analysis.tools.fortran77.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
@@ -69,16 +70,16 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
     }
 
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
 		LOGGER.finest("begin method setInputFile");
-		this.zzReader = new FileReader(file.toOSString());
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 		LOGGER.finest("end method setInputFile");
 	}
 	
 	private void addCommon() {
 		LOGGER.finest("begin method addCommon");
-        commonList.add(getViolation().getFilePath().toFile().getName());
+        commonList.add(getViolation().getFile().getName());
         errorLocList.add(this.location);
         errorLineList.add(this.yyline + 1);
         yybegin(LINE);

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
@@ -122,13 +123,13 @@ public class MetricConverter extends Job {
                     metric.setName(value.getMetricName());
                     descriptors.add(metric.clone());
                 }
-                file.setFilePath(value.getFilePath());
+                file.setFilePath(new Path(value.getFile().getAbsolutePath()));
                 file.setValue(value.getValue());
                 file.getDescriptors().clear();
 
                 for (final FunctionValue fValue : value.getFunctionValues()) {
                     function.setMetricId(value.getMetricId());
-                    function.setFilePath(value.getFilePath());
+                    function.setFilePath(new Path(value.getFile().getAbsolutePath()));
                     function.setLocation(fValue.getLocation());
                     function.setLine(fValue.getLine());
                     function.setValue(fValue.getValue());
