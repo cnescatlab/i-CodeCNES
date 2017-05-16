@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 
 /**
  * Class descriptor for rule's violations in a file.

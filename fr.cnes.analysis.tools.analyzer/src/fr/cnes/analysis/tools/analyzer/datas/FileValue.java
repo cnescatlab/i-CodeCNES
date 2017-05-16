@@ -10,8 +10,6 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
-
 /**
  * This class store the metric value on a file, the name of the file and all
  * values inside the file (in a function, a subprogram, etc.) if T is a float,
