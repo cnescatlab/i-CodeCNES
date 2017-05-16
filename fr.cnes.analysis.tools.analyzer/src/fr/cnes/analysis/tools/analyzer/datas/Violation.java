@@ -8,8 +8,6 @@ package fr.cnes.analysis.tools.analyzer.datas;
 
 import java.io.File;
 
-import org.eclipse.core.runtime.IPath;
-
 /**
  * This class represents one rule violation on a file. It contains the rule
  * name, rule id (for preferences use), file's path, violation location and

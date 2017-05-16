@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 /**
