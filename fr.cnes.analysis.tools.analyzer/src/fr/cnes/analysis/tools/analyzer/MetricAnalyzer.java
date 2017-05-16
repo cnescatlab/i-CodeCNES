@@ -6,6 +6,7 @@
  */ 
 package fr.cnes.analysis.tools.analyzer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -39,14 +39,14 @@ public class MetricAnalyzer extends AbstractAnalyzer {
      * 
      * @param name
      *            the name of this Job
-     * @param pFiles
+     * @param pFile
      *            the files to analyze
      * @param pExtensionId
      *            the id of rule/metric contribution
      */
-    public MetricAnalyzer(final String name, final List<IPath> pFiles,
+    public MetricAnalyzer(final String name, final List<File> pFile,
             final String pExtensionId) {
-        super(name, pFiles, pExtensionId);
+        super(name, pFile, pExtensionId);
         this.values = new LinkedList<FileValue>();
     }
 
@@ -91,7 +91,7 @@ public class MetricAnalyzer extends AbstractAnalyzer {
      */
     @Override
     protected IStatus runEvaluation(final IConfigurationElement contribution,
-            final List<IPath> pFiles, final IProgressMonitor monitor)
+            final List<File> pFiles, final IProgressMonitor monitor)
             throws CloneNotSupportedException, CoreException,
             IOException, JFlexException {
         LOGGER.finest("Begin runEvaluation method");
@@ -100,18 +100,17 @@ public class MetricAnalyzer extends AbstractAnalyzer {
         IStatus status = Status.OK_STATUS;
 
         // Run analysis on all files
-        for (final IPath file : pFiles) {
-
+        for (final File file : pFiles) {
             // Get the evaluation
             final AbstractMetric metric =
                     (AbstractMetric) contribution
                             .createExecutableExtension("class");
             metric.setContribution(contribution);
-
+            
             // Run the evaluation
-            LOGGER.finest("File : " + file.toFile().getName());
+            LOGGER.finest("File : " + file.getName());
             monitor.subTask("Analyzing " + contribution.getAttribute("id")
-                    + " on file " + file.toFile().getName());
+                    + " on file " + file.getName());
             this.values.add(this.runMetricOnFile(metric, file));
             monitor.worked(1);
 
@@ -140,7 +139,7 @@ public class MetricAnalyzer extends AbstractAnalyzer {
      *             JFlex analysis error
      */
     private FileValue runMetricOnFile(final AbstractMetric metric,
-            final IPath file) throws IOException,
+            final File file) throws IOException,
             JFlexException {
         LOGGER.finest("Begin runEvaluationOnFile method");
 

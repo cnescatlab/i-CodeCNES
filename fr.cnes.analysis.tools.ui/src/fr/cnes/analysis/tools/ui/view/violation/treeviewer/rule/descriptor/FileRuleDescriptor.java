@@ -147,4 +147,5 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
         clone.setDescriptors(new LinkedList<FunctionRuleDescriptor>(this.descriptors));
         return clone;
     }
+
 }

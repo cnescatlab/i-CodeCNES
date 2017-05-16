@@ -7,6 +7,7 @@
 
 package fr.cnes.analysis.tools.analyzer;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -36,7 +36,7 @@ public abstract class AbstractAnalyzer extends Job {
             .getLogger(AbstractAnalyzer.class.getName());
 
     /** Files to be analyzed. */
-    private List<IPath> files;
+    private List<File> files;
     /** the id of rule/metric contribution **/
     private String extensionId;
 
@@ -46,15 +46,15 @@ public abstract class AbstractAnalyzer extends Job {
      * 
      * @param name
      *            the name of this Job
-     * @param pFiles
+     * @param pFilePath
      *            the files to analyze
      * @param pExtensionId
      *            the id of rule/metric contribution
      */
-    public AbstractAnalyzer(final String name, final List<IPath> pFiles,
+    public AbstractAnalyzer(final String name, final List<File> pFilePath,
             final String pExtensionId) {
         super(name);
-        this.files = pFiles;
+        this.files = pFilePath;
         this.extensionId = pExtensionId;
     }
 
@@ -63,7 +63,7 @@ public abstract class AbstractAnalyzer extends Job {
      * 
      * @return the files path.
      */
-    public List<IPath> getFiles() {
+    public List<File> getFiles() {
         return this.files;
     }
 
@@ -82,7 +82,7 @@ public abstract class AbstractAnalyzer extends Job {
      * @param inputFiles
      *            the files path.
      */
-    public void setFiles(final List<IPath> inputFiles) {
+    public void setFiles(final List<File> inputFiles) {
         this.files = inputFiles;
     }
 
@@ -115,7 +115,7 @@ public abstract class AbstractAnalyzer extends Job {
                             .getConfigurationElementsFor(this.extensionId);
 
             // Calculate total work to do
-            final List<IPath> pFiles = this.getFiles();
+            final List<File> pFiles = this.getFiles();
             int totalEval = 0;
             for (final IConfigurationElement contribution : evalContribs) {
                 if (PlatformUI.getPreferenceStore().getBoolean(
@@ -211,7 +211,7 @@ public abstract class AbstractAnalyzer extends Job {
      */
     protected abstract IStatus runEvaluation(
             final IConfigurationElement contribution,
-            final List<IPath> pFiles, final IProgressMonitor monitor)
+            final List<File> pFiles, final IProgressMonitor monitor)
             throws CloneNotSupportedException, CoreException,
             IOException, JFlexException;
 }

@@ -16,12 +16,13 @@ package fr.cnes.analysis.tools.fortran90.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
@@ -130,9 +131,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
     }
 	
 	@Override
-	public void setInputFile(IPath file) throws FileNotFoundException {
+	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(file.toOSString());
+		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 		codeLevel.add(1);
 	}
 	
@@ -161,16 +162,15 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
             public int compare(final Violation o1, final Violation o2) {
                 int res = o1.getRuleName().compareTo(o2.getRuleName());
                 if (o1.getRuleName().compareTo(o2.getRuleName()) == 0) {
-                    if (o1.getFilePath().toFile().getName()
-                            .compareTo(o2.getFilePath().toFile().getName()) == 0) {
+                    if (o1.getFile().getName()
+                            .compareTo(o2.getFile().getName()) == 0) {
                         res = o1.getLine().compareTo(o2.getLine());
                     } else {
                         res =
-                                o1.getFilePath()
-                                        .toFile()
+                                o1.getFile()
                                         .getName()
                                         .compareTo(
-                                                o2.getFilePath().toFile()
+                                                o2.getFile()
                                                         .getName());
                     }
                 }
