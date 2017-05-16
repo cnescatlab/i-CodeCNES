@@ -11,14 +11,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
@@ -50,7 +48,7 @@ public class TestCOMFLOWAbort {
 		try {
 			// Initializing rule and getting error file.
 			final File file = new File(FileLocator.resolve(getClass().getResource(ERROR_FILE)).getFile());
-			;
+			
 
 			// Defining file in the rule instantiation.
 			rule.setContribution(TestUtils.getContribution("", ""));
