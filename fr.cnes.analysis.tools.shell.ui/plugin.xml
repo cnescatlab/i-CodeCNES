@@ -130,17 +130,5 @@
          </variable>
       </sourceProvider>
    </extension>
-   <extension
-         point="fr.cnes.analysis.tools.services">
-      <sourceprovider
-            id="fr.cnes.analysis.tools.shell.ui.preferencepage.metric">
-      </sourceprovider>
-      <sourceprovider
-            id="fr.cnes.analysis.tools.shell.ui.preferencepage.rule">
-      </sourceprovider>
-      <sourceprovider
-            id="fr.cnes.analysis.tools.shell.ui.preferencepage.main">
-      </sourceprovider>
-   </extension>
 
 </plugin>
