@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: i-Code CNES Export
+Bundle-SymbolicName: fr.cnes.analysis.tools.export;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: CNES
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: fr.cnes.analysis.tools.analyzer,
+ org.eclipse.core.runtime,
+ org.eclipse.e4.core.di;bundle-version="1.6.0",
+ org.eclipse.core.resources
+Export-Package: fr.cnes.analysis.tools.export,
+ fr.cnes.analysis.tools.export.exception
+Bundle-Activator: fr.cnes.analysis.tools.export.Activator
