@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -42,7 +42,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 
 %state COMMENT, NAMING, NEW_LINE, LINE, OPEN, CLOSE, ALLOC, DEALLOC
@@ -107,10 +107,10 @@ INT			 = [0-9]+
      * Sort all violations.
      **/
     public void sortResults() {
-        Collections.sort(getViolations(), new Comparator<Violation>() {
+        Collections.sort(getCheckResults(), new Comparator<CheckResult>() {
             @Override
-            public int compare(final Violation viol1, final Violation viol2) {
-                int res = viol1.getRuleId().compareTo(viol2.getRuleId());
+            public int compare(final CheckResult viol1, final CheckResult viol2) {
+                int res = viol1.getId().compareTo(viol2.getId());
                 if (res == 0) {
                     res =
                             viol1.getFile()
@@ -137,7 +137,7 @@ INT			 = [0-9]+
 %eofval{
 	raiseRemainingErrors();
 	sortResults();
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

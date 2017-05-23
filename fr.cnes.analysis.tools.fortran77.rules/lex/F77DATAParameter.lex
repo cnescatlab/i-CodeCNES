@@ -23,7 +23,8 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -35,7 +36,7 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysi
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* These states are added:
  - DECLARATION:archive the values of the variables in a list
@@ -99,7 +100,7 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]	| \*
 %}
 
 %eofval{
-return getViolations();
+return getCheckResults();
 %eofval}
 
 

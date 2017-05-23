@@ -25,7 +25,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -38,7 +38,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE
 
@@ -56,8 +56,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 %{
 	String location = "MAIN PROGRAM"; 
-  List<Violation> list = new LinkedList<Violation>();
-	List<String> intrinseques =  new LinkedList<String>();
+ 	List<String> intrinseques =  new LinkedList<String>();
 	List<String> intrinsequesGeneriques =  new LinkedList<String>();
 	
 	public F90NAMEGenericIntrinsic() {
@@ -86,7 +85,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 %eofval{ 
   
- return getViolations(); 
+ return getCheckResults(); 
 %eofval}
 
 /* Transition word is entry (or ENTRY). This word must not be found. */

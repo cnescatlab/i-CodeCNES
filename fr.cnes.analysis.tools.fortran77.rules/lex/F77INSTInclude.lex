@@ -17,7 +17,7 @@ package fr.cnes.analysis.tools.fortran77.rules;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -39,7 +39,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /*
  * STATES
@@ -107,9 +107,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				rule.setInputFile(includeFile);
 	
 				// We verify that there is an error.
-				List<Violation> l = rule.run();
+				List<CheckResult> l = rule.run();
 				if (!l.isEmpty()) {
-					Violation fv = l.get(0);
+					CheckResult fv = l.get(0);
 					if (fv.getLine() != 0)	setError(location,"There is an executable instruction not allowed in the included file.", yyline + 1);
 				}
 			}
@@ -146,7 +146,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-return getViolations();
+return getCheckResults();
 %eofval}
 
 

@@ -25,7 +25,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -38,7 +38,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* We add 5 states to the initial ones : 													*/
 /*    - EQUAL, which is used when an equal after a variable is foundd (like VAR = ...)		*/
@@ -157,22 +157,15 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	 * Method used to sort violations on increasing order considering their lines.
 	 **/
 	private void sortResults() {
-        Collections.sort(getViolations(), new Comparator<Violation>() {
+        Collections.sort(getCheckResults(), new Comparator<CheckResult>() {
             @Override
-            public int compare(final Violation o1, final Violation o2) {
-                int res = o1.getRuleName().compareTo(o2.getRuleName());
-                if (o1.getRuleName().compareTo(o2.getRuleName()) == 0) {
-                    if (o1.getFile().getName()
-                            .compareTo(o2.getFile().getName()) == 0) {
+            public int compare(final CheckResult o1, final CheckResult o2) {
+                int res = o1.getName().compareTo(o2.getName());
+                if (res == 0) {
+                    res = o1.getFile().getName().compareTo(o2.getFile().getName());
+                    if (res == 0) {
                         res = o1.getLine().compareTo(o2.getLine());
-                    } else {
-                        res =
-                                o1.getFile()
-                                        .getName()
-                                        .compareTo(
-                                                o2.getFile()
-                                                        .getName());
-                    }
+                    } 
                 }
                 return res;
             }
@@ -229,7 +222,7 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	sortResults();
     
 	
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

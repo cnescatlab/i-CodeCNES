@@ -23,7 +23,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -35,7 +35,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 %state COMMENT, NAMING
 
@@ -71,7 +71,7 @@ EQUIV		 = [^a-zA-Z0-9\_]("equivalence")[^a-zA-Z0-9\_]
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{ 
 	 
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

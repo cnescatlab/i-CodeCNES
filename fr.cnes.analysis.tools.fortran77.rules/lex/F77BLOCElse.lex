@@ -25,7 +25,8 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -38,7 +39,7 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysi
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* A new state called ELSE_LINE, is made to determine if ELSE is followed    */
 /* by an IF word.															 */
@@ -80,7 +81,7 @@ INT			 = [0-9]+
 %}
 
 %eofval{
-    return getViolations();
+    return getCheckResults();
 %eofval}
 
 /* A list of String is made, with identifiers such as DO and IF. Its aim  	*/
