@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE, AVOID
 
@@ -110,7 +110,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
                         .toString()
                         .toLowerCase()
                         .contains(
-                                getViolation().getFile()
+                                getCheckResult().getFile()
                                         .getName()
                                         .replaceFirst("[.][^.]+$", "")
                                         .toLowerCase())) {
@@ -122,7 +122,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
                         .toString()
                         .toLowerCase()
                         .contains(
-                                getViolation().getFile()
+                                getCheckResult().getFile()
                                         .getName()
                                         .replaceFirst("[.][^.]+$", "")
                                         .toLowerCase())) {
@@ -189,11 +189,11 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	lines.clear();
     
 	
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 /* There is no specific rule word in this rule. However, we define END to avoid */
-/* Violations on FUNCTION put after END.											*/
+/* CheckResult on FUNCTION put after END.											*/
 END   = end | END
 SPACE = [\ \f\t]+
 

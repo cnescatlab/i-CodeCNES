@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -45,7 +45,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 
 %state COMMENT, NAMING, NEW_LINE, LINE, OPEN, CLOSE, ALLOC, DEALLOC
@@ -122,23 +122,23 @@ INT			 = [0-9]+
      **/
     public void sortResults() {
         LOGGER.finest("begin method sortResults");
-        Collections.sort(getViolations(), new Comparator<Violation>() {
+        Collections.sort(getCheckResults(), new Comparator<CheckResult>() {
             @Override
-            public int compare(final Violation viol1, final Violation viol2) {
-                int res = viol1.getRuleId().compareTo(viol2.getRuleId());
+            public int compare(final CheckResult result1, final CheckResult result2) {
+                int res = result1.getId().compareTo(result2.getId());
                 if (res == 0) {
                     res =
-                            viol1.getFile()
+                            result1.getFile()
                                     .getName()
                                     .compareTo(
-                                            viol2.getFile()
+                                            result2.getFile()
                                                     .getName());
                     if (res == 0) {
-                        res = viol1.getLine().compareTo(viol2.getLine());
+                        res = result1.getLine().compareTo(result2.getLine());
                         if (res == 0) {
                             res =
-                                    viol1.getLocation().compareTo(
-                                            viol2.getLocation());
+                                    result1.getLocation().compareTo(
+                                            result2.getLocation());
                         }
                     }
                 }
@@ -153,7 +153,7 @@ INT			 = [0-9]+
 %eofval{
 	raiseRemainingErrors();
 	sortResults();
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

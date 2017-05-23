@@ -11,18 +11,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-
-
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran77.rules.COMDATAInitialisation;
 import fr.cnes.analysis.tools.fortran77.rules.TestUtils;
@@ -50,7 +48,7 @@ public class TestCOMDATAInitialisation {
 			rule.setInputFile(file);
 
 			// Running rule
-			final List<Violation> list = rule.run();
+			final List<CheckResult> list = rule.run();
 
 			// We verify that there is an error.
 			assertFalse("No error found.", list.isEmpty());
@@ -67,7 +65,7 @@ public class TestCOMDATAInitialisation {
 			assertEquals("Wrong file name : ", ERROR_FILE, fileName);
 
 			// We verify the values
-			for (final Violation value : list) {
+			for (final CheckResult value : list) {
 				final Integer index = list.indexOf(value);
 				final String location = value.getLocation();
 				assertTrue("Violation " + index.toString() + " has wrong location : " + location + " should contain "
@@ -98,10 +96,10 @@ public class TestCOMDATAInitialisation {
 			rule.setInputFile(file);
 
 			// Running rule
-			final List<Violation> list = rule.run();
+			final List<CheckResult> list = rule.run();
 
 			// We verify that there is an error.
-			assertTrue("Error(s) are detected : " + TestUtils.getViolations(list), list.isEmpty());
+			assertTrue("Error(s) are detected : " + TestUtils.getCheckResults(list), list.isEmpty());
 
 		} catch (final FileNotFoundException e) {
 			fail("Erreur d'analyse (FileNotFoundException)");

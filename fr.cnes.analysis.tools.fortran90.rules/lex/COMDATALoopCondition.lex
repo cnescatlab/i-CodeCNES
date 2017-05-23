@@ -23,7 +23,8 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -35,7 +36,7 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysi
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* A state called ENTER_DO is created. It allows to determine the condition	 */
 /* of a DO-loop and certify that it's not a WHILE-loop.						 */
@@ -156,7 +157,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-    return getViolations();
+    return getCheckResults();
 %eofval}
 
 /* Transition word is do (or DO). If this word is met, we focus on out condition */

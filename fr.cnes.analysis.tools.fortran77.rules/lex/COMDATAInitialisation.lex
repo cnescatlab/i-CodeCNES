@@ -28,7 +28,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -43,7 +44,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* These are the states declaration for the automaton used at the end of this	*/
 /* code. These states represents, when it's a comment section, when it's moving */
@@ -284,7 +285,7 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 %eofval{
 //mantis 316
 displayErrorVariableByType();
-return getViolations();
+return getCheckResults();
 %eofval}
 
 

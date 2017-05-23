@@ -24,7 +24,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -37,7 +37,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* States added : 	*/
 /*   - OPER_IMPL	*/
@@ -78,7 +78,7 @@ OPERATEUR	 = "+" | "-" | "*" | "/" | "**"
 
 %eofval{ 
 	 
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

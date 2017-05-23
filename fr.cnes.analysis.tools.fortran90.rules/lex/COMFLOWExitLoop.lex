@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* A state called IFLINE is to determine whether the statement is stored. If */
 /* it is followed by a THEN, we store it, else it's ignored.				 */
@@ -77,7 +77,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 /* Transition word are STOP, EXIT, CYCLE and GO TO. If these words are met inside */

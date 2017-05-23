@@ -23,7 +23,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 
 %state COMMENT, NAMING, NEW_LINE, LINE, AVOID, IF_STATE, TYPE_STATE, DO_STATE
@@ -96,9 +96,8 @@ SPACE		 = [\ \r\t\f]
 %}
 
 %eofval{
-    
-	
-	return getViolations();
+
+	return getCheckResults();
 %eofval}
 
 
