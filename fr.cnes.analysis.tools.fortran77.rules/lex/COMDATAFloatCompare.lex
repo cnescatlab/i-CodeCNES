@@ -28,7 +28,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -42,7 +42,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* 3 new states are added :  					*/
 /*   - INIT, to store all new variables. 		*/
@@ -106,8 +106,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 %eofval{
     
-	
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 /* Transition word are  real, complex and double precision. Whenever this word is */
