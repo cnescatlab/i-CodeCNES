@@ -167,7 +167,7 @@
       <handler
             commandId="fr.cnes.analysis.tools.all.ui.handler.metricsAndRules">
          <class
-               class="fr.cnes.analysis.tools.ui.handler.MetricAndRulesAnalysisAllHandler">
+               class="fr.cnes.analysis.tools.ui.handler.AnalysisHandler">
          </class>
          <enabledWhen>
             <reference
