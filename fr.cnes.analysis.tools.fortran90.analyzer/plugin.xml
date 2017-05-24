@@ -9,11 +9,23 @@
             extensionId="fr.cnes.analysis.tools.fortran90.rule"
             id="fr.cnes.analysis.tools.fortran90.analyzer.rule"
             name="Fortran 90 Rule">
+         <fileExtension
+               name="f90">
+         </fileExtension>
+         <fileExtension
+               name="F90">
+         </fileExtension>
       </analyzer>
       <analyzer
             extensionId="fr.cnes.analysis.tools.fortran90.metric"
             id="fr.cnes.analysis.tools.fortran90.analyzer.metric"
             name="Fortran 90 Metric">
+         <fileExtension
+               name="f90">
+         </fileExtension>
+         <fileExtension
+               name="F90">
+         </fileExtension>
       </analyzer>
    </extension>
 
