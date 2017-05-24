@@ -49,6 +49,9 @@
 
    <element name="analyzer">
       <complexType>
+         <sequence>
+            <element ref="fileExtension" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
@@ -64,6 +67,18 @@
             </annotation>
          </attribute>
          <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="fileExtension">
+      <complexType>
+         <attribute name="name" type="string">
             <annotation>
                <documentation>
                   
