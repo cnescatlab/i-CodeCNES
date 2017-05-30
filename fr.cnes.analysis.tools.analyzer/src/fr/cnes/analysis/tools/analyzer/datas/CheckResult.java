@@ -31,7 +31,7 @@ public class CheckResult {
     /** Check line. */
     private Integer line;
 
-    /** Violation message. */
+    /** {@link CheckResult} message. */
     private String message;
 
     /** Metric value. */

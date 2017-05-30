@@ -22,8 +22,8 @@ public interface IImport {
 
     /**
      * @param inputFile
-     *            containing the {@link Violation} to import.
-     * @return the violations in a List of {@link Violation} data.
+     *            containing the {@link CheckResult} to import.
+     * @return the checkReults in a List of {@link CheckResult} data.
      */
     public List<CheckResult> importResults(File inputFile);
 

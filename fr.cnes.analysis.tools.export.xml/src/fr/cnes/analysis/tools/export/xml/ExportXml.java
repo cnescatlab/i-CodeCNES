@@ -24,7 +24,7 @@ import org.jdom2.output.XMLOutputter;
  * </p>
  * <p>
  * This class is responsible of the export in the format XML of
- * {@link Violation} elements into a {@link File}.
+ * {@link CheckResult} elements into a {@link File}.
  * </p>
  * 
  * @since 3.0
@@ -91,7 +91,7 @@ public class ExportXml implements IExport {
         document.getRootElement().addContent(analysisInformation);
         // -- <xsd:element name="analysisFile" type="anr:analysisFileType"
         // -- minOccurs="0" maxOccurs="unbounded" />
-        for (final CheckResult violation : checkResults) {
+        for (final CheckResult checkResult : checkResults) {
             attributes.clear();
 
             // -- <xsd:attribute name="fileName" type="xsd:string"
@@ -100,8 +100,8 @@ public class ExportXml implements IExport {
             // get
             // the filename.
             // -- <xsd:attribute name="language" type="xsd:string" />
-            final String language = this.getFileExtension(violation.getFile().getAbsolutePath());
-            final String fileName = violation.getFile().toString();
+            final String language = this.getFileExtension(checkResult.getFile().getAbsolutePath());
+            final String fileName = checkResult.getFile().toString();
             // The analysisFile element is being added only and only if it's not
             // already in the XML document.
             boolean analysisFileMarked = false;
@@ -122,13 +122,13 @@ public class ExportXml implements IExport {
         Element result = null;
         Element analysisRule = null;
         int resultId = 1;
-        for (final CheckResult violation : checkResults) {
+        for (final CheckResult checkResult : checkResults) {
             boolean elementAlreadyExisting = false;
             Element existingElement = null;
             for (final Element element : document.getRootElement().getChildren("analysisRule")) {
                 for (final Attribute attribute : element.getAttributes()) {
                     if (attribute.getName().equals("analysisRuleId")
-                            && attribute.getValue().equals(violation.getId())) {
+                            && attribute.getValue().equals(checkResult.getId())) {
                         elementAlreadyExisting = true;
                         existingElement = element;
                     }
@@ -136,7 +136,7 @@ public class ExportXml implements IExport {
             }
             if (!elementAlreadyExisting || existingElement == null) {
                 analysisRule = new Element("analysisRule");
-                analysisRule.setAttribute(new Attribute("analysisRuleId", violation.getName()));
+                analysisRule.setAttribute(new Attribute("analysisRuleId", checkResult.getName()));
             } else {
                 analysisRule = existingElement;
             }
@@ -148,22 +148,22 @@ public class ExportXml implements IExport {
 
             resultAttributes.add(new Attribute("resultId", Integer.toString(resultId)));
             resultId++;
-            resultAttributes.add(new Attribute("fileName", violation.getFile().toString()));
-            resultAttributes.add(new Attribute("resultLine", violation.getLine().toString()));
+            resultAttributes.add(new Attribute("fileName", checkResult.getFile().toString()));
+            resultAttributes.add(new Attribute("resultLine", checkResult.getLine().toString()));
 
             /*
              * The location and message are defined in violations by only one
              * attribute (String) made this way: [Location -> Message], so we
              * split it to get the two exploitable strings.
              */
-            resultAttributes.add(new Attribute("resultNamePlace", violation.getLocation()));
+            resultAttributes.add(new Attribute("resultNamePlace", checkResult.getLocation()));
             /*
              * The result message is defined by the XSD as a sequence of element
              * resultMessage (not an attribute).
              */
             final Element resultMessage = new Element("resultMessage");
 
-            resultMessage.addContent(violation.getMessage());
+            resultMessage.addContent(checkResult.getMessage());
 
             result.addContent(resultMessage);
             result.setAttributes(resultAttributes);
