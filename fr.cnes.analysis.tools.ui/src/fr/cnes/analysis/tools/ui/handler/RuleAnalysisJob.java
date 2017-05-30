@@ -2,81 +2,104 @@ package fr.cnes.analysis.tools.ui.handler;
 
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+/**
+ * This {@link Job} run a rule analysis using {@link Analyzer} service.
+ * 
+ * @since 3.0
+ */
 public class RuleAnalysisJob extends Job {
-  private Analyzer  analyzer;
-  private List<File>      files;
-  private List<String>    languageIds;
-  private List<String>    excludedIds;
-  private List<Violation> violations;
 
-  public RuleAnalysisJob(String name, List<File> files, List<String> languageIds,
-      List<String> excludedIds) {
-    super(name);
-    this.files = files;
-    this.languageIds = languageIds;
-    this.excludedIds = excludedIds;
-    this.analyzer = new Analyzer();
-  }
+    /**
+     * Logger
+     */
+    private static final Logger LOGGER = Logger.getLogger(RuleAnalysisJob.class.getName());
 
-  @Override
-  protected IStatus run(IProgressMonitor monitor) {
-    IStatus status = Status.OK_STATUS;
-    try {
-      this.violations = analyzer.applyRules(files, languageIds, excludedIds);
-    } catch (FileNotFoundException exception) {
-      new Status(Status.ERROR, "fr.cnes.analysis.tools.analyzer", exception.getMessage());
-    } catch (Exception exception) {
-      new Status(Status.ERROR, "fr.cnes.analysis.tools.analyzer", exception.getMessage());
+    /** {@link Analyzer} service to run the analysis */
+    private Analyzer analyzer;
+    /** List of files to analyze. */
+    private List<File> inputFiles;
+    /** List of languages plugin identifiers to run analysis with */
+    private List<String> languageIds;
+    /**
+     * List of all rules excluded from the analysis. <i>More informations on
+     * :</i> {@link Analyzer#applyRules(List, List, List)}
+     */
+    private List<String> excludedIds;
+    /**
+     * {@link Violation} list from analysis result.
+     */
+    private List<Violation> violations;
+
+    /**
+     * Constructor for {@link RuleAnalysisJob}
+     * 
+     * @param pName
+     *            name of the Job
+     * @param pInputFiles
+     *            to analyze
+     * @param pLanguageIds
+     *            to run analysis with
+     * @param pExcludedIds
+     *            to exclude from analysis
+     */
+    public RuleAnalysisJob(String pName, List<File> pInputFiles, List<String> pLanguageIds,
+            List<String> pExcludedIds) {
+        super(pName);
+        this.inputFiles = pInputFiles;
+        this.languageIds = pLanguageIds;
+        this.excludedIds = pExcludedIds;
+        this.analyzer = new Analyzer();
     }
-    return status;
-  }
 
-  public Analyzer getAnalyzer() {
-    return analyzer;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
+     * IProgressMonitor)
+     */
+    @Override
+    protected IStatus run(IProgressMonitor monitor) {
+        IStatus status = Status.OK_STATUS;
+        try {
+            this.violations = analyzer.applyRules(inputFiles, languageIds, excludedIds);
+        } catch (IOException | JFlexException exception) {
+            LOGGER.info(
+                    exception.getClass().getName() + " received. Setting job status to warning.");
+            status = new Status(IStatus.ERROR, Analyzer.ANALYZER_EP_ID, exception.getMessage());
+        }
+        return status;
+    }
 
-  public void setAnalyzer(Analyzer analyzer) {
-    this.analyzer = analyzer;
-  }
+    /**
+     * @return files to analyzed
+     */
+    public List<File> getInputFiles() {
+        return inputFiles;
+    }
 
-  public List<File> getFiles() {
-    return files;
-  }
+    /**
+     * @param pInputFiles
+     *            to analyze
+     */
+    public void setInputFiles(List<File> pInputFiles) {
+        this.inputFiles = pInputFiles;
+    }
 
-  public void setFiles(List<File> files) {
-    this.files = files;
-  }
-
-  public List<String> getLanguageIds() {
-    return languageIds;
-  }
-
-  public void setLanguageIds(List<String> languageIds) {
-    this.languageIds = languageIds;
-  }
-
-  public List<String> getExcludedIds() {
-    return excludedIds;
-  }
-
-  public void setExcludedIds(List<String> excludedIds) {
-    this.excludedIds = excludedIds;
-  }
-
-  public List<Violation> getViolations() {
-    return violations;
-  }
-
-  public void setViolations(List<Violation> violations) {
-    this.violations = violations;
-  }
+    /**
+     * @return {@link Violation} list from analysis result
+     */
+    public List<Violation> getViolations() {
+        return violations;
+    }
 
 }
