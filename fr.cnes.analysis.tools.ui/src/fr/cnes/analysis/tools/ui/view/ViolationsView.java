@@ -11,13 +11,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeV
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -25,13 +19,9 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -55,14 +45,8 @@ import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.ViewPart;
-import org.jdom2.Attribute;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
-import org.xml.sax.SAXException;
 
-public class ViolationsView extends ViewPart implements IExportableView {
+public class ViolationsView extends ViewPart {
 
     /** Logger. **/
     public final static Logger LOGGER = Logger.getLogger(ViolationsView.class.getName());
@@ -77,13 +61,13 @@ public class ViolationsView extends ViewPart implements IExportableView {
     public static final String FILE_TREE_VIEWER_TYPE = "FileTreeViewer";
 
     /** The project on which was run the displayed analysis */
-    private String analysisProject = "undefined";
+    private IProject analysisProject;
 
     /** The user who ran the analysis */
-    private String author = "undefined";
+    private String author;
 
     /** The date of the analysis */
-    private String date = "undefined";
+    private String date;
 
     /** The string to filter results in the TreeViewer */
     private String searchString = "";
@@ -209,6 +193,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
         errorBtn.setText("Error");
         errorBtn.setSelection(true);
         warningBtn.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent event) {
                 final Button btn = (Button) event.getSource();
@@ -358,7 +343,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
     /**
      * Display violations found during analysis in the violations view.
      * 
-     * @param pCheckResults
+     * @param violations
      *            the violations to display
      * @param pDate
      *            The date of the analysis
@@ -367,7 +352,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
      * @param pProject
      *            The project selected while running the analysis
      */
-    public void display(final List<CheckResult> pCheckResults) {
+    public void display(final List<CheckResult> violations) {
         LOGGER.finest("Begin display(Descriptor[]) method");
 
         synchronized (this) {
@@ -375,23 +360,23 @@ public class ViolationsView extends ViewPart implements IExportableView {
                     new Comparator<CheckResult>() {
 
                         @Override
-                        public int compare(final CheckResult result1, final CheckResult result2) {
-                            int res = result1.getName().split("\\.")[0]
-                                    .compareTo(result2.getName().split("\\.")[0]);
+                        public int compare(final CheckResult check1, final CheckResult check2) {
+                            int res = check1.getName().split("\\.")[0]
+                                    .compareTo(check2.getName().split("\\.")[0]);
                             if (res == 0) {
-                                res = result1.getName().split("\\.")[1]
-                                        .compareTo(result2.getName().split("\\.")[1]);
+                                res = check1.getName().split("\\.")[1]
+                                        .compareTo(check2.getName().split("\\.")[1]);
                                 if (res == 0) {
-                                    res = result1.getName().split("\\.")[2]
-                                            .compareTo(result2.getName().split("\\.")[2]);
+                                    res = check1.getName().split("\\.")[2]
+                                            .compareTo(check2.getName().split("\\.")[2]);
                                     if (res == 0) {
-                                        res = result1.getFile().getAbsolutePath()
-                                                .compareTo(result2.getFile().getAbsolutePath());
+                                        res = check1.getFile().getAbsolutePath()
+                                                .compareTo(check2.getFile().getAbsolutePath());
                                         if (res == 0) {
-                                            res = result1.getLine().compareTo(result2.getLine());
+                                            res = check1.getLine().compareTo(check2.getLine());
                                             if (res == 0) {
-                                                res = result1.getLocation()
-                                                        .compareTo(result2.getLocation());
+                                                res = check1.getLocation()
+                                                        .compareTo(check2.getLocation());
                                             }
                                         }
                                     }
@@ -418,7 +403,7 @@ public class ViolationsView extends ViewPart implements IExportableView {
                     listInputs.add(value);
                 }
             }
-            for (final CheckResult value : pCheckResults) {
+            for (final CheckResult value : violations) {
                 listInputs.add(value);
             }
 
@@ -468,18 +453,18 @@ public class ViolationsView extends ViewPart implements IExportableView {
                     String ruleName, criticity, message = "Violation detected here.";
                     Integer line;
                     IFile file;
-                    for (final CheckResult checkResult : analysisResults) {
-                        if (checkResult.getMessage().isEmpty()) {
+                    for (final CheckResult violation : analysisResults) {
+                        if (violation.getMessage().isEmpty()) {
                             message = "No message in description. Please refer to CNES RNC.";
                         } else {
-                            message = checkResult.getMessage();
+                            message = violation.getMessage();
                         }
-                        ruleName = checkResult.getName();
+                        ruleName = violation.getName();
                         criticity = PlatformUI.getPreferenceStore()
-                                .getString(checkResult.getId() + ".Criticity");
-                        line = checkResult.getLine();
+                                .getString(violation.getId() + ".Criticity");
+                        line = violation.getLine();
                         file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
-                                new Path(checkResult.getFile().getAbsolutePath()).makeRelativeTo(
+                                new Path(violation.getFile().getAbsolutePath()).makeRelativeTo(
                                         ResourcesPlugin.getWorkspace().getRoot().getFullPath()));
 
                         // If the file already has marker of type violations
@@ -561,214 +546,6 @@ public class ViolationsView extends ViewPart implements IExportableView {
         this.viewer.getControl().setFocus();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.cnes.analysis.tools.ui.view.IExportableView#exportToCSV(java.io.File)
-     */
-    @Override
-    public void exportToCSV(final File file) throws IOException {
-        final FileWriter out = new FileWriter(file);
-        out.write("Rule, File, Location, Value, Criticity\n");
-        for (final CheckResult checkResult : (CheckResult[]) this.getViewer().getInput()) {
-            out.write(checkResult.getName() + "," + checkResult.getFile().getAbsolutePath() + ","
-                    + checkResult.getLocation() + "," + checkResult.getLine().toString() + "\n");
-        }
-
-        out.close();
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.cnes.analysis.tools.ui.view.IExportableView#exportToXML(java.io.File)
-     */
-    @Override
-    public void exportToXML(final File file) throws IOException {
-        LOGGER.finest("begin method toXML");
-        final List<Attribute> attributes = new ArrayList<Attribute>();
-        final List<Attribute> resultAttributes = new ArrayList<Attribute>();
-        /*
-         * Creation of the root element <xsd:element name="analysisProject"
-         * type="anr:analysisProjectType" minOccurs="1" maxOccurs="1" />
-         */
-
-        final Element analysisProjectElement = new Element("analysisProject");
-        analysisProjectElement.setAttribute(new Attribute("analysisProjectName", analysisProject));
-        final Document document = new Document(analysisProjectElement);
-
-        // BEGINNING OF SEQUENCE <xsd:sequence>
-        // -- <xsd:element name="analysisInformations"
-        // -- type="anr:analysisInformationsType" minOccurs="1"
-        // maxOccurs="1">
-
-        final Element analysisInformation = new Element("analysisInformations");
-        attributes.add(new Attribute("analysisConfigurationId", "standard"));
-        attributes.add(new Attribute("analysisDate", this.date));
-        attributes.add(new Attribute("author", this.author));
-
-        analysisInformation.setAttributes(attributes);
-        document.getRootElement().addContent(analysisInformation);
-        // -- <xsd:element name="analysisFile" type="anr:analysisFileType"
-        // -- minOccurs="0" maxOccurs="unbounded" />
-        for (final CheckResult violation : this.analysisResults) {
-            attributes.clear();
-
-            // -- <xsd:attribute name="fileName" type="xsd:string"
-            // -- use="required" />
-            // Note : We take only the last segment of the filepath to
-            // get
-            // the filename.
-            // -- <xsd:attribute name="language" type="xsd:string" />
-            final String language = this.getFileExtension(file.getAbsolutePath());
-            final String fileName = violation.getFile().getAbsolutePath();
-            // The analysisFile element is being added only and only if it's not
-            // already in the XML document.
-            boolean analysisFileMarked = false;
-            for (final Element element : document.getRootElement().getChildren("analysisFile")) {
-                if (element.getAttributeValue("fileName").equals(fileName)
-                        && element.getAttributeValue("language").equals(language)) {
-                    analysisFileMarked = true;
-                }
-            }
-            if (!analysisFileMarked) {
-                final Element analysisFile = new Element("analysisFile");
-                attributes.add(new Attribute("language", language));
-                attributes.add(new Attribute("fileName", fileName));
-                analysisFile.setAttributes(attributes);
-                document.getRootElement().addContent(analysisFile);
-            }
-        }
-        Element result, analysisRule = null;
-        int resultId = 1;
-        for (final CheckResult violation : this.analysisResults) {
-            boolean elementAlreadyExisting = false;
-            Element existingElement = null;
-            for (final Element element : document.getRootElement().getChildren("analysisRule")) {
-                for (final Attribute attribute : element.getAttributes()) {
-                    if (attribute.getName().equals("analysisRuleId")
-                            && attribute.getValue().equals(violation.getId())) {
-                        elementAlreadyExisting = true;
-                        existingElement = element;
-                    }
-                }
-            }
-            if (!elementAlreadyExisting || existingElement == null) {
-                analysisRule = new Element("analysisRule");
-                analysisRule.setAttribute(new Attribute("analysisRuleId", violation.getName()));
-            } else {
-                analysisRule = existingElement;
-            }
-
-            result = new Element("result");
-            resultAttributes.clear();
-            // no justification for now
-            // no outputDetail for now neither
-
-            resultAttributes.add(new Attribute("resultId", Integer.toString(resultId)));
-            resultId++;
-            resultAttributes.add(new Attribute("fileName", violation.getFile().getAbsolutePath()));
-            resultAttributes.add(new Attribute("resultLine", violation.getLine().toString()));
-
-            /*
-             * The location and message are defined in violations by only one
-             * attribute (String) made this way: [Location -> Message], so we
-             * split it to get the two exploitable strings.
-             */
-            resultAttributes.add(new Attribute("resultNamePlace", violation.getLocation()));
-            /*
-             * The result message is defined by the XSD as a sequence of element
-             * resultMessage (not an attribute).
-             */
-            final Element resultMessage = new Element("resultMessage");
-
-            resultMessage.addContent(violation.getMessage());
-
-            result.addContent(resultMessage);
-            result.setAttributes(resultAttributes);
-            /*
-             * The result is being added to the analysisRule element;
-             */
-            analysisRule.addContent(result);
-
-            /*
-             * If the rule analysisRule was already in the document, then it's
-             * not necessary to add it again in the document, however if it's
-             * the first time that this analysisRule appear in the document we
-             * have to add it to the Root element.
-             */
-            if (!elementAlreadyExisting) {
-                document.getRootElement().addContent(analysisRule);
-            }
-        }
-
-        final XMLOutputter xmlOutput = new XMLOutputter();
-        xmlOutput.setFormat(Format.getPrettyFormat());
-        final FileOutputStream fileOutput = new FileOutputStream(file);
-
-        xmlOutput.output(document, fileOutput);
-        fileOutput.close();
-        this.verifyXMLandXSDValidity(file);
-
-        LOGGER.finest("end method toXML");
-
-    }
-
-    /**
-     * @param fileName
-     * @return The extension name of the file
-     */
-    private String getFileExtension(String fileName) {
-        String extension = "unknown";
-
-        int i = fileName.lastIndexOf('.');
-        int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
-
-        if (i > p) {
-            extension = fileName.substring(i + 1);
-        }
-        return extension;
-    }
-
-    /**
-     * @param file
-     *            The XML file to validate
-     * 
-     * @return Returns if XSD is W3C valid and XML is W3C valid and respecting
-     *         XSD specifications.
-     * 
-     * @throws IOException
-     *             when XSD file can't be read.
-     */
-    public boolean verifyXMLandXSDValidity(final File file) throws IOException {
-        LOGGER.finest("begin method verifyXMLandXSDValidity");
-        boolean validity;
-        try {
-            final SchemaFactory factory = SchemaFactory
-                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-            // TODO : Find better way to locate the XSD file in resources
-            final URL globalPath = new URL(
-                    this.getClass().getProtectionDomain().getCodeSource().getLocation()
-                            + MetricsView.XSD_FILEPATH);
-
-            final Schema dda = factory.newSchema(globalPath);
-
-            final Validator validator = dda.newValidator();
-            validator.validate(new StreamSource(file));
-            validity = true;
-        } catch (SAXException exception) {
-            validity = false;
-            exception.printStackTrace();
-        }
-        LOGGER.finest("end method verifyXMLandXSDValidity");
-        return validity;
-
-    }
-
     /**
      * This method will clear the message and make it appear on the view.
      * 
@@ -822,6 +599,14 @@ public class ViolationsView extends ViewPart implements IExportableView {
             this.parent.layout();
         }
 
+    }
+
+    public Set<CheckResult> getAnalysisResults() {
+        return analysisResults;
+    }
+
+    public void setAnalysisResults(Set<CheckResult> analysisResults) {
+        this.analysisResults = analysisResults;
     }
 
 }
