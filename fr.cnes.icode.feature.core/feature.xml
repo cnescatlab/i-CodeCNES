@@ -100,12 +100,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.junit"/>
       <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.11.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources" version="3.10.0" match="greaterOrEqual"/>
@@ -115,6 +113,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.ui.ide" version="3.11.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text" version="3.10.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.core.di" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.export" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.12.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.11.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -126,6 +128,27 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="fr.cnes.analysis.tools.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.cnes.analysis.tools.export"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.cnes.analysis.tools.export.csv"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.cnes.analysis.tools.export.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
