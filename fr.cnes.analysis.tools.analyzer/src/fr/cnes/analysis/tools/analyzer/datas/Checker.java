@@ -22,13 +22,13 @@ public class Checker {
     private List<CheckResult> checkResults = new LinkedList<CheckResult>();;
 
     /**
-     * Method to add a violation, knowing its location and line.
+     * Method to add a {@link CheckResult}, knowing its location and line.
      * 
      * @param pLocation
      *            the location
      * 
      * @param pMessage
-     *            violation's message
+     *            {@link CheckResult}'s message
      * @param pLine
      *            the line
      * @throws JFlexException

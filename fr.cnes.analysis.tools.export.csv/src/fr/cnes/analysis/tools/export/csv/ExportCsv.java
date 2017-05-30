@@ -23,7 +23,7 @@ import java.util.List;
  * </p>
  * <p>
  * This class is responsible of the export in the format CSV of
- * {@link Violation} elements into a {@link File}.
+ * {@link CheckResult} elements into a {@link File}.
  * </p>
  * 
  * @since 3.0

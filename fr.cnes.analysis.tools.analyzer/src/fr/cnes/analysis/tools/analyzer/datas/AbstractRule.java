@@ -22,35 +22,34 @@ public abstract class AbstractRule extends AbstractEvaluation {
     /** Analysed file. */
     private File file;
 
-    /** List of violations found during analysis. **/
+    /** List of {@link CheckResult} found during analysis. **/
     private List<CheckResult> checkResults;
 
     private CheckResult checkResult;// TODO à voir pour l'enlever
 
     /**
-     * Getter for the list of violations.
+     * Getter for the list of {@link CheckResult}.
      * 
-     * @return the violations
+     * @return the {@link CheckResult}s
      */
     public List<CheckResult> getCheckResults() {
         return this.checkResults;
     }
 
     /**
-     * Setter for the list of violations.
+     * Setter for the list of {@link CheckResult}s.
      * 
      * @param pCheckResults
-     *            the violations to set
+     *            the {@link CheckResult}s to set
      */
-    public void setViolations(final List<CheckResult> pCheckResults) {
+    public void setCheckResults(final List<CheckResult> pCheckResults) {
         this.checkResults = pCheckResults;
     }
 
     /**
      * Run analysis for considering file and rule.
      * 
-     * @return list of {@link fr.cnes.analysis.tools.analyzer.datas.Violation}
-     *         found during analysis
+     * @return list of {@link CheckResult}s found during analysis
      * @throws IOException
      *             IO problem occurred
      * @throws JFlexException
@@ -59,7 +58,7 @@ public abstract class AbstractRule extends AbstractEvaluation {
     public abstract List<CheckResult> run() throws IOException, JFlexException;
 
     /**
-     * Method to add a violation, knowing its location and line.
+     * Method to add a {@link CheckResult}, knowing its location and line.
      * 
      * @param pLocation
      *            the location
@@ -86,7 +85,7 @@ public abstract class AbstractRule extends AbstractEvaluation {
     }
 
     /**
-     * Method to add a violation, knowing its location and line.
+     * Method to add a {@link CheckResult}, knowing its location and line.
      * 
      * @param pLocation
      *            the location
