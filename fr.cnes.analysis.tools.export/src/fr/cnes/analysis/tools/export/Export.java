@@ -75,10 +75,10 @@ public class Export {
     }
 
     /**
-     * This function export each {@link Violation} of the {@code violations}
+     * This function export each {@link CheckResult} of {@code checkResults}
      * parameter into the {@link File} parameter.
      * 
-     * @param violations
+     * @param checkResults
      *            to export.
      * @param outputFile
      *            to use for the export.
@@ -91,17 +91,17 @@ public class Export {
      *             when the export failed due to a {@link java.io.File}
      *             exception.
      */
-    public void export(List<CheckResult> violations, File outputFile)
+    public void export(List<CheckResult> checkResults, File outputFile)
             throws NoContributorMatchingException, NoExtensionIndicatedException, IOException {
         IExport exporter = this
                 .getExportClass(this.getExtensionFromFilePath(outputFile.getAbsolutePath()));
-        exporter.export(violations, outputFile);
+        exporter.export(checkResults, outputFile);
     }
 
     /**
      * @param inputFile
      *            to realize the import on.
-     * @return the list of {@link Violation} extracted from the
+     * @return the list of {@link CheckResult} extracted from the
      *         {@code inputFile}.
      * @throws NoExtensionIndicatedException
      *             when the {@code inputFile} do not end with an extension.
@@ -112,14 +112,14 @@ public class Export {
      */
     public List<CheckResult> importResults(File inputFile)
             throws NoExtensionIndicatedException, NoContributorMatchingException {
-        List<CheckResult> violations = null;
+        List<CheckResult> checkResults = null;
         IImport importer = this
                 .getImportClass(this.getExtensionFromFilePath(inputFile.getAbsolutePath()));
-        violations = importer.importResults(inputFile);
-        if (violations == null) {
+        checkResults = importer.importResults(inputFile);
+        if (checkResults == null) {
             throw new NoContributorMatchingException();
         }
-        return violations;
+        return checkResults;
     }
 
     /**

@@ -23,13 +23,13 @@ import java.util.List;
 public interface IExport {
 
     /**
-     * This function exports {@link Violation} of {@code violations} into
+     * This function exports {@link CheckResult} of {@code checkResults} into
      * {@link File} indicated pending it's format.
      * 
      * @param checkResults
      *            to exports.
      * @param outputFile
-     *            to write the violations.
+     *            to write the {@link CheckResult}s.
      * @throws IOException
      *             when a {@link java.io.File} exception occur while using
      *             {@code outputFile}.
