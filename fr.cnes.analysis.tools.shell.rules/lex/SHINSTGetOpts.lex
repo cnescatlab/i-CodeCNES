@@ -22,7 +22,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.util.logging.Logger;
 
@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 
 %state COMMENT, NAMING, STRING
@@ -89,7 +89,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 	}else if(!foundGetOpt){
 		setError("MAIN PROGRAM","It is mandatory to use getopts & getopt in the script. (getopt is missing)", 0);
 	}
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

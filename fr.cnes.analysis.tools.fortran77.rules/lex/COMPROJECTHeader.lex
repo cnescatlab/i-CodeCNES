@@ -25,7 +25,8 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -38,7 +39,7 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysi
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE, AVOID
 
@@ -114,11 +115,11 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
             LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
 		} else if (linesType.get(0).equals("comment") && !locations.get(0).toString().toLowerCase()
-															.contains(getViolation().getFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
+															.contains(getCheckResult().getFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
             LOGGER.fine("Setting error line "+(lines.get(0))+" because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(0));
 		} else if (linesType.get(1).equals("comment") && !locations.get(1).toString().toLowerCase()
-															.contains(getViolation().getFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
+															.contains(getCheckResult().getFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
 			LOGGER.fine("Setting error line "+(lines.get(1))+" because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(1));
 		}	
@@ -153,7 +154,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	linesType.clear();
 	locations.clear();
 	lines.clear();
-return getViolations();
+return getCheckResults();
 %eofval}
 
 /* There is no specific rule word in this rule. However, we define END to avoid */

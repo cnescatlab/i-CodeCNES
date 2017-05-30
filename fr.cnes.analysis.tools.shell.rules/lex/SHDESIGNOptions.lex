@@ -22,7 +22,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -34,7 +34,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 
 %state COMMENT, NAMING, CASE, CASELONG
@@ -86,7 +86,7 @@ ESAC		 = "esac"
 		if (lineError == 0) location = "MAIN PROGRAM";
 		setError(location,"It is mandatory to use getopts and getopt and to provide the –h, -help, –v and -version options at least.", lineError);
 	}
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

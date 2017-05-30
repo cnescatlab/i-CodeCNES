@@ -25,7 +25,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -38,7 +38,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE, HOLL, ASSIGN, GOTO
 
@@ -110,9 +110,9 @@ CHAR		 = "character" {SPACE}* \*
 	 * Method used to sort violations on increasing order considering their lines.
 	 **/
 	private void sortResults() {
-        Collections.sort(getViolations(), new Comparator<Violation>() {
+        Collections.sort(getCheckResults(), new Comparator<CheckResult>() {
             @Override
-            public int compare(final Violation o1, final Violation o2) {
+            public int compare(final CheckResult o1, final CheckResult o2) {
                 return o1.getLine().compareTo(o2.getLine());
             }
         });
@@ -121,14 +121,14 @@ CHAR		 = "character" {SPACE}* \*
 
 %eofval{ 
 	/** We had results of 4 other rules. **/
-	getViolations().addAll(rule1.run());
-	getViolations().addAll(rule2.run());
-	getViolations().addAll(rule3.run());
-	getViolations().addAll(rule4.run());
+	getCheckResults().addAll(rule1.run());
+	getCheckResults().addAll(rule2.run());
+	getCheckResults().addAll(rule3.run());
+	getCheckResults().addAll(rule4.run());
 	
 	/** The results are sorted on lines' increasing order. **/
 	sortResults();
-	return getViolations(); 
+	return getCheckResults(); 
 %eofval}
 
 

@@ -26,7 +26,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
@@ -40,7 +41,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* We add 5 states to the initial ones : 													*/
 /*    - EQUAL, which is used when an equal after a variable is foundd (like VAR = ...)		*/
@@ -177,9 +178,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	 **/
 	private void sortResults(){
         LOGGER.finest("begin method sortResults");
-		Collections.sort(getViolations(), new Comparator<Violation>() {
+		Collections.sort(getCheckResults(), new Comparator<CheckResult>() {
          @Override
-         public int compare(Violation o1, Violation o2) {
+         public int compare(CheckResult o1, CheckResult o2) {
              int comparison = 0;
 			 if (o1.getLine() < o2.getLine()){
 				comparison = -1;
@@ -245,7 +246,7 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 %eofval{
 	raiseRemainingErrors();
 	sortResults();
-return getViolations();
+return getCheckResults();
 %eofval}
 
 

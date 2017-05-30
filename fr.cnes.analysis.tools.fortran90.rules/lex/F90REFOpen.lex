@@ -27,7 +27,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -39,7 +39,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* A state called OPEN helps to determine whenever an OPEN statement begins. */
 %state COMMENT, NAMING, NEW_LINE, LINE, OPEN
@@ -122,7 +122,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 %eofval{ 
 	 
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 /* Rule words are FILE, SCRATCH, STATUS, UNKNOWN and POSITION. 		 */

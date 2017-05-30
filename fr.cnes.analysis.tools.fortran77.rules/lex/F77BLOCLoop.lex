@@ -25,7 +25,8 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -37,7 +38,7 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysi
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* A new state named DO_LINE is created in order to verify the DO rule */
 %state COMMENT, NAMING, NEW_LINE, LINE, DO_LINE
@@ -92,7 +93,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-return getViolations();
+return getCheckResults();
 %eofval}
 
 /* Transition word is else (or ELSE). We also look for DO, END, THEN and IF. */
