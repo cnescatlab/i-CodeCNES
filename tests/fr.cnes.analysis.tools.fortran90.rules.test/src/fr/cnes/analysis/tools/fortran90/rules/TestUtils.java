@@ -13,16 +13,16 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 public final class TestUtils {
 	private TestUtils() {
 		// do nothing
 	}
 
-	public static final String getViolations(final List<Violation> list) {
+	public static final String getCheckResults(final List<CheckResult> list) {
 		String message = "line(s), location(s) : ";
-		for (final Violation value : list) {
+		for (final CheckResult value : list) {
 			message = message + "\n    " + value.getLine().toString() + ", " + value.getLocation();
 		}
 		return message;

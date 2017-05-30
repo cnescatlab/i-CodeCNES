@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
@@ -27,11 +26,11 @@ import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.RuleAnalysisJob;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 public class TestGlobal_2 {
 	/** This list contains all the violations when the analyse is executed **/
-	public static List<Violation> list = new LinkedList<Violation>();
+	public static List<CheckResult> list = new LinkedList<CheckResult>();
 	List<File> listFiles = new LinkedList<File>();
 
 	/**********************/
@@ -78,7 +77,7 @@ public class TestGlobal_2 {
 				@Override
 				public void done(final IJobChangeEvent event) {
 					/** Running rule **/
-					TestGlobal_2.list = analysis.getViolations();
+					TestGlobal_2.list = analysis.getCheckResults();
 				}
 			});
 
@@ -110,7 +109,7 @@ public class TestGlobal_2 {
 				else {
 					int i = file.getAbsolutePath().lastIndexOf(".");
 					if (file.getAbsolutePath().substring(i + 1).toLowerCase().equals(extension)) {
-						
+
 						listFiles.add(file);
 					}
 				}
@@ -130,40 +129,41 @@ public class TestGlobal_2 {
 
 			/** If the list is bigger than one **/
 			if (list.size() > 1) {
-				String rule = list.get(0).getRuleName();
+				String rule = list.get(0).getName();
 				String file = new Path(list.get(0).getFile().getAbsolutePath()).lastSegment();
 				int errors = 1;
 				/** Iterate over the elements **/
 				for (int i = 1; i < list.size(); i++) {
-					Violation violation = list.get(i);
+					CheckResult checkResult = list.get(i);
 					/** If the is more errors in the same rule **/
-					if (violation.getRuleName().equals(rule)) {
+					if (checkResult.getName().equals(rule)) {
 						/**
 						 * If there is more errors in the same file -> increase
 						 * error
 						 **/
-						if (new Path(violation.getFile().getAbsolutePath()).lastSegment().equals(file)) {
+						if (new Path(checkResult.getFile().getAbsolutePath()).lastSegment().equals(file)) {
 							errors++;
 						}
 						/** If the filename has change -> print error **/
 						else {
 							output.write(rule + " " + file + " " + errors + "\n");
-							file = new Path(violation.getFile().getAbsolutePath()).lastSegment();
+							file = new Path(checkResult.getFile().getAbsolutePath()).lastSegment();
 							errors = 1;
 						}
 					}
 					/** If rule has change -> print error **/
 					else {
 						output.write(rule + " " + file + " " + errors + "\n");
-						rule = violation.getRuleName();
-						file = new Path(violation.getFile().getAbsolutePath()).lastSegment();
+						rule = checkResult.getName();
+						file = new Path(checkResult.getFile().getAbsolutePath()).lastSegment();
 						errors = 1;
 					}
 				}
 			}
 			/** Only one error -> print directly **/
 			else if (list.size() > 0) {
-				output.write(list.get(0).getRuleName() + " " + new Path(list.get(0).getFile().getAbsolutePath()).lastSegment() + " 1\n");
+				output.write(list.get(0).getName() + " "
+						+ new Path(list.get(0).getFile().getAbsolutePath()).lastSegment() + " 1\n");
 			}
 			/** After run for all files: close file writer **/
 			output.close();

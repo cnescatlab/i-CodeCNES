@@ -11,18 +11,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-
-
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.F90DATAFloat;
 import fr.cnes.analysis.tools.fortran90.rules.TestUtils;
@@ -62,15 +60,15 @@ public class TestF90DATAFloat {
 			this.RULE.setInputFile(file);
 
 			// Running rule
-			final List<Violation> list = this.RULE.run();
+			final List<CheckResult> list = this.RULE.run();
 
 			// We verify that there is an error.
 			assertFalse("No error found.", list.isEmpty());
 
 			// We verify that there is the right number of errors
 
-			final int nbViolations = list.size();
-			assertEquals("Wrong number of violations : ", LINES.length, nbViolations);
+			final int nbCheckResults = list.size();
+			assertEquals("Wrong number of CheckResults : ", LINES.length, nbCheckResults);
 
 			// We verify that the error detected is the right one. There is
 			// only one case of error : a blank common (with no name) is
@@ -79,13 +77,13 @@ public class TestF90DATAFloat {
 			assertEquals("Wrong file name : ", ERROR_FILE, fileName);
 
 			// We verify the values
-			for (final Violation value : list) {
+			for (final CheckResult value : list) {
 				final Integer index = list.indexOf(value);
 				final String location = value.getLocation();
-				assertTrue("Violation " + index.toString() + " has wrong location : " + location + " should contain "
+				assertTrue("CheckResult " + index.toString() + " has wrong location : " + location + " should contain "
 						+ LOCATIONS[index], location.contains(LOCATIONS[index]));
 				final int line = value.getLine();
-				assertEquals("Violation " + index.toString() + " is in wrong line : ", LINES[index], line);
+				assertEquals("CheckResult " + index.toString() + " is in wrong line : ", LINES[index], line);
 			}
 		} catch (final FileNotFoundException e) {
 			fail("Erreur d'analyse (FileNotFoundException)");
@@ -110,10 +108,10 @@ public class TestF90DATAFloat {
 			this.RULE.setInputFile(file);
 
 			// Running rule
-			final List<Violation> list = this.RULE.run();
+			final List<CheckResult> list = this.RULE.run();
 
 			// We verify that there is an error.
-			assertTrue("Error(s) are detected : " + TestUtils.getViolations(list), list.isEmpty());
+			assertTrue("Error(s) are detected : " + TestUtils.getCheckResults(list), list.isEmpty());
 
 		} catch (final FileNotFoundException e) {
 			fail("Erreur d'analyse (FileNotFoundException)");

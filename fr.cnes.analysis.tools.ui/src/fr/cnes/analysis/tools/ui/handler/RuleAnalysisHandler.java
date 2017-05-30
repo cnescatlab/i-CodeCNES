@@ -21,7 +21,7 @@ import org.eclipse.ui.PlatformUI;
 
 import fr.cnes.analysis.tools.analyzer.AbstractAnalysisJob;
 import fr.cnes.analysis.tools.analyzer.RuleAnalysisJob;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
 /**
@@ -30,15 +30,15 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * 
  */
 public class RuleAnalysisHandler extends AbstractAnalysisHandler {
-    /**
-     * Logger
-     */
-    private static final Logger LOGGER = Logger.getLogger(RuleAnalysisHandler.class.getName());
+	/**
+	 * Logger
+	 */
+	private static final Logger LOGGER = Logger.getLogger(RuleAnalysisHandler.class.getName());
 
-    /**
-     * List of all files that will be analyzed
-     */
-    private List<String> analyzedFiles = new ArrayList<String>();
+	/**
+	 * List of all files that will be analyzed
+	 */
+	private List<String> analyzedFiles = new ArrayList<String>();
 
 	public RuleAnalysisHandler() {
 		this(null);
@@ -48,90 +48,86 @@ public class RuleAnalysisHandler extends AbstractAnalysisHandler {
 		super(p);
 	}
 
-    /**
-     * Run the analysis on the retrieved files.
-     * 
-     * @param files
-     *            the files to analyze
-     * @param pAnalyzerID
-     *            the id of analyzer on which the analysis is made
-     */
-    @Override
-    public void runAnalysis(final List<IPath> files, final String pAnalyzerID) {
+	/**
+	 * Run the analysis on the retrieved files.
+	 * 
+	 * @param files
+	 *            the files to analyze
+	 * @param pAnalyzerID
+	 *            the id of analyzer on which the analysis is made
+	 */
+	@Override
+	public void runAnalysis(final List<IPath> files, final String pAnalyzerID) {
 
-        LOGGER.finest("Begin runAnalysis method");
+		LOGGER.finest("Begin runAnalysis method");
 
-        // Clear the analyzedFiles list in order to have the new analyzed files
-        analyzedFiles.clear();
+		// Clear the analyzedFiles list in order to have the new analyzed files
+		analyzedFiles.clear();
 
-        // Instantiate analyzer
-        List<File> analysisFiles = new ArrayList<>();
-        for(IPath file : files){
-        	analysisFiles.add(file.toFile());
-        }
-        final AbstractAnalysisJob analysis = new RuleAnalysisJob(pAnalyzerID, analysisFiles);
+		// Instantiate analyzer
+		List<File> analysisFiles = new ArrayList<>();
+		for (IPath file : files) {
+			analysisFiles.add(file.toFile());
+		}
+		final AbstractAnalysisJob analysis = new RuleAnalysisJob(pAnalyzerID, analysisFiles);
 
-        // run analysis
-        analysis.setUser(true);
-        analysis.schedule();
+		// run analysis
+		analysis.setUser(true);
+		analysis.schedule();
 
-        // add change listener to check when the job is done
-        analysis.addJobChangeListener(new JobChangeAdapter() {
+		// add change listener to check when the job is done
+		analysis.addJobChangeListener(new JobChangeAdapter() {
 
-            @Override
-            public void done(final IJobChangeEvent event) {
-                Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void done(final IJobChangeEvent event) {
+				Display.getDefault().asyncExec(new Runnable() {
 
-                    @Override
+					@Override
 
-                    public void run() {
-                        if (analysis.getResult().isOK()) {
-                            RuleAnalysisHandler.this
-                                    .updateView(((RuleAnalysisJob) event.getJob()).getViolations());
-                        }
-                    }
+					public void run() {
+						if (analysis.getResult().isOK()) {
+							RuleAnalysisHandler.this.updateView(((RuleAnalysisJob) event.getJob()).getCheckResults());
+						}
+					}
 
-                });
-            }
-        });
+				});
+			}
+		});
 
-        LOGGER.finest("End runAnalysis method");
-    }
+		LOGGER.finest("End runAnalysis method");
+	}
 
-    /**
-     * Update the violation's view
-     * 
-     * @param violations
-     *            .
-     */
-    protected void updateView(final List<Violation> violations) {
-        LOGGER.finest("Begin updateView method");
+	/**
+	 * Update the violation's view
+	 * 
+	 * @param pCheckResults
+	 *            .
+	 */
+	protected void updateView(final List<CheckResult> pCheckResults) {
+		LOGGER.finest("Begin updateView method");
 
-        try {
-            // get the page
-            final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                    .getActivePage();
+		try {
+			// get the page
+			final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
-            // open view
-            page.showView(ViolationsView.VIEW_ID);
+			// open view
+			page.showView(ViolationsView.VIEW_ID);
 
-            // get view
-            final ViolationsView view = (ViolationsView) page.findView(ViolationsView.VIEW_ID);
+			// get view
+			final ViolationsView view = (ViolationsView) page.findView(ViolationsView.VIEW_ID);
 
-            // show rules analyze results
-            if (view != null) {
-                view.display(violations, this.getSelectedProject(), this.getAuthor(),
-                        this.getDate());
-            }
+			// show rules analyze results
+			if (view != null) {
+				view.display(pCheckResults, this.getSelectedProject(), this.getAuthor(), this.getDate());
+			}
 
-        } catch (final PartInitException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
-        }
+		} catch (final PartInitException exception) {
+			LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(), exception);
+			showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Internal Error",
+					"Contact support service : \n" + exception.getMessage());
+		}
 
-        LOGGER.finest("End updateView method");
-    }
+		LOGGER.finest("End updateView method");
+	}
 
 }

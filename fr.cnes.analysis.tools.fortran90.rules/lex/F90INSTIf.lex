@@ -23,7 +23,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -35,7 +35,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* We had 2 states :	*/
 /*		-				*/
@@ -78,7 +78,7 @@ BRANCH		 = [^a-zA-Z0-9\_]("exit" | "cycle" | "goto" | "return")[^a-zA-Z0-9\_]
 
 %eofval{ 
 	 
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

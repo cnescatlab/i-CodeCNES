@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 /**
@@ -27,11 +27,10 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
  */
 public class RuleAnalyzer extends AbstractAnalyzer {
 	/** Logger. */
-	private static final Logger LOGGER = Logger.getLogger(RuleAnalyzer.class
-			.getName());
+	private static final Logger LOGGER = Logger.getLogger(RuleAnalyzer.class.getName());
 
 	/** List of values found during analysis. **/
-	private List<Violation> violations;
+	private List<CheckResult> checkResults;
 
 	/**
 	 * Constructor that set the job with string name, extension id and a list of
@@ -44,57 +43,54 @@ public class RuleAnalyzer extends AbstractAnalyzer {
 	 * @param pExtensionId
 	 *            the id of rule/metric contribution
 	 */
-	public RuleAnalyzer(final String name, final List<File> list,
-			final String pExtensionId) {
+	public RuleAnalyzer(final String name, final List<File> list, final String pExtensionId) {
 		super(name, list, pExtensionId);
-		this.violations = new LinkedList<Violation>();
+		this.checkResults = new LinkedList<CheckResult>();
 	}
 
 	/**
-	 * Retrieve the violations of analysis.
+	 * Retrieve the violations of analysis.TODO
 	 * 
 	 * @return violations of the rule analysis
 	 */
-	public List<Violation> getViolations() {
-		return this.violations;
+	public List<CheckResult> getCheckResults() {
+		return this.checkResults;
 	}
 
 	/**
-	 * Set the values with a list.
+	 * Set the values with a list. TODO
 	 * 
-	 * @param pViolations
+	 * @param pCheckResults
 	 *            the list of violations to set
 	 */
-	public void setViolations(final List<Violation> pViolations) {
-		this.violations = pViolations;
+	public void setCheckResults(final List<CheckResult> pCheckResults) {
+		this.checkResults = pCheckResults;
 	}
 
 	/**
 	 * Set the values with an array.
 	 * 
-	 * @param pViolations
+	 * @param pCheckResult
 	 *            the array of violations to set
 	 */
-	public void setDescriptors(final Violation[] pViolations) {
-		this.violations = new LinkedList<Violation>();
-		for (final Violation value : pViolations) {
-			this.violations.add(value);
+	public void setDescriptors(final CheckResult[] pCheckResult) {
+		this.checkResults = new LinkedList<CheckResult>();
+		for (final CheckResult value : pCheckResult) {
+			this.checkResults.add(value);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * fr.cnes.analysis.tools.analyzer.AbstractAnalyzer#runEvaluation(org.eclipse
-	 * .core.runtime.IConfigurationElement, java.util.List,
+	 * @see fr.cnes.analysis.tools.analyzer.AbstractAnalyzer#runEvaluation(org.
+	 * eclipse .core.runtime.IConfigurationElement, java.util.List,
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	protected IStatus runEvaluation(final IConfigurationElement contribution,
-			final List<File> pFiles, final IProgressMonitor monitor)
-			throws CloneNotSupportedException, CoreException, IOException,
-			JFlexException {
+	protected IStatus runEvaluation(final IConfigurationElement contribution, final List<File> pFiles,
+			final IProgressMonitor monitor)
+			throws CloneNotSupportedException, CoreException, IOException, JFlexException {
 		LOGGER.finest("Begin runEvaluation method");
 
 		// Instantiate return variable
@@ -104,15 +100,13 @@ public class RuleAnalyzer extends AbstractAnalyzer {
 		for (final File file : pFiles) {
 
 			// Get the evaluation
-			final AbstractRule rule = (AbstractRule) contribution
-					.createExecutableExtension("class");
+			final AbstractRule rule = (AbstractRule) contribution.createExecutableExtension("class");
 			rule.setContribution(contribution);
 
 			// Run the evaluation
 			LOGGER.finest("File : " + file.getName());
-			monitor.subTask("Analyzing " + contribution.getAttribute("id")
-					+ " on file " + file.getName());
-			this.violations.addAll(this.runRuleOnFile(rule, file));
+			monitor.subTask("Analyzing " + contribution.getAttribute("id") + " on file " + file.getName());
+			this.checkResults.addAll(this.runRuleOnFile(rule, file));
 			monitor.worked(1);
 
 			// Stop analysis if cancel button selected
@@ -139,8 +133,8 @@ public class RuleAnalyzer extends AbstractAnalyzer {
 	 * @throws JFlexException
 	 *             JFlex analysis error
 	 */
-	private List<Violation> runRuleOnFile(final AbstractRule rule,
-			final File file) throws IOException, JFlexException {
+	private List<CheckResult> runRuleOnFile(final AbstractRule rule, final File file)
+			throws IOException, JFlexException {
 		LOGGER.finest("Begin runRuleOnFile method");
 
 		// Initializing file reader in the metric
@@ -150,8 +144,7 @@ public class RuleAnalyzer extends AbstractAnalyzer {
 		try {
 			return rule.run();
 		} catch (JFlexException e) {
-			String msg = e.getCause().getMessage() + " : file " + file
-					+ " : rule " + rule.getClass();
+			String msg = e.getCause().getMessage() + " : file " + file + " : rule " + rule.getClass();
 			throw new JFlexException(new Exception(msg));
 		}
 	}
@@ -163,6 +156,6 @@ public class RuleAnalyzer extends AbstractAnalyzer {
 	 */
 	@Override
 	protected void canceling() {
-		this.violations.clear();
+		this.checkResults.clear();
 	}
 }
