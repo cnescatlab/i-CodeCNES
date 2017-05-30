@@ -9,11 +9,23 @@
            extensionId="fr.cnes.analysis.tools.fortran77.metric"
            id="fr.cnes.analysis.tools.fortran77.analyzer.metric"
            name="Fortran 77 Metric">
+        <fileExtension
+              name="for">
+        </fileExtension>
+        <fileExtension
+              name="f">
+        </fileExtension>
      </analyzer>
      <analyzer
            extensionId="fr.cnes.analysis.tools.fortran77.rule"
            id="fr.cnes.analysis.tools.fortran77.analyzer.rule"
            name="Fortran 77 Rule">
+        <fileExtension
+              name="for">
+        </fileExtension>
+        <fileExtension
+              name="f">
+        </fileExtension>
      </analyzer>
   </extension>
   </plugin>
