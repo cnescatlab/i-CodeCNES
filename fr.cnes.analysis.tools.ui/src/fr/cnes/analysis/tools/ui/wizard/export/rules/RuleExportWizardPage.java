@@ -5,99 +5,134 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export.rules;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import fr.cnes.analysis.tools.export.Export;
+
 /**
- * RuleExportWizardPage
+ * This class is the main page of the {@link RuleExportWizard}. It's responsible
+ * of suggesting available formats for export to the user using
+ * {@link Export#getAvailableFormats()} and indicating the chosen format to the
+ * next page {@link RuleCreationFileExportWizardPage}.
  * 
- * @version 2.0
- * @since 2017-07-12
+ * @version 3.0
+ * @since 2.0
  * 
- *        This class page is the main one of the Rule Export Wizard. This class
- *        is requesting the user the export's format and defining the next page
- *        to call situationally.
+ * 
  */
 public class RuleExportWizardPage extends WizardPage {
 
-    /** The radio button to choose CSV export format */
-    private Button btnCsv;
-    /** The radio button to choose XML export format */
-    private Button btnXml;
+	/**
+	 * Exporter service in charge of the analysis
+	 */
+	private Export exporter;
 
-    /**
-     * Create the wizard.
-     */
-    public RuleExportWizardPage() {
-        super("RuleExportWizardPage");
-        setTitle("i-Code CNES - Rules violations export");
-        setDescription("Description : Choosing the type of result's export.");
-    }
+	/**
+	 * Buttons list of all buttons offering available format for exportation.
+	 */
+	private List<Button> formatButtons;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.
-     * widgets.Composite)
-     */
-    @Override
-    public void createControl(Composite parent) {
-        final Composite container = new Composite(parent, SWT.NULL);
+	/**
+	 * Create the wizard.
+	 * 
+	 * @param pSelection
+	 * @param exporter
+	 *            service.
+	 */
+	public RuleExportWizardPage(IStructuredSelection pSelection, Export exporter) {
+		super("RuleExportWizardPage");
+		this.setTitle("i-Code CNES - Rules violations export");
+		this.setDescription("Description : Please choose the export format of your analyse.");
+		this.exporter = exporter;
+		formatButtons = new ArrayList<>();
+	}
 
-        setControl(container);
-        container.setLayout(new GridLayout(2, false));
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
+	 */
+	@Override
+	public boolean canFlipToNextPage() {
+		return true;
+	}
 
-        btnCsv = new Button(container, SWT.RADIO);
-        btnCsv.setText("CSV");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.
+	 * widgets.Composite)
+	 */
+	@Override
+	public void createControl(Composite pParent) {
+		final Composite container = new Composite(pParent, SWT.NULL);
+		setControl(container);
+		container.setLayout(new GridLayout(2, false));
+		for (String export : exporter.getAvailableFormats().keySet()) {
+			Button btn = new Button(container, SWT.RADIO);
+			btn.setText(export);
+			/*
+			 * A new listener is set to update format chosen in the next page.
+			 */
+			btn.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					RuleCreationFileExportWizardPage nextPage = (RuleCreationFileExportWizardPage) getWizard()
+							.getPage("RuleCreationFileExportWizardPage");
+					nextPage.updateFormat(btn.getText());
+				}
+			});
+			this.formatButtons.add(btn);
+		}
+		if (this.formatButtons.size() > 0) {
+			this.formatButtons.get(0).setSelection(true);
+			RuleCreationFileExportWizardPage nextPage = (RuleCreationFileExportWizardPage) getWizard()
+					.getPage("RuleCreationFileExportWizardPage");
+			nextPage.updateFormat(this.formatButtons.get(0).getText());
+		}
 
-        btnXml = new Button(container, SWT.RADIO);
-        btnXml.setText("XML");
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
+	 */
+	@Override
+	public IWizardPage getNextPage() {
+		return this.getWizard().getPage("RuleCreationFileExportWizardPage");
 
-    /**
-     * @return the btnCsv
-     */
-    public Button getBtnCsv() {
-        return btnCsv;
-    }
+	}
 
-    /**
-     * @return the btnXml
-     */
-    public Button getBtnXml() {
-        return btnXml;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
+	 */
+	@Override
+	public boolean isPageComplete() {
+		return false;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
-     */
-    @Override
-    public IWizardPage getNextPage() {
-        IWizardPage nextPage;
-        if (btnCsv.getSelection()) {
-            nextPage = this.getWizard().getPage("RuleCSVExportWizardPage");
-        } else {
-            nextPage = this.getWizard().getPage("RuleXMLExportWizardPage");
-        }
-        return nextPage;
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.WizardPage#getPreviousPage()
-     */
-    @Override
-    public IWizardPage getPreviousPage() {
-        return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.WizardPage#getPreviousPage()
+	 */
+	@Override
+	public IWizardPage getPreviousPage() {
+		return null;
+	}
 
 }
