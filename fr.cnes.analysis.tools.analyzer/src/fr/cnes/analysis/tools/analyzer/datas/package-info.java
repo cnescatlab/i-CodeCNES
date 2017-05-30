@@ -4,8 +4,8 @@
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
 /**
- * Package containing i-Code CNES analyzer service.
+ * Package containing i-Code CNES analysis data.
  * 
  * @version 3.0
  */
-package fr.cnes.analysis.tools.analyzer;
+package fr.cnes.analysis.tools.analyzer.datas;
