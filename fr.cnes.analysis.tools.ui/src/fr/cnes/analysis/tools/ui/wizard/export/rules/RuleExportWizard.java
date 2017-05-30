@@ -12,94 +12,95 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-import fr.cnes.analysis.tools.ui.wizard.export.rules.csv.RuleCSVExportWizardPage;
-import fr.cnes.analysis.tools.ui.wizard.export.rules.xml.RuleXMLExportWizardPage;
+import fr.cnes.analysis.tools.export.Export;
 
 /**
- * RuleExportWizard
+ * This Wizard contains and handle the different Wizard Page to export analysis
+ * data of the Violations view. When {@link #performFinish()} is called, the
+ * {@link RuleCreationFileExportWizardPage} export the result in the format
+ * chosen by the user.
  * 
- * @version 2.0
- * @since 2017-07-12
+ * <p>
+ * Available formats are defined by the
+ * {@link fr.cnes.analysis.tools.export.Export} service using
+ * {@link Export#getAvailableFormats()}.
+ * </p>
  * 
- *        This Wizard contains and handle the different Wizard Page to export
- *        analysis data of the Violations view. The finish performing of this
- *        Wizard must be done by a Wizard Page of type (or extending) the
- *        NewFileWizardPage class, that's also the reason a IStructuredSelection
- *        is necessary while calling the Wizard to be able to build the
- *        NewFileWizardPage classes.
+ * <p>
+ * To add a new format to export, it's necessary to contribute to the
+ * {@link Export} service.
+ * </p>
+ * 
+ * @version 3.0
+ * @since 2.0
+ * 
+ * 
  */
 public class RuleExportWizard extends Wizard implements INewWizard {
 
-    /** The main page containing the radio to choose the export's format. */
-    private RuleExportWizardPage    mainPage;
-    /** The CSV export wizard page. */
-    private RuleCSVExportWizardPage exportCSV;
-    /** The XML export wizard page. */
-    private RuleXMLExportWizardPage exportXML;
-    /** The selection of elements to build the NewFileWizardPage classes */
-    private IStructuredSelection    selection;
+	/** The main page containing the radio to choose the export's format. */
+	private RuleExportWizardPage mainPage;
+	/** The class that will be used to export the file **/
+	private RuleCreationFileExportWizardPage fileCreationPage;
+	/** The selection of elements to build the NewFileWizardPage classes */
+	private IStructuredSelection selection;
+	/** Exporter service */
+	private Export exporter;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
-    @Override
-    public void init(IWorkbench pWorkbench, IStructuredSelection pSelection) {
-        this.selection = pSelection;
-        /*
-         * We force previous and next buttons as we don't use the default order
-         * of page selection that is the one in which each page were added and
-         * also because we willn't use all pages that we've added to the Wizard.
-         */
-        this.setForcePreviousAndNextButtons(true);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
+	 * org.eclipse.jface.viewers.IStructuredSelection)
+	 */
+	@Override
+	public void init(IWorkbench pWorkbench, IStructuredSelection pSelection) {
+		this.selection = pSelection;
+		this.exporter = new Export();
+		/*
+		 * We force previous and next buttons as we don't use the default order
+		 * of page selection that is the one in which each page were added and
+		 * also because we willn't use all pages that we've added to the Wizard.
+		 */
+		this.setForcePreviousAndNextButtons(true);
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.Wizard#performFinish()
-     */
-    @Override
-    public boolean performFinish() {
-        final IFile file = ((WizardNewFileCreationPage) this.getContainer().getCurrentPage())
-                .createNewFile();
-        return (file != null);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
+	@Override
+	public boolean performFinish() {
+		final IFile file = ((WizardNewFileCreationPage) this.getContainer().getCurrentPage()).createNewFile();
+		return (file != null);
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.Wizard#addPages()
-     */
-    @Override
-    public void addPages() {
-        mainPage = new RuleExportWizardPage();
-        this.addPage(mainPage);
-        exportCSV = new RuleCSVExportWizardPage(selection);
-        this.addPage(exportCSV);
-        exportXML = new RuleXMLExportWizardPage(selection);
-        this.addPage(exportXML);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
+	@Override
+	public void addPages() {
+		mainPage = new RuleExportWizardPage(selection, exporter);
+		if (exporter.getAvailableFormats().size() > 0) {
+			fileCreationPage = new RuleCreationFileExportWizardPage(selection, "unknown");
+		}
+		this.addPage(mainPage);
+		this.addPage(fileCreationPage);
+	}
 
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.Wizard#canFinish()
-     */
-    @Override
-    public boolean canFinish() {
-        boolean finish = false;
-        if (this.getContainer().getCurrentPage() == mainPage) {
-            finish = false;
-        } else {
-            finish = this.getContainer().getCurrentPage().isPageComplete();
-        }
-        return finish;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
+	 */
+	@Override
+	public boolean canFinish() {
+		return this.getContainer().getCurrentPage().isPageComplete();
+	}
 
 }

@@ -9,11 +9,29 @@
             extensionId="fr.cnes.analysis.tools.shell.rule"
             id="fr.cnes.analysis.tools.shell.analyzer.rule"
             name="Shell Rule">
+         <fileExtension
+               name="sh">
+         </fileExtension>
+         <fileExtension
+               name="ksh">
+         </fileExtension>
+         <fileExtension
+               name="bash">
+         </fileExtension>
       </analyzer>
       <analyzer
             extensionId="fr.cnes.analysis.tools.shell.metric"
             id="fr.cnes.analysis.tools.shell.analyzer.metric"
             name="Shell Metric">
+         <fileExtension
+               name="sh">
+         </fileExtension>
+         <fileExtension
+               name="ksh">
+         </fileExtension>
+         <fileExtension
+               name="bash">
+         </fileExtension>
       </analyzer>
    </extension>
 
