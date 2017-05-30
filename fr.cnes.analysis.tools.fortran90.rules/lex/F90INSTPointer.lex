@@ -23,7 +23,7 @@ import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -35,7 +35,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* We had AVOID state, used to avoid part of a line without declaring it has a comment. */
 %state COMMENT, NAMING, AVOID, NEW_LINE
@@ -75,7 +75,7 @@ TIPUS		 = "type"
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{ 
 	 
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

@@ -11,18 +11,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
-
-
 import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.F90DESIGNIO;
 import fr.cnes.analysis.tools.fortran90.rules.TestUtils;
@@ -51,22 +49,21 @@ public class TestF90DESIGNIO {
 		try {
 			// Initializing rule and getting error file.
 			final File file = new File(FileLocator.resolve(getClass().getResource(ERROR_FILE)).getFile());
-			
 
 			// Defining file in the rule instantiation.
 			rule.setContribution(TestUtils.getContribution("", ""));
 			rule.setInputFile(file);
 
 			// Running rule
-			List<Violation> list = rule.run();
+			List<CheckResult> list = rule.run();
 
 			// We verify that there is an error.
 			assertFalse("No error found.", list.isEmpty());
 
 			// We verify that there is the right number of errors
 
-			final int nb_violations = list.size();
-			assertEquals("Wrong number of violations : ", LINES.length, nb_violations);
+			final int nb_CheckResults = list.size();
+			assertEquals("Wrong number of CheckResults : ", LINES.length, nb_CheckResults);
 
 			// We verify that the error detected is the right one. There is
 			// only one case of error : a blank common (with no name) is
@@ -75,13 +72,13 @@ public class TestF90DESIGNIO {
 			assertEquals("Wrong file name : ", ERROR_FILE, fileName);
 
 			// We verify the values
-			for (Violation value : list) {
+			for (CheckResult value : list) {
 				final Integer index = list.indexOf(value);
 				final String location = value.getLocation();
-				assertTrue("Violation " + index.toString() + " has wrong location : " + location + " should contain "
+				assertTrue("CheckResult " + index.toString() + " has wrong location : " + location + " should contain "
 						+ LOCATIONS[index], location.contains(LOCATIONS[index]));
 				final int line = value.getLine();
-				assertEquals("Violation " + index.toString() + " is in wrong line : ", LINES[index], line);
+				assertEquals("CheckResult " + index.toString() + " is in wrong line : ", LINES[index], line);
 			}
 		} catch (FileNotFoundException e) {
 			fail("Erreur d'analyse (FileNotFoundException)");
@@ -106,11 +103,11 @@ public class TestF90DESIGNIO {
 			rule.setInputFile(file);
 
 			// Running rule
-			List<Violation> list = rule.run();
+			List<CheckResult> list = rule.run();
 
 			// We verify that there is an error.
 
-			assertTrue("Error(s) are detected : " + TestUtils.getViolations(list), list.isEmpty());
+			assertTrue("Error(s) are detected : " + TestUtils.getCheckResults(list), list.isEmpty());
 
 		} catch (FileNotFoundException e) {
 			fail("Erreur d'analyse (FileNotFoundException)");

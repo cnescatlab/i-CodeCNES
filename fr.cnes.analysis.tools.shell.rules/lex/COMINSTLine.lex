@@ -22,7 +22,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
-import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 import java.util.logging.Logger;
@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 
 %state IGNORE, NAMING, IF, DO
@@ -83,7 +83,7 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 %}
 
 %eofval{
-	return getViolations();
+	return getCheckResults();
 %eofval}
 
 

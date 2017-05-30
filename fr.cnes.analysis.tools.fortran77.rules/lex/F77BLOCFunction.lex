@@ -25,7 +25,8 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysis.tools.analyzer.datas.Violation;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
@@ -37,7 +38,7 @@ import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;import fr.cnes.analysi
 
 %function run
 %yylexthrow JFlexException
-%type List<Violation>
+%type List<CheckResult>
 
 /* Two states are added:
  * RIGHT_SIDE: state that show the right side after = symbol
@@ -104,7 +105,7 @@ EQUAL		 = \=
 
 %eofval{
 	checkList();
-return getViolations();
+return getCheckResults();
 %eofval}
 
 %%          
