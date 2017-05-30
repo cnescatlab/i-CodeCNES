@@ -69,7 +69,7 @@ public class TestGlobal_3 {
             Analyzer analysis = new Analyzer();
             List<String> extensionIds = new ArrayList<>();
             extensionIds.add(ruleExtensionId);
-            TestGlobal_3.list = analysis.applyRules(listFiles, extensionIds, null);
+            TestGlobal_3.list = analysis.check(listFiles, extensionIds, null);
 
             /** Export values into file **/
             createExportFile(fileResult);

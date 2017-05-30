@@ -68,7 +68,7 @@ public class TestGlobal_1 {
             List<String> extensionIds = new ArrayList<>();
             extensionIds.add(ruleExtensionId);
 
-            TestGlobal_1.list = analysis.applyRules(listFiles, extensionIds, null);
+            TestGlobal_1.list = analysis.check(listFiles, extensionIds, null);
 
             /** Export values into file **/
             createExportFile(fileResult);

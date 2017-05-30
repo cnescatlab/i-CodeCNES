@@ -32,7 +32,7 @@ public class RuleAnalysisJob extends Job {
     private List<String> languageIds;
     /**
      * List of all rules excluded from the analysis. <i>More informations on
-     * :</i> {@link Analyzer#applyRules(List, List, List)}
+     * :</i> {@link Analyzer#check(List, List, List)}
      */
     private List<String> excludedIds;
     /**
@@ -71,7 +71,7 @@ public class RuleAnalysisJob extends Job {
     protected IStatus run(IProgressMonitor monitor) {
         IStatus status = Status.OK_STATUS;
         try {
-            this.violations = analyzer.applyRules(inputFiles, languageIds, excludedIds);
+            this.violations = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {
             LOGGER.info(
                     exception.getClass().getName() + " received. Setting job status to warning.");

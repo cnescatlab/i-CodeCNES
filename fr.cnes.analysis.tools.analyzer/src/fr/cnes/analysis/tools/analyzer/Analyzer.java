@@ -1,3 +1,9 @@
+/* 
+ * i-Code CNES is a static code analyser. 
+ * This software is a free software, under the terms of the Eclipse Public License version 1.0. 
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ */
 package fr.cnes.analysis.tools.analyzer;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
@@ -28,7 +34,7 @@ import org.eclipse.ui.PlatformUI;
  * </p>
  * <p>
  * <h2>Available methods</h2> The service method to call to run an analysis are
- * {@link #applyRules(List, List, List)} and
+ * {@link #check(List, List, List)} and
  * {@link #computeMetrics(List, List, List)}. Once, it returns after a moment
  * the results thanks to {@link CallableMetricAnalyzer} &
  * {@link CallableRuleAnalyzer}.
@@ -77,7 +83,7 @@ public class Analyzer {
     private static int THREAD_NB = 1;
 
     /**
-     * <h1>{@link #applyRules(List, List, List)}</h1>
+     * <h1>{@link #check(List, List, List)}</h1>
      * <p>
      * This method apply all rules of the different contributions set in
      * parameter except the one excluded. File in parameters are being analyzed
@@ -101,9 +107,9 @@ public class Analyzer {
      * @throws JFlexException
      *             when the syntax analysis failed.
      */
-    public List<CheckResult> applyRules(List<File> pInputFiles, List<String> pLanguageIds,
+    public List<CheckResult> check(List<File> pInputFiles, List<String> pLanguageIds,
             List<String> pExcludedCheckIds) throws IOException, JFlexException {
-        final String methodName = "applyRules";
+        final String methodName = "check";
         LOGGER.entering(this.getClass().getName(), methodName);
         List<String> languageIds = pLanguageIds;
         if (languageIds == null) {
