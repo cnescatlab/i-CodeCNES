@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran77.rules.F77DATAParameter;
@@ -37,7 +37,7 @@ public class TestF77DATAParameter {
 	public final static String NO_ERROR_FILE = "noError.f";
 	public final static int[] LINES = { 8 };
 	public final static String[] LOCATIONS = { "PROGRAM ESSAI" };
-	public final AbstractRule rule = new F77DATAParameter();
+	public final AbstractChecker rule = new F77DATAParameter();
 
 	/**
 	 * This test verifies that an error can be detected.

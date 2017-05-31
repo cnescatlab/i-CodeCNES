@@ -5,17 +5,15 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.PlatformUI;
-
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 
 /**
  * This class provides a content provider for the tree viewer in the metric
@@ -101,8 +99,8 @@ public class MetricContentProvider implements ITreeContentProvider {
         LOGGER.finest("Begin inputChanged method");
 
         try {
-            if (newInput instanceof FileValue[]) {
-                this.converter = new MetricConverter(((FileValue[]) newInput).clone());
+            if (newInput instanceof CheckResult[]) {
+                this.converter = new MetricConverter(((CheckResult[]) newInput).clone());
                 // run analysis
                 this.converter.setUser(true);
                 this.converter.schedule();

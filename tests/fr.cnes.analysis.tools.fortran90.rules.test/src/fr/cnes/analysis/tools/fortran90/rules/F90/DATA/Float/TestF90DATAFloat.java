@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.F90DATAFloat;
@@ -43,7 +43,7 @@ public class TestF90DATAFloat {
 	/** Location(s) of the error(s). **/
 	public static final String[] LOCATIONS = { "subroutine format_etoile", "subroutine format_etoile" };
 	/** The rule to analyze. **/
-	public final AbstractRule RULE = new F90DATAFloat();
+	public final AbstractChecker RULE = new F90DATAFloat();
 
 	/**
 	 * This test verifies that an error can be detected.

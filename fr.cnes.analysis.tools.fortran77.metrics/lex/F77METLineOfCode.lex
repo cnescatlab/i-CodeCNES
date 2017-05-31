@@ -25,24 +25,22 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class F77METLineOfCode
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
-
 %line
 %column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE
 
@@ -68,7 +66,6 @@ SPACE		 = [\ \r\f\t]
     private static final Logger LOGGER = Logger.getLogger(F77METLineOfCode.class.getName());
     
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	float numLines = 0;
 	float numTotal = 0;
 	int functionLine = 0;
@@ -80,28 +77,26 @@ SPACE		 = [\ \r\f\t]
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
+		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
-        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         this.parsedFileName = file.toString();
         LOGGER.finest("end method setInputFile");       
 	}
 	
-	private void endLocation() {
+	private void endLocation() throws JFlexException {
         LOGGER.finest("begin method endLocation");
-		final List<FunctionValue> list =
-                this.fileValue.getFunctionValues();
+		final List<CheckResult> list = this.getCheckResults(super.getInputFile());
         if (list.isEmpty()) {
-            list.add(new FunctionValue(this.location, numLines, functionLine+1));
+        	this.computeMetric(this.location, numLines, functionLine + 1);
         } else {
-            final FunctionValue last = list.get(list.size() - 1);
+            final CheckResult last = list.get(list.size() - 1);
             if (last.getLocation().equals(this.location)) {
                 last.setValue(numLines);
             } else {
-				list.add(new FunctionValue(this.location, numLines, functionLine+1));
+				this.computeMetric(this.location, numLines, functionLine + 1);
 			}
         }
-		
         LOGGER.finest("end method endLocation");
 	}
 	
@@ -110,10 +105,9 @@ SPACE		 = [\ \r\f\t]
 
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{
-	fileValue.setValue(numTotal);
-	return fileValue;
+	this.computeMetric("FILE", numTotal, 0);
+	return getCheckResults();
 %eofval}
-
 %%
 
 /************************************************************************/

@@ -27,14 +27,14 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
 
 %class COMDATAInitialisation
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %ignorecase

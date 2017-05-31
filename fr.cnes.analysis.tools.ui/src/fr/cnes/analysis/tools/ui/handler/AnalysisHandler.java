@@ -7,7 +7,6 @@ package fr.cnes.analysis.tools.ui.handler;
 
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
 import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
@@ -313,7 +312,7 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
      * @param values
      *            to show in the view
      */
-    private static void updateMetricsView(final List<FileValue> values) {
+    private static void updateMetricsView(final List<CheckResult> values) {
         METHOD = "updateMetricsView";
         LOGGER.entering(AnalysisHandler.class.getName(), METHOD, values);
 

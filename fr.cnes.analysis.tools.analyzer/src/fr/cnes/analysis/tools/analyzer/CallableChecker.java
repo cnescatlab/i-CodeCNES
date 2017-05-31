@@ -6,7 +6,7 @@
  */
 package fr.cnes.analysis.tools.analyzer;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
@@ -21,22 +21,22 @@ import java.util.concurrent.Callable;
  * 
  * @since 3.0
  */
-public class CallableRuleAnalyzer implements Callable<List<CheckResult>> {
+public class CallableChecker implements Callable<List<CheckResult>> {
 
     /** The rule to apply */
-    private AbstractRule rule;
+    private AbstractChecker rule;
     /** The metric to analyze */
     private File file;
 
     /**
-     * Constructor for {@link CallableRuleAnalyzer}.
+     * Constructor for {@link CallableChecker}.
      * 
      * @param pRule
      *            to apply
      * @param pInputFile
      *            to analyze
      */
-    public CallableRuleAnalyzer(AbstractRule pRule, File pInputFile) {
+    public CallableChecker(AbstractChecker pRule, File pInputFile) {
         this.rule = pRule;
         this.file = pInputFile;
     }

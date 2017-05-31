@@ -158,14 +158,24 @@ public class ExportXml implements IExport {
              */
             resultAttributes.add(new Attribute("resultNamePlace", checkResult.getLocation()));
             /*
+             * If the analysis checkresult has a result, we add it.
+             */
+            if (checkResult.getValue() != null) {
+                resultAttributes
+                        .add(new Attribute("resultValue", checkResult.getValue().toString()));
+            }
+            /*
+             * 
              * The result message is defined by the XSD as a sequence of element
              * resultMessage (not an attribute).
              */
-            final Element resultMessage = new Element("resultMessage");
+            if (checkResult.getMessage() != null && !checkResult.getMessage().isEmpty()) {
+                final Element resultMessage = new Element("resultMessage");
 
-            resultMessage.addContent(checkResult.getMessage());
+                resultMessage.addContent(checkResult.getMessage());
 
-            result.addContent(resultMessage);
+                result.addContent(resultMessage);
+            }
             result.setAttributes(resultAttributes);
             /*
              * The result is being added to the analysisRule element;

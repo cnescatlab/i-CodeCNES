@@ -41,7 +41,7 @@ public class CheckResult {
     private File file;
 
     /**
-     * Constructor for CheckResult containing {@link Checker} informations.
+     * Constructor for CheckResult containing {@link AbstractChecker} informations.
      * 
      * @param pCheckerName
      *            check's name

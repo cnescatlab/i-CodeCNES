@@ -25,14 +25,14 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
 /* We add column count to determine if a continuation of line is used. */
 %class F77BLOCElse
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %column

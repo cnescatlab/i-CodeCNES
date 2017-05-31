@@ -5,13 +5,13 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export.metric.xml;
 
+import fr.cnes.analysis.tools.ui.view.MetricsView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -19,8 +19,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-
-import fr.cnes.analysis.tools.ui.view.MetricsView;
 
 /**
  * MetricXMLExportWizardPage
@@ -62,7 +60,7 @@ public class MetricXMLExportWizardPage extends WizardNewFileCreationPage {
         InputStream stream = null;
         try {
             // create a temporary file
-            final File temp = File.createTempFile("export", ".tmp");
+            final File temp = File.createTempFile("export", ".xml");
 
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()

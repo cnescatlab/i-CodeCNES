@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.COMDATAInvariant;
@@ -38,7 +38,7 @@ public class TestCOMDATAInvariant {
 	public final static int[] LINES = { 9, 14, 21, 13, 27, 8, 9 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "fonction", "MAIN PROGRAM", "fonction2",
 			"MAIN PROGRAM", "MAIN PROGRAM" };
-	public final AbstractRule rule = new COMDATAInvariant();
+	public final AbstractChecker rule = new COMDATAInvariant();
 
 	/**
 	 * This test verifies that an error can be detected.
