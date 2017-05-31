@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.SHFLOWCheckCodeReturn;
@@ -38,7 +38,7 @@ public class TestSHFLOWCheckCodeReturn {
 	public final static int[] LINES = { 29, 32, 34, 35, 40, 44, 46 };
 	public final static String[] LOCATIONS = { "factorial", "factorial", "factorial", "factorial",
 			"nettoyer_repertoire", "nettoyer_repertoire", "nettoyer_repertoire" };
-	public final AbstractRule rule = new SHFLOWCheckCodeReturn();
+	public final AbstractChecker rule = new SHFLOWCheckCodeReturn();
 
 	/**
 	 * This test verifies that an error can be detected.

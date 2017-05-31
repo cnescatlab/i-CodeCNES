@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.COMNAMEHomonymy;
@@ -37,7 +37,7 @@ public class TestCOMNAMEHomonymy {
 	public final static String NO_ERROR_FILE = "noError.f";
 	public final static int[] LINES = { 24, 42, 46 };
 	public final static String[] LOCATIONS = { "function f1", "subroutine s2", "function f3" };
-	public final AbstractRule rule = new COMNAMEHomonymy();
+	public final AbstractChecker rule = new COMNAMEHomonymy();
 
 	/**
 	 * This test verifies that an error can be detected.

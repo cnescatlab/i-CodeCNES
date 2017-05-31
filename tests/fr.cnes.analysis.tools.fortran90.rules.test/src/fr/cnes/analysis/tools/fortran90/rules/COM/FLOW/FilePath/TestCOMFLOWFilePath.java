@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.COMFLOWFilePath;
@@ -37,7 +37,7 @@ public class TestCOMFLOWFilePath {
 	public final static String NO_ERROR_FILE = "noError.f";
 	public final static int[] LINES = { 12, 15 };
 	public final static String[] LOCATIONS = { "PROGRAM ESSAI", "PROGRAM ESSAI" };
-	public final AbstractRule rule = new COMFLOWFilePath();
+	public final AbstractChecker rule = new COMFLOWFilePath();
 
 	/**
 	 * This test verifies that an error can be detected.

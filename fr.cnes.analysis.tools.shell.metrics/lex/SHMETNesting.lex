@@ -24,21 +24,23 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
+
 
 %%
 
 %class SHMETNesting
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
+
 
 %state COMMENT, NAMING, FUNCTION
 
@@ -62,7 +64,6 @@ IGNORE		 = "EOF" [^]* "EOF"
 
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	List<String> identifiers = new LinkedList<String>();
 	float numImbrics = 0;
 	float numMaxImbrics = 0;
@@ -76,7 +77,7 @@ IGNORE		 = "EOF" [^]* "EOF"
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-		fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -94,9 +95,8 @@ IGNORE		 = "EOF" [^]* "EOF"
 		numImbrics--;
 	}
 	
-	private void endLocation() {
-		final List<FunctionValue> list = this.fileValue.getFunctionValues();
-       	list.add(new FunctionValue(this.location, numMaxImbrics, functionLine+1));
+	private void endLocation() throws JFlexException {
+		this.computeMetric(this.location, numMaxImbrics, functionLine + 1);
 	}
 	
 %}
@@ -107,7 +107,11 @@ IGNORE		 = "EOF" [^]* "EOF"
     fileValue.setValue(numImbricsTotal);
 	return fileValue;
 %eofval}
-
+%eofval{
+	this.computeMetric("MAIN PROGRAM", numMaxImbrics, functionLine+1);
+	this.computeMetric("FILE", numImbricsTotal, 0);
+	return getCheckResults();
+%eofval}
 %%
 
 /************************/

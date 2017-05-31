@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.Path;
 
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 /* All code lines before this marker (%%) are directly written in the 		*/
@@ -40,9 +40,9 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 
 /* This is were you declare the name of the generated Java class. You decide */
 /* whether it implements or extends a class. To fit with plug-in's 			 */
-/* definition, this class must extends AbstractRule class.					 */
+/* definition, this class must extends AbstractChecker class.					 */
 %class GeneratedRuleName
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 

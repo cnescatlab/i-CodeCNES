@@ -22,13 +22,13 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
 %class F77INSTReturn
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 

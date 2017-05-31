@@ -23,22 +23,22 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class SHMETComplexitySimplified
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
 %line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state COMMENT, NAMING, FUNCTION
 
@@ -56,7 +56,6 @@ CYCLO		 = "while"		| "for"		| "until"	|
 
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	List<String> identifiers = new LinkedList<String>();
 	float numCyclo = 0;
 	float numMaxCyclo = 0;
@@ -70,7 +69,7 @@ CYCLO		 = "while"		| "for"		| "until"	|
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-		fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -82,20 +81,17 @@ CYCLO		 = "while"		| "for"		| "until"	|
 		}
 	}
 	
-	private void endLocation() {
-		final List<FunctionValue> list = this.fileValue.getFunctionValues();
-       	list.add(new FunctionValue(this.location, numMaxCyclo+1, functionLine+1));
+	private void endLocation() throws JFlexException {
+		this.computeMetric(this.location, numMaxCyclo+1, functionLine+1);
 	}
 	
 %}
 
 %eofval{
-    final List<FunctionValue> list = this.fileValue.getFunctionValues();
-    list.add(new FunctionValue("MAIN PROGRAM", numMaxCyclo+1, functionLine+1));
-    fileValue.setValue(Float.NaN);
-	return fileValue;
+	this.computeMetric("MAIN PROGRAM", numMaxCyclo+1, 0);
+	this.computeMetric("FILE", Float.NaN, 0);
+	return getCheckResults();
 %eofval}
-
 %%
 
 /************************/

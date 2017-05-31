@@ -22,7 +22,7 @@ import java.io.FileReader;
 import org.eclipse.core.runtime.IPath;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.metrics.AbstractMetric;
+import fr.cnes.analysis.tools.analyzer.metrics.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.metrics.FileMetricValue;
 import fr.cnes.analysis.tools.analyzer.metrics.FunctionMetricValue;
 
@@ -35,9 +35,9 @@ import fr.cnes.analysis.tools.analyzer.metrics.FunctionMetricValue;
 
 /* This is were you declare the name of the generated Java class. You decide */
 /* whether it implements or extends a class. To fit with plug-in's 			 */
-/* definition, this class must extends AbstractMetric class.				 */
+/* definition, this class must extends AbstractChecker class.				 */
 %class GeneratedMetricName
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %line
 

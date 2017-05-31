@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.SHINSTVariables;
@@ -38,7 +38,7 @@ public class TestSHINSTVariables {
 	public final static int[] LINES = { 17, 21, 23, 23, 23 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
 			"MAIN PROGRAM" };
-	public final AbstractRule rule = new SHINSTVariables();
+	public final AbstractChecker rule = new SHINSTVariables();
 
 	/**
 	 * This test verifies that an error can be detected.

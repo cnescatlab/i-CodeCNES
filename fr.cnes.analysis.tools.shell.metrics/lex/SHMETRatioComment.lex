@@ -23,22 +23,22 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class SHMETRatioComment
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
 %line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state COMMENT, AVOID, NAMING, FUNCTION, USEFUL
 
@@ -52,7 +52,6 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	List<String> linesType = new LinkedList<String>();
 	List<Integer> locationsLines = new LinkedList<>();
 	List<String> locations = new LinkedList<String>();
@@ -64,7 +63,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-		fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -103,7 +102,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 		return lines+2;
 	}
 	
-	private void getRateCommentsFunctions() {
+	private void getRateCommentsFunctions() throws JFlexException  {
 		// get the rate of comments for the functions
 		int functNumber = 0;
 		for (int i=0; i<linesType.size(); i++) {
@@ -112,8 +111,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 				float comments = getComments(i);
 				float lines    = getLines(i);
 				// insert the rate into list
-				final List<FunctionValue> list = this.fileValue.getFunctionValues();
-       			list.add(new FunctionValue(locations.get(functNumber), comments/lines, locationsLines.get(functNumber)));
+			 	this.computeMetric(locations.get(functNumber), comments/lines, locationsLines.get(functNumber));
        			functNumber++;
 			}
 		}
@@ -125,14 +123,13 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 				float comments = getComments(i+1);
 				float lines    = getLines(i+1);
 				// insert the rate into list
-				final List<FunctionValue> list = this.fileValue.getFunctionValues();
-       			list.add(new FunctionValue("MAIN PROGRAM", comments/lines, 1));
+				this.computeMetric("MAIN PROGRAM", comments/lines, 1);
        			found=true;
 			}
 		}
 	}
 	
-	private void getRateCommentsFile() {
+	private void getRateCommentsFile() throws JFlexException {
 		float comments = 0;
 		float lines = 0;
 		for (int i=0; i<linesType.size(); i++) {
@@ -141,7 +138,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 			         linesType.get(i).equals("function") ||
 			         linesType.get(i).equals("finFunction")) lines++;
 		}
-		fileValue.setValue(lines/comments);
+		this.computeMetric("FILE", lines/comments, 0);
 	}
 	
 %}
@@ -149,7 +146,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 %eofval{
 	getRateCommentsFunctions();
 	getRateCommentsFile();
-	return fileValue;
+	return getCheckResults();
 %eofval}
 
 %%

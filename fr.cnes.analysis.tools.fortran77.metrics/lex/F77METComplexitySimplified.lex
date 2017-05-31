@@ -25,16 +25,16 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+
 
 
 %%
 
 %class F77METComplexitySimplified
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
 %line
@@ -42,7 +42,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE
 
@@ -77,7 +77,6 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
     
 
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	float numCiclomatic = 0;
 	float numCiclomaticTotal = 0;
 	int functionLine = 0;
@@ -87,38 +86,38 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
     }
 	
-@Override
+	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
+		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
-        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         this.parsedFileName = file.toString();
         LOGGER.finest("end method setInputFile");       
 	}
 	
-	private void endLocation() {
+    private void endLocation() throws JFlexException {
         LOGGER.finest("begin method endLocation");
-		final List<FunctionValue> list =
-                this.fileValue.getFunctionValues();
+        final List<CheckResult> list = this.getCheckResults(super.getInputFile());
         if (list.isEmpty()) {
-            list.add(new FunctionValue(this.location, numCiclomatic+1, functionLine+1));
+            this.computeMetric(this.location, numCiclomatic + 1, functionLine + 1);
         } else {
-            final FunctionValue last = list.get(list.size() - 1);
+            final CheckResult last = list.get(list.size() - 1);
             if (last.getLocation().equals(this.location)) {
-                last.setValue(numCiclomatic+1);
+                last.setValue(numCiclomatic + 1);
             } else {
-				list.add(new FunctionValue(this.location, numCiclomatic+1, functionLine+1));
-			}
+                this.computeMetric(this.location, numCiclomatic + 1, functionLine + 1);
+            }
         }
         LOGGER.finest("end method endLocation");
-	}
+    }
+
 	
 %}
 
 %eofval{
-	return fileValue;
+	this.computeMetric("FILE", Float.NaN, 0);
+	return getCheckResults();
 %eofval}
-
 %%
 
 /* This is the general automaton. Each part will be described later. */

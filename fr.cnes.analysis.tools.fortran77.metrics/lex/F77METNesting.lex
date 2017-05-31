@@ -26,15 +26,14 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class F77METNesting
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
 %line
@@ -42,7 +41,7 @@ import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE, IF_STATE
 
@@ -74,7 +73,6 @@ SMBL		 = \&   	  | \+			| \$
     
 
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	List<String> identifiers = new LinkedList<String>();
 	float numImbrics = 0;
 	float numMaxImbrics = 0;
@@ -88,64 +86,63 @@ SMBL		 = \&   	  | \+			| \$
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
+		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
-        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         this.parsedFileName = file.toString();
         LOGGER.finest("end method setInputFile");       
 	}
 	
 	private void addImbrics() {
-		LOGGER.info("l"+(yyline+1)+" -begin method addImbrics");
+		LOGGER.finest("l"+(yyline+1)+" -begin method addImbrics");
 		numImbrics++;
 		if(numMaxImbrics < numImbrics)  {
 			numMaxImbrics = numImbrics;
 			numImbricsTotal = numImbrics;
 		}
-		LOGGER.info("l"+(yyline+1)+" -end method addImbrics");
+		LOGGER.finest("l"+(yyline+1)+" -end method addImbrics");
 	}
 	
 	private void deleteImbrics() {
-		LOGGER.info("l"+(yyline+1)+" -begin method deleteImbrics");
+		LOGGER.finest("l"+(yyline+1)+" -begin method deleteImbrics");
 		numImbrics--;
-		LOGGER.info("l"+(yyline+1)+" -end method deleteImbrics");
+		LOGGER.finest("l"+(yyline+1)+" -end method deleteImbrics");
 	}
 	
-	private void endLocation() {
-	    LOGGER.info("l"+(yyline+1)+" -begin method endLocation");
-		final List<FunctionValue> list =
-                this.fileValue.getFunctionValues();
+	private void endLocation() throws JFlexException {
+	    LOGGER.finest("l"+(yyline+1)+" -begin method endLocation");
+		final List<CheckResult> list = this.getCheckResults(super.getInputFile());
         if (list.isEmpty()) {
-            list.add(new FunctionValue(this.location, numMaxImbrics, functionLine+1));
+        	this.computeMetric(this.location, numMaxImbrics, functionLine + 1);
         } else {
-            final FunctionValue last = list.get(list.size() - 1);
+            final CheckResult last = list.get(list.size() - 1);
             if (last.getLocation().equals(this.location)) {
                 last.setValue(numMaxImbrics);
             } else {
-				list.add(new FunctionValue(this.location, numMaxImbrics, functionLine+1));
+            	this.computeMetric(this.location, numMaxImbrics, functionLine + 1);
 			}
         }
-        LOGGER.info("l"+(yyline+1)+" -end method endLocation");
+        LOGGER.finest("l"+(yyline+1)+" -end method endLocation");
 	}
 	
 %}
 
 %eofval{
-	return fileValue;
+	this.computeMetric("FILE", Float.NaN, 0);
+	return getCheckResults();
 %eofval}
-
 %%
 
 /* This is the general automaton. Each part will be described later. */
 
 				{COMMENT_WORD}	{
-				                    LOGGER.info("l"+(yyline+1)+" -[ALL] -> COMMENT (Transition : COMMENT_WORD)");
+				                    LOGGER.finest("l"+(yyline+1)+" -[ALL] -> COMMENT (Transition : COMMENT_WORD)");
 				                    yybegin(COMMENT);
 				                }
 				
 				
 <COMMENT>   	\n             	{
-                                    LOGGER.info("l"+(yyline+1)+" -COMMENT -> NEW_LINE (Transition : \\n)");
+                                    LOGGER.finest("l"+(yyline+1)+" -COMMENT -> NEW_LINE (Transition : \\n)");
                                     yybegin(NEW_LINE);
                                 }  
 <COMMENT>   	.              	{}
@@ -156,45 +153,45 @@ SMBL		 = \&   	  | \+			| \$
                                     numMaxImbrics = 0;
                                     functionLine=yyline;
                                     location = location + " " + yytext();
-                                    LOGGER.info("l"+(yyline+1)+" -Setting values [numImbrics ="+numImbrics+" | numMaxImbrics = "+ numMaxImbrics+" | location = "+location+"]");
-                                    LOGGER.info("l"+(yyline+1)+" -NAMING -> COMMENT (Transition : VAR)");
+                                    LOGGER.finest("l"+(yyline+1)+" -Setting values [numImbrics ="+numImbrics+" | numMaxImbrics = "+ numMaxImbrics+" | location = "+location+"]");
+                                    LOGGER.finest("l"+(yyline+1)+" -NAMING -> COMMENT (Transition : VAR)");
                                     yybegin(COMMENT);
                                 }							 
 <NAMING>    	\n             	{
-                                    LOGGER.info("l"+(yyline+1)+" -NAMING -> NEW_LINE (Transition : \\n)");
+                                    LOGGER.finest("l"+(yyline+1)+" -NAMING -> NEW_LINE (Transition : \\n)");
                                     yybegin(NEW_LINE);
                                 }
 <NAMING>    	.              	{}
 
 
 <YYINITIAL>		{STRING}		{
-                                    LOGGER.info("l"+(yyline+1)+" -YYINITIAL -> LINE (Transition : STRING)");
+                                    LOGGER.finest("l"+(yyline+1)+" -YYINITIAL -> LINE (Transition : STRING)");
                                     yybegin(LINE);
                                 }
 <YYINITIAL>		{TYPE}        	{
                                     location = yytext();
-                                    LOGGER.info("l"+(yyline+1)+" -Setting value [location = "+location+"]");
-                                    LOGGER.info("l"+(yyline+1)+" -YYINITIAL -> NAMING (Transition : TYPE)");
+                                    LOGGER.finest("l"+(yyline+1)+" -Setting value [location = "+location+"]");
+                                    LOGGER.finest("l"+(yyline+1)+" -YYINITIAL -> NAMING (Transition : TYPE)");
                                     yybegin(NAMING);
                                 }
 <YYINITIAL> 	\n             	{
-                                    LOGGER.info("l"+(yyline+1)+" -YYINITIAL -> NEW_LINE (Transition : \\n)");
+                                    LOGGER.finest("l"+(yyline+1)+" -YYINITIAL -> NEW_LINE (Transition : \\n)");
                                     yybegin(NEW_LINE);
                                 }
 <YYINITIAL> 	.              	{
-                                    LOGGER.info("l"+(yyline+1)+" -YYINITIAL -> LINE (Transition : .)");
+                                    LOGGER.finest("l"+(yyline+1)+" -YYINITIAL -> LINE (Transition : .)");
                                     yybegin(LINE);
                                 }
 
 <NEW_LINE>		{STRING}		{
-                                    LOGGER.info("l"+(yyline+1)+" -NEW_LINE -> LINE (Transition : STRING)");
+                                    LOGGER.finest("l"+(yyline+1)+" -NEW_LINE -> LINE (Transition : STRING)");
                                     yybegin(LINE);
                                 }
 <NEW_LINE>  	{TYPE}         	{
                                     
                                     location = yytext();
-                                    LOGGER.info("l"+(yyline+1)+" -Setting value [location = "+location+"]");
-                                    LOGGER.info("l"+(yyline+1)+" -NEW_LINE -> NAMING (Transition : TYPE)");
+                                    LOGGER.finest("l"+(yyline+1)+" -Setting value [location = "+location+"]");
+                                    LOGGER.finest("l"+(yyline+1)+" -NEW_LINE -> NAMING (Transition : TYPE)");
                                     yybegin(NAMING);
                                 }
 <NEW_LINE>		{ELSES}			{}
@@ -202,7 +199,7 @@ SMBL		 = \&   	  | \+			| \$
                                     addImbrics();
                                 }
 <NEW_LINE>		{IF}			{
-                                    LOGGER.info("l"+(yyline+1)+" -NEW_LINE -> IF_STATE (Transition : IF)");
+                                    LOGGER.finest("l"+(yyline+1)+" -NEW_LINE -> IF_STATE (Transition : IF)");
                                     yybegin(IF_STATE);
                                 }
 <NEW_LINE>		{END_CONTROL}	{
@@ -214,14 +211,14 @@ SMBL		 = \&   	  | \+			| \$
 <NEW_LINE>		{VAR}			{}
 <NEW_LINE>  	\n             	{}
 <NEW_LINE>  	.              	{
-                                    LOGGER.info("l"+(yyline+1)+" -NEW_LINE -> LINE (Transition : .)");
+                                    LOGGER.finest("l"+(yyline+1)+" -NEW_LINE -> LINE (Transition : .)");
                                     yybegin(LINE);
                                 }
 
 <LINE>			{STRING}		{}
 <LINE>  		{TYPE}         	{
                                     location = yytext();
-                                    LOGGER.info("l"+(yyline+1)+" -LINE -> NAMING (Transition : TYPE)");
+                                    LOGGER.finest("l"+(yyline+1)+" -LINE -> NAMING (Transition : TYPE)");
                                     yybegin(NAMING);
                                 }
 <LINE>			{ELSES}			{}
@@ -229,7 +226,7 @@ SMBL		 = \&   	  | \+			| \$
                                     addImbrics();
                                 }
 <LINE>			{IF}			{
-                                    LOGGER.info("l"+(yyline+1)+" -LINE -> IF_STATE (Transition : IF)");
+                                    LOGGER.finest("l"+(yyline+1)+" -LINE -> IF_STATE (Transition : IF)");
                                     yybegin(IF_STATE);
                                 }
 <LINE>			{END_CONTROL}	{
@@ -240,14 +237,14 @@ SMBL		 = \&   	  | \+			| \$
                                 }
 <LINE>			{VAR}			{}
 <LINE>      	\n             	{
-                                    LOGGER.info("l"+(yyline+1)+" -LINE -> NEW_LINE (Transition : \\n)");
+                                    LOGGER.finest("l"+(yyline+1)+" -LINE -> NEW_LINE (Transition : \\n)");
                                     yybegin(NEW_LINE);
                                 }
 <LINE>      	.              	{}
 
 <IF_STATE>		{THEN} 		    {
                                     addImbrics();
-                                    LOGGER.info("l"+(yyline+1)+" -IF_STATE -> LINE (Transition : THEN)");
+                                    LOGGER.finest("l"+(yyline+1)+" -IF_STATE -> LINE (Transition : THEN)");
                                     yybegin(LINE);
                                 }
 <IF_STATE>		{VAR}			{}
@@ -255,7 +252,7 @@ SMBL		 = \&   	  | \+			| \$
 <IF_STATE>		\n 				{
                                     addImbrics();
                                     deleteImbrics();
-                                    LOGGER.info("l"+(yyline+1)+" -IF_STATE -> NEW_LINE (Transition : \\n)");
+                                    LOGGER.finest("l"+(yyline+1)+" -IF_STATE -> NEW_LINE (Transition : \\n)");
                                     yybegin(NEW_LINE);
                                 }
 <IF_STATE>		.				{}

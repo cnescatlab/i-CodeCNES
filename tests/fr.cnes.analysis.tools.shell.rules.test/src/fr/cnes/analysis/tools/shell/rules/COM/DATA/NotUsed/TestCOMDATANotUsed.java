@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.COMDATANotUsed;
@@ -37,7 +37,7 @@ public class TestCOMDATANotUsed {
 	public final static String NO_ERROR_FILE = "noError.sh";
 	public final static int[] LINES = { 12 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM" };
-	public final AbstractRule rule = new COMDATANotUsed();
+	public final AbstractChecker rule = new COMDATANotUsed();
 
 	/**
 	 * This test verifies that an error can be detected.
