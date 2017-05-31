@@ -19,7 +19,7 @@ package fr.cnes.analysis.tools.fortran77.rules;
 import java.util.LinkedList;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.rules.AbstractRule; 
+import fr.cnes.analysis.tools.analyzer.rules.AbstractChecker; 
 import fr.cnes.analysis.tools.analyzer.rules.ViolationIdentifier;
 
 /* All code lines before this marker (%%) are directly written in the 		*/
@@ -30,9 +30,9 @@ import fr.cnes.analysis.tools.analyzer.rules.ViolationIdentifier;
 
 /* This is were you declare the name of the generated Java class. You decide */
 /* whether it implements or extends a class. To fit with plug-in's 			 */
-/* definition, this class must extends AbstractRule class.					 */
+/* definition, this class must extends AbstractChecker class.					 */
 %class GeneratedRuleName
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 

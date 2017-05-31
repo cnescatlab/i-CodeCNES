@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.util.regex.Pattern;
@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 %%
 
 %class SHINSTPOSIX
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 

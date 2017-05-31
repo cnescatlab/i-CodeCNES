@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.COMFLOWExit;
@@ -38,7 +38,7 @@ public class TestCOMFLOWExit {
 	public final static int[] LINES = { 14, 18, 21, 33, 37, 40 };
 	public final static String[] LOCATIONS = { "getopts_internal", "getopts_internal", "getopts_internal",
 			"getopts_external", "getopts_external", "getopts_external" };
-	public final AbstractRule rule = new COMFLOWExit();
+	public final AbstractChecker rule = new COMFLOWExit();
 
 	/**
 	 * This test verifies that an error can be detected.

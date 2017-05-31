@@ -18,9 +18,9 @@ import org.eclipse.core.runtime.FileLocator;
 
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified;
 import fr.cnes.analysis.tools.fortran90.metrics.TestUtils;
@@ -42,7 +42,7 @@ public class TestF90METComplexitySimplified {
 
 	try {
 	    // Initializing rule and getting error file.
-	    final AbstractMetric metric = new F90METComplexitySimplified();
+	    final AbstractChecker metric = new F90METComplexitySimplified();
 	    final String fileName = "file.f";
 	    final File file = new File(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
@@ -51,13 +51,20 @@ public class TestF90METComplexitySimplified {
 	    metric.setInputFile(file);
 
 	    // File Value
-	    final FileValue fileValue = metric.run();
-	    assertTrue(fileValue.getFile().getName().equals(fileName));
+	    final List<CheckResult> checkResults = metric.run();
+	        CheckResult fileValue;
+    for(CheckResult check : checkResults){
+        if(check.getLocation().equals("FILE")){
+            fileValue = check;
+            checkResults.remove(checkResults.indexOf(check));
+        }
+    }
+
 
 	    // Value 1
-	    final List<FunctionValue> functionValues = fileValue.getFunctionValues();
+	    final List<CheckResult> functionValues = checkResults;
 
-	    FunctionValue metricValue = functionValues.get(0);
+	    CheckResult metricValue = functionValues.get(0);
 	    assertTrue(metricValue.getLocation().equals("subroutine  osci_recherche_deb_plan_grp"));
 	    assertTrue(metricValue.getValue() == 7.0);
 

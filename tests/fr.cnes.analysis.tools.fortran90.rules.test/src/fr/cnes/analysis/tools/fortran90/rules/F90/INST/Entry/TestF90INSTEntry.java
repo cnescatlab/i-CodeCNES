@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.F90INSTEntry;
@@ -37,7 +37,7 @@ public class TestF90INSTEntry {
 	public final static String NO_ERROR_FILE = "noError.f";
 	public final static int[] LINES = { 10, 16 };
 	public final static String[] LOCATIONS = { "SUBROUTINE FIN", "SUBROUTINE FIN" };
-	public final AbstractRule rule = new F90INSTEntry();
+	public final AbstractChecker rule = new F90INSTEntry();
 
 	/**
 	 * This test verifies that an error can be detected.

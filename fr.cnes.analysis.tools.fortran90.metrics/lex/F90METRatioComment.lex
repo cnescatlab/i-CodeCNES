@@ -25,23 +25,22 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class F90METRatioComment
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
-%column
 %line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state COMMENT, NAMING, NEW_LINE, LINE, AVOID, DECL
 
@@ -59,7 +58,6 @@ END			 = END		  | end
 
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	Float numLines = 0.0f;
 	Float numComments = 0.0f;
 	int functionLine = 0;
@@ -70,23 +68,32 @@ END			 = END		  | end
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	//
-	private void endLocation() {
-		final List<FunctionValue> list =  fileValue.getFunctionValues();        
+	private void endLocation() throws JFlexException {
+		final List<CheckResult> list = this.getCheckResults(super.getInputFile());      
         if (list.isEmpty()) {
-        	if (numLines<10) list.add(new FunctionValue(location, Float.NaN, functionLine+1));
-        	else list.add(new FunctionValue(location, (numComments/(numLines))*100, functionLine+1));
+        	if (numLines<10){
+        		this.computeMetric(location, Float.NaN + 1, functionLine + 1);
+    		} else {
+    			this.computeMetric(location, (numComments/(numLines))*100, functionLine + 1);
+			}
         } else {
-            final FunctionValue last = list.get(list.size() - 1);
+            final CheckResult last = list.get(list.size() - 1);
             if (last.getLocation().equals(location)) {
-                if (numLines<10) last.setValue(Float.NaN);
-        		else last.setValue((numComments/(numLines))*100);
+                if (numLines<10){
+                	last.setValue(Float.NaN);
+            	} else {
+            		last.setValue((numComments/(numLines))*100);
+            	}
             } else {
-				if (numLines<10) list.add(new FunctionValue(location, Float.NaN, functionLine+1));
-        		else list.add(new FunctionValue(location, (numComments/(numLines))*100, functionLine+1));
+				if (numLines<10){
+					this.computeMetric(location, Float.NaN, functionLine + 1);
+        		} else {
+        			this.computeMetric(location, (numComments/(numLines))*100, functionLine + 1);
+    			}
 			}
         }
         
@@ -100,7 +107,8 @@ END			 = END		  | end
 
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{
-	return fileValue;
+	this.computeMetric("FILE", Float.NaN, 0);
+	return getCheckResults();
 %eofval}
 
 %%

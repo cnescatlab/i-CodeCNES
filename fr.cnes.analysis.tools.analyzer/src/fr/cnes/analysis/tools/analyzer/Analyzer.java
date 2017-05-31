@@ -6,10 +6,8 @@
  */
 package fr.cnes.analysis.tools.analyzer;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,7 +35,7 @@ import org.eclipse.ui.PlatformUI;
  * {@link #check(List, List, List)} and
  * {@link #computeMetrics(List, List, List)}. Once, it returns after a moment
  * the results thanks to {@link CallableMetricAnalyzer} &
- * {@link CallableRuleAnalyzer}.
+ * {@link CallableChecker}.
  * </p>
  * <h2>Number of threads</h2>
  * <p>
@@ -176,7 +174,7 @@ public class Analyzer {
                             .contains(contribution.getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID))
                             && !excludedCheckIds.contains((contribution
                                     .getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID)))) {
-                        AbstractRule rule;
+                        AbstractChecker rule;
                         /*
                          * We are currently to load as much Rule as there is
                          * files because the lex files are designed to be run
@@ -184,11 +182,11 @@ public class Analyzer {
                          */
                         for (File analyzedFile : restrictedFiles) {
                             try {
-                                rule = (AbstractRule) contribution
+                                rule = (AbstractChecker) contribution
                                         .createExecutableExtension("class");
                                 rule.setContribution(contribution);
-                                final CallableRuleAnalyzer callableAnalysis = new CallableRuleAnalyzer(
-                                        rule, analyzedFile);
+                                final CallableChecker callableAnalysis = new CallableChecker(rule,
+                                        analyzedFile);
                                 analyzers.add(service.submit(callableAnalysis));
                             } catch (CoreException e) {
 
@@ -214,6 +212,8 @@ public class Analyzer {
                     throw ((IOException) executionException.getCause());
                 } else if (executionException.getCause() instanceof JFlexException) {
                     throw ((JFlexException) executionException.getCause());
+                } else {
+                    executionException.printStackTrace();
                 }
             }
         }
@@ -236,124 +236,6 @@ public class Analyzer {
             extension = pFileName.substring(i + 1);
         }
         return extension;
-    }
-
-    /**
-     * <h1>{@link #computeMetrics(List, List, List)}</h1>
-     * <p>
-     * This method compute every metric of the different contributions set in
-     * parameter except the ones excluded. File in parameters are being analyzed
-     * by each contribution able to handle it or none if it isn't.
-     * </p>
-     * <p>
-     * <strong>Important :</strong> Default configurations to run analysis are
-     * available when setting parameters.
-     * 
-     * @param pInputFiles
-     *            to analyze
-     * @param pLanguageIds
-     *            to include in the analysis. <strong>Set null</strong> to run
-     *            an analysis including all contributions.
-     * @param pExcludedCheckIds
-     *            rules identifier to exclude from the analysis. <strong>Set
-     *            null</strong> run analysis with every rules.
-     * @return list of {@link CheckResult} found by the analysis.
-     * @throws IOException
-     *             when a file couldn't be reached for analysis.
-     * @throws JFlexException
-     *             when the syntax analysis failed.
-     */
-    public List<FileValue> computeMetrics(List<File> pInputFiles, List<String> pLanguageIds,
-            List<String> pExcludedCheckIds) throws IOException, JFlexException {
-        final String methodName = "computeMetrics";
-        List<String> languageIds = pLanguageIds;
-        if (languageIds == null) {
-            languageIds = new ArrayList<String>();
-        }
-        List<String> excludedCheckIds = pExcludedCheckIds;
-        if (pExcludedCheckIds == null) {
-            excludedCheckIds = new ArrayList<String>();
-        }
-        final List<FileValue> analysisResultFileValues = new ArrayList<>();
-        /*
-         * The number of threads could be defined by the number of files or the
-         * number of rule or both of them. This is pending how we decide to run
-         * the analysis.
-         * 
-         * TODO : Chose one solution for the number of threads
-         */
-        final ExecutorService service = Executors.newSingleThreadExecutor();
-        final List<Future<List<FileValue>>> analyzers = new ArrayList<Future<List<FileValue>>>();
-
-        for (IConfigurationElement analyzerContribution : Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(Analyzer.ANALYZER_EP_ID)) {
-            if (languageIds.contains(
-                    analyzerContribution.getAttribute(ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                final ArrayList<String> allowedExtension = new ArrayList<>();
-                for (IConfigurationElement fileExtension : analyzerContribution
-                        .getChildren(ANALYZER_EP_ELEMENT_FILE_EXTENSION)) {
-                    allowedExtension.add(fileExtension
-                            .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME));
-                }
-                // 1.2. Restricting analysis only on file that the plugin can
-                // handle.
-                final ArrayList<File> restrictedFiles = new ArrayList<>();
-                for (File file : pInputFiles) {
-                    if (allowedExtension.contains(this.getFileExtension(file.getAbsolutePath()))
-                            && !restrictedFiles.contains(file)) {
-                        restrictedFiles.add(file);
-                    }
-                }
-                for (IConfigurationElement contribution : Platform.getExtensionRegistry()
-                        .getConfigurationElementsFor(analyzerContribution
-                                .getAttribute(ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                    if (PlatformUI.getPreferenceStore()
-                            .contains(contribution.getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID))
-                            && !excludedCheckIds.contains(
-                                    contribution.getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID))) {
-                        AbstractMetric metric;
-                        for (File analysisFile : restrictedFiles) {
-                            try {
-                                metric = (AbstractMetric) contribution
-                                        .createExecutableExtension("class");
-                                metric.setContribution(contribution);
-                                final CallableMetricAnalyzer callableAnalysis = new CallableMetricAnalyzer(
-                                        metric, analysisFile);
-                                analyzers.add(service.submit(callableAnalysis));
-                            } catch (CoreException e) {
-
-                                // TODO : Define how to warn here of the
-                                // execution
-                                // failure without throwing new
-                                // exception
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Future<List<FileValue>> analysis : analyzers) {
-            try {
-                analysisResultFileValues.addAll(analysis.get());
-            } catch (InterruptedException interruptedException) {
-                LOGGER.throwing(this.getClass().getName(), methodName, interruptedException);
-            } catch (ExecutionException executionException) {
-                if (executionException.getCause() instanceof IOException) {
-                    final IOException causeException = ((IOException) executionException
-                            .getCause());
-                    LOGGER.throwing(this.getClass().getName(), methodName, causeException);
-                    throw causeException;
-                } else if (executionException.getCause() instanceof JFlexException) {
-                    final JFlexException causeException = ((JFlexException) executionException
-                            .getCause());
-                    LOGGER.throwing(this.getClass().getName(), methodName, causeException);
-                    throw causeException;
-                }
-            }
-        }
-        return analysisResultFileValues;
     }
 
 }
