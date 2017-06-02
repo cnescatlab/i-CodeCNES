@@ -15,6 +15,24 @@
         <fileExtension
               name="f">
         </fileExtension>
+        <fileExtension
+              name="fpp">
+        </fileExtension>
+        <fileExtension
+              name="ftn">
+        </fileExtension>
+        <fileExtension
+              name="F">
+        </fileExtension>
+        <fileExtension
+              name="FPP">
+        </fileExtension>
+        <fileExtension
+              name="FTN">
+        </fileExtension>
+        <fileExtension
+              name="FOR">
+        </fileExtension>
      </analyzer>
      <analyzer
            extensionId="fr.cnes.analysis.tools.fortran77.rule"
@@ -25,6 +43,24 @@
         </fileExtension>
         <fileExtension
               name="f">
+        </fileExtension>
+        <fileExtension
+              name="fpp">
+        </fileExtension>
+        <fileExtension
+              name="ftn">
+        </fileExtension>
+        <fileExtension
+              name="F">
+        </fileExtension>
+        <fileExtension
+              name="FPP">
+        </fileExtension>
+        <fileExtension
+              name="FTN">
+        </fileExtension>
+        <fileExtension
+              name="FOR">
         </fileExtension>
      </analyzer>
   </extension>
