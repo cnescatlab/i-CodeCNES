@@ -109,7 +109,7 @@ IGNORE		 = "EOF" [^]* "EOF"
 %eofval}
 %eofval{
 	this.computeMetric("MAIN PROGRAM", numMaxImbrics, functionLine+1);
-	this.computeMetric("FILE", numImbricsTotal, 0);
+	this.computeMetric(null, numImbricsTotal, 0);
 	return getCheckResults();
 %eofval}
 %%

@@ -156,7 +156,7 @@ public class MetricConverter extends Job {
              * 2.2 If the checker is defined for a file. The job is done once
              * FileMetricDescriptor is updated or created.
              */
-            if (checker.getLocation().equals("FILE")) {
+            if (checker.getLocation() == null || checker.getLocation().isEmpty()) {
                 if (!fileDefined) {
                     file = new FileMetricDescriptor(new Path(checker.getFile().getAbsolutePath()),
                             checker.getValue());

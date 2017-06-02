@@ -138,7 +138,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 			         linesType.get(i).equals("function") ||
 			         linesType.get(i).equals("finFunction")) lines++;
 		}
-		this.computeMetric("FILE", lines/comments, 0);
+		this.computeMetric(null, lines/comments, 0);
 	}
 	
 %}
