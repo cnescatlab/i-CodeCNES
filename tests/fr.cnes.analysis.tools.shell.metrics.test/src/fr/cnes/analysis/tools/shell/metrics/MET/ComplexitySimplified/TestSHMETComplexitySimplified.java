@@ -52,7 +52,7 @@ public class TestSHMETComplexitySimplified {
             final List<CheckResult> checkResults = metric.run();
             CheckResult fileValue = null;
             for (CheckResult check : checkResults) {
-                if (check.getLocation().equals("FILE")) {
+                if (check.getLocation()==null || check.getLocation().isEmpty()) {
                     fileValue = check;
                     checkResults.remove(checkResults.indexOf(check));
                 }

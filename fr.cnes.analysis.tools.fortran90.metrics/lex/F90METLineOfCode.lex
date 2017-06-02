@@ -94,7 +94,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{
-	this.computeMetric("FILE", numTotal, 0);
+	this.computeMetric(null, numTotal, 0);
 	return getCheckResults();
 %eofval}
 %%

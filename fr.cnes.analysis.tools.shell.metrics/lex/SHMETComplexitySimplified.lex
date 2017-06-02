@@ -89,7 +89,7 @@ CYCLO		 = "while"		| "for"		| "until"	|
 
 %eofval{
 	this.computeMetric("MAIN PROGRAM", numMaxCyclo+1, 0);
-	this.computeMetric("FILE", Float.NaN, 0);
+	this.computeMetric(null, Float.NaN, 0);
 	return getCheckResults();
 %eofval}
 %%

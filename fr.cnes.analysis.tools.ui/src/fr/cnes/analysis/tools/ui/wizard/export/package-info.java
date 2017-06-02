@@ -3,12 +3,10 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-
 /**
- * @version 2.0
- * @since 2017-07-12
+ * This package contains class to export i-Code CNES analysis result.
  * 
- *        Contains classes necessary to export metrics view data in the
- *        format CSV.
+ * @since 2.0
+ * @version 3.0
  */
-package fr.cnes.analysis.tools.ui.wizard.export.metric.csv;
+package fr.cnes.analysis.tools.ui.wizard.export;

@@ -51,7 +51,7 @@ public class TestF77METLineOfCode {
 
             CheckResult fileValue = null;
             for (CheckResult check : checkResults) {
-                if (check.getLocation().equals("FILE")) {
+                if (check.getLocation()==null || check.getLocation().isEmpty()) {
                     fileValue = check;
                     checkResults.remove(checkResults.indexOf(check));
                 }
