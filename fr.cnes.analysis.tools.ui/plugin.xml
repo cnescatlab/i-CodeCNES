@@ -200,13 +200,13 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.rule.RuleExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
             id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
             name="Violations Export Wizard">
       </wizard>
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
             id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
             name="Metric Export">
@@ -215,13 +215,13 @@
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.rules.RuleExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
             id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
             name="Violations Export Wizard">
       </wizard>
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
             id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
             name="Metric Export">

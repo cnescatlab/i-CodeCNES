@@ -108,7 +108,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-	this.computeMetric("FILE", Float.NaN, 0);
+	this.computeMetric(null, Float.NaN, 0);
 	return getCheckResults();
 %eofval}
 %%

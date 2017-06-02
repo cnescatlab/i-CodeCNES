@@ -81,7 +81,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 %eofval}
 %eofval{
 	this.computeMetric("MAIN PROGRAM", linesMain, functionLine+1);
-	this.computeMetric("FILE", linesTotal, 0);
+	this.computeMetric(null, linesTotal, 0);
 	return getCheckResults();
 %eofval}
 %%

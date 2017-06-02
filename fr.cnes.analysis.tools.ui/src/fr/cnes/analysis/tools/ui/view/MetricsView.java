@@ -6,20 +6,14 @@
 package fr.cnes.analysis.tools.ui.view;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.export.Export;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
 import fr.cnes.analysis.tools.ui.view.metrics.FileMetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor;
-import fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -50,7 +44,7 @@ import org.eclipse.ui.ide.IDE;
  * 
  * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisView
  */
-public class MetricsView extends AbstractExportableView {
+public class MetricsView extends AbstractAnalysisView {
 
     /**
      * Relative path to the XSD contained in the project for XML analysisResult
@@ -279,57 +273,6 @@ public class MetricsView extends AbstractExportableView {
         LOGGER.finest("end method openFileInEditor");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.cnes.analysis.tools.ui.view.ExportableView#toCSV()
-     */
-    @Override
-    protected void toCSV() throws IOException {
-        LOGGER.finest("Begin toCSV method");
-
-        getOut().write("Metric, File, Location, Total, "
-                + "Mean, Minimum, Maximum, Resource Causing Minimum , Resource Causing Maximum\n");
-
-        for (final MetricDescriptor value : ((MetricContentProvider) this.getViewer()
-                .getContentProvider()).getConverter().getContainer()) {
-            this.getOut().write(value.getName() + ",,," + this.getCSVText(value));
-            for (final FileMetricDescriptor fValue : value.getDescriptors()) {
-                this.getOut().write(
-                        value.getName() + "," + fValue.getName() + ",," + this.getCSVText(fValue));
-                if (!fValue.getDescriptors().isEmpty()) {
-                    for (final FunctionMetricDescriptor funcValue : fValue.getDescriptors()) {
-                        this.getOut().write(value.getName() + "," + fValue.getName() + ","
-                                + funcValue.getName() + "," + this.getCSVText(funcValue));
-                    }
-                }
-            }
-        }
-
-        LOGGER.finest("End toCSV method");
-    }
-
-    /**
-     * This method creates the common text for any Viewable to put in the CSV
-     * file.
-     * 
-     * @param element
-     *            the Viewable element to get text
-     * @return CSV formatted text of this element
-     */
-    private String getCSVText(final IMetricDescriptor element) {
-        LOGGER.finest("Begin getText method");
-
-        final String text = this.convertToString(element.getValue()) + ","
-                + this.convertToString(element.getMean()) + ","
-                + this.convertToString(element.getMinimum()) + ","
-                + this.convertToString(element.getMaximum()) + "," + element.getMinCause() + ","
-                + element.getMaxCause() + "\n";
-
-        LOGGER.finest("End getText method");
-        return text;
-    }
-
     /**
      * Method used to convert float value into String value for CSV export. If
      * the float value is infinite or NaN, the text returned is "--". Otherwise,
@@ -381,7 +324,28 @@ public class MetricsView extends AbstractExportableView {
                                 res = value1.getFile().getAbsolutePath()
                                         .compareTo(value2.getFile().getAbsolutePath());
                                 if (res == 0) {
-                                    res = value1.getLocation().compareTo(value2.getLocation());
+                                    /*
+                                     * We don't compare location if the location
+                                     * is a file's one.
+                                     */
+                                    if ((value1.getLocation() == null
+                                            || value1.getLocation().isEmpty())
+                                            && (value2.getLocation() == null
+                                                    || value2.getLocation().isEmpty())) {
+                                        res = 0;
+                                    } else if ((value1.getLocation() == null
+                                            || value1.getLocation().isEmpty())
+                                            && (value2.getLocation() != null
+                                                    || value2.getLocation().isEmpty())) {
+                                        return -1;
+                                    } else if ((value1.getLocation() != null
+                                            || value1.getLocation().isEmpty())
+                                            && (value2.getLocation() == null
+                                                    || value2.getLocation().isEmpty())) {
+                                        return 1;
+                                    } else {
+                                        res = value1.getLocation().compareTo(value2.getLocation());
+                                    }
                                 }
                             }
                             return res;
@@ -417,29 +381,22 @@ public class MetricsView extends AbstractExportableView {
         this.getViewer().refresh();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisView#fillView()
+     */
     @Override
     protected void fillView() {
         // TODO not implemented yet
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.cnes.analysis.tools.ui.view.AbstractExportableView#toXML(java.io.File)
+    /**
+     * @return the analysisResult
      */
-    @Override
-    protected void toXML(final File file) throws IOException {
-        LOGGER.finest("begin method toXML");
-        Export exportService = new Export();
-        try {
-            exportService.export(new ArrayList<>(this.analysisResult), file);
-        } catch (NoContributorMatchingException | NoExtensionIndicatedException e) {
-            e.printStackTrace();
-        }
-        LOGGER.finest("end method toXML");
-
+    public final Set<CheckResult> getAnalysisResult() {
+        return analysisResult;
     }
 
 }
