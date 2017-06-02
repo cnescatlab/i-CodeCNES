@@ -149,8 +149,17 @@ public class Analyzer {
                 final List<String> allowedExtension = new ArrayList<>();
                 for (IConfigurationElement fileExtension : analyzerContribution
                         .getChildren(ANALYZER_EP_ELEMENT_FILE_EXTENSION)) {
-                    allowedExtension.add(fileExtension
-                            .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME));
+                    // we remove the dot in case the contributor added it.
+                    if (fileExtension
+                            .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME)
+                            .contains(".")) {
+                        allowedExtension.add(fileExtension
+                                .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME)
+                                .replace(".", ""));
+                    } else {
+                        allowedExtension.add(fileExtension
+                                .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME));
+                    }
                 }
                 // 1.2. Restricting analysis only on file that the plugin can
                 // handle.
