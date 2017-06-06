@@ -81,7 +81,7 @@ END			 = END		  | end
 	
 	private void endLocation() throws JFlexException{
         LOGGER.finest("begin method endLocation");
-		final List<CheckResult> list = this.getCheckResults(super.getInputFile());
+		final List<CheckResult> list = this.getCheckResults();
         if (list.isEmpty()) {
         	if (numLines<10){
         		this.computeMetric(location, Float.NaN, functionLine+1);
