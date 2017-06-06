@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="fr.cnes.analysis.tools.menu" name="fr.cnes.analysis.tools.menu" schema="schema/fr.cnes.analysis.tools.menu.exsd"/>
    <extension-point id="fr.cnes.analysis.tools.preferencePages.utils" name="fr.cnes.analysis.tools.preferencePages.utils" schema="schema/fr.cnes.analysis.tools.preferencePages.utils.exsd"/>
    <extension
          point="org.eclipse.ui.menus">
