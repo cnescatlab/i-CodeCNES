@@ -110,7 +110,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
                         .toString()
                         .toLowerCase()
                         .contains(
-                                getCheckResult().getFile()
+                                super.getInputFile()
                                         .getName()
                                         .replaceFirst("[.][^.]+$", "")
                                         .toLowerCase())) {
@@ -122,7 +122,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
                         .toString()
                         .toLowerCase()
                         .contains(
-                                getCheckResult().getFile()
+                                super.getInputFile()
                                         .getName()
                                         .replaceFirst("[.][^.]+$", "")
                                         .toLowerCase())) {

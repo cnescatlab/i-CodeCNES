@@ -38,8 +38,6 @@ public abstract class AbstractChecker {
     /** List of {@link CheckResult} found during analysis. **/
     private List<CheckResult> checkResults = new ArrayList<>();
 
-    private CheckResult checkResult;// TODO à voir pour l'enlever
-
     /**
      * Run analysis for considering file and rule.
      * 
@@ -117,26 +115,11 @@ public abstract class AbstractChecker {
     public void setInputFile(final File pInputFile) throws FileNotFoundException {
         this.checkResults = new LinkedList<CheckResult>();
         // TODO improve language identifier retrieval
-        this.checkResult = new CheckResult(this.getContribution().getAttribute("name"),
+        CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                 this.getContribution().getAttribute("id"),
                 this.getContribution().getDeclaringExtension().getExtensionPointUniqueIdentifier());
-        this.checkResult.setFile(pInputFile);
+        checkResult.setFile(pInputFile);
         this.inputFile = pInputFile;
-    }
-
-    /**
-     * @return the checkResult
-     */
-    public CheckResult getCheckResult() {
-        return checkResult;
-    }
-
-    /**
-     * @param pCheckResult
-     *            the checkResult to set
-     */
-    public void setCheckResult(CheckResult pCheckResult) {
-        this.checkResult = pCheckResult;
     }
 
     /** The configuration element linked to this evaluation. **/

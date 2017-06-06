@@ -115,11 +115,11 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
             LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
 		} else if (linesType.get(0).equals("comment") && !locations.get(0).toString().toLowerCase()
-															.contains(getCheckResult().getFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
+															.contains(super.getInputFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
             LOGGER.fine("Setting error line "+(lines.get(0))+" because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(0));
 		} else if (linesType.get(1).equals("comment") && !locations.get(1).toString().toLowerCase()
-															.contains(getCheckResult().getFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
+															.contains(super.getInputFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
 			LOGGER.fine("Setting error line "+(lines.get(1))+" because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(1));
 		}	

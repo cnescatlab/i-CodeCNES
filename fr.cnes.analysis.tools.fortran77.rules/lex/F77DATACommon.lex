@@ -80,7 +80,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void addCommon() {
 		LOGGER.finest("begin method addCommon");
-        commonList.add(getCheckResult().getFile().getName());
+        commonList.add(super.getInputFile().getName());
         errorLocList.add(this.location);
         errorLineList.add(this.yyline + 1);
         yybegin(LINE);
