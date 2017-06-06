@@ -75,7 +75,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	private void endLocation() throws JFlexException {
-		final List<CheckResult> list = this.getCheckResults(super.getInputFile());
+		final List<CheckResult> list = this.getCheckResults();
         if (list.isEmpty()) {
         	this.computeMetric(this.location, numLines, functionLine + 1);
         } else {

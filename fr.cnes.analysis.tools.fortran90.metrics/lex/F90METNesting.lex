@@ -99,7 +99,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	}
 	
 	private void endLocation() throws JFlexException {
-		final List<CheckResult> list = this.getCheckResults(super.getInputFile());
+		final List<CheckResult> list = this.getCheckResults();
         if (list.isEmpty()) {
        		this.computeMetric(this.location, numMaxImbrics, functionLine+1);
         } else {

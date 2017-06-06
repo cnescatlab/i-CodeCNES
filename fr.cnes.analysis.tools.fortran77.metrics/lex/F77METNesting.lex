@@ -111,7 +111,7 @@ SMBL		 = \&   	  | \+			| \$
 	
 	private void endLocation() throws JFlexException {
 	    LOGGER.finest("l"+(yyline+1)+" -begin method endLocation");
-		final List<CheckResult> list = this.getCheckResults(super.getInputFile());
+		final List<CheckResult> list = this.getCheckResults();
         if (list.isEmpty()) {
         	this.computeMetric(this.location, numMaxImbrics, functionLine + 1);
         } else {
