@@ -171,26 +171,6 @@ public abstract class AbstractChecker {
     }
 
     /**
-     * This method retrieves from {@link #checkResults} all {@link CheckResult}
-     * items that have the file in parameter as {@link CheckResult#getFile()}
-     * attribute.
-     * 
-     * @param file
-     *            The files to restrict the {@link CheckResult} to return.
-     * @return only {@link CheckResult}s that are set for the same file as file
-     *         parameter.
-     */
-    public List<CheckResult> getCheckResults(File file) {
-        List<CheckResult> fileCheck = new ArrayList<>();
-        for (CheckResult check : this.checkResults) {
-            if (check.getFile() != null && check.getFile().equals(file)) {
-                fileCheck.add(check);
-            }
-        }
-        return fileCheck;
-    }
-
-    /**
      * Setter for the list of {@link CheckResult}s.
      * 
      * @param pCheckResults
