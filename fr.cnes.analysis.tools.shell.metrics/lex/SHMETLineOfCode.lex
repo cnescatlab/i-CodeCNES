@@ -84,16 +84,16 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		LOGGER.info("begin method setInputFile");
+		LOGGER.fine("begin method setInputFile");
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
-		LOGGER.info("end method setInputFile");
+		LOGGER.fine("end method setInputFile");
 	}
 	
 	private void endLocation() throws JFlexException {
-		LOGGER.info("begin method endLocation");
+		LOGGER.fine("begin method endLocation");
 		try{
 		    FunctionLineOfCode functionEnded = (FunctionLineOfCode) functionStack.pop();
-	       	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionEnded.getName()+" line :"+ functionEnded.getBeginLine()+" with value : "+functionEnded.getLineOfCode());
+	       	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionEnded.getName()+" line :"+ functionEnded.getBeginLine()+" with value : "+functionEnded.getLineOfCode());
       	 	this.computeMetric(functionEnded.getName(), functionEnded.getLineOfCode(), functionEnded.getBeginLine());
 			if(functionStack.empty()){
 				linesMain+=functionEnded.getLineOfCode();
@@ -105,23 +105,23 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 		    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
 		    throw new JFlexException(new Exception(errorMessage));
 		}
-		LOGGER.info("end method setInputFile");
+		LOGGER.fine("end method setInputFile");
 	}
 	
 	private void addLines(){
-		LOGGER.info("begin method addLines");
+		LOGGER.fine("begin method addLines");
 		if(!emptyLine){
 			if(functionStack.empty()){
-				LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line to MAIN PROGRAM");
+				LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line to MAIN PROGRAM");
 				linesMain++;
 			} else {
-				LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line to the function "+((FunctionLineOfCode) functionStack.peek()).getName());
+				LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line to the function "+((FunctionLineOfCode) functionStack.peek()).getName());
 				((FunctionLineOfCode) functionStack.peek()).addLineOfCode();
 			}
-			LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line for the whole file");
+			LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line for the whole file");
 			linesTotal++;
 		}
-		LOGGER.info("end method addLines");
+		LOGGER.fine("end method addLines");
 	}
 	
 %}
@@ -147,7 +147,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 									//Count pending the value of emptyline (as the comment might be on the right side of some code)
 									addLines();
 									emptyLine=true;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
 									yybegin(YYINITIAL);
 								}  
 				. | {SPACE} 	{ }
@@ -161,19 +161,19 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 				
 				
 				{COMMENT_WORD} 	{
-		  							LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
+		  							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
 		  							yybegin(COMMENT);
 		  						}	
 				{FUNCTION}     	{
 									emptyLine = false;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
 									yybegin(NAMING);
 								}
 				{FUNCT}			{
 									emptyLine = false;
 									functionLine = yyline+1;
 									location = yytext().substring(0,yytext().length()-2).trim();
-								 	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
+								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
 								 	yybegin(BEGINFUNC);
 							 	}
 				
@@ -181,10 +181,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      							emptyLine = false;
 	      							if(!functionStack.empty()){
 	      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
-	      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
+	      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
 	      									functionStack.peek().addStarterRepetition();
 	      								}
-	      								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for FUNCSTART  \""+yytext()+"\" )");
+	      								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for FUNCSTART  \""+yytext()+"\" )");
 	      							}
 	      						}
 	      		{FUNCEND}		{
@@ -192,7 +192,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      							if(!functionStack.empty()){
 	      								if(functionStack.peek().isFinisher(yytext())){
 	      									if(functionStack.peek().getStarterRepetition()>0) {
-	      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
+	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
 	      										try{
 	      										    functionStack.peek().removeStarterRepetition();
 	      										}catch(JFlexException e){
@@ -200,7 +200,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      										    throw new JFlexException(new Exception(errorMessage));
 	      										}
 	      									} else {
-	      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
+	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
 	      										addLines();
 	      										emptyLine=true;
 	      										endLocation();
@@ -209,28 +209,28 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      							}
 	      						}
 	      		{VAR}			{ 
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for VAR  \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for VAR  \""+yytext()+"\" )");
 									emptyLine = false;
 								}
 				{IGNORE}		{   
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
 									emptyLine = false;
 								}
 				{COMMAND}		{
 									emptyLine = false;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
 								 	yybegin(COMMAND);
 								}
 				{STRING_S}		{  
 									emptyLine = false; 
 									inStringSimpleQuoted = true;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING (Transition : STRING_S \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING (Transition : STRING_S \""+yytext()+"\" )");
 								 	yybegin(STRING);
 								}
 				{STRING_D}		{
 									emptyLine = false; 
 									inStringDoubleQuoted = true;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING (Transition : STRING_D \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING (Transition : STRING_D \""+yytext()+"\" )");
 								 	yybegin(STRING);
 								}
 				      					
@@ -254,13 +254,13 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      							emptyLine = false;
 									location = yytext();
 									functionLine = yyline+1;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
 									yybegin(BEGINFUNC);
 								}
 				\n             	{
 									addLines();
 									emptyLine = true;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
 									yybegin(YYINITIAL);
 								}  
 			   	. | {SPACE}     {}
@@ -279,9 +279,9 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 				\(\)			{}
 				{FUNCSTART}		{
 									FunctionLineOfCode function = new FunctionLineOfCode(location, functionLine, yytext());
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
 									functionStack.push(function);
-								 	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
+								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
 								 	yybegin(YYINITIAL);
 							 	}
 			   	. | \n |{SPACE} { }
@@ -292,11 +292,11 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 <COMMAND>
 		{
 				\n			{ 
-								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] count line for \\n");
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] count line for \\n");
 								addLines();
 							}
 				{COMMAND}	{
-								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition : COMMAND \""+yytext()+"\" )");
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition : COMMAND \""+yytext()+"\" )");
 								yybegin(YYINITIAL);
 							}
 				. | {SPACE} { }
@@ -307,16 +307,16 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 <STRING>
 		{
 				\n			{ 
-								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING] count line for \\n");
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING] count line for \\n");
 								addLines();
 							}
 				{IGNORE}	{
-								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING] do nothing for IGNORE  \""+yytext()+"\" )");
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING] do nothing for IGNORE  \""+yytext()+"\" )");
 							}
 				{STRING_S}	{
 								if(inStringSimpleQuoted){
 									inStringSimpleQuoted=false;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING -> YYINITIAL (Transition : STRING_S \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING -> YYINITIAL (Transition : STRING_S \""+yytext()+"\" )");
 									yybegin(YYINITIAL);
 								}
 								
@@ -324,7 +324,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 				{STRING_D}	{
 								if(inStringDoubleQuoted){
 									inStringDoubleQuoted=false;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING -> YYINITIAL (Transition : STRING_D \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING -> YYINITIAL (Transition : STRING_D \""+yytext()+"\" )");
 									yybegin(YYINITIAL);
 								}
 								
