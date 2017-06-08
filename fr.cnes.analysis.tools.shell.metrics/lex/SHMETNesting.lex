@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
@@ -101,12 +102,6 @@ IGNORE		 = "EOF" [^]* "EOF"
 	
 %}
 
-%eofval{
-    final List<FunctionValue> list = this.fileValue.getFunctionValues();
-    list.add(new FunctionValue("MAIN PROGRAM", numMaxImbrics, functionLine+1));
-    fileValue.setValue(numImbricsTotal);
-	return fileValue;
-%eofval}
 %eofval{
 	this.computeMetric("MAIN PROGRAM", numMaxImbrics, functionLine+1);
 	this.computeMetric(null, numImbricsTotal, 0);
