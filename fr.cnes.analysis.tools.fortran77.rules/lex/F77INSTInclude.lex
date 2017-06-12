@@ -24,7 +24,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
@@ -32,7 +32,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 /* Column counting is set to help find line continuation. */
 %class F77INSTInclude
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %column
@@ -99,7 +99,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 			fileName = str[str.length-1];
 		}
 		try {
-			final AbstractRule rule = new F77INSTInclude(true, this.getContribution());
+			final AbstractChecker rule = new F77INSTInclude(true, this.getContribution());
 
 			File[] currDir = new File(project).listFiles();
 			getFileFromPath(currDir);

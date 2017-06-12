@@ -24,14 +24,14 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
 
 %class F90DESIGNObsolete
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %ignorecase
@@ -70,13 +70,13 @@ CHAR		 = "character" {SPACE}* \*
 %{
 	String location = "MAIN PROGRAM"; 
 	/** Rule used to assert that arithmetical if is not used. **/
-	AbstractRule rule1 = new F90DESIGNObsoleteArithmeticalIf();
+	AbstractChecker rule1 = new F90DESIGNObsoleteArithmeticalIf();
 	/** Rule used to assert that do loop ending branch is done on a continue or an end do. **/
-	AbstractRule rule2 = new F90DESIGNObsoleteDoEnding();
+	AbstractChecker rule2 = new F90DESIGNObsoleteDoEnding();
 	/** Rule used to assert that do loop only use integer variables. **/
-	AbstractRule rule3 = new F90DESIGNObsoleteDoReal();
+	AbstractChecker rule3 = new F90DESIGNObsoleteDoReal();
 	/** Rule used to assert that two do loops do not share the same label. **/
-	AbstractRule rule4 = new F90DESIGNObsoleteDoShared();
+	AbstractChecker rule4 = new F90DESIGNObsoleteDoShared();
 	
 	List<String> formatsNum = new LinkedList<String>();
 	

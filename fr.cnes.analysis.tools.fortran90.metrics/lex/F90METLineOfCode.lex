@@ -25,24 +25,22 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class F90METLineOfCode
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
-
 %line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
-
+%type List<CheckResult>
 %state COMMENT, AVOID, NAMING, NEW_LINE, LINE
 
 /* We add TYPE notion, which represent FUNC, PROC, SUB, MOD and PROG. 	*/
@@ -64,7 +62,6 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* comment's rate on each section (function, procedure, etc.).			*/
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	float numLines = 1;
 	float numTotal = 1;
 	int functionLine = 0;
@@ -74,20 +71,19 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
-	private void endLocation() {
-		final List<FunctionValue> list =
-                this.fileValue.getFunctionValues();
+	private void endLocation() throws JFlexException {
+		final List<CheckResult> list = this.getCheckResults();
         if (list.isEmpty()) {
-            list.add(new FunctionValue(this.location, numLines, functionLine+1));
+        	this.computeMetric(this.location, numLines, functionLine + 1);
         } else {
-            final FunctionValue last = list.get(list.size() - 1);
+            final CheckResult last = list.get(list.size() - 1);
             if (last.getLocation().equals(this.location)) {
                 last.setValue(numLines);
             } else {
-				list.add(new FunctionValue(this.location, numLines, functionLine+1));
+				this.computeMetric(this.location, numLines, functionLine + 1);
 			}
         }
 		
@@ -98,10 +94,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{
-	fileValue.setValue(numTotal);
-	return fileValue;
+	this.computeMetric(null, numTotal, 0);
+	return getCheckResults();
 %eofval}
-
 %%
 
 /* This is the general automaton. Each part will be described later. */

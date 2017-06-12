@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.COMINSTBoolNegation;
@@ -38,7 +38,7 @@ public class TestCOMINSTBoolNegation {
 	public final static int[] LINES = { 9, 13, 17, 22, 27, 33, 40, 46 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
 			"MAIN PROGRAM", "test1", "test", "test" };
-	public final AbstractRule rule = new COMINSTBoolNegation();
+	public final AbstractChecker rule = new COMINSTBoolNegation();
 
 	/**
 	 * This test verifies that an error can be detected.

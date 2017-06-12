@@ -25,13 +25,13 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
 %class F77DATACommon
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 
@@ -80,7 +80,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void addCommon() {
 		LOGGER.finest("begin method addCommon");
-        commonList.add(getCheckResult().getFile().getName());
+        commonList.add(super.getInputFile().getName());
         errorLocList.add(this.location);
         errorLineList.add(this.yyline + 1);
         yybegin(LINE);

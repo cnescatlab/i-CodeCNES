@@ -23,22 +23,22 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class SHMETLineOfCode
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
 %line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
+%type List<CheckResult>
 
 %state AVOID, NAMING, FUNCTION, USEFUL
 
@@ -50,7 +50,6 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	List<String> identifiers = new LinkedList<String>();
 	float lines=0;
 	float linesMain=0;
@@ -64,13 +63,12 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-		fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
-	private void endLocation() {
-		final List<FunctionValue> list = this.fileValue.getFunctionValues();
-       	list.add(new FunctionValue(this.location, lines+1, functionLine+1));
+	private void endLocation() throws JFlexException {
+       	this.computeMetric(this.location, lines+1, functionLine + 1);
 	}
 	
 %}
@@ -81,7 +79,11 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
     fileValue.setValue(linesTotal);
 	return fileValue;
 %eofval}
-
+%eofval{
+	this.computeMetric("MAIN PROGRAM", linesMain, functionLine+1);
+	this.computeMetric(null, linesTotal, 0);
+	return getCheckResults();
+%eofval}
 %%
 
 /************************/

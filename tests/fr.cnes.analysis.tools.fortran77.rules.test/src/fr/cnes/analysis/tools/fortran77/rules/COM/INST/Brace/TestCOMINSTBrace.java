@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran77.rules.COMINSTBrace;
@@ -38,7 +38,7 @@ public class TestCOMINSTBrace {
 	public final static int[] LINES = { 3, 5, 10, 11, 13 };
 	public final static String[] LOCATIONS = { "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI",
 			"PROGRAM ESSAI" };
-	public final AbstractRule rule = new COMINSTBrace();
+	public final AbstractChecker rule = new COMINSTBrace();
 
 	/**
 	 * This test verifies that an error can be detected.

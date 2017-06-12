@@ -23,7 +23,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 
@@ -31,7 +31,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 /* Column counting is used to deal with line completion problems. */
 %class F90DESIGNObsoleteDoReal
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %column

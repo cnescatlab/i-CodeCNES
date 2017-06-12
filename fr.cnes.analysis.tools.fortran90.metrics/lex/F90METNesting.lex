@@ -27,22 +27,23 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.Path;
 
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 %%
 
 %class F90METNesting
-%extends AbstractMetric
+%extends AbstractChecker
 %public
 %ignorecase
+%line
+%column
 
 %function run
 %yylexthrow JFlexException
-%type FileValue
-%line
+%type List<CheckResult>
+
 %state COMMENT, NAMING, NEW_LINE, LINE, IF_STATE
 
 /* We add TYPE notion, which represent FUNC, PROC, SUB, MOD and PROG. 	*/
@@ -69,7 +70,6 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 %{
 	String location = "MAIN PROGRAM";
-	FileValue fileValue;
 	List<String> identifiers = new LinkedList<String>();
 	float numImbrics = 0;
 	float numMaxImbrics = 0;
@@ -82,7 +82,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
-        fileValue = new FileValue(this.getContribution().getAttribute("id"), this.getContribution().getAttribute("name"), file);
+		super.setInputFile(file);
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -98,17 +98,16 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 		numImbrics--;
 	}
 	
-	private void endLocation() {
-		final List<FunctionValue> list =
-                this.fileValue.getFunctionValues();
+	private void endLocation() throws JFlexException {
+		final List<CheckResult> list = this.getCheckResults();
         if (list.isEmpty()) {
-            list.add(new FunctionValue(this.location, numMaxImbrics, functionLine+1));
+       		this.computeMetric(this.location, numMaxImbrics, functionLine+1);
         } else {
-            final FunctionValue last = list.get(list.size() - 1);
+            final CheckResult last = list.get(list.size() - 1);
             if (last.getLocation().equals(this.location)) {
                 last.setValue(numMaxImbrics);
             } else {
-				list.add(new FunctionValue(this.location, numMaxImbrics, functionLine+1));
+            	this.computeMetric(this.location, numMaxImbrics, functionLine+1);
 			}
         }
 	}
@@ -116,10 +115,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-    fileValue.setValue(Float.NaN);
-	return fileValue;
+	this.computeMetric(null, Float.NaN, 0);
+	return getCheckResults();
 %eofval}
-
 %%
 
 /* This is the general automaton. Each part will be described later. */

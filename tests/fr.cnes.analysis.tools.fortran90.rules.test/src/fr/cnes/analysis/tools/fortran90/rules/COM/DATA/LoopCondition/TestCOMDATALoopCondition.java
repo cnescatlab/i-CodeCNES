@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.COMDATALoopCondition;
@@ -32,7 +32,7 @@ public class TestCOMDATALoopCondition {
 	public final static int[] LINES = { 4, 5, 6, 12, 17, 23, 29 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
 			"MAIN PROGRAM", "MAIN PROGRAM", "FUNCTION TEST" };
-	public final AbstractRule rule = new COMDATALoopCondition();
+	public final AbstractChecker rule = new COMDATALoopCondition();
 
 	/**
 	 * This test verifies that an error can be detected.

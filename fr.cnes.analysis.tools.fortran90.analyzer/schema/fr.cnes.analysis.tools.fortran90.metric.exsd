@@ -69,7 +69,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="fr.cnes.analysis.tools.fortran90.analyzer.metrics.AbstractMetric:"/>
+                  <meta.attribute kind="java" basedOn="fr.cnes.analysis.tools.analyzer.datas.AbstractChecker:"/>
                </appinfo>
             </annotation>
          </attribute>
