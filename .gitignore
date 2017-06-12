@@ -6,3 +6,6 @@ bin/
 
 # Ignore code generation directories 
 */src-gen/fr/
+
+#Ignore checkstyle configuration
+*.checkstyle

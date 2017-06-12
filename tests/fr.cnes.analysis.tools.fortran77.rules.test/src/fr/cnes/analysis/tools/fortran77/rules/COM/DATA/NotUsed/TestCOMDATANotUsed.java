@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran77.rules.COMDATANotUsed;
@@ -38,7 +38,7 @@ public class TestCOMDATANotUsed {
 	public final static int[] LINES = { 7, 12, 17, 17, 17, 18, 18, 18, 18 };
 	public final static String[] LOCATIONS = { "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI",
 			"PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI" };
-	public AbstractRule rule = new COMDATANotUsed();
+	public AbstractChecker rule = new COMDATANotUsed();
 
 	/**
 	 * This test verifies that an error can be detected.
