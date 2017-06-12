@@ -5,19 +5,15 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
 
 /**
  * Job used to converter inputs from analysis to valuable inputs for the
@@ -29,7 +25,7 @@ public class MetricConverter extends Job {
     public final static Logger LOGGER = Logger.getLogger(MetricConverter.class.getName());
 
     /** The original inputs. **/
-    private FileValue[]        inputs;
+    private CheckResult[] inputs;
     /** A value container which has all values of rules. **/
     private MetricDescriptor[] container;
 
@@ -38,7 +34,7 @@ public class MetricConverter extends Job {
      */
     public MetricConverter() {
         super("Converting results...");
-        this.inputs = new FileValue[0];
+        this.inputs = new CheckResult[0];
         this.container = new MetricDescriptor[0];
 
     }
@@ -46,12 +42,12 @@ public class MetricConverter extends Job {
     /**
      * Constructor for this Job with an array of violations.
      * 
-     * @param pInputs
+     * @param checkResults
      *            the inputs
      */
-    public MetricConverter(final FileValue[] pInputs) {
+    public MetricConverter(final CheckResult[] checkResults) {
         super("Converting results...");
-        this.inputs = pInputs.clone();
+        this.inputs = checkResults.clone();
         this.container = new MetricDescriptor[0];
     }
 
@@ -60,7 +56,7 @@ public class MetricConverter extends Job {
      * 
      * @return the inputs
      */
-    public FileValue[] getInputs() {
+    public CheckResult[] getInputs() {
         return this.inputs.clone();
     }
 
@@ -79,7 +75,7 @@ public class MetricConverter extends Job {
      * @param pInputs
      *            the inputs to set
      */
-    public void setInputs(final FileValue[] pInputs) {
+    public void setInputs(final CheckResult[] pInputs) {
         this.inputs = pInputs.clone();
     }
 
@@ -109,45 +105,86 @@ public class MetricConverter extends Job {
 
         // Instantiate descriptors
         final List<MetricDescriptor> descriptors = new LinkedList<MetricDescriptor>();
-        final MetricDescriptor metric = new MetricDescriptor();
-        final FileMetricDescriptor file = new FileMetricDescriptor();
-        final FunctionMetricDescriptor function = new FunctionMetricDescriptor();
+        // final FileMetricDescriptor file = new FileMetricDescriptor();
+        // final FunctionMetricDescriptor function = new
+        // FunctionMetricDescriptor();
 
         // Start converting
         monitor.beginTask("Converting...", totalWork);
-        try {
-            for (final FileValue value : this.inputs) {
-                if (descriptors.isEmpty() || !descriptors.get(descriptors.size() - 1).getName()
-                        .equals(value.getMetricName())) {
-                    metric.getDescriptors().clear();
-                    metric.setName(value.getMetricName());
-                    descriptors.add(metric.clone());
-                }
-                file.setFilePath(new Path(value.getFile().getAbsolutePath()));
-                file.setValue(value.getValue());
-                file.getDescriptors().clear();
 
-                for (final FunctionValue fValue : value.getFunctionValues()) {
-                    function.setMetricId(value.getMetricId());
-                    function.setFilePath(new Path(value.getFile().getAbsolutePath()));
-                    function.setLocation(fValue.getLocation());
-                    function.setLine(fValue.getLine());
-                    function.setValue(fValue.getValue());
-                    if (!file.getDescriptors().contains(function)) {
-                        file.getDescriptors().add(function.clone());
-
+        for (final CheckResult checker : this.inputs) {
+            /*
+             * 1. Defining which informations of the checker already have been
+             * fulfilled in the descriptors.
+             */
+            int metricIndex = 0;
+            int fileIndex = 0;
+            boolean metricDefined = false;
+            boolean fileDefined = false;
+            while (metricIndex < descriptors.size() && !metricDefined) {
+                MetricDescriptor metric = descriptors.get(metricIndex);
+                if (checker.getName().equals(metric.getName())) {
+                    metricDefined = true;
+                    while (fileIndex < metric.getDescriptors().size() && !fileDefined) {
+                        FileMetricDescriptor file = metric.getDescriptors().get(fileIndex);
+                        if (file.getFilePath().toFile().getAbsolutePath()
+                                .equals(checker.getFile().getAbsolutePath())) {
+                            fileDefined = true;
+                        } else {
+                            fileIndex++;
+                        }
                     }
+                } else {
+                    metricIndex++;
                 }
-                descriptors.get(descriptors.size() - 1).getDescriptors().add(file.clone());
-                monitor.worked(1);
             }
-            this.container = descriptors.toArray(new MetricDescriptor[descriptors.size()]);
-        } catch (final CloneNotSupportedException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            status = new Status(Status.ERROR, "fr.cnes.analysis.tools.fortran.analyzer",
-                    Status.ERROR, exception.getMessage(), exception);
+            /*
+             * 2. Writing information into the descriptors
+             */
+            /*
+             * 2.1 Defining the metric if not defined
+             */
+            MetricDescriptor metric;
+            if (!metricDefined) {
+                metric = new MetricDescriptor(checker.getName());
+                descriptors.add(metric);
+            } else {
+                metric = descriptors.get(metricIndex);
+            }
+            FileMetricDescriptor file;
+            /*
+             * 2.2 If the checker is defined for a file. The job is done once
+             * FileMetricDescriptor is updated or created.
+             */
+            if (checker.getLocation() == null || checker.getLocation().isEmpty()) {
+                if (!fileDefined) {
+                    file = new FileMetricDescriptor(new Path(checker.getFile().getAbsolutePath()),
+                            checker.getValue());
+                    metric.getDescriptors().add(file);
+                } else {
+                    file = metric.getDescriptors().get(fileIndex);
+                    file.setValue(checker.getValue());
+                }
+            } else {
+                /*
+                 * 2.3 If the checker is not defined for a file, then,
+                 * FileMetricDescriptor must be created without value and
+                 * FunctionMetricDescriptor added to it.
+                 */
+                if (!fileDefined) {
+                    file = new FileMetricDescriptor();
+                    file.setFilePath(new Path(checker.getFile().getAbsolutePath()));
+                    metric.getDescriptors().add(file);
+                } else {
+                    file = metric.getDescriptors().get(fileIndex);
+                }
+                file.getDescriptors()
+                        .add(new FunctionMetricDescriptor(checker.getId(), checker.getLocation(),
+                                checker.getValue(), new Path(checker.getFile().getAbsolutePath()),
+                                checker.getLine()));
+            }
         }
+        this.container = descriptors.toArray(new MetricDescriptor[descriptors.size()]);
 
         LOGGER.finest("End run method");
         return status;

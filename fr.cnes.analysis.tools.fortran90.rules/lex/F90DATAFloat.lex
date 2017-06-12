@@ -22,14 +22,14 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Path;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 %%
 
 %class F90DATAFloat
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %ignorecase
@@ -89,7 +89,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
     /*
      * (non-Javadoc)
      * @see
-     * fr.cnes.analysis.tools.analyzer.datas.AbstractRule#setInputFile(org.
+     * fr.cnes.analysis.tools.analyzer.datas.AbstractChecker#setInputFile(org.
      * eclipse.core.runtime.IPath)
      */
     @Override

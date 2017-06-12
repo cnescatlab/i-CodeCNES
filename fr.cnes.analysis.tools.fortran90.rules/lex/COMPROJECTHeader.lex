@@ -23,13 +23,13 @@ import java.util.List;
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 %%
 
 %class COMPROJECTHeader
-%extends AbstractRule
+%extends AbstractChecker
 %public
 %line
 %ignorecase
@@ -110,7 +110,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
                         .toString()
                         .toLowerCase()
                         .contains(
-                                getCheckResult().getFile()
+                                super.getInputFile()
                                         .getName()
                                         .replaceFirst("[.][^.]+$", "")
                                         .toLowerCase())) {
@@ -122,7 +122,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
                         .toString()
                         .toLowerCase()
                         .contains(
-                                getCheckResult().getFile()
+                                super.getInputFile()
                                         .getName()
                                         .replaceFirst("[.][^.]+$", "")
                                         .toLowerCase())) {

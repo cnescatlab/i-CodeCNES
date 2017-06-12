@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.SHINSTSetShift;
@@ -38,7 +38,7 @@ public class TestSHINSTSetShift {
 	public final static int[] LINES = { 16, 27, 27, 28, 41, 42, 46 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "getopts_internal", "getopts_internal",
 			"getopts_internal", "getopts_internal", "getopts_internal", "getopts_internal" };
-	public final AbstractRule rule = new SHINSTSetShift();
+	public final AbstractChecker rule = new SHINSTSetShift();
 
 	/**
 	 * This test verifies that an error can be detected.

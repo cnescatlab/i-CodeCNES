@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment;
@@ -38,7 +38,7 @@ public class TestCOMINSTCodeComment {
 	public final static int[] LINES = { 18, 21, 22, 27, 28, 31, 35, 36, 37 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
 			"MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM" };
-	public final AbstractRule rule = new COMINSTCodeComment();
+	public final AbstractChecker rule = new COMINSTCodeComment();
 
 	/**
 	 * This test verifies that an error can be detected.

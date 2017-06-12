@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+<class-diagram version="1.2.0" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider" 
     project="fr.cnes.analysis.tools.ui" 
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricLabelProvider.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="576" y="2"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
@@ -17,8 +17,8 @@
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricContentProvider.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="321" y="241"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
@@ -28,160 +28,99 @@
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/AbstractExportableView.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="887" y="587"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="fr.cnes.analysis.tools.ui.view.rules.ViolationContentProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/ViolationContentProvider.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1509" y="589"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="fr.cnes.analysis.tools.ui.view.ViolationsView" project="fr.cnes.analysis.tools.ui" 
+  <class id="4" language="java" name="fr.cnes.analysis.tools.ui.view.ViolationsView" project="fr.cnes.analysis.tools.ui" 
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/ViolationsView.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1213" y="588"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractAnalysisView" 
+  <class id="5" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractAnalysisView" 
     project="fr.cnes.analysis.tools.ui" 
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/AbstractAnalysisView.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="891" y="267"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricConverter" 
+  <class id="6" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricConverter" 
     project="fr.cnes.analysis.tools.ui" 
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricConverter.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="322" y="586"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="fr.cnes.analysis.tools.ui.view.MetricsView" project="fr.cnes.analysis.tools.ui" 
+  <class id="7" language="java" name="fr.cnes.analysis.tools.ui.view.MetricsView" project="fr.cnes.analysis.tools.ui" 
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/MetricsView.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="576" y="585"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractLabelProvider" 
+  <class id="8" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractLabelProvider" 
     project="fr.cnes.analysis.tools.ui" 
     file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/AbstractLabelProvider.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="881" y="1"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="fr.cnes.analysis.tools.ui.view.rules.ViolationsLabelProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/ViolationsLabelProvider.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1213" y="0"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="fr.cnes.analysis.tools.ui.view.rules.ViolationConverter" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/ViolationConverter.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1507" y="229"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <generalization id="12">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="9"/>  
-  </generalization>  
-  <association id="13">    
+  <association id="9">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="14" name="converter"/>      
-      <multiplicity id="15" minimum="0" maximum="1"/>    
+      <attribute id="10" name="converter">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="16">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="17">    
+  <generalization id="12">    
     <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
+    <end type="TARGET" refId="5"/>  
   </generalization>  
-  <dependency id="18">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="11"/>  
-  </dependency>  
-  <dependency id="19">    
-    <end type="SOURCE" refId="8"/>    
+  <generalization id="13">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <dependency id="14">    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="20">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="4"/>  
-  </dependency>  
-  <generalization id="21">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="9"/>  
-  </generalization>  
-  <generalization id="22">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <dependency id="23">    
-    <end type="SOURCE" refId="8"/>    
+  <dependency id="15">    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="1"/>  
   </dependency>  
-  <dependency id="24">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <association id="25">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="26" name="converter"/>      
-      <multiplicity id="27" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="28">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="10"/>  
+  <dependency id="16">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-    accessors="true" visibility="true">    
+    sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
     <operations public="true" package="true" protected="true" private="true" static="true"/>  
   </classifier-display>  

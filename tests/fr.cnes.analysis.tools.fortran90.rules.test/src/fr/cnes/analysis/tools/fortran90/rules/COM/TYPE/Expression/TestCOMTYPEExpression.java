@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.COMTYPEExpression;
@@ -38,7 +38,7 @@ public class TestCOMTYPEExpression {
 	public final static int[] LINES = { 20, 21, 23, 48 };
 	public final static String[] LOCATIONS = { "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI",
 			"SUBROUTINE GS_calcul_ecart_echt" };
-	public final AbstractRule rule = new COMTYPEExpression();
+	public final AbstractChecker rule = new COMTYPEExpression();
 
 	/**
 	 * This test verifies that an error can be detected.

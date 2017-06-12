@@ -3,12 +3,13 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.wizard.export.rules;
+package fr.cnes.analysis.tools.ui.wizard.export;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.export.Export;
 import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
 import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
+import fr.cnes.analysis.tools.ui.view.MetricsView;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +30,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 /**
  * This class is an adaptive {@link WizardNewFileCreationPage} which format is
  * pending the selection of the user in the previous page
- * {@link RuleExportWizard}.
+ * {@link CheckerExportWizard}.
  * 
  * <p>
  * On {@link #getInitialContents()} this class realize an export using
@@ -38,10 +39,10 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
  * 
  * @since 3.0
  */
-public class RuleCreationFileExportWizardPage extends WizardNewFileCreationPage {
+public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPage {
     /** The logger **/
     public static final Logger LOGGER = Logger
-            .getLogger(RuleCreationFileExportWizardPage.class.getName());
+            .getLogger(CheckerFileCreationExportWizardPage.class.getName());
 
     private Export exporter;
     private String requestedFormat;
@@ -52,7 +53,7 @@ public class RuleCreationFileExportWizardPage extends WizardNewFileCreationPage 
      * @param selection
      *            the selection
      */
-    public RuleCreationFileExportWizardPage(final IStructuredSelection selection,
+    public CheckerFileCreationExportWizardPage(final IStructuredSelection selection,
             String pRequestedFormat) {
         super("RuleCreationFileExportWizardPage", selection);
         exporter = new Export();
@@ -70,8 +71,8 @@ public class RuleCreationFileExportWizardPage extends WizardNewFileCreationPage 
      * 
      * <p>
      * This class is currently called by the previous page
-     * {@link RuleExportWizardPage} every time an user select an export format
-     * for his file.
+     * {@link CheckerExportWizardPage} every time an user select an export
+     * format for his file.
      * </p>
      * 
      * @param pRequestedFormat
@@ -79,7 +80,7 @@ public class RuleCreationFileExportWizardPage extends WizardNewFileCreationPage 
      */
     public void updateFormat(String pRequestedFormat) {
         requestedFormat = pRequestedFormat;
-        this.setTitle("i-Code CNES - Rules export (" + pRequestedFormat + ")");
+        this.setTitle("i-Code CNES - Analysis results export (" + pRequestedFormat + ")");
         this.setDescription(
                 "Description : Create a result export file in " + pRequestedFormat + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
@@ -110,14 +111,18 @@ public class RuleCreationFileExportWizardPage extends WizardNewFileCreationPage 
             page.showView(ViolationsView.VIEW_ID);
 
             // get view
-            final ViolationsView view = (ViolationsView) page.findView(ViolationsView.VIEW_ID);
+            final ViolationsView violationView = (ViolationsView) page
+                    .findView(ViolationsView.VIEW_ID);
+            page.showView(MetricsView.VIEW_ID);
+            final MetricsView metricsView = (MetricsView) page.findView(MetricsView.VIEW_ID);
             /*
              * Retrieving violations to export into a list.
              */
-            List<CheckResult> violations = new ArrayList<>();
-            violations.addAll(view.getAnalysisResults());
+            List<CheckResult> checkResults = new ArrayList<>();
+            checkResults.addAll(violationView.getAnalysisResults());
+            checkResults.addAll(metricsView.getAnalysisResult());
             /* exporting the violations into the temp file */
-            export.export(violations, temp);
+            export.export(checkResults, temp);
 
             stream = new FileInputStream(temp);
         } catch (final IOException exception) {

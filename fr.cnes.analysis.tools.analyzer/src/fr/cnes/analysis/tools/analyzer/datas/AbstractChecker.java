@@ -10,41 +10,33 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.core.runtime.IConfigurationElement;
 
 /**
- * Abstract class implementing the generic application of a rule over a file.
- * For each rule and file, an instance is made.
+ * This class must be extended by any Rule analyzer or Metric computer
+ * contributing to i-Code CNES Analyzer.
  * 
+ * <p>
+ * Once an analysis {@link #run()} it's possible to add all informations of
+ * Rule's violation using {@link #setError(String, String, int)} or metric
+ * computation using {@link #computeMetric(String, float, int)}.
+ * </p>
+ * 
+ * <p>
+ * Sometimes, metric computing requires to retrieves already computed data on
+ * the file currently analyzed. To do so, use {@link #getCheckResults(File)}
+ * getter.
+ * </p>
  */
-public abstract class AbstractRule extends AbstractEvaluation {
+public abstract class AbstractChecker {
     /** Analysed file. */
-    private File file;
+    private File inputFile;
 
     /** List of {@link CheckResult} found during analysis. **/
-    private List<CheckResult> checkResults;
-
-    private CheckResult checkResult;// TODO à voir pour l'enlever
-
-    /**
-     * Getter for the list of {@link CheckResult}.
-     * 
-     * @return the {@link CheckResult}s
-     */
-    public List<CheckResult> getCheckResults() {
-        return this.checkResults;
-    }
-
-    /**
-     * Setter for the list of {@link CheckResult}s.
-     * 
-     * @param pCheckResults
-     *            the {@link CheckResult}s to set
-     */
-    public void setCheckResults(final List<CheckResult> pCheckResults) {
-        this.checkResults = pCheckResults;
-    }
+    private List<CheckResult> checkResults = new ArrayList<>();
 
     /**
      * Run analysis for considering file and rule.
@@ -79,7 +71,7 @@ public abstract class AbstractRule extends AbstractEvaluation {
         checkResult.setLine(pLine);
         checkResult.setLocation(pLocation);
         checkResult.setMessage(pMessage);
-        checkResult.setFile(file);
+        checkResult.setFile(inputFile);
         this.checkResults.add(checkResult);
 
     }
@@ -97,7 +89,7 @@ public abstract class AbstractRule extends AbstractEvaluation {
      * @throws JFlexException
      *             exception thrown when cloning error appears
      */
-    protected void setError(final String pLocation, final float pValue, final int pLine)
+    protected void computeMetric(final String pLocation, final float pValue, final int pLine)
             throws JFlexException {
 
         // TODO Improve how is set the language id
@@ -107,41 +99,77 @@ public abstract class AbstractRule extends AbstractEvaluation {
         checkResult.setLine(pLine);
         checkResult.setLocation(pLocation);
         checkResult.setValue(pValue);
-        checkResult.setFile(file);
+        checkResult.setFile(this.inputFile);
         this.checkResults.add(checkResult);
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Set the input file to be analyzed.
      * 
-     * @see
-     * fr.cnes.analysis.tools.analyzer.datas.AbstractEvaluation#setInputFile
-     * (org.eclipse.core.runtime.IPath)
+     * @param inputFile
+     *            file's path
+     * @throws FileNotFoundException
+     *             exception thrown when a file is not found
      */
-    @Override
     public void setInputFile(final File pInputFile) throws FileNotFoundException {
         this.checkResults = new LinkedList<CheckResult>();
         // TODO improve language identifier retrieval
-        this.checkResult = new CheckResult(this.getContribution().getAttribute("name"),
+        CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                 this.getContribution().getAttribute("id"),
                 this.getContribution().getDeclaringExtension().getExtensionPointUniqueIdentifier());
-        this.checkResult.setFile(pInputFile);
-        this.file = pInputFile;
+        checkResult.setFile(pInputFile);
+        this.inputFile = pInputFile;
+    }
+
+    /** The configuration element linked to this evaluation. **/
+    private IConfigurationElement contribution;
+
+    /**
+     * Getter for the contribution.
+     * 
+     * @return the contribution
+     */
+    public IConfigurationElement getContribution() {
+        return this.contribution;
     }
 
     /**
-     * @return the checkResult
+     * Setter for the contribution.
+     * 
+     * @param pContribution
+     *            the new contribution
      */
-    public CheckResult getCheckResult() {
-        return checkResult;
+    public void setContribution(final IConfigurationElement pContribution) {
+        this.contribution = pContribution;
     }
 
     /**
-     * @param pCheckResult
-     *            the checkResult to set
+     * Getter for the list of {@link CheckResult}.
+     * 
+     * @return the {@link CheckResult}s
      */
-    public void setCheckResult(CheckResult pCheckResult) {
-        this.checkResult = pCheckResult;
+    public List<CheckResult> getCheckResults() {
+        return this.checkResults;
     }
+
+    /**
+     * Setter for the list of {@link CheckResult}s.
+     * 
+     * @param pCheckResults
+     *            the {@link CheckResult}s to set
+     */
+    public void setCheckResults(final List<CheckResult> pCheckResults) {
+        this.checkResults = pCheckResults;
+    }
+
+    /**
+     * Getter for the {@link #inputFile} analyzed
+     * 
+     * @return the analyzed file.
+     */
+    public File getInputFile() {
+        return inputFile;
+    }
+
 }

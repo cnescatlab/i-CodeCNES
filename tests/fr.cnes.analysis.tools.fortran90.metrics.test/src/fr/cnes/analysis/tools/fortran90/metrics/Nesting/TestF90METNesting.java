@@ -8,22 +8,17 @@ package fr.cnes.analysis.tools.fortran90.metrics.Nesting;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.eclipse.core.runtime.FileLocator;
-
-
-import org.junit.Test;
-
-import fr.cnes.analysis.tools.analyzer.datas.AbstractMetric;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
-import fr.cnes.analysis.tools.analyzer.datas.FunctionValue;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.metrics.F90METNesting;
 import fr.cnes.analysis.tools.fortran90.metrics.TestUtils;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import org.eclipse.core.runtime.FileLocator;
+import org.junit.Test;
 
 /**
  * This class aims to test Don.Declaration rule. There are 2 functions in this
@@ -40,40 +35,51 @@ public class TestF90METNesting {
     @Test
     public void testRunWithError() {
 
-	try {
-	    // Initializing rule and getting error file.
-	    final AbstractMetric metric = new F90METNesting();
-	    final String fileName = "file.f";
-	    final File file = new File(FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
+        try {
+            // Initializing rule and getting error file.
+            final AbstractChecker metric = new F90METNesting();
+            final String fileName = "file.f";
+            final File file = new File(
+                    FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
-	    // Defining file in the rule instantiation.
-	    metric.setContribution(TestUtils.getContribution("", ""));
-	    metric.setInputFile(file);
+            // Defining file in the rule instantiation.
+            metric.setContribution(TestUtils.getContribution("", ""));
+            metric.setInputFile(file);
 
-	    // We verify that the metric value detected is the right one.
-	    // Get the list and verify each value
-	    final FileValue fileValue = metric.run();
-	    assertTrue(fileValue.getFile().getName().equals(fileName));
-	    assertTrue(fileValue.getValue().isNaN());
+            // We verify that the metric value detected is the right one.
+            // Get the list and verify each value
+            final List<CheckResult> checkResults = metric.run();
+            CheckResult fileValue = null;
+            for (CheckResult check : checkResults) {
+                if (check.getLocation()==null || check.getLocation().isEmpty()) {
+                    fileValue = check;
+                    checkResults.remove(checkResults.indexOf(check));
+                }
+            }
+            if (fileValue == null) {
+                fail("Erreur : Aucun résultat sur le fichier trouvé.");
+            } else {
+                assertTrue(fileValue.getValue().isNaN());
 
-	    // Value 1
-	    final List<FunctionValue> functionValues = fileValue.getFunctionValues();
+                // Value 1
+                final List<CheckResult> functionValues = checkResults;
 
-	    FunctionValue metricValue = functionValues.get(0);
-	    assertTrue(metricValue.getLocation().equals("subroutine  osci_recherche_deb_plan_grp"));
-	    assertTrue(metricValue.getValue() == 2.0);
+                CheckResult metricValue = functionValues.get(0);
+                assertTrue(metricValue.getLocation()
+                        .equals("subroutine  osci_recherche_deb_plan_grp"));
+                assertTrue(metricValue.getValue() == 2.0);
 
-	    // Value 2
-	    metricValue = functionValues.get(1);
-	    assertTrue(metricValue.getLocation().equals("subroutine  ostc_lecdon"));
-	    assertTrue(metricValue.getValue() == 2.0);
-
-	} catch (final FileNotFoundException e) {
-	    fail("Erreur d'analyse (FileNotFoundException)");
-	} catch (final IOException e) {
-	    fail("Erreur d'analyse (IOException)");
-	} catch (final JFlexException e) {
-	    fail("Erreur d'analyse (JFlexException)");
-	}
+                // Value 2
+                metricValue = functionValues.get(1);
+                assertTrue(metricValue.getLocation().equals("subroutine  ostc_lecdon"));
+                assertTrue(metricValue.getValue() == 2.0);
+            }
+        } catch (final FileNotFoundException e) {
+            fail("Erreur d'analyse (FileNotFoundException)");
+        } catch (final IOException e) {
+            fail("Erreur d'analyse (IOException)");
+        } catch (final JFlexException e) {
+            fail("Erreur d'analyse (JFlexException)");
+        }
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.rules.SHINSTGetOpts;
@@ -38,7 +38,7 @@ public class TestSHINSTGetOpts {
 	public final static int[] LINES = { 22, 23, 26, 27, 28, 29, 0 };
 	public final static String[] LOCATIONS = { "direct_calls", "direct_calls", "direct_calls", "direct_calls",
 			"direct_calls", "direct_calls", "MAIN PROGRAM" };
-	public final AbstractRule rule = new SHINSTGetOpts();
+	public final AbstractChecker rule = new SHINSTGetOpts();
 
 	/**
 	 * This test verifies that an error can be detected.

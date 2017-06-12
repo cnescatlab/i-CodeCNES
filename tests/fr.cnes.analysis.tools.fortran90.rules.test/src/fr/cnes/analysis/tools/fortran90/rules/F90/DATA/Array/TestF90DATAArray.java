@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.F90DATAArray;
@@ -38,7 +38,7 @@ public class TestF90DATAArray {
 	public final static String NO_ERROR_FILE = "noError.f";
 	public final static int[] LINES = { 3, 21 };
 	public final static String[] LOCATIONS = { "Subroutine somme", "Subroutine somme2" };
-	public final AbstractRule rule = new F90DATAArray();
+	public final AbstractChecker rule = new F90DATAArray();
 
 	/**
 	 * This test verifies that an error can be detected.

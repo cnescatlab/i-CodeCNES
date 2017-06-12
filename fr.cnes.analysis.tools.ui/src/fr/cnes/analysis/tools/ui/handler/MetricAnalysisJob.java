@@ -1,7 +1,7 @@
 package fr.cnes.analysis.tools.ui.handler;
 
 import fr.cnes.analysis.tools.analyzer.Analyzer;
-import fr.cnes.analysis.tools.analyzer.datas.FileValue;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class MetricAnalysisJob extends Job {
     /**
      * {@link FileValue} list from analysis result.
      */
-    private List<FileValue> metrics;
+    private List<CheckResult> metrics;
 
     /**
      * Constructor for {@link MetricAnalysisJob}
@@ -67,7 +67,7 @@ public class MetricAnalysisJob extends Job {
         LOGGER.entering(this.getClass().getName(), METHOD, monitor);
         IStatus status = Status.OK_STATUS;
         try {
-            this.metrics = analyzer.computeMetrics(inputFiles, languageIds, excludedIds);
+            this.metrics = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {
             LOGGER.info(exception.getClass() + " handled in method " + METHOD
                     + " changing Job status.");
@@ -95,7 +95,7 @@ public class MetricAnalysisJob extends Job {
     /**
      * @return metrics results from the analysis.
      */
-    public List<FileValue> getMetrics() {
+    public List<CheckResult> getMetrics() {
         return metrics;
     }
 

@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractRule;
+import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.rules.F90REFLabel;
@@ -39,7 +39,7 @@ public class TestF90REFLabel {
 	public final static int[] LINES = { 15, 43, 61, 84, 145 };
 	public final static String[] LOCATIONS = { "module ma_precision", "block data bloc_mesure",
 			"subroutine celsius_to_fahrenheit", "function mon_getuid", "program essai" };
-	public final AbstractRule rule = new F90REFLabel();
+	public final AbstractChecker rule = new F90REFLabel();
 
 	/**
 	 * This test verifies that an error can be detected.
