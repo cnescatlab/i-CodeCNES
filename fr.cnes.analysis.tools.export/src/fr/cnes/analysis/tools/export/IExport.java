@@ -11,11 +11,12 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interface must be implemented by any class of {@code ExportClass}
  * attribute of the contributor of the {@code ExtensionPoint}
- * {@value Export#Export_ExtensionPoint_ID}.
+ * {@value Export#EXPORT_EXTENSIONPOINT_ID}.
  *
  * @since 3.0
  * 
@@ -30,10 +31,23 @@ public interface IExport {
      *            to exports.
      * @param outputFile
      *            to write the {@link CheckResult}s.
+     * @param params
+     *            export plugin required parameters
      * @throws IOException
      *             when a {@link java.io.File} exception occur while using
      *             {@code outputFile}.
      */
-    public void export(List<CheckResult> checkResults, File outputFile) throws IOException;
+    public void export(List<CheckResult> checkResults, File outputFile, Map<String, String> params)
+            throws IOException;
+
+    /**
+     * @return if the export function requires more parameter.
+     */
+    public boolean hasParameters();
+
+    /**
+     * @return required parameters.
+     */
+    public Map<String, String> getParameters();
 
 }
