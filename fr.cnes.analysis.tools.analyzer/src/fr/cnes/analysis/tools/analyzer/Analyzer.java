@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * <h1>i-Code CNES analyzer service</h1>
@@ -179,8 +178,7 @@ public class Analyzer {
                         .getConfigurationElementsFor(analyzerContribution
                                 .getAttribute(ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
                     // 2.2 If the rule is not excluded, run the analysis.
-                    if (PlatformUI.getPreferenceStore()
-                            .contains(contribution.getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID))
+                    if (contribution.getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID) != null
                             && !excludedCheckIds.contains((contribution
                                     .getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID)))) {
                         AbstractChecker rule;
