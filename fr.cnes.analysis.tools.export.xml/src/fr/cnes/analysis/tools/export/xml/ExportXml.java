@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -32,19 +34,35 @@ import org.jdom2.output.XMLOutputter;
 public class ExportXml implements IExport {
 
     /** Identifier of the attribute <i>AnalysisProjectName</i>. */
-    public static String ATTRIBUTE_AnalysisProjectName;
+    public static String ATTRIBUTE_AnalysisProjectName = "analysisProjectName";
+    /** Identifier of the attribute <i>AnalysisProjectVersion</i>. */
+    public static String ATTRIBUTE_AnalysisProjectVersion = "analysisProjectVersion";
     /** Identifier of element <i>AnalysisProject</i>. */
-    public static String ELEMENT_AnalysisProject;
+    public static String ELEMENT_AnalysisProject = "analysisProject";
     /** Default <i>analysisProject</i> name. */
-    private String analysisProject = "unknown";
+    private String analysisProject_key = "Project name";
     /** Default <i>analysisAuthor</i> value. */
-    private String analysisAuthor = "unknown";
+    private String analysisAuthor_key = "Analysis author";
+    /** Default <i>projectVersion</i> value. */
+    private String analysisProjectVersion_key = "Project version";
+    /** Default <i>projectVersion</i> value. */
+    private String analysisConfigurationId_key = "Analysis configuration (id)";
+    /** DEfault <i>analysisDate</i> value */
+    private String analysisDate_key = "Analysis date (YYYY-MM-DD)";
+    /** Parameter required by this export. */
+    private Map<String, String> parameters;
 
     /**
      * Default constructor. Required to execute a class from the contributed
      * extension point.
      */
     public ExportXml() {
+        this.parameters = new TreeMap<>();
+        this.parameters.put(analysisProject_key, "Unknown");
+        this.parameters.put(analysisAuthor_key, "i-Code CNES Analyzer");
+        this.parameters.put(analysisProjectVersion_key, "1.0.0");
+        this.parameters.put(analysisDate_key, this.currentDate());
+        this.parameters.put(analysisConfigurationId_key, "analysis1");
 
     }
 
@@ -65,7 +83,8 @@ public class ExportXml implements IExport {
      * java.io.File)
      */
     @Override
-    public void export(List<CheckResult> checkResults, File outputFile) throws IOException {
+    public void export(List<CheckResult> checkResults, File outputFile,
+            Map<String, String> parameters) throws IOException {
         final List<Attribute> attributes = new ArrayList<Attribute>();
         final List<Attribute> resultAttributes = new ArrayList<Attribute>();
         /*
@@ -73,8 +92,11 @@ public class ExportXml implements IExport {
          * type="anr:analysisProjectType" minOccurs="1" maxOccurs="1" />
          */
 
-        final Element analysisProjectElement = new Element("analysisProject");
-        analysisProjectElement.setAttribute(new Attribute("analysisProjectName", analysisProject));
+        final Element analysisProjectElement = new Element(ELEMENT_AnalysisProject);
+        analysisProjectElement.setAttribute(
+                new Attribute(ATTRIBUTE_AnalysisProjectName, parameters.get(analysisProject_key)));
+        analysisProjectElement.setAttribute(new Attribute(ATTRIBUTE_AnalysisProjectVersion,
+                parameters.get(analysisProjectVersion_key)));
         final Document document = new Document(analysisProjectElement);
 
         // BEGINNING OF SEQUENCE <xsd:sequence>
@@ -83,9 +105,10 @@ public class ExportXml implements IExport {
         // maxOccurs="1">
 
         final Element analysisInformation = new Element("analysisInformations");
-        attributes.add(new Attribute("analysisConfigurationId", "standard"));
-        attributes.add(new Attribute("analysisDate", this.currentDate()));
-        attributes.add(new Attribute("author", analysisAuthor));
+        attributes.add(new Attribute("analysisConfigurationId",
+                parameters.get(analysisConfigurationId_key)));
+        attributes.add(new Attribute("analysisDate", parameters.get(analysisDate_key)));
+        attributes.add(new Attribute("author", parameters.get(analysisAuthor_key)));
 
         analysisInformation.setAttributes(attributes);
         document.getRootElement().addContent(analysisInformation);
@@ -225,6 +248,16 @@ public class ExportXml implements IExport {
             extension = filePath.substring(i + 1);
         }
         return extension;
+    }
+
+    @Override
+    public boolean hasParameters() {
+        return true;
+    }
+
+    @Override
+    public Map<String, String> getParameters() {
+        return this.parameters;
     }
 
 }
