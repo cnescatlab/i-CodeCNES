@@ -2,26 +2,28 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="fr.cnes.analysis.tools.fortran77.metric">
-      <Metric
+         id="id7"
+         name="name"
+         point="fr.cnes.analysis.tools.checks">
+      <check
             class="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
             id="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
-            name="F77.MET.ComplexitySimplified">
-      </Metric>
-      <Metric
+            name="F77.MET.ComplexitySimplified" languageId="fr.cnes.analysis.tools.languages.f77">
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
             id="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
-            name="F77.MET.Nesting">
-      </Metric>
-      <Metric
+            name="F77.MET.Nesting" languageId="fr.cnes.analysis.tools.languages.f77">
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
             id="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
-            name="F77.MET.LineOfCode">
-      </Metric>
-      <Metric
+            name="F77.MET.LineOfCode" languageId="fr.cnes.analysis.tools.languages.f77">
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
             id="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
-            name="F77.MET.RatioComment">
-      </Metric>
+            name="F77.MET.RatioComment" languageId="fr.cnes.analysis.tools.languages.f77">
+      </check>
    </extension>
 </plugin>
