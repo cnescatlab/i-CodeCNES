@@ -6,9 +6,12 @@
  */
 package fr.cnes.analysis.tools.analyzer;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
+import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
+import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,8 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 
 /**
  * <h1>i-Code CNES analyzer service</h1>
@@ -59,20 +60,6 @@ import org.eclipse.core.runtime.Platform;
  */
 public class Analyzer {
 
-    /** Analyzer extension point identifier */
-    public static final String ANALYZER_EP_ID = "fr.cnes.analysis.tools.analyzer";
-    /** Analyzer extension's point attribute extension identifier. */
-    public static final String ANALYZER_EP_ATTRIBUTE_EXTENSION_ID = "extensionId";
-    /** Analyzer extension point element file extension. */
-    public static final String ANALYZER_EP_ELEMENT_FILE_EXTENSION = "fileExtension";
-    /** Analyzer extension point attribute name for element file extension. */
-    public static final String ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME = "name";
-
-    /**
-     * Identifier attribute's name for every check of contributor of analyzer
-     * extension point
-     */
-    public static final String ANALYZER_EP_CONTRIBUTOR_CHECK_ID = "id";
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger(Analyzer.class.getName());
 
@@ -108,14 +95,14 @@ public class Analyzer {
             List<String> pExcludedCheckIds) throws IOException, JFlexException {
         final String methodName = "check";
         LOGGER.entering(this.getClass().getName(), methodName);
+
+        // Running both checker & language services.
+        CheckerService checkerService = new CheckerService();
+        LanguageService languageService = new LanguageService();
+
         List<String> languageIds = pLanguageIds;
         if (languageIds == null) {
-            languageIds = new ArrayList<>();
-            for (IConfigurationElement analyzerContribution : Platform.getExtensionRegistry()
-                    .getConfigurationElementsFor(Analyzer.ANALYZER_EP_ID)) {
-                languageIds
-                        .add(analyzerContribution.getAttribute(ANALYZER_EP_ATTRIBUTE_EXTENSION_ID));
-            }
+            languageIds = languageService.getLanguagesIds();
         }
         List<String> excludedCheckIds = pExcludedCheckIds;
         if (pExcludedCheckIds == null) {
@@ -131,82 +118,30 @@ public class Analyzer {
          */
         final ExecutorService service = Executors.newFixedThreadPool(THREAD_NB);
         final List<Future<List<CheckResult>>> analyzers = new ArrayList<Future<List<CheckResult>>>();
+
         /*
-         
+         * Each language must be run with it's own files (pending file
+         * extension).
          */
-        for (IConfigurationElement analyzerContribution : Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(Analyzer.ANALYZER_EP_ID)) {
-            if (languageIds.contains(
-                    analyzerContribution.getAttribute(ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                /*
-                 * The current extension is one of the analyzer contribution
-                 * that will be run. We are now configuring it.
-                 */
-                // 1. Setting files that will be analyzed
-                // 1.1. Finding allowed extension from the plugin analyzer
+        List<CheckerContainer> checkers;
 
-                final List<String> allowedExtension = new ArrayList<>();
-                for (IConfigurationElement fileExtension : analyzerContribution
-                        .getChildren(ANALYZER_EP_ELEMENT_FILE_EXTENSION)) {
-                    // we remove the dot in case the contributor added it.
-                    if (fileExtension
-                            .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME)
-                            .contains(".")) {
-                        allowedExtension.add(fileExtension
-                                .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME)
-                                .replace(".", ""));
-                    } else {
-                        allowedExtension.add(fileExtension
-                                .getAttribute(ANALYZER_EP_ELEMENT_FILE_EXTENSION_ATTRIBUTE_NAME));
-                    }
-                }
-                // 1.2. Restricting analysis only on file that the plugin can
-                // handle.
-                // Note : The restriction is for file without extension and file
-                // that will be already
-                // analyzed. This is causing crash from the analysis.
-                final List<File> restrictedFiles = new ArrayList<>();
+        try {
+            checkers = checkerService.getCheckers(languageIds, excludedCheckIds);
+            for (CheckerContainer checker : checkers) {
                 for (File file : pInputFiles) {
-                    if (allowedExtension.contains(this.getFileExtension(file.getAbsolutePath()))
-                            && !restrictedFiles.contains(file)) {
-                        restrictedFiles.add(file);
-                    }
-                }
-                // 2. Running all rules that are not excluded from the analysis.
-                // 2.1 Retrieving all rules from the extension point.
-                for (IConfigurationElement contribution : Platform.getExtensionRegistry()
-                        .getConfigurationElementsFor(analyzerContribution
-                                .getAttribute(ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                    // 2.2 If the rule is not excluded, run the analysis.
-                    if (contribution.getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID) != null
-                            && !excludedCheckIds.contains((contribution
-                                    .getAttribute(ANALYZER_EP_CONTRIBUTOR_CHECK_ID)))) {
-                        AbstractChecker rule;
-                        /*
-                         * We are currently to load as much Rule as there is
-                         * files because the lex files are designed to be run
-                         * only on one file.
-                         */
-                        for (File analyzedFile : restrictedFiles) {
-                            try {
-                                rule = (AbstractChecker) contribution
-                                        .createExecutableExtension("class");
-                                rule.setContribution(contribution);
-                                final CallableChecker callableAnalysis = new CallableChecker(rule,
-                                        analyzedFile);
-                                analyzers.add(service.submit(callableAnalysis));
-                            } catch (CoreException e) {
-
-                                // TODO : Define how to warn here of the
-                                // execution
-                                // failure without throwing new
-                                // exception
-                                e.printStackTrace();
-                            }
-                        }
+                    if (checker.canVerifyFormat(this.getFileExtension(file.getAbsolutePath()))) {
+                        final CallableChecker callableAnalysis = new CallableChecker(
+                                checker.getChecker(), file);
+                        analyzers.add(service.submit(callableAnalysis));
                     }
                 }
             }
+        } catch (NullContributionException | CoreException e) {
+            /*
+             * TODO : Define how to handles theses cases.
+             * 
+             */
+            e.printStackTrace();
         }
 
         for (Future<List<CheckResult>> analysis : analyzers) {
