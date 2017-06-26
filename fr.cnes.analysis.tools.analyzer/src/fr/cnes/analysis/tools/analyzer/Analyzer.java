@@ -63,6 +63,9 @@ public class Analyzer {
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger(Analyzer.class.getName());
 
+    /** Analyzer plugin ID */
+    public static final String ANALYZER_PLUGIN_ID = "fr.cnes.analysis.tools.analyzer";
+
     /** Number of thread to run the analysis */
     private static int THREAD_NB = 1;
 
