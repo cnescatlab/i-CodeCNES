@@ -24,9 +24,84 @@ public class LanguageService {
         List<LanguageContainer> languages = new ArrayList<>();
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
-        for (IConfigurationElement languageContributor : languagesContributors) {
-            for (IConfigurationElement language : languageContributor
-                    .getChildren(LanguageService.LANGUAGE_EP_EL_LANGUAGE)) {
+        for (IConfigurationElement language : languagesContributors) {
+            List<String> fileExtensions = new ArrayList<>();
+            for (IConfigurationElement fileExtensionElement : language
+                    .getChildren(LanguageService.LANGUAGE_EP_EL_FILEEXTENSION)) {
+                String fileExtension = fileExtensionElement
+                        .getAttribute(LANGUAGE_EP_EL_FILEEXTENSION_ATT_NAME);
+                if (fileExtension.contains(".")) {
+                    fileExtensions.add(fileExtension.replace(".", ""));
+                } else {
+                    fileExtensions.add(fileExtension);
+                }
+            }
+            languages.add(new LanguageContainer(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID,
+                    LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions));
+        }
+
+        return languages;
+
+    }
+
+    /**
+     * @param languageId
+     * @return
+     */
+    public boolean isLanguageIdContributor(String languageId) {
+        IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
+        for (IConfigurationElement language : languagesContributors) {
+            if (language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID)
+                    .equals(languageId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param languageId
+     * @return
+     * @throws NullContributionException
+     */
+    public LanguageContainer getLanguage(String languageId) throws NullContributionException {
+        IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
+        for (IConfigurationElement language : languagesContributors) {
+            if (language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID)
+                    .equals(languageId)) {
+                ArrayList<String> fileExtensions = new ArrayList<>();
+                for (IConfigurationElement fileExtensionElement : language
+                        .getChildren(LanguageService.LANGUAGE_EP_EL_FILEEXTENSION)) {
+                    String fileExtension = fileExtensionElement
+                            .getAttribute(LANGUAGE_EP_EL_FILEEXTENSION_ATT_NAME);
+                    if (fileExtension.contains(".")) {
+                        fileExtensions.add(fileExtension.replace(".", ""));
+                    } else {
+                        fileExtensions.add(fileExtension);
+                    }
+                }
+                return new LanguageContainer(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID,
+                        LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions);
+            }
+        }
+        throw new NullContributionException(
+                "Impossible to find " + languageId + " in analyzer contributors.");
+
+    }
+
+    /**
+     * @param languagesIds
+     * @return
+     */
+    public List<LanguageContainer> getLanguages(List<String> languagesIds) {
+        List<LanguageContainer> languages = new ArrayList<>();
+        IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
+        for (IConfigurationElement language : languagesContributors) {
+            if (languagesIds.contains(
+                    language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID))) {
                 List<String> fileExtensions = new ArrayList<>();
                 for (IConfigurationElement fileExtensionElement : language
                         .getChildren(LanguageService.LANGUAGE_EP_EL_FILEEXTENSION)) {
@@ -44,92 +119,6 @@ public class LanguageService {
         }
 
         return languages;
-
-    }
-
-    /**
-     * @param languageId
-     * @return
-     */
-    public boolean isLanguageIdContributor(String languageId) {
-        IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
-        for (IConfigurationElement languageContributor : languagesContributors) {
-            for (IConfigurationElement language : languageContributor
-                    .getChildren(LanguageService.LANGUAGE_EP_EL_LANGUAGE)) {
-                if (language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID)
-                        .equals(languageId)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param languageId
-     * @return
-     * @throws NullContributionException
-     */
-    public LanguageContainer getLanguage(String languageId) throws NullContributionException {
-        IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
-        for (IConfigurationElement languageContributor : languagesContributors) {
-            for (IConfigurationElement language : languageContributor
-                    .getChildren(LanguageService.LANGUAGE_EP_EL_LANGUAGE)) {
-                if (language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID)
-                        .equals(languageId)) {
-                    ArrayList<String> fileExtensions = new ArrayList<>();
-                    for (IConfigurationElement fileExtensionElement : language
-                            .getChildren(LanguageService.LANGUAGE_EP_EL_FILEEXTENSION)) {
-                        String fileExtension = fileExtensionElement
-                                .getAttribute(LANGUAGE_EP_EL_FILEEXTENSION_ATT_NAME);
-                        if (fileExtension.contains(".")) {
-                            fileExtensions.add(fileExtension.replace(".", ""));
-                        } else {
-                            fileExtensions.add(fileExtension);
-                        }
-                    }
-                    return new LanguageContainer(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID,
-                            LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions);
-                }
-            }
-        }
-        throw new NullContributionException(
-                "Impossible to find " + languageId + " in analyzer contributors.");
-    }
-
-    /**
-     * @param languagesIds
-     * @return
-     */
-    public List<LanguageContainer> getLanguages(List<String> languagesIds) {
-        List<LanguageContainer> languages = new ArrayList<>();
-        IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
-        for (IConfigurationElement languageContributor : languagesContributors) {
-            for (IConfigurationElement language : languageContributor
-                    .getChildren(LanguageService.LANGUAGE_EP_EL_LANGUAGE)) {
-                if (languagesIds.contains(
-                        language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID))) {
-                    List<String> fileExtensions = new ArrayList<>();
-                    for (IConfigurationElement fileExtensionElement : language
-                            .getChildren(LanguageService.LANGUAGE_EP_EL_FILEEXTENSION)) {
-                        String fileExtension = fileExtensionElement
-                                .getAttribute(LANGUAGE_EP_EL_FILEEXTENSION_ATT_NAME);
-                        if (fileExtension.contains(".")) {
-                            fileExtensions.add(fileExtension.replace(".", ""));
-                        } else {
-                            fileExtensions.add(fileExtension);
-                        }
-                    }
-                    languages.add(new LanguageContainer(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID,
-                            LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions));
-                }
-            }
-        }
-
-        return languages;
     }
 
     /**
@@ -139,12 +128,8 @@ public class LanguageService {
         List<String> languagesIds = new ArrayList<>();
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
-        for (IConfigurationElement languageContributor : languagesContributors) {
-            for (IConfigurationElement language : languageContributor
-                    .getChildren(LanguageService.LANGUAGE_EP_EL_LANGUAGE)) {
-                languagesIds
-                        .add(language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID));
-            }
+        for (IConfigurationElement language : languagesContributors) {
+            languagesIds.add(language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID));
         }
         return languagesIds;
     }
