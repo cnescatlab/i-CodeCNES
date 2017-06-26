@@ -24,30 +24,26 @@ public class CheckerService {
         List<CheckerContainer> checkers = new ArrayList<>();
         IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CHECKER_EP_ID);
-        for (IConfigurationElement checkerContributor : checkerContributors) {
-            for (IConfigurationElement checkerElement : checkerContributor
-                    .getChildren(CheckerService.CHECKER_EP_ELEMENT_CHECK)) {
-                // 1.1. Get the checker name
-                String checkerName = checkerElement
-                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
-                // 1.2. Get the checker id;
-                String checkerId = checkerElement
-                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
-                // 1.3 Get the Language thanks to the checker id;
-                LanguageService languageService = new LanguageService();
-                LanguageContainer language = languageService
-                        .getLanguage(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID);
-                // 1.4 Import the AbstractChecker class thanks
-                AbstractChecker checkerClass = (AbstractChecker) checkerElement
-                        .createExecutableExtension(
-                                CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
-                // 1.5 Create the Checker
-                CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language, checkerClass,
-                        checkerElement);
+        for (IConfigurationElement checkerElement : checkerContributors) {
+            // 1.1. Get the checker name
+            String checkerName = checkerElement
+                    .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
+            // 1.2. Get the checker id;
+            String checkerId = checkerElement
+                    .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
+            // 1.3 Get the Language thanks to the checker id;
+            LanguageService languageService = new LanguageService();
+            LanguageContainer language = languageService.getLanguage(
+                    checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID));
+            // 1.4 Import the AbstractChecker class thanks
+            AbstractChecker checkerClass = (AbstractChecker) checkerElement
+                    .createExecutableExtension(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
+            // 1.5 Create the Checker
+            CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language,
+                    checkerClass, checkerElement);
 
-                // 1.6 Add the checkers to all checkers.
-                checkers.add(checker);
-            }
+            // 1.6 Add the checkers to all checkers.
+            checkers.add(checker);
         }
         return checkers;
     }
@@ -57,32 +53,29 @@ public class CheckerService {
         List<CheckerContainer> checkers = new ArrayList<>();
         IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CHECKER_EP_ID);
-        for (IConfigurationElement checkerContributor : checkerContributors) {
-            for (IConfigurationElement checkerElement : checkerContributor
-                    .getChildren(CheckerService.CHECKER_EP_ELEMENT_CHECK)) {
-                if (checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID)
-                        .equals(languageId)) {
-                    // 1.1. Get the checker name
-                    String checkerName = checkerElement
-                            .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
-                    // 1.2. Get the checker id;
-                    String checkerId = checkerElement
-                            .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
-                    // 1.3 Get the Language thanks to the checker id;
-                    LanguageService languageService = new LanguageService();
-                    LanguageContainer language = languageService
-                            .getLanguage(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID);
-                    // 1.4 Import the AbstractChecker class thanks
-                    AbstractChecker checkerClass = (AbstractChecker) checkerElement
-                            .createExecutableExtension(
-                                    CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
-                    // 1.5 Create the Checker
-                    CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language, checkerClass,
-                            checkerElement);
+        for (IConfigurationElement checkerElement : checkerContributors) {
+            if (checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID)
+                    .equals(languageId)) {
+                // 1.1. Get the checker name
+                String checkerName = checkerElement
+                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
+                // 1.2. Get the checker id;
+                String checkerId = checkerElement
+                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
+                // 1.3 Get the Language thanks to the checker id;
+                LanguageService languageService = new LanguageService();
+                LanguageContainer language = languageService.getLanguage(
+                        checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID));
+                // 1.4 Import the AbstractChecker class thanks
+                AbstractChecker checkerClass = (AbstractChecker) checkerElement
+                        .createExecutableExtension(
+                                CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
+                // 1.5 Create the Checker
+                CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language,
+                        checkerClass, checkerElement);
 
-                    // 1.6 Add the checkers to all checkers.
-                    checkers.add(checker);
-                }
+                // 1.6 Add the checkers to all checkers.
+                checkers.add(checker);
             }
         }
         return checkers;
@@ -93,32 +86,29 @@ public class CheckerService {
         List<CheckerContainer> checkers = new ArrayList<>();
         IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CHECKER_EP_ID);
-        for (IConfigurationElement checkerContributor : checkerContributors) {
-            for (IConfigurationElement checkerElement : checkerContributor
-                    .getChildren(CheckerService.CHECKER_EP_ELEMENT_CHECK)) {
-                if (checkersIds
-                        .contains(checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_ID))) {
-                    // 1.1. Get the checker name
-                    String checkerName = checkerElement
-                            .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
-                    // 1.2. Get the checker id;
-                    String checkerId = checkerElement
-                            .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
-                    // 1.3 Get the Language thanks to the checker id;
-                    LanguageService languageService = new LanguageService();
-                    LanguageContainer language = languageService
-                            .getLanguage(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID);
-                    // 1.4 Import the AbstractChecker class thanks
-                    AbstractChecker checkerClass = (AbstractChecker) checkerElement
-                            .createExecutableExtension(
-                                    CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
-                    // 1.5 Create the Checker
-                    CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language, checkerClass,
-                            checkerElement);
+        for (IConfigurationElement checkerElement : checkerContributors) {
+            if (checkersIds
+                    .contains(checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_ID))) {
+                // 1.1. Get the checker name
+                String checkerName = checkerElement
+                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
+                // 1.2. Get the checker id;
+                String checkerId = checkerElement
+                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
+                // 1.3 Get the Language thanks to the checker id;
+                LanguageService languageService = new LanguageService();
+                LanguageContainer language = languageService.getLanguage(
+                        checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID));
+                // 1.4 Import the AbstractChecker class thanks
+                AbstractChecker checkerClass = (AbstractChecker) checkerElement
+                        .createExecutableExtension(
+                                CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
+                // 1.5 Create the Checker
+                CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language,
+                        checkerClass, checkerElement);
 
-                    // 1.6 Add the checkers to all checkers.
-                    checkers.add(checker);
-                }
+                // 1.6 Add the checkers to all checkers.
+                checkers.add(checker);
             }
         }
         return checkers;
@@ -129,49 +119,43 @@ public class CheckerService {
         List<CheckerContainer> checkers = new ArrayList<>();
         IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CHECKER_EP_ID);
-        for (IConfigurationElement checkerContributor : checkerContributors) {
-            for (IConfigurationElement checkerElement : checkerContributor
-                    .getChildren(CheckerService.CHECKER_EP_ELEMENT_CHECK)) {
-                if (!excludedIds
-                        .contains(checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_ID))
-                        && languagesIds.contains(checkerElement.getAttribute(
-                                CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID))) {
-                    // 1.1.Get the checker's name;
-                    String checkerName = checkerElement
-                            .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
-                    // 1.2. Get the checker id;
-                    String checkerId = checkerElement
-                            .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
-                    // 1.3 Get the Language thanks to the checker id;
-                    LanguageService languageService = new LanguageService();
-                    LanguageContainer language = languageService
-                            .getLanguage(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID);
-                    // 1.4 Import the AbstractChecker class thanks
-                    AbstractChecker checkerClass = (AbstractChecker) checkerElement
-                            .createExecutableExtension(
-                                    CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
-                    // 1.5 Create the Checker
-                    CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language, checkerClass,
-                            checkerElement);
+        for (IConfigurationElement checkerElement : checkerContributors) {
+            if (!excludedIds.contains(checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_ID))
+                    && languagesIds.contains(checkerElement.getAttribute(
+                            CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID))) {
+                // 1.1.Get the checker's name;
+                String checkerName = checkerElement
+                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_NAME);
+                // 1.2. Get the checker id;
+                String checkerId = checkerElement
+                        .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
+                // 1.3 Get the Language thanks to the checker id;
+                LanguageService languageService = new LanguageService();
+                LanguageContainer language = languageService.getLanguage(
+                        checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID));
+                // 1.4 Import the AbstractChecker class thanks
+                AbstractChecker checkerClass = (AbstractChecker) checkerElement
+                        .createExecutableExtension(
+                                CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
+                // 1.5 Create the Checker
+                CheckerContainer checker = new CheckerContainer(checkerId, checkerName, language,
+                        checkerClass, checkerElement);
 
-                    // 1.6 Add the checkers to all checkers.
-                    checkers.add(checker);
-                }
+                // 1.6 Add the checkers to all checkers.
+                checkers.add(checker);
             }
-
         }
+
         return checkers;
+
     }
 
     public boolean isCheckerIdContributor(String id) {
         IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CHECKER_EP_ID);
-        for (IConfigurationElement checkerContributor : checkerContributors) {
-            for (IConfigurationElement checkerElement : checkerContributor
-                    .getChildren(CheckerService.CHECKER_EP_ELEMENT_CHECK)) {
-                if (checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_ID).equals(id)) {
-                    return true;
-                }
+        for (IConfigurationElement checkerElement : checkerContributors) {
+            if (checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_ID).equals(id)) {
+                return true;
             }
         }
         return false;
@@ -192,8 +176,8 @@ public class CheckerService {
                             .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID);
                     // 1.3 Get the Language thanks to the checker id;
                     LanguageService languageService = new LanguageService();
-                    LanguageContainer language = languageService
-                            .getLanguage(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID);
+                    LanguageContainer language = languageService.getLanguage(
+                            checkerElement.getAttribute(CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID));
                     // 1.4 Import the AbstractChecker class thanks
                     AbstractChecker checkerClass = (AbstractChecker) checkerElement
                             .createExecutableExtension(
