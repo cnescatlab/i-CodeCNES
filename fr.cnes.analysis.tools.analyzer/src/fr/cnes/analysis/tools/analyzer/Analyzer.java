@@ -13,7 +13,6 @@ import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,34 +24,21 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
 
 /**
- * <h1>i-Code CNES analyzer service</h1>
+ * <h1>i-Code CNES Analyzer service</h1>
  * <p>
- * This class can be used by any third using {@link File} and {@link String} to
- * run an analysis.
+ * This service must be used to run an analysis, using
+ * {@link #check(List, List, List)} method.
  * </p>
  * <p>
- * <h2>Available methods</h2> The service method to call to run an analysis are
- * {@link #check(List, List, List)} and
- * {@link #computeMetrics(List, List, List)}. Once, it returns after a moment
- * the results thanks to {@link CallableMetricAnalyzer} &
- * {@link CallableChecker}.
- * </p>
- * <h2>Number of threads</h2>
- * <p>
- * To define the number of threads that should be running the analysis change
- * the parameter {@link #THREAD_NB}. It's <strong>default value</strong> is set
- * on <strong>one</strong>.
- * </p>
- * <h2>Handling exceptions</h2>
- * <p>
- * Both analyzer can throw the following type of exceptions :
+ * To reach required parameters, several services can be used :
  * <ul>
- * <li>{@link JFlexException} : When the syntax analysis is interrupted because
- * JFLex couldn't handle the file. This can be thrown because of <i>file
- * encryption, file format, unexpected file state</i> problem.</li>
- * <li>{@link FileNotFoundException} : When one of the file couldn't be reached
- * by the analyzer.</li>
+ * <li><code>languagesIds</code> - {@link LanguageService};</li>
+ * <li><code>excludedIds</code> - {@link CheckerService};</li>
  * </ul>
+ * 
+ * <p>
+ * For more informations on how to contribute to this, please refer to i-Code
+ * CNES User Manual.
  * </p>
  * 
  * @since 3.0
@@ -99,13 +85,9 @@ public class Analyzer {
         final String methodName = "check";
         LOGGER.entering(this.getClass().getName(), methodName);
 
-        // Running both checker & language services.
-        CheckerService checkerService = new CheckerService();
-        LanguageService languageService = new LanguageService();
-
         List<String> languageIds = pLanguageIds;
         if (languageIds == null) {
-            languageIds = languageService.getLanguagesIds();
+            languageIds = LanguageService.getLanguagesIds();
         }
         List<String> excludedCheckIds = pExcludedCheckIds;
         if (pExcludedCheckIds == null) {
@@ -126,10 +108,10 @@ public class Analyzer {
          * Each language must be run with it's own files (pending file
          * extension).
          */
-        List<CheckerContainer> checkers;
+        final List<CheckerContainer> checkers;
 
         try {
-            checkers = checkerService.getCheckers(languageIds, excludedCheckIds);
+            checkers = CheckerService.getCheckers(languageIds, excludedCheckIds);
             for (CheckerContainer checker : checkers) {
                 for (File file : pInputFiles) {
                     if (checker.canVerifyFormat(this.getFileExtension(file.getAbsolutePath()))) {
@@ -140,13 +122,9 @@ public class Analyzer {
                 }
             }
         } catch (NullContributionException | CoreException e) {
-            /*
-             * TODO : Define how to handles theses cases.
-             * 
-             */
+            // TODO : Define how to handles theses cases.
             e.printStackTrace();
         }
-
         for (Future<List<CheckResult>> analysis : analyzers) {
             try {
                 analysisResultCheckResult.addAll(analysis.get());
