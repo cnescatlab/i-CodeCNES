@@ -5,24 +5,75 @@ import fr.cnes.analysis.tools.analyzer.services.languages.LanguageContainer;
 import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 
+/**
+ * Container for checker defined in contribution of the
+ * {@link CheckerService#CHECKER_EP_ID} extension point to be used by
+ * {@link CheckerService} to access data.
+ * 
+ * @since 3.0
+ */
 public class CheckerContainer {
 
+    /** Checker identifier */
     private String id;
+    /** Checker name */
     private String name;
+    /** Checker's language */
     private LanguageContainer language;
+    /** Checker's analysis class */
     private AbstractChecker checker;
+    /** Whether or not the checker is a metric */
+    private boolean isMetric;
 
-    public CheckerContainer(String pId, String pName, LanguageContainer pLanguage, AbstractChecker pChecker,
-            IConfigurationElement pCheckerContribution) {
+    /**
+     * @param pId
+     *            Checker identifier.
+     * @param pName
+     *            Checker name.
+     * @param pLanguage
+     *            Checker's language.
+     * @param pChecker
+     *            Checker analysis class.
+     * @param pCheckerContribution
+     *            Checker's contribution.
+     */
+    public CheckerContainer(String pId, String pName, LanguageContainer pLanguage,
+            AbstractChecker pChecker, IConfigurationElement pCheckerContribution) {
         this.id = pId;
         this.name = pName;
         this.language = pLanguage;
         this.checker = pChecker;
         this.checker.setContribution(pCheckerContribution);
+        this.isMetric = false;
     }
 
-    public boolean canVerifyFormat(String format) {
-        return this.language.getFileExtension().contains(format);
+    /**
+     * @param pId
+     *            Checker identifier.
+     * @param pName
+     *            Checker name.
+     * @param pLanguage
+     *            Checker's language.
+     * @param pChecker
+     *            Checker analysis class.
+     * @param pCheckerContribution
+     *            Checker's contribution.
+     * @param pIsMetric
+     *            whether or not the checker returns a value.
+     */
+    public CheckerContainer(String pId, String pName, LanguageContainer pLanguage,
+            AbstractChecker pChecker, IConfigurationElement pCheckerContribution,
+            boolean pIsMetric) {
+        this.id = pId;
+        this.name = pName;
+        this.language = pLanguage;
+        this.checker = pChecker;
+        this.checker.setContribution(pCheckerContribution);
+        this.isMetric = pIsMetric;
+    }
+
+    public boolean canVerifyFormat(String pFormat) {
+        return this.language.getFileExtension().contains(pFormat);
     }
 
     public List<String> getVerifiableFormat() {
@@ -37,11 +88,11 @@ public class CheckerContainer {
     }
 
     /**
-     * @param id
+     * @param pId
      *            the id to set
      */
-    protected final void setId(String id) {
-        this.id = id;
+    protected final void setId(String pId) {
+        this.id = pId;
     }
 
     /**
@@ -52,11 +103,11 @@ public class CheckerContainer {
     }
 
     /**
-     * @param name
+     * @param pName
      *            the name to set
      */
-    protected final void setName(String name) {
-        this.name = name;
+    protected final void setName(String pName) {
+        this.name = pName;
     }
 
     /**
@@ -67,11 +118,11 @@ public class CheckerContainer {
     }
 
     /**
-     * @param language
+     * @param pLanguage
      *            the language to set
      */
-    protected final void setLanguage(LanguageContainer language) {
-        this.language = language;
+    protected final void setLanguage(LanguageContainer pLanguage) {
+        this.language = pLanguage;
     }
 
     /**
@@ -82,10 +133,25 @@ public class CheckerContainer {
     }
 
     /**
-     * @param checker
+     * @param pChecker
      *            the checker to set
      */
-    protected final void setChecker(AbstractChecker checker) {
-        this.checker = checker;
+    protected final void setChecker(AbstractChecker pChecker) {
+        this.checker = pChecker;
+    }
+
+    /**
+     * @return the isMetric
+     */
+    public final boolean isMetric() {
+        return isMetric;
+    }
+
+    /**
+     * @param pIsMetric
+     *            the isMetric to set
+     */
+    public final void setMetric(boolean pIsMetric) {
+        this.isMetric = pIsMetric;
     }
 }
