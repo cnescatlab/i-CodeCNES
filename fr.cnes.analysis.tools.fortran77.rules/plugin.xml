@@ -2,291 +2,350 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="fr.cnes.analysis.tools.fortran77.rule">
-      <Rule
+         id="fortran77.rules"
+         name="Fortran 77 Rules"
+         point="fr.cnes.analysis.tools.analyzer.checks">
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDATAFloatCompare"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDATAFloatCompare"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DATA.FloatCompare">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDATAInitialisation"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDATAInitialisation"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DATA.Initialisation">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDATAInvariant"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDATAInvariant"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DATA.Invariant">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDATALoopCondition"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDATALoopCondition"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DATA.LoopCondition">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDATANotUsed"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDATANotUsed"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DATA.NotUsed">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDESIGNAlloc"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDESIGNAlloc"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DESIGN.Alloc">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMDESIGNActiveWait"
             id="fr.cnes.analysis.tools.fortran77.rules.COMDESIGNActiveWait"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.DESIGN.ActiveWait">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWAbort"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWAbort"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.Abort">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWBooleanExpression"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWBooleanExpression"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.BooleanExpression">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWCheckCodeReturn"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWCheckCodeReturn"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.CheckCodeReturn">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWCheckUser"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWCheckUser"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.CheckUser">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWExit"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWExit"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.Exit">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWExitLoop"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWExitLoop"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.ExitLoop">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWFileExistence"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWFileExistence"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.FileExistence">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMFLOWFilePath"
             id="fr.cnes.analysis.tools.fortran77.rules.COMFLOWFilePath"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.FLOW.FilePath">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMINSTBoolNegation"
             id="fr.cnes.analysis.tools.fortran77.rules.COMINSTBoolNegation"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.INST.BoolNegation">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMINSTBrace"
             id="fr.cnes.analysis.tools.fortran77.rules.COMINSTBrace"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.INST.Brace">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMINSTCodeComment"
             id="fr.cnes.analysis.tools.fortran77.rules.COMINSTCodeComment"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.INST.CodeComment">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMINSTGoTo"
             id="fr.cnes.analysis.tools.fortran77.rules.COMINSTGoTo"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.INST.GoTo">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMINSTLoopCondition"
             id="fr.cnes.analysis.tools.fortran77.rules.COMINSTLoopCondition"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.INST.LoopCondition">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMNAMEHomonymy"
             id="fr.cnes.analysis.tools.fortran77.rules.COMNAMEHomonymy"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.NAME.Homonymy">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMPROJECTHeader"
             id="fr.cnes.analysis.tools.fortran77.rules.COMPROJECTHeader"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.PROJECT.Header">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMPRESIndent"
             id="fr.cnes.analysis.tools.fortran77.rules.COMPRESIndent"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.PRES.Indent">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMPRESLengthLine"
             id="fr.cnes.analysis.tools.fortran77.rules.COMPRESLengthLine"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.PRES.LengthLine">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.COMTYPEExpression"
             id="fr.cnes.analysis.tools.fortran77.rules.COMTYPEExpression"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="COM.TYPE.Expression">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77BLOCCommon"
             id="fr.cnes.analysis.tools.fortran77.rules.F77BLOCCommon"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.BLOC.Common">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77BLOCElse"
             id="fr.cnes.analysis.tools.fortran77.rules.F77BLOCElse"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.BLOC.Else">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77BLOCFunction"
             id="fr.cnes.analysis.tools.fortran77.rules.F77BLOCFunction"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.BLOC.Function">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77BLOCLoop"
             id="fr.cnes.analysis.tools.fortran77.rules.F77BLOCLoop"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.BLOC.Loop">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATAArray"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATAArray"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.Array">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATACommon"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATACommon"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.Common">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATADouble"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATADouble"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.Double">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATAInitialisation"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATAInitialisation"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.Initialisation">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATAIO"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATAIO"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.IO">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATALoopDO"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATALoopDO"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.LoopDO">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77DATAParameter"
             id="fr.cnes.analysis.tools.fortran77.rules.F77DATAParameter"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.DATA.Parameter">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77ERROpenRead"
             id="fr.cnes.analysis.tools.fortran77.rules.F77ERROpenRead"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.ERR.OpenRead">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTAssign"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTAssign"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Assign">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTDimension"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTDimension"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Dimension">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTEquivalence"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTEquivalence"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Equivalence">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTFunction"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTFunction"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Function">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTIf"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTIf"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.If">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTInclude"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTInclude"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Include">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTPause"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTPause"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Pause">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTReturn"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTReturn"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Return">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77INSTSave"
             id="fr.cnes.analysis.tools.fortran77.rules.F77INSTSave"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.INST.Save">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77METLine"
             id="fr.cnes.analysis.tools.fortran77.rules.F77METLine"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.MET.Line">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77NAMEGenericIntrinsic"
             id="fr.cnes.analysis.tools.fortran77.rules.F77NAMEGenericIntrinsic"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.NAME.GenericIntrinsic">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77NAMEIntrinsic"
             id="fr.cnes.analysis.tools.fortran77.rules.F77NAMEIntrinsic"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.NAME.Intrinsic">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77NAMEKeyWords"
             id="fr.cnes.analysis.tools.fortran77.rules.F77NAMEKeyWords"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.NAME.KeyWords">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77NAMELabel"
             id="fr.cnes.analysis.tools.fortran77.rules.F77NAMELabel"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.NAME.Label">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77PROTODeclaration"
             id="fr.cnes.analysis.tools.fortran77.rules.F77PROTODeclaration"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.PROTO.Declaration">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77REFIO"
             id="fr.cnes.analysis.tools.fortran77.rules.F77REFIO"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.REF.IO">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77REFOpen"
             id="fr.cnes.analysis.tools.fortran77.rules.F77REFOpen"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.REF.Open">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77REFParameter"
             id="fr.cnes.analysis.tools.fortran77.rules.F77REFParameter"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.REF.Parameter">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77TYPEBasic"
             id="fr.cnes.analysis.tools.fortran77.rules.F77TYPEBasic"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.TYPE.Basic">
-      </Rule>
-      <Rule
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran77.rules.F77TYPEHollerith"
             id="fr.cnes.analysis.tools.fortran77.rules.F77TYPEHollerith"
+            languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.TYPE.Hollerith">
-      </Rule>
+      </check>
    </extension>
 </plugin>
