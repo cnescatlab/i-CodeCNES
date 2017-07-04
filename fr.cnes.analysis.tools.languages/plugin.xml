@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.cnes.analysis.tools.analyzer.languages">
+      <language
+            id="fr.cnes.analysis.tools.languages.f77"
+            name="Fortran 77">
+         <fileExtension
+               name="for">
+         </fileExtension>
+         <fileExtension
+               name="f">
+         </fileExtension>
+         <fileExtension
+               name="fpp">
+         </fileExtension>
+         <fileExtension
+               name="ftn">
+         </fileExtension>
+         <fileExtension
+               name="FOR">
+         </fileExtension>
+         <fileExtension
+               name="F">
+         </fileExtension>
+         <fileExtension
+               name="FPP">
+         </fileExtension>
+         <fileExtension
+               name="FTN">
+         </fileExtension>
+      </language>
+      <language
+            id="fr.cnes.analysis.tools.languages.f90"
+            name="Fotran 90">
+         <fileExtension
+               name="f90">
+         </fileExtension>
+         <fileExtension
+               name="F90">
+         </fileExtension>
+      </language>
+      <language
+            id="fr.cnes.analysis.tools.languages.shell"
+            name="Shell">
+         <fileExtension
+               name="bash">
+         </fileExtension>
+         <fileExtension
+               name="sh">
+         </fileExtension>
+         <fileExtension
+               name="ksh">
+         </fileExtension>
+      </language>
+   </extension>
+</plugin>
