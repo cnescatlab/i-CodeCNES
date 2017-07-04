@@ -78,6 +78,16 @@
                <documentation>
                   
                </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="fr.cnes.analysis.tools.analyzer.languages/language/@id"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="isMetric" type="boolean">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

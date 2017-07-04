@@ -6,11 +6,21 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+/**
+ * This service must be used to access data from the extension point
+ * {@link #LANGUAGE_EP_ID}.
+ * 
+ * <p>
+ * <b>Note : </b>Part of the functions of this class uses
+ * {@link LanguageContainer} class to returns data.
+ * </p>
+ * 
+ * @since 3.0
+ */
 public class LanguageService {
 
-    public static final String LANGUAGE_EP_ID = "fr.cnes.analysis.tools.languages";
+    public static final String LANGUAGE_EP_ID = "fr.cnes.analysis.tools.analyzer.languages";
     public static final String LANGUAGE_EP_NAME = "languages";
-
     public static final String LANGUAGE_EP_EL_LANGUAGE = "language";
     public static final String LANGUAGE_EP_EL_LANGUAGE_ATT_ID = "id";
     public static final String LANGUAGE_EP_EL_LANGUAGE_ATT_NAME = "name";
@@ -18,9 +28,9 @@ public class LanguageService {
     public static final String LANGUAGE_EP_EL_FILEEXTENSION_ATT_NAME = "name";
 
     /**
-     * @return
+     * @return languages contributing to {@link #LANGUAGE_EP_ID}.
      */
-    public List<LanguageContainer> getLanguages() {
+    public static List<LanguageContainer> getLanguages() {
         List<LanguageContainer> languages = new ArrayList<>();
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
@@ -36,8 +46,10 @@ public class LanguageService {
                     fileExtensions.add(fileExtension);
                 }
             }
-            languages.add(new LanguageContainer(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID,
-                    LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions));
+            languages.add(new LanguageContainer(
+                    language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID),
+                    language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME),
+                    fileExtensions));
         }
 
         return languages;
@@ -46,9 +58,11 @@ public class LanguageService {
 
     /**
      * @param languageId
-     * @return
+     *            language identifier
+     * @return whether or not this language identifier contribute to
+     *         {@link #LANGUAGE_EP_ID}
      */
-    public boolean isLanguageIdContributor(String languageId) {
+    public static boolean isLanguageIdContributor(String languageId) {
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
         for (IConfigurationElement language : languagesContributors) {
@@ -62,10 +76,15 @@ public class LanguageService {
 
     /**
      * @param languageId
-     * @return
+     *            Identifier of the language.
+     * @return A {@link LanguageContainer} fulfilled of data retrieved from the
+     *         contribution.
      * @throws NullContributionException
+     *             When <code>languageId</code> is not contributing to
+     *             {@link #LANGUAGE_EP_ID}.
      */
-    public LanguageContainer getLanguage(String languageId) throws NullContributionException {
+    public static LanguageContainer getLanguage(String languageId)
+            throws NullContributionException {
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
         for (IConfigurationElement language : languagesContributors) {
@@ -82,8 +101,10 @@ public class LanguageService {
                         fileExtensions.add(fileExtension);
                     }
                 }
-                return new LanguageContainer(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID,
-                        LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions);
+                return new LanguageContainer(
+                        language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID),
+                        language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME),
+                        fileExtensions);
             }
         }
         throw new NullContributionException(
@@ -93,9 +114,11 @@ public class LanguageService {
 
     /**
      * @param languagesIds
-     * @return
+     *            Languages identifiers
+     * @return List of {@link LanguageContainer} fulfilled with data retrieved
+     *         from <code>languagesIds</code> contribution.
      */
-    public List<LanguageContainer> getLanguages(List<String> languagesIds) {
+    public static List<LanguageContainer> getLanguages(List<String> languagesIds) {
         List<LanguageContainer> languages = new ArrayList<>();
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
@@ -122,9 +145,10 @@ public class LanguageService {
     }
 
     /**
-     * @return
+     * @return Every language identifiers contributing to
+     *         {@link #LANGUAGE_EP_ID}.
      */
-    public List<String> getLanguagesIds() {
+    public static List<String> getLanguagesIds() {
         List<String> languagesIds = new ArrayList<>();
         IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);

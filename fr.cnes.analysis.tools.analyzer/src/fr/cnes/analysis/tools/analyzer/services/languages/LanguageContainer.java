@@ -12,6 +12,15 @@ public class LanguageContainer {
     private String id;
     private List<String> fileExtension;
 
+    /**
+     * @param pId
+     *            Identifier of the language.
+     * @param pName
+     *            Name of the language.
+     * @param pFileExtension
+     *            List of extensions that can be handled by the language in
+     *            contribution.
+     */
     public LanguageContainer(String pId, String pName, List<String> pFileExtension) {
         this.id = pId;
         this.name = pName;
@@ -26,11 +35,11 @@ public class LanguageContainer {
     }
 
     /**
-     * @param name
+     * @param pName
      *            the name to set
      */
-    protected final void setName(String name) {
-        this.name = name;
+    protected final void setName(String pName) {
+        this.name = pName;
     }
 
     /**
@@ -41,11 +50,11 @@ public class LanguageContainer {
     }
 
     /**
-     * @param id
+     * @param pId
      *            the id to set
      */
-    protected final void setId(String id) {
-        this.id = id;
+    protected final void setId(String pId) {
+        this.id = pId;
     }
 
     /**
@@ -56,11 +65,11 @@ public class LanguageContainer {
     }
 
     /**
-     * @param fileExtension
+     * @param pFileExtension
      *            the fileExtension to set
      */
-    protected final void setFileExtension(List<String> fileExtension) {
-        this.fileExtension = fileExtension;
+    protected final void setFileExtension(List<String> pFileExtension) {
+        this.fileExtension = pFileExtension;
     }
 
 }
