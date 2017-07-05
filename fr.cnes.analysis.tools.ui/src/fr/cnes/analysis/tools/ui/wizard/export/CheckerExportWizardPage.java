@@ -145,7 +145,7 @@ public class CheckerExportWizardPage extends WizardPage {
 
                                 final Label fieldName = new Label(container, SWT.NULL);
                                 fieldName.setText(key);
-                                final Text fieldInput = new Text(container, SWT.FILL);
+                                final Text fieldInput = new Text(container, SWT.BORDER);
                                 final GridData fieldInputStyle = new GridData();
                                 fieldInputStyle.horizontalAlignment = SWT.FILL;
                                 fieldInputStyle.grabExcessHorizontalSpace = true;
