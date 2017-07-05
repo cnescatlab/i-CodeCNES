@@ -13,35 +13,35 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 /**
- * This {@link Job} run a rule analysis using {@link Analyzer} service.
+ * This {@link Job} run an analysis using {@link Analyzer} service.
  * 
  * @since 3.0
  */
-public class RuleAnalysisJob extends Job {
-
+public class AnalysisJob extends Job {
     /**
      * Logger
      */
-    private static final Logger LOGGER = Logger.getLogger(RuleAnalysisJob.class.getName());
-
+    private static final Logger LOGGER = Logger.getLogger(AnalysisJob.class.getName());
+    /** Logger's method identifier */
+    private static String METHOD = "";
     /** {@link Analyzer} service to run the analysis */
     private Analyzer analyzer;
     /** List of files to analyze. */
     private List<File> inputFiles;
-    /** List of languages plugin identifiers to run analysis with */
+    /** List of languages plug-in identifiers to run analysis with */
     private List<String> languageIds;
     /**
-     * List of all rules excluded from the analysis. <i>More informations on
-     * :</i> {@link Analyzer#check(List, List, List)}
+     * List of all metrics excluded from the analysis. <i>More informations on
+     * :</i> {@link Analyzer#computeMetrics(List, List, List)}
      */
     private List<String> excludedIds;
     /**
-     * {@link CheckResult} list from analysis result.
+     * {@link FileValue} list from analysis result.
      */
-    private List<CheckResult> violations;
+    private List<CheckResult> checks;
 
     /**
-     * Constructor for {@link RuleAnalysisJob}
+     * Constructor for {@link AnalysisJob}
      * 
      * @param pName
      *            name of the Job
@@ -52,7 +52,7 @@ public class RuleAnalysisJob extends Job {
      * @param pExcludedIds
      *            to exclude from analysis
      */
-    public RuleAnalysisJob(String pName, List<File> pInputFiles, List<String> pLanguageIds,
+    public AnalysisJob(String pName, List<File> pInputFiles, List<String> pLanguageIds,
             List<String> pExcludedIds) {
         super(pName);
         this.inputFiles = pInputFiles;
@@ -61,22 +61,19 @@ public class RuleAnalysisJob extends Job {
         this.analyzer = new Analyzer();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
-     * IProgressMonitor)
-     */
     @Override
     protected IStatus run(IProgressMonitor monitor) {
+        METHOD = "run";
+        LOGGER.entering(this.getClass().getName(), METHOD, monitor);
         IStatus status = Status.OK_STATUS;
         try {
-            this.violations = analyzer.check(inputFiles, languageIds, excludedIds);
+            this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {
-            LOGGER.info(
-                    exception.getClass().getName() + " received. Setting job status to warning.");
-            status = new Status(IStatus.ERROR, Analyzer.ANALYZER_EP_ID, exception.getMessage());
+            LOGGER.info(exception.getClass() + " handled in method " + METHOD
+                    + " changing Job status.");
+            status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID, exception.getMessage());
         }
+        LOGGER.exiting(this.getClass().getName(), METHOD, monitor);
         return status;
     }
 
@@ -96,10 +93,10 @@ public class RuleAnalysisJob extends Job {
     }
 
     /**
-     * @return {@link CheckResult} list from analysis result
+     * @return checkerResults results from the analysis.
      */
     public List<CheckResult> getCheckResults() {
-        return violations;
+        return checks;
     }
 
 }

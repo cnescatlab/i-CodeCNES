@@ -5,8 +5,8 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Descriptor for rule's violations in a function.
@@ -153,7 +153,7 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getCriticity() {
-        return PlatformUI.getPreferenceStore().getString(this.ruleId + ".Criticity");
+        return UserPreferencesService.getCheckerSeverity(this.getRuleId());
     }
 
     /*

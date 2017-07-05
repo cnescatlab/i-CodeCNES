@@ -5,10 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Class for general description of a rule for a
@@ -19,9 +18,9 @@ import org.eclipse.ui.PlatformUI;
 public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /** Rule's id. **/
-    private String                   ruleId;
+    private String ruleId;
     /** Rule's name. **/
-    private String                   name;
+    private String name;
     /** List of analyzed files with their violations. **/
     private List<FileRuleDescriptor> descriptors;
 
@@ -127,7 +126,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getCriticity() {
-        return PlatformUI.getPreferenceStore().getString(this.ruleId + ".Criticity");
+        return UserPreferencesService.getCheckerSeverity(this.ruleId);
     }
 
     /*

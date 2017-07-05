@@ -3,7 +3,6 @@ package fr.cnes.analysis.tools.ui.markers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -44,6 +43,7 @@ public class ViolationWarningMarker {
         marker.setAttribute(IMarker.MESSAGE, message);
         marker.setAttribute(IMarker.LINE_NUMBER, line);
         marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
+        marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
         return marker;
     }
 
