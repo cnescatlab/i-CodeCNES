@@ -92,7 +92,7 @@ public class CheckerTableViewer {
         checkersTableViewer.getControl().setLayoutData(gridData);
     }
 
-    private void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
+    protected void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
 
         String[] titles = { "Enabled", "Checker", "Language", "Severity" };
         int[] bounds = { 30, 200, 80, 80 };
