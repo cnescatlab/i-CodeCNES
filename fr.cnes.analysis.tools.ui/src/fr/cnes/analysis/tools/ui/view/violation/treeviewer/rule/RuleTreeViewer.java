@@ -198,7 +198,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
 
                 switch (indexSort) {
                     case 0:
-                        rc = rule1.getCriticity().compareTo(rule2.getCriticity());
+                        rc = rule1.getSeverity().compareTo(rule2.getSeverity());
                         break;
                     case 1:
                         rc = rule1.getName().compareToIgnoreCase(rule2.getName());

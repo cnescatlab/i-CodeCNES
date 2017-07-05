@@ -5,19 +5,18 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.IRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides column for the table viewer.
@@ -26,7 +25,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleD
 public class RuleTreeViewerLabelProvider extends AbstractLabelProvider {
     /** Static values that determines column types. **/
     /** This value is for rule criticity column. **/
-    public final static int CRITICITY = 0;
+    public final static int SEVERITY = 0;
     /** This value is for rule name column. **/
     public final static int NAME = 1;
     /** This value is for error's line column. **/
@@ -64,7 +63,7 @@ public class RuleTreeViewerLabelProvider extends AbstractLabelProvider {
         String text = "";
         if (element instanceof IRuleDescriptor) {
             switch (this.getType()) {
-                case CRITICITY:
+                case SEVERITY:
                     break;
                 case NAME:
                     if (element instanceof FunctionRuleDescriptor) {
@@ -128,15 +127,19 @@ public class RuleTreeViewerLabelProvider extends AbstractLabelProvider {
     @Override
     public Image getImage(final Object element) {
         LOGGER.finest("Begin getImage method");
-
         Image image = null;
-        if (this.getType() == CRITICITY && element instanceof RuleDescriptor) {
-            if (((RuleDescriptor) element).getCriticity().contains("Error")) {
-                image = AbstractUIPlugin.imageDescriptorFromPlugin("fr.cnes.analysis.tools.ui",
-                        "icons/logo-i-code-rouge-16x16.png").createImage();
-            } else {
-                image = AbstractUIPlugin.imageDescriptorFromPlugin("fr.cnes.analysis.tools.ui",
-                        "icons/logo-i-code-orange-16x16.png").createImage();
+        if (this.getType() == SEVERITY && element instanceof RuleDescriptor) {
+            switch (((RuleDescriptor) element).getSeverity()) {
+                case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
+                    image = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
+                    break;
+                case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
+                    image = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
+                    break;
+                case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
+                default:
+                    image = ImageFactory.getImage(ImageFactory.INFO_SMALL);
+                    break;
             }
         }
 
