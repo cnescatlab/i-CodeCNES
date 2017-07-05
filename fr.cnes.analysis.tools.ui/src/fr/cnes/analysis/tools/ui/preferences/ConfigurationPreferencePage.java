@@ -204,8 +204,11 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     public void performDefaults() {
 
-        for (CheckerPreferencesContainer preference : preferences) {
-            preference.setToDefault();
+        for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+            checker.setToDefault();
+        }
+        for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+            checker.setToDefault();
         }
         UserPreferencesService.setDefaultConfiguration();
         configurationSelection.select(
@@ -230,7 +233,7 @@ public class ConfigurationPreferencePage extends PreferencePage
     public void refresh() {
         checkersMetricTable.refresh();
         checkersTable.refresh();
-        composite.redraw();
+        this.composite.redraw();
 
     }
 }

@@ -56,11 +56,12 @@ public class ViolationsView extends ViewPart {
     /** The string to filter results in the TreeViewer */
     private String searchString = "";
 
-    /** Indicate is violation of level warning must be shown */
+    /** Indicate if violation of level warning must be shown */
     private boolean showWarning = true;
-    /** Indicate is violation of level error must be shown */
+    /** Indicate if violation of level error must be shown */
     private boolean showError = true;
-
+    /** Whether or not to show violation of Info severity */
+    private boolean showInfo;
     /**
      * Contain the identifier of the type of TreeViewer currently being
      * displayed in the view. By default, the view show a RuleTreeViewer one
@@ -170,12 +171,26 @@ public class ViolationsView extends ViewPart {
             }
         });
 
+        final Button infoBtn = new Button(pParent, SWT.CHECK | SWT.SELECTED);
+        infoBtn.setText("Info");
+        infoBtn.setSelection(true);
         final Button warningBtn = new Button(pParent, SWT.CHECK | SWT.SELECTED);
         warningBtn.setText("Warning");
         warningBtn.setSelection(true);
         final Button errorBtn = new Button(pParent, SWT.CHECK | SWT.CHECK);
         errorBtn.setText("Error");
         errorBtn.setSelection(true);
+
+        infoBtn.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(final SelectionEvent event) {
+                final Button btn = (Button) event.getSource();
+                showInfo = btn.getSelection();
+                update();
+            }
+
+        });
+
         warningBtn.addSelectionListener(new SelectionAdapter() {
 
             @Override
@@ -207,7 +222,8 @@ public class ViolationsView extends ViewPart {
     public void update() {
         for (final ViewerFilter filter : this.viewer.getFilters()) {
             if (filter instanceof IUpdatableAnalysisFilter) {
-                ((IUpdatableAnalysisFilter) filter).update(searchString, showWarning, showError);
+                ((IUpdatableAnalysisFilter) filter).update(searchString, showInfo, showWarning,
+                        showError);
             }
         }
         viewer.refresh();

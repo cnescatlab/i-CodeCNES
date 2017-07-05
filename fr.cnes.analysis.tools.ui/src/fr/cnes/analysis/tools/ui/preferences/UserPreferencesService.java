@@ -20,13 +20,21 @@ import org.eclipse.jface.preference.PreferenceStore;
  */
 public class UserPreferencesService extends AbstractPreferenceInitializer {
 
+    /** Preference key to access severity of a checker */
     public static final String PREF_SEVERITY_KEY = ".Severity";
+    /** Preference value of SEVERITY for Error */
     public static final String PREF_SEVERITY_ERROR_VALUE = "Error";
+    /** Preference value of SEVERITY for Warning */
     public static final String PREF_SEVERITY_WARNING_VALUE = "Warning";
+    /** Preference value of SEVERITY for Info */
     public static final String PREF_SEVERITY_INFO_VALUE = "Info";
+    /** Preference key to access Min of a checker */
     public static final String PREF_MIN_VALUE_KEY = ".Min";
+    /** Preference key to access Max of a checker */
     public static final String PREF_MAX_VALUE_KEY = ".Max";
+    /** Preference key to access severity of a checker */
     public static final String PREF_CONFIGURATION_KEY = "Configuration";
+    /** Preference key to access severity of a checker */
     public static final String PREF_CONFIGURATION_CUSTOMVALUE = "Custom";
 
     /**
@@ -53,7 +61,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
             for (CheckerContainer checker : CheckerService.getCheckers(languageId)) {
                 Activator.getDefault().getPreferenceStore().setDefault(checker.getId(), true);
                 Activator.getDefault().getPreferenceStore()
-                        .setDefault(checker.getId() + PREF_SEVERITY_KEY, "Error");
+                        .setDefault(checker.getId() + PREF_SEVERITY_KEY, PREF_SEVERITY_ERROR_VALUE);
                 if (checker.isMetric()) {
                     Activator.getDefault().getPreferenceStore()
                             .setDefault(checker.getId() + PREF_MAX_VALUE_KEY, Float.NaN);
