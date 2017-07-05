@@ -33,7 +33,7 @@
       </language>
       <language
             id="fr.cnes.analysis.tools.languages.f90"
-            name="Fotran 90">
+            name="Fortran 90">
          <fileExtension
                name="f90">
          </fileExtension>
