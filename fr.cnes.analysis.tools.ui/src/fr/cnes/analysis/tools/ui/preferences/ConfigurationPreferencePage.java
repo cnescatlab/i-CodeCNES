@@ -228,6 +228,9 @@ public class ConfigurationPreferencePage extends PreferencePage
      * Redraw every elements of the view.
      */
     public void refresh() {
+        checkersMetricTable.refresh();
+        checkersTable.refresh();
         composite.redraw();
+
     }
 }
