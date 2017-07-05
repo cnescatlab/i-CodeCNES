@@ -104,23 +104,11 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <requires>
-      <import feature="fr.cnes.icode.feature.core" version="2.0.0"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="fr.cnes.analysis.tools.shell.analyzer" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="org.junit"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="fr.cnes.analysis.tools.ui" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions"/>
+      <import feature="fr.cnes.icode.feature.core" version="2.0.0"/>
    </requires>
-
-   <plugin
-         id="fr.cnes.analysis.tools.shell.analyzer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="fr.cnes.analysis.tools.shell.rules"
@@ -130,7 +118,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="fr.cnes.analysis.tools.shell.ui"
+         id="fr.cnes.analysis.tools.shell.metrics"
          download-size="0"
          install-size="0"
          version="0.0.0"

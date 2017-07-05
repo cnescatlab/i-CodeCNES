@@ -106,21 +106,22 @@
 	<modules>
 		<module>fr.cnes.icode.tp</module>
 		<module>fr.cnes.analysis.tools.analyzer</module>
+		<module>fr.cnes.analysis.tools.languages</module>
 		<module>fr.cnes.analysis.tools.export</module>
 		<module>fr.cnes.analysis.tools.export.csv</module>
 		<module>fr.cnes.analysis.tools.export.xml</module>
-		<module>fr.cnes.analysis.tools.fortran77.analyzer</module>
+		
 		<module>fr.cnes.analysis.tools.fortran77.metrics</module>
 		<module>fr.cnes.analysis.tools.fortran77.rules</module>
-		<module>fr.cnes.analysis.tools.fortran77.ui</module>
-		<module>fr.cnes.analysis.tools.fortran90.analyzer</module>
+		
+		
 		<module>fr.cnes.analysis.tools.fortran90.metrics</module>
 		<module>fr.cnes.analysis.tools.fortran90.rules</module>
-		<module>fr.cnes.analysis.tools.fortran90.ui</module>
-		<module>fr.cnes.analysis.tools.shell.analyzer</module>
+		
+		
 		<module>fr.cnes.analysis.tools.shell.metrics</module>
 		<module>fr.cnes.analysis.tools.shell.rules</module>
-		<module>fr.cnes.analysis.tools.shell.ui</module>
+		
 		<module>fr.cnes.analysis.tools.ui</module>
 		<module>fr.cnes.icode.feature.core</module>
 		<module>fr.cnes.icode.feature.fortran77</module>
