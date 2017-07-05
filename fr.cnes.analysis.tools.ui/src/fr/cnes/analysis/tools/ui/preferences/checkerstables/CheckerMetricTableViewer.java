@@ -1,6 +1,6 @@
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.images.ImageService;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
@@ -96,9 +96,9 @@ public class CheckerMetricTableViewer {
                 Image image;
                 CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
-                    image = ImageService.ENABLED;
+                    image = ImageFactory.getImage(ImageFactory.ENABLED);
                 } else {
-                    image = ImageService.DISABLED;
+                    image = ImageFactory.getImage(ImageFactory.DISABLED);
                 }
                 return image;
             }
@@ -181,14 +181,14 @@ public class CheckerMetricTableViewer {
                 Image severityImage;
                 switch (checker.getSeverity()) {
                     case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
-                        severityImage = ImageService.ERROR_SMALL;
+                        severityImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
                         break;
                     case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
-                        severityImage = ImageService.WARNING_SMALL;
+                        severityImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
                         break;
                     case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
                     default:
-                        severityImage = ImageService.INFO_SMALL;
+                        severityImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
                         break;
                 }
 
