@@ -15,7 +15,6 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -25,38 +24,39 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 public class CheckerTableViewer {
-    private List<Button> checkersButtons;
-    private List<Button> languagesButtons;
 
     private TableViewer checkersTableViewer;
-    private CheckersFilter checkersFilter;
-    private Image infoImage;
-    private Image warningImage;
-    private Image errorImage;
-    private Image enabledImage;
-    private Image disabledImage;
+    protected Image infoImage;
+    protected Image warningImage;
+    protected Image errorImage;
+    protected Image enabledImage;
+    protected Image disabledImage;
+    private Composite parent;
+    protected TableViewerColumn enabledColumn;
 
     private LanguagePreferencesContainer language;
     private List<CheckerPreferencesContainer> inputs;
 
-    private boolean allEnabledChecked;
+    protected boolean allEnabledChecked;
+    private Listener enableAllListerner;
 
-    public CheckerTableViewer(Composite parent, List<CheckerPreferencesContainer> checkers) {
+    public CheckerTableViewer(Composite pParent, List<CheckerPreferencesContainer> checkers) {
         this.inputs = checkers;
+        parent = pParent;
         infoImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
         warningImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
         errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
         enabledImage = ImageFactory.getImage(ImageFactory.ENABLED);
         disabledImage = ImageFactory.getImage(ImageFactory.DISABLED);
         GridLayout layout = new GridLayout(2, false);
-        parent.setLayout(layout);
-        Label searchLabel = new Label(parent, SWT.NONE);
+        pParent.setLayout(layout);
+        Label searchLabel = new Label(pParent, SWT.NONE);
         searchLabel.setText("Search: ");
-        final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+        final Text searchText = new Text(pParent, SWT.BORDER | SWT.SEARCH);
         searchText.setLayoutData(
                 new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 
-        createViewer(parent);
+        createViewer(pParent);
         CheckersFilter filter = new CheckersFilter();
         searchText.addModifyListener(new ModifyListener() {
             @Override
@@ -97,9 +97,9 @@ public class CheckerTableViewer {
         String[] titles = { "Enabled", "Checker", "Language", "Severity" };
         int[] bounds = { 30, 200, 80, 80 };
 
-        TableViewerColumn col = createEnabledViewerColumn(bounds[0], 0);
-        col.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer));
-        col.setLabelProvider(new ColumnLabelProvider() {
+        enabledColumn = createEnabledViewerColumn(bounds[0], 0);
+        enabledColumn.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
+        enabledColumn.setLabelProvider(new ColumnLabelProvider() {
 
             @Override
             public String getText(Object element) {
@@ -118,7 +118,7 @@ public class CheckerTableViewer {
                 return image;
             }
         });
-        col = createTableViewerColumn(titles[1], bounds[1], 1);
+        TableViewerColumn col = createTableViewerColumn(titles[1], bounds[1], 1);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -169,7 +169,7 @@ public class CheckerTableViewer {
 
     }
 
-    private TableViewerColumn createTableViewerColumn(String title, int bound,
+    protected TableViewerColumn createTableViewerColumn(String title, int bound,
             final int colNumber) {
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
                 SWT.NONE);
@@ -181,7 +181,7 @@ public class CheckerTableViewer {
         return viewerColumn;
     }
 
-    private TableViewerColumn createEnabledViewerColumn(int bound, final int colNumber) {
+    protected TableViewerColumn createEnabledViewerColumn(int bound, final int colNumber) {
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
                 SWT.CENTER);
         final TableColumn column = viewerColumn.getColumn();
@@ -191,26 +191,31 @@ public class CheckerTableViewer {
         allEnabledChecked = false;
         column.setResizable(true);
         column.setMoveable(true);
-        column.addListener(SWT.Selection, new Listener() {
+        enableAllListerner = new Listener() {
 
             @Override
             public void handleEvent(Event event) {
-                if (!allEnabledChecked) {
-                    column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
-                    for (CheckerPreferencesContainer checker : inputs) {
-                        checker.setChecked(true);
+                if (UserPreferencesService.isDefaultConfigurationActive()) {
+                    if (!allEnabledChecked) {
+                        column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
+                        for (CheckerPreferencesContainer checker : inputs) {
+                            checker.setChecked(true);
+                        }
+                        allEnabledChecked = true;
+                    } else {
+                        column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
+                        for (CheckerPreferencesContainer checker : inputs) {
+                            checker.setChecked(false);
+                        }
+                        allEnabledChecked = false;
                     }
-                    allEnabledChecked = true;
                 } else {
-                    column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
-                    for (CheckerPreferencesContainer checker : inputs) {
-                        checker.setChecked(false);
-                    }
-                    allEnabledChecked = false;
+                    column.setImage(null);
                 }
-                checkersTableViewer.refresh();
+                refresh();
             }
-        });
+        };
+        column.addListener(SWT.Selection, enableAllListerner);
 
         return viewerColumn;
     }
@@ -247,5 +252,13 @@ public class CheckerTableViewer {
      */
     public final void setInputs(List<CheckerPreferencesContainer> pInputs) {
         this.inputs = pInputs;
+    }
+
+    public void setAllEnabledChecker(boolean isEnabled) {
+        if (allEnabledChecked && !isEnabled) {
+            allEnabledChecked = false;
+            enabledColumn.getColumn().setImage(disabledImage);
+            this.refresh();
+        }
     }
 }

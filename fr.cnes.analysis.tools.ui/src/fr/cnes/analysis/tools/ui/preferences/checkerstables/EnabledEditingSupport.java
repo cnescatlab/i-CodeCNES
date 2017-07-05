@@ -18,13 +18,15 @@ import org.eclipse.swt.SWT;
 public class EnabledEditingSupport extends EditingSupport {
 
     private final ColumnViewer viewer;
+    private CheckerTableViewer checkerTableViewer;
 
     /**
      * @param pViewer
      */
-    public EnabledEditingSupport(TableViewer pViewer) {
+    public EnabledEditingSupport(TableViewer pViewer, CheckerTableViewer pCheckerTableViewer) {
         super(pViewer);
         this.viewer = pViewer;
+        this.checkerTableViewer = pCheckerTableViewer;
     }
 
     /*
@@ -72,7 +74,12 @@ public class EnabledEditingSupport extends EditingSupport {
     @Override
     protected void setValue(Object element, Object value) {
         ((CheckerPreferencesContainer) element).setChecked((Boolean) value);
+
+        if (!(Boolean) value) {
+            this.checkerTableViewer.setAllEnabledChecker(false);
+        }
         viewer.refresh();
+
     }
 
 }

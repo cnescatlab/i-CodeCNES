@@ -1,91 +1,18 @@
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import java.util.List;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
 
-public class CheckerMetricTableViewer {
-    private List<Button> checkersButtons;
-    private List<Button> languagesButtons;
-
-    private TableViewer checkersTableViewer;
-    private CheckersFilter checkersFilter;
-
-    private LanguagePreferencesContainer language;
-    private List<CheckerPreferencesContainer> inputs;
-    private Image infoImage;
-    private Image warningImage;
-    private Image enabledImage;
-    private Image errorImage;
-    private Image disabledImage;
+public class CheckerMetricTableViewer extends CheckerTableViewer {
 
     public CheckerMetricTableViewer(Composite parent, List<CheckerPreferencesContainer> checkers) {
-        this.inputs = checkers;
-        infoImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
-        warningImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
-        errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
-        enabledImage = ImageFactory.getImage(ImageFactory.ENABLED);
-        disabledImage = ImageFactory.getImage(ImageFactory.DISABLED);
-        GridLayout layout = new GridLayout(2, false);
-        parent.setLayout(layout);
-        Label searchLabel = new Label(parent, SWT.NONE);
-        searchLabel.setText("Search: ");
-        final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
-        searchText.setLayoutData(
-                new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-
-        createViewer(parent);
-        CheckersFilter filter = new CheckersFilter();
-        searchText.addModifyListener(new ModifyListener() {
-            @Override
-            public void modifyText(ModifyEvent e) {
-                filter.setSearchText(searchText.getText());
-                checkersTableViewer.refresh();
-            }
-        });
-        checkersTableViewer.addFilter(filter);
-    }
-
-    private void createViewer(Composite parent) {
-        checkersTableViewer = new TableViewer(parent,
-                SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-        createColumns(parent, checkersTableViewer);
-        final Table table = checkersTableViewer.getTable();
-        table.setHeaderVisible(true);
-        table.setLinesVisible(true);
-
-        checkersTableViewer.setContentProvider(new ArrayContentProvider());
-        // get the content for the viewer, setInput will call getElements in the
-        // contentProvider
-        checkersTableViewer.setInput(inputs);
-        // make the selection available to other views
-
-        // define layout for the viewer
-        GridData gridData = new GridData();
-        gridData.verticalAlignment = GridData.FILL;
-        gridData.horizontalSpan = 2;
-        gridData.grabExcessHorizontalSpace = true;
-        gridData.grabExcessVerticalSpace = true;
-        gridData.horizontalAlignment = GridData.FILL;
-        checkersTableViewer.getControl().setLayoutData(gridData);
+        super(parent, checkers);
     }
 
     private void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
@@ -93,8 +20,8 @@ public class CheckerMetricTableViewer {
         String[] titles = { "", "Checker", "Language", "Minimum", "Maximum", "Severity" };
         int[] bounds = { 30, 200, 80, 80, 80, 80 };
 
-        TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
-        col.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer));
+        TableViewerColumn col = createEnabledViewerColumn(bounds[0], 0);
+        col.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -210,49 +137,4 @@ public class CheckerMetricTableViewer {
 
     }
 
-    private TableViewerColumn createTableViewerColumn(String title, int bound,
-            final int colNumber) {
-        final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
-                SWT.NONE);
-        final TableColumn column = viewerColumn.getColumn();
-        column.setText(title);
-        column.setWidth(bound);
-        column.setResizable(true);
-        column.setMoveable(true);
-        return viewerColumn;
-    }
-
-    public void refresh() {
-        this.checkersTableViewer.refresh();
-    }
-
-    /**
-     * @return the language
-     */
-    public final LanguagePreferencesContainer getLanguage() {
-        return language;
-    }
-
-    /**
-     * @param language
-     *            the language to set
-     */
-    public final void setLanguage(LanguagePreferencesContainer language) {
-        this.language = language;
-    }
-
-    /**
-     * @return the inputs
-     */
-    public final List<CheckerPreferencesContainer> getInputs() {
-        return inputs;
-    }
-
-    /**
-     * @param inputs
-     *            the inputs to set
-     */
-    public final void setInputs(List<CheckerPreferencesContainer> inputs) {
-        this.inputs = inputs;
-    }
 }
