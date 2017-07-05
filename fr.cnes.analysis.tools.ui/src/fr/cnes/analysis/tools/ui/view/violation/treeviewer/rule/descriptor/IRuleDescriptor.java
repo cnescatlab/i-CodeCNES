@@ -31,5 +31,5 @@ public interface IRuleDescriptor {
 	 * 
 	 * @return the criticity
 	 */
-	String getCriticity();
+	String getSeverity();
 }

@@ -140,22 +140,22 @@ public class CheckerPreferencesContainer {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setValue(this.getId(), checked);
         store.setValue(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY, this.severity);
-        if (this.maxValue != null) {
+        if (!this.maxValue.isNaN()) {
             store.setValue(this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY, this.maxValue);
         }
-        if (this.minValue != null) {
+        if (!this.minValue.isNaN()) {
             store.setValue(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY, this.minValue);
         }
     }
 
     public void setToDefault() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setToDefault(this.getId());
         store.setToDefault(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY);
-        if (this.maxValue != null) {
+        if (this.isMetric) {
             store.setToDefault(this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY);
         }
-        if (this.minValue != null) {
+        if (this.isMetric) {
             store.setToDefault(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY);
         }
     }

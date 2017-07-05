@@ -146,7 +146,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
     /**
      * @return The criticity of the current Rule
      */
-    public String getCriticity() {
+    public String getSeverity() {
         return UserPreferencesService.getCheckerSeverity(this.ruleId);
     }
 
