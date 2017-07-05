@@ -6,33 +6,57 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-public class ConfigurationService {
+/**
+ * This class should be used to reach configurations data contributing to
+ * {@link #CONFIGURATION_EP_ID}.
+ * 
+ * @since 3.0
+ */
+public final class ConfigurationService {
 
+    /** Configuration EP identifier */
     public static final String CONFIGURATION_EP_ID = "fr.cnes.analysis.tools.ui.configuration";
+    /** Configuration EP name */
     public static final String CONFIGURATION_EP_NAME = "configuration";
-
+    /** Configuration Element */
     public static final String CONFIGURATION_EP_EL_CONFIGURATION = "configuration";
+    /** Configuration Element's attribute name */
     public static final String CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME = "name";
+    /** Configuration Element's attribute description */
     public static final String CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION = "description";
+    /** CheckConfiguration Element */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION = "checkConfiguration";
+    /** CheckConfiguration Element's attribute checkId */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID = "checkId";
+    /** CheckConfiguration Element's attribute name */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME = "name";
+    /** CheckConfiguration Element's attribute description */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION = "description";
+    /** CheckConfiguration Element's attribute enabled */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED = "enabled";
+    /** CheckConfiguration Element's attribute maxValue */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MAXVALUE = "maxValue";
+    /** CheckConfiguration Element's attribute minValue */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MINVALUE = "minValue";
+
+    /**
+     * This utility class should not be instantiated.
+     */
+    private ConfigurationService() {
+        // Do not instantiate
+    }
 
     /**
      * @return All the configurations in contribution of
      *         {@link #CONFIGURATION_EP_ID}.
      */
     public static List<ConfigurationContainer> getConfigurations() {
-        List<ConfigurationContainer> configurations = new ArrayList<>();
-        IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
+        final List<ConfigurationContainer> configurations = new ArrayList<>();
+        final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CONFIGURATION_EP_ID);
         for (IConfigurationElement configuration : configurationsContributors) {
-            List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
-            ConfigurationContainer configContainer = new ConfigurationContainer(
+            final List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
+            final ConfigurationContainer configContainer = new ConfigurationContainer(
                     configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
                     configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
             for (IConfigurationElement checkerConfiguration : configuration
@@ -71,16 +95,25 @@ public class ConfigurationService {
         return configurations;
     }
 
+    /**
+     * @param configurationName
+     *            The configuration to retrieve data from
+     * @return A {@link ConfigurationContainer} containing all data contained
+     *         for <code>configurationName</code>.
+     * @throws NullContributionException
+     *             when configuration requested do not exist or is trying to
+     *             reach contribution not available/
+     */
     public static ConfigurationContainer getConfigurations(String configurationName)
             throws NullContributionException {
-        List<ConfigurationContainer> configurations = new ArrayList<>();
-        IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
+        final List<ConfigurationContainer> configurations = new ArrayList<>();
+        final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
                 .getConfigurationElementsFor(CONFIGURATION_EP_ID);
         for (IConfigurationElement configuration : configurationsContributors) {
-            List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
+            final List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
             if (configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME)
                     .equals(configurationName)) {
-                ConfigurationContainer configContainer = new ConfigurationContainer(
+                final ConfigurationContainer configContainer = new ConfigurationContainer(
                         configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
                         configuration
                                 .getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));

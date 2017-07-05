@@ -15,14 +15,15 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
         super(parent, checkers);
     }
 
-    private void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
+    @Override
+    protected void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
 
         String[] titles = { "", "Checker", "Language", "Minimum", "Maximum", "Severity" };
         int[] bounds = { 30, 200, 80, 80, 80, 80 };
 
-        TableViewerColumn col = createEnabledViewerColumn(bounds[0], 0);
-        col.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
-        col.setLabelProvider(new ColumnLabelProvider() {
+        enabledColumn = createEnabledViewerColumn(bounds[0], 0);
+        enabledColumn.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
+        enabledColumn.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
                 return null;
@@ -40,7 +41,7 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
                 return image;
             }
         });
-        col = createTableViewerColumn(titles[1], bounds[1], 1);
+        TableViewerColumn col = createTableViewerColumn(titles[1], bounds[1], 1);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
