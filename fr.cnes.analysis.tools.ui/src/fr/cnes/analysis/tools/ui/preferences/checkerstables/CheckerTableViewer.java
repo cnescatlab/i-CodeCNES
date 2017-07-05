@@ -1,6 +1,6 @@
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.images.ImageService;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
@@ -30,7 +30,9 @@ public class CheckerTableViewer {
 
     private TableViewer checkersTableViewer;
     private CheckersFilter checkersFilter;
-
+    private Image infoImage;
+    private Image warningImage;
+    private Image errorImage;
     private LanguagePreferencesContainer language;
     private List<CheckerPreferencesContainer> inputs;
 
@@ -38,6 +40,9 @@ public class CheckerTableViewer {
 
     public CheckerTableViewer(Composite parent, List<CheckerPreferencesContainer> checkers) {
         this.inputs = checkers;
+        infoImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
+        warningImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
+        errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
         GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         Label searchLabel = new Label(parent, SWT.NONE);
@@ -100,9 +105,9 @@ public class CheckerTableViewer {
                 Image image;
                 CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
-                    image = ImageService.ENABLED;
+                    image = ImageFactory.getImage(ImageFactory.ENABLED);
                 } else {
-                    image = ImageService.DISABLED;
+                    image = ImageFactory.getImage(ImageFactory.DISABLED);
                 }
                 return image;
             }
@@ -127,6 +132,7 @@ public class CheckerTableViewer {
         col = createTableViewerColumn(titles[3], bounds[3], 3);
         col.setEditingSupport(new SeverityEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
                 return ((CheckerPreferencesContainer) element).getSeverity();
@@ -138,14 +144,14 @@ public class CheckerTableViewer {
                 Image severityImage;
                 switch (checker.getSeverity()) {
                     case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
-                        severityImage = ImageService.ERROR_SMALL;
+                        severityImage = errorImage;
                         break;
                     case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
-                        severityImage = ImageService.WARNING_SMALL;
+                        severityImage = warningImage;
                         break;
                     case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
                     default:
-                        severityImage = ImageService.INFO_SMALL;
+                        severityImage = infoImage;
                         break;
                 }
 
@@ -173,7 +179,7 @@ public class CheckerTableViewer {
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
                 SWT.CENTER);
         final TableColumn column = viewerColumn.getColumn();
-        column.setImage(ImageService.DISABLED);
+        column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
         column.setToolTipText("Check to select or unselect every rules in the table.");
         column.setWidth(bound);
         allEnabledChecked = false;
@@ -184,13 +190,13 @@ public class CheckerTableViewer {
             @Override
             public void handleEvent(Event event) {
                 if (!allEnabledChecked) {
-                    column.setImage(ImageService.ENABLED);
+                    column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
                     for (CheckerPreferencesContainer checker : inputs) {
                         checker.setChecked(true);
                     }
                     allEnabledChecked = true;
                 } else {
-                    column.setImage(ImageService.DISABLED);
+                    column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
                     for (CheckerPreferencesContainer checker : inputs) {
                         checker.setChecked(false);
                     }

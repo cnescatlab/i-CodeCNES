@@ -4,6 +4,7 @@ import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerMetricTableViewer;
 import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerTableViewer;
 import java.util.ArrayList;
@@ -132,8 +133,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
         final ExpandItem ruleExpandItem = new ExpandItem(expandBar, SWT.NONE, 0);
         ruleExpandItem.setText("Rules");
-        ruleExpandItem.setImage(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-                "./icons/logo-i-code-rouge-16x16.png").createImage());
+        ruleExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
         checkersTable = new CheckerTableViewer(checkersExpandBarContainer, rules);
         ruleExpandItem
                 .setHeight(checkersExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
@@ -144,8 +144,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
         final ExpandItem metricExpandItem = new ExpandItem(expandBar, SWT.NONE, 0);
         metricExpandItem.setText("Metric");
-        metricExpandItem.setImage(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-                "./icons/logo-i-code-rouge-16x16.png").createImage());
+        metricExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
         checkersMetricTable = new CheckerMetricTableViewer(metricsExpandBarContainer, metrics);
         metricExpandItem
                 .setHeight(metricsExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
