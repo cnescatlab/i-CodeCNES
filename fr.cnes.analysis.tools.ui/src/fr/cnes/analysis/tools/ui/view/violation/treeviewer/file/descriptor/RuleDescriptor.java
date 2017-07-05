@@ -5,11 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Descriptor for a Rule that is intended to be shown.</br>
@@ -148,7 +147,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
      * @return The criticity of the current Rule
      */
     public String getCriticity() {
-        return PlatformUI.getPreferenceStore().getString(this.ruleId + ".Criticity");
+        return UserPreferencesService.getCheckerSeverity(this.ruleId);
     }
 
     /*

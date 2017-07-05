@@ -5,10 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui;
 
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-
-import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
 
 /**
  * As this Activator has been modified, it has to be tested and software quality
@@ -16,45 +15,49 @@ import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
  * all preferences used in the project.
  * 
  */
-public class Activator implements BundleActivator {
+public class Activator extends AbstractUIPlugin implements BundleActivator {
 
-	/** The static bundle context **/
-	private static BundleContext context;
+    /** The static bundle context **/
+    private static BundleContext context;
+    public static final String PLUGIN_ID = "fr.cnes.analysis.tools.ui";
+    private static Activator plugin;
 
-	/**
-	 * Static method which returns the bundle context of this activator.
-	 * 
-	 * @return the bundle context
-	 **/
-	public static BundleContext getContext() {
-		return context;
-	}
+    /**
+     * Static method which returns the bundle context of this activator.
+     * 
+     * @return the bundle context
+     **/
+    public static BundleContext getContext() {
+        return context;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-	 * )
-	 */
-	@Override
-	public void start(final BundleContext bundleContext) throws Exception {
-		// Initialize all preferences
-		PreferencesUIUtils.initializePreferences();
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
+     * )
+     */
+    @Override
+    public void start(final BundleContext bundleContext) throws Exception {
+        Activator.context = bundleContext;
+        plugin = this;
+    }
 
-		Activator.context = bundleContext;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext
+     * )
+     */
+    @Override
+    public void stop(final BundleContext bundleContext) throws Exception {
+        Activator.context = null;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext
-	 * )
-	 */
-	@Override
-	public void stop(final BundleContext bundleContext) throws Exception {
-		Activator.context = null;
-	}
+    public static Activator getDefault() {
+        return plugin;
+    }
 
 }

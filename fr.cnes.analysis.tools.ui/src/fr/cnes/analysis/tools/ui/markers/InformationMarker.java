@@ -24,12 +24,12 @@ import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
  * the decorator. It allows also multiple lines selection.
  * 
  */
-public class ViolationErrorMarker {
+public class InformationMarker {
     // ID of the marker
-    public static final String MARKER = "fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker";
+    public static final String MARKER = "fr.cnes.analysis.tools.ui.markers.InformationMarker";
 
     // ID of the annotation
-    public static final String ANNOTATION = "fr.cnes.analysis.tools.ui.ViolationError";
+    public static final String ANNOTATION = "fr.cnes.analysis.tools.ui.Information";
 
     /**
      * Create a new marker
@@ -52,8 +52,8 @@ public class ViolationErrorMarker {
         marker = res.createMarker(MARKER);
         marker.setAttribute(IMarker.MESSAGE, message);
         marker.setAttribute(IMarker.LINE_NUMBER, line);
-        marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-        marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+        marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_LOW);
+        marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
         return marker;
     }
 
