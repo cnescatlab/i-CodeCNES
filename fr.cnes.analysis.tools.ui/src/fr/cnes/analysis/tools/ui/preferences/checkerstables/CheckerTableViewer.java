@@ -33,6 +33,9 @@ public class CheckerTableViewer {
     private Image infoImage;
     private Image warningImage;
     private Image errorImage;
+    private Image enabledImage;
+    private Image disabledImage;
+
     private LanguagePreferencesContainer language;
     private List<CheckerPreferencesContainer> inputs;
 
@@ -43,6 +46,8 @@ public class CheckerTableViewer {
         infoImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
         warningImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
         errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
+        enabledImage = ImageFactory.getImage(ImageFactory.ENABLED);
+        disabledImage = ImageFactory.getImage(ImageFactory.DISABLED);
         GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         Label searchLabel = new Label(parent, SWT.NONE);
@@ -95,6 +100,7 @@ public class CheckerTableViewer {
         TableViewerColumn col = createEnabledViewerColumn(bounds[0], 0);
         col.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
                 return null;
@@ -105,9 +111,9 @@ public class CheckerTableViewer {
                 Image image;
                 CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
-                    image = ImageFactory.getImage(ImageFactory.ENABLED);
+                    image = enabledImage;
                 } else {
-                    image = ImageFactory.getImage(ImageFactory.DISABLED);
+                    image = disabledImage;
                 }
                 return image;
             }

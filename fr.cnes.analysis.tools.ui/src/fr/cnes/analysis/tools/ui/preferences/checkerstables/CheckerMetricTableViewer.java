@@ -31,9 +31,19 @@ public class CheckerMetricTableViewer {
 
     private LanguagePreferencesContainer language;
     private List<CheckerPreferencesContainer> inputs;
+    private Image infoImage;
+    private Image warningImage;
+    private Image enabledImage;
+    private Image errorImage;
+    private Image disabledImage;
 
     public CheckerMetricTableViewer(Composite parent, List<CheckerPreferencesContainer> checkers) {
         this.inputs = checkers;
+        infoImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
+        warningImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
+        errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
+        enabledImage = ImageFactory.getImage(ImageFactory.ENABLED);
+        disabledImage = ImageFactory.getImage(ImageFactory.DISABLED);
         GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         Label searchLabel = new Label(parent, SWT.NONE);
@@ -96,9 +106,9 @@ public class CheckerMetricTableViewer {
                 Image image;
                 CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
-                    image = ImageFactory.getImage(ImageFactory.ENABLED);
+                    image = enabledImage;
                 } else {
-                    image = ImageFactory.getImage(ImageFactory.DISABLED);
+                    image = disabledImage;
                 }
                 return image;
             }
@@ -181,14 +191,14 @@ public class CheckerMetricTableViewer {
                 Image severityImage;
                 switch (checker.getSeverity()) {
                     case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
-                        severityImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
+                        severityImage = errorImage;
                         break;
                     case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
-                        severityImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
+                        severityImage = warningImage;
                         break;
                     case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
                     default:
-                        severityImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
+                        severityImage = infoImage;
                         break;
                 }
 
