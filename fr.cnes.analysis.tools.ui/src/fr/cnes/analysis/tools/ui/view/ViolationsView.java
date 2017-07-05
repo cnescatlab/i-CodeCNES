@@ -2,8 +2,6 @@ package fr.cnes.analysis.tools.ui.view;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
@@ -11,23 +9,12 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeV
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -41,9 +28,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IDecoratorManager;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.ViewPart;
 
 public class ViolationsView extends ViewPart {
@@ -412,128 +396,8 @@ public class ViolationsView extends ViewPart {
             this.getViewer().setInput(listInputs.toArray(new CheckResult[listInputs.size()]));
         }
         this.getViewer().refresh();
-        try {
-            this.insertMarkers();
-        } catch (InvocationTargetException exception) {
-            LOGGER.log(Level.WARNING, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
-        } catch (InterruptedException exception) {
-            LOGGER.log(Level.WARNING, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
-        }
 
         LOGGER.finest("End display(Descriptor[]) method");
-    }
-
-    /**
-     * This method insert for each violation detected a new marker on the line
-     * of the violation.
-     * 
-     * @throws InterruptedException
-     * @throws InvocationTargetException
-     */
-    public void insertMarkers() throws InvocationTargetException, InterruptedException {
-        LOGGER.finest("begin method insertMarkers");
-        final ProgressMonitorDialog pmdialog = new ProgressMonitorDialog(
-                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-        pmdialog.run(true, true, new WorkspaceModifyOperation() {
-
-            @Override
-            protected void execute(final IProgressMonitor monitor)
-                    throws CoreException, InvocationTargetException, InterruptedException {
-                // create all my markers here
-
-                try {
-
-                    final HashSet<IFile> cleanedFiles = new HashSet<IFile>();
-                    String ruleName, criticity, message = "Violation detected here.";
-                    Integer line;
-                    IFile file;
-                    for (final CheckResult violation : analysisResults) {
-                        if (violation.getMessage().isEmpty()) {
-                            message = "No message in description. Please refer to CNES RNC.";
-                        } else {
-                            message = violation.getMessage();
-                        }
-                        ruleName = violation.getName();
-                        criticity = PlatformUI.getPreferenceStore()
-                                .getString(violation.getId() + ".Criticity");
-                        line = violation.getLine();
-                        file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
-                                new Path(violation.getFile().getAbsolutePath()).makeRelativeTo(
-                                        ResourcesPlugin.getWorkspace().getRoot().getFullPath()));
-
-                        // If the file already has marker of type violations
-                        // then we clean the file once
-                        if (file != null && !cleanedFiles.contains(file)) {
-                            cleanedFiles.add(file);
-                            file.deleteMarkers(
-                                    "fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker", true,
-                                    1);
-                            file.deleteMarkers(
-                                    "fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker",
-                                    true, 1);
-                        }
-                        // Then we add the new markers
-                        if (file != null && file.exists()) {
-                            if ("Error".equals(criticity)) {
-
-                                // If the criticity is at level "Error" then we
-                                // pop
-                                // a
-                                // new ViolationErrorMarker.
-                                ViolationErrorMarker.createMarker(file, line, ruleName,
-                                        ruleName + " | " + message);
-
-                            } else if ("Warning".equals(criticity)) {
-                                // else if the criticity is set on Warning then
-                                // we
-                                // pop a ViolationWarningMarker
-                                // new ViolationErrorDecorator();
-                                ViolationWarningMarker.createMarker(file, line, ruleName,
-                                        ruleName + " | " + message);
-
-                            } else {
-                                // Last case shouldn't happen if the criticity
-                                // is
-                                // properly set however we had a
-                                // PROBLEM marker on the line where a rule
-                                // spotted a
-                                // problem.
-                                IMarker markerProblem;
-                                markerProblem = file.createMarker(IMarker.PROBLEM);
-                                markerProblem.setAttribute(IMarker.LINE_NUMBER, line);
-                                markerProblem.setAttribute(IMarker.MESSAGE,
-                                        ruleName + " | " + message);
-                                markerProblem.setAttribute("Description", ruleName);
-                            }
-                        }
-
-                    }
-                } catch (final CoreException exception) {
-                    LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
-                    MessageDialog.openError(
-                            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Marker problem", exception.getMessage());
-
-                }
-            }
-        });
-        // One time all markers have been insert, we refresh all
-        // decorators.
-
-        final IDecoratorManager manager = PlatformUI.getWorkbench().getDecoratorManager();
-
-        manager.update("fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator");
-        manager.update("fr.cnes.analysis.tools.ui.decorators.violationerrordecorator");
-
-        LOGGER.finest("end method insertMarkers");
-
     }
 
     /*

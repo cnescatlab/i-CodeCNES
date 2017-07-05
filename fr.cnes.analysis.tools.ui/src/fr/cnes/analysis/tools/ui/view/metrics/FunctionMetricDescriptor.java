@@ -5,10 +5,8 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.ui.PlatformUI;
-
-import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
 
 /**
  * Descriptor for metric's value of a function.
@@ -231,19 +229,16 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public boolean hasRightValue() {
-        boolean result = false;
-        if ("ge".equals(
-                PlatformUI.getPreferenceStore().getString(metricId + PreferencesUIUtils.SYMETRY))) {
-            result = this.value >= PlatformUI.getPreferenceStore()
-                    .getFloat(metricId + PreferencesUIUtils.VALUE
-                            + PreferencesUIUtils.LEVELS[PlatformUI.getPreferenceStore()
-                                    .getInt(PreferencesUIUtils.LEVEL)]);
-        } else {
-            result = this.value <= PlatformUI.getPreferenceStore()
-                    .getFloat(metricId + PreferencesUIUtils.VALUE
-                            + PreferencesUIUtils.LEVELS[PlatformUI.getPreferenceStore()
-                                    .getInt(PreferencesUIUtils.LEVEL)]);
+        boolean result = true;
+        if (UserPreferencesService.hasMaxValue(this.getMetricId())) {
+            result = this.getValue()
+                    .compareTo(UserPreferencesService.getMaxValue(this.getMetricId())) > 0;
         }
+        if (UserPreferencesService.hasMinValue(this.getMetricId())) {
+            result = this.getValue()
+                    .compareTo(UserPreferencesService.getMinValue(this.getMetricId())) < 0;
+        }
+
         return result;
     }
 
