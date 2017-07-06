@@ -5,9 +5,11 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -15,10 +17,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
 /**
  * Handler to clear the views.
@@ -60,8 +58,8 @@ public class ClearHandler extends UIAndCommandAbstractHandler {
         } catch (final EmptyProviderException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
                     exception);
-            showError(HandlerUtil.getActiveShell(event),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+            showError(HandlerUtil.getActiveShell(event), "Internal Error",
+                    "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.finest("End execute method");
@@ -129,6 +127,8 @@ public class ClearHandler extends UIAndCommandAbstractHandler {
             resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker", true,
                     depth);
             resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker", true,
+                    depth);
+            resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.InformationMarker", true,
                     depth);
         } catch (final CoreException exception) {
             showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),

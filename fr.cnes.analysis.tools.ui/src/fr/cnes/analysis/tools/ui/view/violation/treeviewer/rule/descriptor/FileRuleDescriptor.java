@@ -104,7 +104,7 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getCriticity()
      */
     @Override
-    public String getCriticity() {
+    public String getSeverity() {
         return "";
     }
 

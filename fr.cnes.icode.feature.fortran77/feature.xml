@@ -209,23 +209,11 @@ litigation.
    </license>
 
    <requires>
-      <import feature="fr.cnes.icode.feature.core" version="2.0.0"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="fr.cnes.analysis.tools.fortran77.analyzer" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="org.junit"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="fr.cnes.analysis.tools.ui" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.eclipse.core.resources"/>
+      <import feature="fr.cnes.icode.feature.core" version="2.0.0"/>
    </requires>
-
-   <plugin
-         id="fr.cnes.analysis.tools.fortran77.analyzer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="fr.cnes.analysis.tools.fortran77.metrics"
@@ -236,13 +224,6 @@ litigation.
 
    <plugin
          id="fr.cnes.analysis.tools.fortran77.rules"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.analysis.tools.fortran77.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

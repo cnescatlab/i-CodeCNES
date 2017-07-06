@@ -7,12 +7,8 @@ package fr.cnes.analysis.tools.ui.view;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
-import fr.cnes.analysis.tools.ui.view.metrics.FileMetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider;
-import fr.cnes.analysis.tools.ui.view.metrics.MetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,7 +30,6 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -171,77 +166,6 @@ public class MetricsView extends AbstractAnalysisView {
         });
 
         LOGGER.finest("end method addDoubleClickAction");
-    }
-
-    /**
-     * Procedure insertMarkers
-     * 
-     * Clean every marker in a file of the type violation error and then add the
-     * ones violating metric limits.
-     * 
-     */
-    public void insertMarkers() {
-        LOGGER.finest("begin method insertMarkers");
-        /*
-         * To avoid to clean two times markers in the same document, we use an
-         * HashSet to refer cleaned files.
-         */
-        final HashSet<IFile> cleanedFiles = new HashSet<IFile>();
-        String metricName;
-        Float value, limit;
-        IFile file;
-        try {
-            for (final MetricDescriptor metricD : ((MetricContentProvider) this.getViewer()
-                    .getContentProvider()).getConverter().getContainer()) {
-                metricName = metricD.getName();
-                for (final FileMetricDescriptor fileMetricD : metricD.getDescriptors()) {
-                    for (final FunctionMetricDescriptor funMetric : fileMetricD.getDescriptors()) {
-                        if (!funMetric.hasRightValue()) {
-                            // Has we are going to
-                            // add a new marker, we
-                            // verify
-                            // that
-                            // the file was clean
-                            file = ResourcesPlugin.getWorkspace().getRoot()
-                                    .getFileForLocation(funMetric.getFilePath());
-                            value = funMetric.getValue();
-                            limit = PlatformUI.getPreferenceStore()
-                                    .getFloat(funMetric.getMetricId() + PreferencesUIUtils.VALUE
-                                            + PreferencesUIUtils.LEVELS[PlatformUI
-                                                    .getPreferenceStore()
-                                                    .getInt(PreferencesUIUtils.LEVEL)]);
-                            if (!cleanedFiles.contains(file)) {
-                                // if it's not,
-                                // then we clean
-                                // markers in it
-                                cleanedFiles.add(file);
-                                file.deleteMarkers(
-                                        "fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker",
-                                        true, 1);
-                            }
-                            ViolationErrorMarker.createMarker(file, funMetric.getLine(),
-                                    funMetric.getName(), metricName + " | Value is " + value
-                                            + " while limit was set to " + limit);
-                        }
-                    }
-
-                }
-            }
-            // One time all markers have been insert, we refresh all
-            // decorators.
-            final IDecoratorManager manager = PlatformUI.getWorkbench().getDecoratorManager();
-
-            manager.update("fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator");
-            manager.update("fr.cnes.analysis.tools.ui.decorators.violationerrordecorator");
-        } catch (final CoreException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Marker problem", exception.getMessage());
-        }
-
-        LOGGER.finest("end method insertMarkers");
-
     }
 
     /**
