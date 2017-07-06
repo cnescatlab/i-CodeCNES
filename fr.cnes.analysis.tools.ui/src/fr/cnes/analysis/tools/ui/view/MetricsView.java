@@ -66,7 +66,6 @@ public class MetricsView extends ViewPart {
     /** The viewer which display results. **/
     private TreeViewer viewer;
     /**
-     * 
      */
     public static final List<IMarker> MARKERS = new ArrayList<IMarker>();
 
@@ -156,10 +155,6 @@ public class MetricsView extends ViewPart {
         // Add a DoubleClickListener
         this.addDoubleClickAction();
 
-        // TODO: verify XML
-        // Fill tree with values from xml
-        // this.fillView();
-
         // Layout the viewer
         final GridData gridData = new GridData();
         gridData.verticalAlignment = GridData.FILL;
@@ -175,7 +170,7 @@ public class MetricsView extends ViewPart {
     protected void createColumns() {
         LOGGER.finest("Begin createColumns method");
 
-        this.getViewer().setContentProvider(new MetricContentProvider());
+        viewer.setContentProvider(new MetricContentProvider());
         TreeViewerColumn col;
         for (int i = 0; i < this.getTitles().length; i++) {
             // Create the column
@@ -216,20 +211,18 @@ public class MetricsView extends ViewPart {
      */
     protected void addDoubleClickAction() {
         LOGGER.finest("begin method addDoubleClickAction");
-        final TreeViewer viewer = this.getViewer();
 
         viewer.addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
             public void doubleClick(final DoubleClickEvent event) {
-                final TreeViewer tViewer = (TreeViewer) event.getViewer();
                 final IStructuredSelection thisSelection = (IStructuredSelection) event
                         .getSelection();
                 final Object selectedNode = thisSelection.getFirstElement();
 
-                tViewer.setExpandedState(selectedNode, !tViewer.getExpandedState(selectedNode));
+                viewer.setExpandedState(selectedNode, !viewer.getExpandedState(selectedNode));
                 // if it is a leaf -> open the file
-                if (!tViewer.isExpandable(selectedNode)
+                if (!viewer.isExpandable(selectedNode)
                         && selectedNode instanceof FunctionMetricDescriptor) {
 
                     // get Path of the file & Line of the
@@ -362,8 +355,8 @@ public class MetricsView extends ViewPart {
                         }
                     });
 
-            if (this.getViewer().getInput() != null) {
-                for (final CheckResult input : (CheckResult[]) this.getViewer().getInput()) {
+            if (viewer.getInput() != null) {
+                for (final CheckResult input : (CheckResult[]) viewer.getInput()) {
                     listInputs.add(input);
                 }
             }
@@ -372,10 +365,10 @@ public class MetricsView extends ViewPart {
                 listInputs.add(value);
             }
             analysisResult = listInputs;
-            this.getViewer().setInput(listInputs.toArray(new CheckResult[listInputs.size()]));
+            viewer.setInput(listInputs.toArray(new CheckResult[listInputs.size()]));
         }
 
-        this.getViewer().refresh();
+        viewer.refresh();
         LOGGER.finest("End display method");
     }
 
@@ -388,8 +381,8 @@ public class MetricsView extends ViewPart {
      */
     public void clear() throws EmptyProviderException {
         this.analysisResult.clear();
-        this.getViewer().setInput(new CheckResult[0]);
-        this.getViewer().refresh();
+        viewer.setInput(new CheckResult[0]);
+        viewer.refresh();
     }
 
     /**
