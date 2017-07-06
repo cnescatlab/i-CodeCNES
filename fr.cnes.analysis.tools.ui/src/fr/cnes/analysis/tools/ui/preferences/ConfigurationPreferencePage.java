@@ -68,7 +68,7 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     protected Control createContents(Composite parent) {
         final Label info = new Label(parent, SWT.NONE);
-        info.setText("Do you wish to choose a contributor configuration ?");
+        info.setText("Do you wish to choose an existing configuration ?");
         configurationSelection = new Combo(parent, SWT.READ_ONLY);
         configurationSelection.add(UserPreferencesService.PREF_CONFIGURATION_CUSTOMVALUE);
         configurationId = UserPreferencesService.getConfigurationName();
