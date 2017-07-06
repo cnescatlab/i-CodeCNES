@@ -9,11 +9,16 @@ import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.utils.PreferencesUIUtils;
+import fr.cnes.analysis.tools.ui.markers.InformationMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,19 +30,23 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
@@ -78,61 +87,9 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
          * 1.Identification the languages to analyze :
          * 
          */
-        final List<String> analysisRules = new ArrayList<>();
-        final List<String> analysisMetrics = new ArrayList<>();
-        final IPreferenceStore store = PlatformUI.getPreferenceStore();
-        for (IConfigurationElement contribution : Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(PreferencesUIUtils.PREF_EXT_PT_ID)) {
-            /*
-             * 1.1. Identification of the rules plugin activated :
-             */
-            if (store.getBoolean(contribution.getAttribute(PreferencesUIUtils.PARENT_ID)) && store
-                    .getBoolean(contribution.getAttribute(PreferencesUIUtils.RULE_PAGE_ID))) {
-                analysisRules.add(contribution.getAttribute(PreferencesUIUtils.RULE_EXT_ID));
-            }
-            /*
-             * 1.2. Identification of the metric plugin activated :
-             */
-            if (store.getBoolean(contribution.getAttribute(PreferencesUIUtils.PARENT_ID)) && store
-                    .getBoolean(contribution.getAttribute(PreferencesUIUtils.METRIC_PAGE_ID))) {
-                analysisMetrics.add(contribution.getAttribute(PreferencesUIUtils.METRIC_EXT_ID));
-            }
-        }
-        /*
-         * 2. Identification the rule & metrics that are deactivated :
-         */
-        final List<String> excludedRules = new ArrayList<>();
-        final List<String> excludedMetrics = new ArrayList<>();
-        for (IConfigurationElement analyzerContribution : Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(Analyzer.ANALYZER_EP_ID)) {
-            if (analysisRules.contains(analyzerContribution
-                    .getAttribute(Analyzer.ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                for (IConfigurationElement contribution : Platform.getExtensionRegistry()
-                        .getConfigurationElementsFor(analyzerContribution
-                                .getAttribute(Analyzer.ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                    if (store.contains(
-                            contribution.getAttribute(Analyzer.ANALYZER_EP_CONTRIBUTOR_CHECK_ID))
-                            && !store.getBoolean(contribution
-                                    .getAttribute(Analyzer.ANALYZER_EP_CONTRIBUTOR_CHECK_ID))) {
-                        excludedRules.add(contribution
-                                .getAttribute(Analyzer.ANALYZER_EP_CONTRIBUTOR_CHECK_ID));
-                    }
-                }
-            } else if (analysisMetrics.contains(analyzerContribution
-                    .getAttribute(Analyzer.ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                for (IConfigurationElement contribution : Platform.getExtensionRegistry()
-                        .getConfigurationElementsFor(analyzerContribution
-                                .getAttribute(Analyzer.ANALYZER_EP_ATTRIBUTE_EXTENSION_ID))) {
-                    if (store.contains(
-                            contribution.getAttribute(Analyzer.ANALYZER_EP_CONTRIBUTOR_CHECK_ID))
-                            && !store.getBoolean(contribution
-                                    .getAttribute(Analyzer.ANALYZER_EP_CONTRIBUTOR_CHECK_ID))) {
-                        excludedMetrics.add(contribution
-                                .getAttribute(Analyzer.ANALYZER_EP_CONTRIBUTOR_CHECK_ID));
-                    }
-                }
-            }
-        }
+        final List<String> languagesIds = UserPreferencesService.getEnabledLanguagesIds();
+        final List<String> excludedChecksIds = UserPreferencesService.getDisabledCheckersIds();
+
         /*
          * 3. Identification of the selected files
          */
@@ -143,8 +100,8 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
             /*
              * 4. Creation of jobs to run analysis.
              */
-            final RuleAnalysisJob rulesJob = new RuleAnalysisJob("Applying rules...", files,
-                    analysisRules, excludedRules);
+            final AnalysisJob rulesJob = new AnalysisJob("Running analysis...", files, languagesIds,
+                    excludedChecksIds);
             rulesJob.addJobChangeListener(new JobChangeAdapter() {
 
                 @Override
@@ -154,40 +111,35 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
                         @Override
                         public void run() {
                             if (rulesJob.getResult().isOK()) {
-                                AnalysisHandler.updateViolationsView(
-                                        ((RuleAnalysisJob) event.getJob()).getCheckResults());
+                                List<CheckResult> results = ((AnalysisJob) event.getJob())
+                                        .getCheckResults();
+                                List<CheckResult> resultsViolation = new ArrayList<>();
+                                List<CheckResult> resultsMetric = new ArrayList<>();
+                                for (CheckResult result : results) {
+                                    if (result.getValue() == null) {
+                                        resultsViolation.add(result);
+                                    } else {
+                                        resultsMetric.add(result);
+                                    }
+                                }
+                                AnalysisHandler.updateViolationsView(resultsViolation);
+                                AnalysisHandler.updateMetricsView(resultsMetric);
+                                try {
+                                    AnalysisHandler.insertMarkers(results);
+                                } catch (InvocationTargetException | InterruptedException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     });
                 }
             });
-            rulesJob.setUser(true);
 
-            final MetricAnalysisJob metricsJob = new MetricAnalysisJob("Computing metrics...",
-                    files, analysisMetrics, excludedMetrics);
-            metricsJob.addJobChangeListener(new JobChangeAdapter() {
-                @Override
-                public void done(final IJobChangeEvent event) {
-                    Display.getDefault().asyncExec(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (metricsJob.getResult().isOK()) {
-                                AnalysisHandler.updateMetricsView(
-                                        ((MetricAnalysisJob) event.getJob()).getMetrics());
-                            }
-                        }
-
-                    });
-                }
-            });
-            metricsJob.setUser(true);
             final JobGroup group = new JobGroup("i-Code CNES Analysis.", 2, 2);
             rulesJob.setJobGroup(group);
-            metricsJob.setJobGroup(group);
 
             // Launching the analysis.
-            metricsJob.schedule();
             rulesJob.schedule();
         } catch (EmptySelectionException | CoreException exception) {
             MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "Core exception",
@@ -330,8 +282,6 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
             // show rules analyze results
             if (view != null) {
                 view.display(values);
-                /* Add IMarkers everywhere there is a metric event */
-                view.insertMarkers();
             }
 
         } catch (final PartInitException exception) {
@@ -347,6 +297,131 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
         }
 
         LOGGER.exiting(AnalysisHandler.class.getName(), METHOD);
+    }
+
+    /**
+     * This method insert for each violation detected a new marker on the line
+     * of the violation.
+     * 
+     * @param checks
+     *            the checks to add marker with
+     * @throws InterruptedException
+     * @throws InvocationTargetException
+     */
+    public static void insertMarkers(List<CheckResult> checks)
+            throws InvocationTargetException, InterruptedException {
+        LOGGER.finest("begin method insertMarkers");
+        final ProgressMonitorDialog pmdialog = new ProgressMonitorDialog(
+                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+        pmdialog.run(true, true, new WorkspaceModifyOperation() {
+
+            @Override
+            protected void execute(final IProgressMonitor monitor)
+                    throws CoreException, InvocationTargetException, InterruptedException {
+                // create all my markers here
+
+                try {
+
+                    final HashSet<IFile> cleanedFiles = new HashSet<IFile>();
+                    String ruleName, severity, message = "Violation detected here.";
+                    Integer line;
+                    IFile file;
+
+                    for (final CheckResult check : checks) {
+                        file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
+                                new Path(check.getFile().getAbsolutePath()).makeRelativeTo(
+                                        ResourcesPlugin.getWorkspace().getRoot().getFullPath()));
+                        if (file != null && file.exists()) {
+                            // If the file already has marker of type violations
+                            // then we clean the file once
+                            if (file != null && !cleanedFiles.contains(file)) {
+                                cleanedFiles.add(file);
+                                file.deleteMarkers(
+                                        "fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker",
+                                        true, 1);
+                                file.deleteMarkers(
+                                        "fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker",
+                                        true, 1);
+                                file.deleteMarkers(
+                                        "fr.cnes.analysis.tools.ui.markers.InformationMarker", true,
+                                        1);
+                            }
+                        }
+
+                        Float limit = Float.NaN;
+                        boolean violation = false;
+
+                        if (UserPreferencesService.hasMaxValue(check.getId())
+                                && !UserPreferencesService.getMaxValue(check.getId()).isNaN()) {
+                            limit = UserPreferencesService.getMaxValue(check.getId());
+                            violation = check.getValue().compareTo(limit) > 0;
+                            message = violation
+                                    ? check.getName() + " | Value is " + check.getValue()
+                                            + " while it should not exceed " + limit + "."
+                                    : check.getName() + " | Value is " + check.getValue()
+                                            + ", below it's maximum limit of " + limit + ".";
+                        } else if (UserPreferencesService.hasMinValue(check.getId())
+                                && !UserPreferencesService.getMaxValue(check.getId()).isNaN()) {
+                            limit = UserPreferencesService.getMinValue(check.getId());
+                            violation = check.getValue().compareTo(limit) < 0;
+                            message = violation
+                                    ? check.getName() + " | Value is " + check.getValue()
+                                            + " while it should not below  " + limit + "."
+                                    : check.getName() + " | Value is " + check.getValue()
+                                            + ", above it's minimum limit of  " + limit + ".";
+                        } else {
+                            if (check.getMessage() == null || check.getMessage().isEmpty()) {
+                                if (check.getValue() != null && !check.getValue().isNaN()) {
+                                    message = check.getName() + " | Value is " + check.getValue()
+                                            + ".";
+                                } else {
+                                    message = check.getName()
+                                            + " | No message in description. Please refer to CNES"
+                                            + " RNC.";
+                                    violation = true;
+                                }
+                            } else {
+                                message = check.getName() + " | " + check.getMessage();
+                                violation = true;
+                            }
+
+                        }
+
+                        if (violation && UserPreferencesService.getCheckerSeverity(check.getId())
+                                .equals(UserPreferencesService.PREF_SEVERITY_ERROR_VALUE)) {
+                            ViolationErrorMarker.createMarker(file, check.getLine(),
+                                    check.getName(), message);
+                        } else if (violation
+                                && UserPreferencesService.getCheckerSeverity(check.getId()).equals(
+                                        UserPreferencesService.PREF_SEVERITY_WARNING_VALUE)) {
+                            ViolationWarningMarker.createMarker(file, check.getLine(),
+                                    check.getName(), message);
+                        } else {
+                            InformationMarker.createMarker(file, check.getLine(), check.getName(),
+                                    message);
+                        }
+                    }
+                } catch (final CoreException exception) {
+                    LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
+                            exception);
+                    MessageDialog.openError(
+                            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                            "Marker problem", exception.getMessage());
+
+                }
+            }
+        });
+        // One time all markers have been insert, we refresh all
+        // decorators.
+
+        final IDecoratorManager manager = PlatformUI.getWorkbench().getDecoratorManager();
+
+        manager.update("fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator");
+        manager.update("fr.cnes.analysis.tools.ui.decorators.violationerrordecorator");
+        manager.update("fr.cnes.analysis.tools.ui.decorators.informationdecorator");
+
+        LOGGER.finest("end method insertMarkers");
+
     }
 
 }

@@ -3,27 +3,36 @@
 <!DOCTYPE project>
 <plugin>
    <extension
-         point="fr.cnes.analysis.tools.fortran90.metric">
-      <Metric
+         id="fortran90.metrics"
+         name="Fortran 90 Metrics"
+         point="fr.cnes.analysis.tools.analyzer.checks">
+      <check
             class="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
             id="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
-            name="F90.MET.ComplexitySimplified">
-      </Metric>
-      <Metric
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.f90"
+            name="F90.MET.ComplexitySimplified">           
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
             id="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.f90"
             name="F90.MET.Nesting">
-      </Metric>
-      <Metric
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
             id="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.f90"
             name="F90.MET.LineOfCode">
-      </Metric>
-      <Metric
+      </check>
+      <check
             class="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
             id="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.f90"
             name="F90.MET.RatioComment">
-      </Metric>
-     
+      </check>
    </extension>
 </plugin>
