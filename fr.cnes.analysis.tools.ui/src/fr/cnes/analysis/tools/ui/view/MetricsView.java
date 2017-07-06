@@ -30,16 +30,23 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.ViewPart;
 
 /**
  * View displaying the metrics computation results.
  * 
  * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisView
  */
-public class MetricsView extends AbstractAnalysisView {
+public class MetricsView extends ViewPart {
 
     /**
      * Relative path to the XSD contained in the project for XML analysisResult
@@ -51,11 +58,13 @@ public class MetricsView extends AbstractAnalysisView {
     public static final String VIEW_ID = MetricsView.class.getName();
 
     /** Bounds value. **/
-    public static final int[] BOUNDS = { 200, 75, 75, 75, 75, 200, 200 };
+    private final int[] bounds = { 200, 75, 75, 75, 75, 200, 200 };
 
     /** Columns titles **/
-    public static final String[] TITLES = { "Metric", "Total", "Mean", "Minimum", "Maximum" };
+    private final String[] titles = { "Metric", "Total", "Mean", "Minimum", "Maximum" };
 
+    /** The viewer which display results. **/
+    private TreeViewer viewer;
     /**
      * 
      */
@@ -82,7 +91,7 @@ public class MetricsView extends AbstractAnalysisView {
      * Empty constructor.
      */
     public MetricsView() {
-        super(BOUNDS, TITLES);
+        super();
         analysisResult = new TreeSet<>(new Comparator<CheckResult>() {
 
             @Override
@@ -101,9 +110,68 @@ public class MetricsView extends AbstractAnalysisView {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisView#createColumns()
+     * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.
+     * widgets .Composite)
      */
     @Override
+    public void createPartControl(final Composite parent) {
+        LOGGER.finest("Begin createPartControl method");
+
+        final GridLayout layout = new GridLayout(this.titles.length, false);
+        parent.setLayout(layout);
+        this.createViewer(parent);
+
+        LOGGER.finest("End createPartControl method");
+    }
+
+    /**
+     * This method create the viewer, which is a tree table.
+     * 
+     * @param parent
+     *            the parent composite
+     */
+    private void createViewer(final Composite parent) {
+        LOGGER.finest("Begin createViewer method");
+
+        // Defining overall style for TreeViewer
+        final int scrollStyle = SWT.H_SCROLL | SWT.V_SCROLL;
+        final int selecStyle = SWT.MULTI | SWT.FULL_SELECTION;
+        final int style = scrollStyle | selecStyle;
+        this.viewer = new TreeViewer(parent, style | SWT.FILL);
+        // Make headers and lines of the tree visible
+        final Tree tree = this.viewer.getTree();
+        tree.setHeaderVisible(true);
+        tree.setLinesVisible(true);
+
+        // Setting the content provider and creating columns
+        this.createColumns();
+
+        // Expand the tree
+        this.viewer.setAutoExpandLevel(1);
+
+        // Add selection provider which allows to listen to each
+        // selection made on this viewer.
+        this.getSite().setSelectionProvider(this.viewer);
+
+        // Add a DoubleClickListener
+        this.addDoubleClickAction();
+
+        // TODO: verify XML
+        // Fill tree with values from xml
+        // this.fillView();
+
+        // Layout the viewer
+        final GridData gridData = new GridData();
+        gridData.verticalAlignment = GridData.FILL;
+        gridData.horizontalSpan = this.titles.length;
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.grabExcessVerticalSpace = true;
+        gridData.horizontalAlignment = GridData.FILL;
+        this.viewer.getTree().setLayoutData(gridData);
+
+        LOGGER.finest("End createViewer method");
+    }
+
     protected void createColumns() {
         LOGGER.finest("Begin createColumns method");
 
@@ -120,14 +188,32 @@ public class MetricsView extends AbstractAnalysisView {
         LOGGER.finest("End createColumns method");
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * This method creates a tree viewer column.
      * 
-     * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisView#
-     * addDoubleClickAction ()
+     * @param title
+     *            title of the column
+     * @param bound
+     *            size of the column
+     * @return a table viewer's column
      */
+    protected TreeViewerColumn createTreeViewerColumn(final String title, final int bound) {
+        LOGGER.finest("Begin createTreeViewerColumn method");
 
-    @Override
+        final TreeViewerColumn viewerColumn = new TreeViewerColumn(this.viewer, SWT.NONE);
+        final TreeColumn column = viewerColumn.getColumn();
+        column.setText(title);
+        column.setWidth(bound);
+        column.setResizable(true);
+        column.setMoveable(false);
+
+        LOGGER.finest("End createTreeViewerColumn method");
+        return viewerColumn;
+    }
+
+    /**
+     * Action to do when a double click over the item is done
+     */
     protected void addDoubleClickAction() {
         LOGGER.finest("begin method addDoubleClickAction");
         final TreeViewer viewer = this.getViewer();
@@ -306,22 +392,53 @@ public class MetricsView extends AbstractAnalysisView {
         this.getViewer().refresh();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisView#fillView()
-     */
-    @Override
-    protected void fillView() {
-        // TODO not implemented yet
-
-    }
-
     /**
      * @return the analysisResult
      */
     public final Set<CheckResult> getAnalysisResult() {
         return analysisResult;
+    }
+
+    /**
+     * Getter for the bounds.
+     * 
+     * @return the bounds
+     */
+    public int[] getBounds() {
+        return this.bounds.clone();
+    }
+
+    /**
+     * Getter for the titles.
+     * 
+     * @return the titles
+     */
+    public String[] getTitles() {
+        return this.titles.clone();
+    }
+
+    /**
+     * Getter for the viewer.
+     * 
+     * @return the viewer
+     */
+    public TreeViewer getViewer() {
+        return this.viewer;
+    }
+
+    /**
+     * Setter for the viewer.
+     * 
+     * @param pViewer
+     *            this.descriptors.clone() set
+     */
+    public void setViewer(final TreeViewer pViewer) {
+        this.viewer = pViewer;
+    }
+
+    @Override
+    public void setFocus() {
+        this.viewer.getControl().setFocus();
     }
 
 }
