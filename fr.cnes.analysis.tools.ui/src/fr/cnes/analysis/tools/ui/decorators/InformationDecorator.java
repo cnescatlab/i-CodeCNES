@@ -5,6 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.decorators;
 
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.markers.InformationMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
@@ -32,7 +33,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
     /**
      * Link to the Violation Error icon
      */
-    public static final String ICON = "/icons/logo-i-code-bleue-8x8.png";
+    public static final String ICON = ImageFactory.INFO_VERY_SMALL;
     public static final String ID_INFORMATION_DECORATOR = "fr.cnes.tools.ui.decorators.informationdecorator";
 
     /**
