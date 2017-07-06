@@ -47,8 +47,7 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     public void init(IWorkbench workbench) {
         // Page description
-        setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-                "./icons/logo-i-code-rouge-45x45.png"));
+        setImageDescriptor(ImageFactory.getDescriptor(ImageFactory.ERROR_BIG));
         setDescription("This preference page is dedicated to iCode analysis. On this page,"
                 + " you can enable/disable language and checker that should be run during the "
                 + "analysis.");
