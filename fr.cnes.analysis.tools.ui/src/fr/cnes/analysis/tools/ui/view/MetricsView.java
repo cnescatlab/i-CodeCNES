@@ -301,6 +301,7 @@ public class MetricsView extends AbstractAnalysisView {
      *             necessarily used)
      */
     public void clear() throws EmptyProviderException {
+        this.analysisResult.clear();
         this.getViewer().setInput(new CheckResult[0]);
         this.getViewer().refresh();
     }
