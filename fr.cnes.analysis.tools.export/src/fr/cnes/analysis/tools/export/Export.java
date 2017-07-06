@@ -38,15 +38,20 @@ import org.eclipse.core.runtime.Platform;
  */
 public class Export {
 
-    public static final String Export_ExtensionPoint_ID = "fr.cnes.analysis.tools.export";
-    public static final String Export_ExtensionPoint_Attribute_formatName = "formatName";
-    public static final String Export_ExtensionPoint_Attribute_formatExtension = "formatExtension";
-    public static final String Export_ExtensionPoint_Attribute_exportClass = "ExportClass";
-    public static final String Export_ExtensionPoint_Attribute_importClass = "ImportClass";
+    /** Export extension point ID */
+    public static final String EXPORT_EXTENSIONPOINT_ID = "fr.cnes.analysis.tools.export";
+    /** Export extension point formatName attribute */
+    public static final String EXPORT_EXTENSIONPOINT_ATTRIBUTE_FORMATNAME = "formatName";
+    /** Export extension point formatExtension attribute */
+    public static final String EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION = "formatExtension";
+    /** Export extension point attribute ExportClass */
+    public static final String EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS = "ExportClass";
+    /** Export extension point attribute ImportClass */
+    public static final String EXPORT_EXTENSIONPOINT_ATTRIBUTE_IMPORTCLASS = "ImportClass";
 
     /**
      * This function return all available {@code formatName} and
-     * {@code formatExtension} defined by {@link #Export_ExtensionPoint_ID}
+     * {@code formatExtension} defined by {@link #EXPORT_EXTENSIONPOINT_ID}
      * contributors.
      * 
      * @return a Map with formatName as key and and formatExtension as value of
@@ -54,24 +59,24 @@ public class Export {
      *         {@link Export_ExtensionPoint_ID}
      */
     public Map<String, String> getAvailableFormats() {
-        Map<String, String> formats = new TreeMap<>();
+        final Map<String, String> formats = new TreeMap<>();
         for (IConfigurationElement contribution : this.getContributions()) {
-            formats.put(contribution.getAttribute(Export_ExtensionPoint_Attribute_formatName),
-                    contribution.getAttribute(Export_ExtensionPoint_Attribute_formatExtension));
+            formats.put(contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_FORMATNAME),
+                    contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION));
         }
         return formats;
     }
 
     /**
      * This function returns all {@link IConfigurationElement} contributing to
-     * the {@code ExtensionPoint} {@value #Export_ExtensionPoint_ID}.
+     * the {@code ExtensionPoint} {@value #EXPORT_EXTENSIONPOINT_ID}.
      * 
      * @return all configuration elements contributing to ExtensionPoint
-     *         {@link #Export_ExtensionPoint_ID}
+     *         {@link #EXPORT_EXTENSIONPOINT_ID}
      */
     private IConfigurationElement[] getContributions() {
         return Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(Export_ExtensionPoint_ID);
+                .getConfigurationElementsFor(EXPORT_EXTENSIONPOINT_ID);
     }
 
     /**
@@ -82,6 +87,8 @@ public class Export {
      *            to export.
      * @param outputFile
      *            to use for the export.
+     * @param parameters
+     *            parameter required by the export plugin
      * @throws NoContributorMatchingException
      *             when a format can not be handled by the @link {@link Export}
      *             service.
@@ -91,11 +98,36 @@ public class Export {
      *             when the export failed due to a {@link java.io.File}
      *             exception.
      */
-    public void export(List<CheckResult> checkResults, File outputFile)
+    public void export(List<CheckResult> checkResults, File outputFile,
+            Map<String, String> parameters)
             throws NoContributorMatchingException, NoExtensionIndicatedException, IOException {
-        IExport exporter = this
+        final IExport exporter = this
                 .getExportClass(this.getExtensionFromFilePath(outputFile.getAbsolutePath()));
-        exporter.export(checkResults, outputFile);
+        exporter.export(checkResults, outputFile, parameters);
+    }
+
+    /**
+     * 
+     * @param formatExtension
+     *            the extension to retrieve exporter plugin
+     * @return the parameters of the plugin exporting the format requested
+     * @throws NoContributorMatchingException
+     *             when the indicated format has no exporter defined
+     */
+    public Map<String, String> getParameters(String formatExtension)
+            throws NoContributorMatchingException {
+        return this.getExportClass(formatExtension).getParameters();
+    }
+
+    /**
+     * @param formatExtension
+     *            the extension to retrieve from exporter plugin
+     * @return if an exporter contributor requires parameters
+     * @throws NoContributorMatchingException
+     *             when the indicated format has no exporter defined.
+     */
+    public boolean hasParameters(String formatExtension) throws NoContributorMatchingException {
+        return this.getExportClass(formatExtension).hasParameters();
     }
 
     /**
@@ -107,13 +139,13 @@ public class Export {
      *             when the {@code inputFile} do not end with an extension.
      * @throws NoContributorMatchingException
      *             when the format of the {@code intputFile} is not handled by
-     *             any contributor of the {@link #Export_ExtensionPoint_ID}
+     *             any contributor of the {@link #EXPORT_EXTENSIONPOINT_ID}
      *             contributors {@code ExtensionPoint}.
      */
     public List<CheckResult> importResults(File inputFile)
             throws NoExtensionIndicatedException, NoContributorMatchingException {
         List<CheckResult> checkResults = null;
-        IImport importer = this
+        final IImport importer = this
                 .getImportClass(this.getExtensionFromFilePath(inputFile.getAbsolutePath()));
         checkResults = importer.importResults(inputFile);
         if (checkResults == null) {
@@ -136,8 +168,8 @@ public class Export {
             throws NoExtensionIndicatedException {
         String extension = "";
 
-        int index = filePath.lastIndexOf('.');
-        int parents = Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\'));
+        final int index = filePath.lastIndexOf('.');
+        final int parents = Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\'));
 
         if (index > parents) {
             extension = filePath.substring(index + 1);
@@ -148,7 +180,7 @@ public class Export {
     }
 
     /**
-     * This function browse {@value #Export_ExtensionPoint_ID} contributors and
+     * This function browse {@value #EXPORT_EXTENSIONPOINT_ID} contributors and
      * return the first class implementing {@link IExport} based on the format
      * of {@literal formatExtension} parameter requested.
      * 
@@ -156,18 +188,18 @@ public class Export {
      *            The extension of the file (without ".")
      * @return The IImport class found in contribution to import the extension
      *         of this format.
-     * @throws NoImportClassFoundInContributions
-     *             when after browsing contributor no class importing this
-     *             format was found.
+     * @throws NoContributorMatchingException
+     *             when the indicated format has no exporter contribution
+     *             defined
      */
     private IImport getImportClass(String formatExtension) throws NoContributorMatchingException {
         IImport importClass = null;
         for (IConfigurationElement contribution : this.getContributions()) {
-            if (contribution.getAttribute(Export_ExtensionPoint_Attribute_formatExtension)
+            if (contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION)
                     .equals(formatExtension)) {
                 try {
                     importClass = (IImport) contribution
-                            .createExecutableExtension(Export_ExtensionPoint_Attribute_importClass);
+                            .createExecutableExtension(EXPORT_EXTENSIONPOINT_ATTRIBUTE_IMPORTCLASS);
                 } catch (CoreException e) {
                     e.printStackTrace();
                 }
@@ -180,7 +212,7 @@ public class Export {
     }
 
     /**
-     * This function browses {@value #Export_ExtensionPoint_ID} contributors and
+     * This function browses {@value #EXPORT_EXTENSIONPOINT_ID} contributors and
      * return the first class implementing {@link IExport} set for the format
      * matching {@code formatExtension} parameter requested.
      * 
@@ -190,7 +222,7 @@ public class Export {
      *         {@code formatExtension} requested.
      * @throws NoContributorMatchingException
      *             when there is no contributor of
-     *             {@value #Export_ExtensionPoint_ID} able to export the
+     *             {@value #EXPORT_EXTENSIONPOINT_ID} able to export the
      *             requested format.
      */
     private IExport getExportClass(String formatExtension) throws NoContributorMatchingException {
@@ -200,11 +232,11 @@ public class Export {
          */
         IExport exportClass = null;
         for (IConfigurationElement contribution : this.getContributions()) {
-            if (contribution.getAttribute(Export_ExtensionPoint_Attribute_formatExtension)
+            if (contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION)
                     .equals(formatExtension)) {
                 try {
                     Object o = contribution
-                            .createExecutableExtension(Export_ExtensionPoint_Attribute_exportClass);
+                            .createExecutableExtension(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS);
                     if (o instanceof IExport) {
                         exportClass = (IExport) o;
                     }

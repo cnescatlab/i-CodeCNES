@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * This interface must be implemented by any class of {@code ImportClass}
  * attribute of the contributor of the {@code ExtensionPoint}
- * {@value Export#Export_ExtensionPoint_ID}.
+ * {@value Export#EXPORT_EXTENSIONPOINT_ID}.
  *
  * @since 3.0
  */

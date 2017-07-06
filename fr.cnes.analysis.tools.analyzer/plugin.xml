@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="fr.cnes.analysis.tools.analyzer" name="fr.cnes.analysis.tools.analyzer" schema="schema/fr.cnes.analysis.tools.analyzer.exsd"/>
+   <extension-point id="languages" name="languages" schema="schema/languages.exsd"/>
+   <extension-point id="checks" name="checks" schema="schema/checks.exsd"/>
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">

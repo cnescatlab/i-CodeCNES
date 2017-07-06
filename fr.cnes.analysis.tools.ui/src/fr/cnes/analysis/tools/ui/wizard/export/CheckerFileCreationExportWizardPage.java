@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,14 +45,20 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
     public static final Logger LOGGER = Logger
             .getLogger(CheckerFileCreationExportWizardPage.class.getName());
 
+    /** Export service used */
     private Export exporter;
+    /** Export format requested by the user */
     private String requestedFormat;
+    /** Parameters requested by the export plugin */
+    private Map<String, String> parameters;
 
     /**
      * Constructor for this wizard page
      * 
      * @param selection
      *            the selection
+     * @param pRequestedFormat
+     *            the format requested by the user (can be default one also).
      */
     public CheckerFileCreationExportWizardPage(final IStructuredSelection selection,
             String pRequestedFormat) {
@@ -62,7 +69,6 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
         this.setDescription(
                 "Description : Create a result export file in " + pRequestedFormat + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
-
     }
 
     /**
@@ -122,7 +128,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             checkResults.addAll(violationView.getAnalysisResults());
             checkResults.addAll(metricsView.getAnalysisResult());
             /* exporting the violations into the temp file */
-            export.export(checkResults, temp);
+            export.export(checkResults, temp, parameters);
 
             stream = new FileInputStream(temp);
         } catch (final IOException exception) {
@@ -178,5 +184,16 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
     @Override
     public boolean isPageComplete() {
         return this.validatePage();
+    }
+
+    /**
+     * This function can be called from other pages to update parameters sent in
+     * the export.
+     * 
+     * @param params
+     *            the new parameter to set.
+     */
+    public void updateParameters(Map<String, String> params) {
+        this.parameters = params;
     }
 }
