@@ -167,7 +167,8 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
         final List<File> files = new ArrayList<>();
         final Iterator<IResource> selectionIterator = pSelection.iterator();
         if (!selectionIterator.hasNext()) {
-            throw new EmptySelectionException("Erreur d'exÃ©cution (EmptySelectionException).");
+            throw new EmptySelectionException(
+                    "i-Code CNES : Please select file(s) in the Project Explorer before running an analysis.");
         }
         while (selectionIterator.hasNext()) {
             final IResource selection = selectionIterator.next();
