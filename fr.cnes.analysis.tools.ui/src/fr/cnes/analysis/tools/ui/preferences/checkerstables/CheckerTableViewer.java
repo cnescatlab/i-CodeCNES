@@ -115,6 +115,7 @@ public class CheckerTableViewer {
                 } else {
                     image = disabledImage;
                 }
+
                 return image;
             }
         });
@@ -188,39 +189,74 @@ public class CheckerTableViewer {
         column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
         column.setToolTipText("Check to select or unselect every rules in the table.");
         column.setWidth(bound);
-        allEnabledChecked = false;
         column.setResizable(true);
         column.setMoveable(true);
         enableAllListerner = new Listener() {
 
             @Override
             public void handleEvent(Event event) {
-                if (UserPreferencesService.isDefaultConfigurationActive()) {
-                    if (!allEnabledChecked) {
-                        column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
-                        for (CheckerPreferencesContainer checker : inputs) {
-                            checker.setChecked(true);
+                /*
+                 * If the event is a selection one, then we have to set inputs
+                 * to get all of them checked or unchecked.
+                 */
+                if (event.type == SWT.Selection) {
+                    if (UserPreferencesService.isDefaultConfigurationActive()) {
+                        if (!allEnabledChecked) {
+                            column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
+                            for (CheckerPreferencesContainer checker : inputs) {
+                                checker.setChecked(true);
+                            }
+                            allEnabledChecked = true;
+                        } else {
+                            column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
+                            for (CheckerPreferencesContainer checker : inputs) {
+                                checker.setChecked(false);
+                            }
+                            allEnabledChecked = false;
                         }
-                        allEnabledChecked = true;
+                    } else {
+                        column.setImage(null);
+                    }
+                }
+                /*
+                 * Image must be set pending the inputs and the configuration.
+                 */
+                if (UserPreferencesService.isDefaultConfigurationActive()) {
+                    allEnabledChecked = isAllEnabled();
+                    if (allEnabledChecked) {
+                        column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
                     } else {
                         column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
-                        for (CheckerPreferencesContainer checker : inputs) {
-                            checker.setChecked(false);
-                        }
-                        allEnabledChecked = false;
                     }
                 } else {
                     column.setImage(null);
                 }
-                refresh();
+
+                checkersTableViewer.refresh();
+            }
+
+            private boolean isAllEnabled() {
+                int i = 0;
+                boolean allEnabled = true;
+                while (i < inputs.size() && allEnabled) {
+                    if (!inputs.get(i).isChecked()) {
+                        allEnabled = false;
+                    }
+                    i++;
+                }
+                return allEnabled;
             }
         };
         column.addListener(SWT.Selection, enableAllListerner);
+        this.refresh();
 
         return viewerColumn;
+
     }
 
     public void refresh() {
+        this.checkersTableViewer.getControl().redraw();
+        this.enableAllListerner.handleEvent(new Event());
         this.checkersTableViewer.refresh();
     }
 
@@ -258,7 +294,6 @@ public class CheckerTableViewer {
         if (allEnabledChecked && !isEnabled) {
             allEnabledChecked = false;
             enabledColumn.getColumn().setImage(disabledImage);
-            this.refresh();
         }
     }
 }
