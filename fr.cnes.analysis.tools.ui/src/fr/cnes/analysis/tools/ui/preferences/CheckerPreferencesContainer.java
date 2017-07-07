@@ -150,13 +150,45 @@ public class CheckerPreferencesContainer {
 
     public void setToDefault() {
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        this.checked = store.getDefaultBoolean(this.getId());
         store.setToDefault(this.getId());
+        this.severity = store
+                .getDefaultString(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY);
         store.setToDefault(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY);
+
         if (this.isMetric) {
+            this.maxValue = store
+                    .getDefaultFloat(this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY);
             store.setToDefault(this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY);
         }
         if (this.isMetric) {
+            this.minValue = store
+                    .getDefaultFloat(this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY);
             store.setToDefault(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY);
+        }
+    }
+
+    public void update() {
+        final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        if (!store.contains(this.getId())) {
+            this.checked = true;
+        } else {
+            this.checked = store.getBoolean(this.getId());
+        }
+        if (!store.contains(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY)) {
+            this.severity = UserPreferencesService.PREF_SEVERITY_ERROR_VALUE;
+        } else {
+            this.severity = store
+                    .getString(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY);
+        }
+
+        if (this.isMetric) {
+            this.maxValue = store
+                    .getFloat(this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY);
+        }
+        if (this.isMetric) {
+            this.minValue = store
+                    .getFloat(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY);
         }
     }
 
