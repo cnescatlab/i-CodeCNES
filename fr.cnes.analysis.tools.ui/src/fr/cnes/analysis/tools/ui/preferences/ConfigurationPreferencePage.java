@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ConfigurationPreferencePage extends PreferencePage
         implements IWorkbenchPreferencePage {
@@ -158,11 +157,13 @@ public class ConfigurationPreferencePage extends PreferencePage
             public void widgetSelected(SelectionEvent e) {
                 configurationId = configurationSelection
                         .getItem(configurationSelection.getSelectionIndex());
+                refresh();
             }
 
         });
         parent.getParent().pack();
         parent.getParent().redraw();
+        this.refresh();
         return composite;
     }
 
@@ -182,14 +183,23 @@ public class ConfigurationPreferencePage extends PreferencePage
                 checker.savePreferences();
             }
         } else {
-
-            try
-
-            {
+            for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+                checker.setToDefault();
+            }
+            for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+                checker.setToDefault();
+            }
+            try {
                 UserPreferencesService.setConfiguration(configurationId);
             } catch (NullContributionException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+            for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+                checker.update();
+            }
+            for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+                checker.update();
             }
         }
         this.refresh();
@@ -230,9 +240,10 @@ public class ConfigurationPreferencePage extends PreferencePage
      * Redraw every elements of the view.
      */
     public void refresh() {
+        this.composite.getParent().getParent().redraw();
+        this.composite.layout();
+        this.composite.redraw();
         checkersMetricTable.refresh();
         checkersTable.refresh();
-        this.composite.redraw();
-
     }
 }
