@@ -91,17 +91,17 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 	
 	
 	private void endLocation() throws JFlexException {
-		LOGGER.info("begin method endLocation");
+		LOGGER.fine("begin method endLocation");
 		try{
 		    FunctionComplexitySimplified functionFinished = functionStack.pop();
-	       	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionFinished.getName()+" line :"+ functionFinished.getBeginLine()+" with value : "+functionFinished.getComplexity());
+	       	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionFinished.getName()+" line :"+ functionFinished.getBeginLine()+" with value : "+functionFinished.getComplexity());
       	 	totalComplexity+=functionFinished.getComplexity();
       	 	this.computeMetric(functionFinished.getName(), functionFinished.getComplexity(), functionFinished.getBeginLine());
 		}catch(EmptyStackException e){
 		    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
 		    throw new JFlexException(new Exception(errorMessage));
 		}
-		LOGGER.info("end method endLocation");
+		LOGGER.fine("end method endLocation");
 	}
 	
 %}
@@ -123,7 +123,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 <COMMENT>   	
 		{
 				 \n			 	{	
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
 									yybegin(YYINITIAL);
 								}  
 				. | {SPACE} 	{ 
@@ -137,32 +137,32 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 <YYINITIAL>
 		{
 				{COMMENT_WORD}	 	{
-			  							LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
+			  							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
 			  							yybegin(COMMENT);
 			  						}
 			  						
 				{FUNCTION}     		{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
 										yybegin(NAMING);
 									}
 				
 				{FUNCT}				{
 										functionLine = yyline+1;
 										location = yytext().substring(0,yytext().length()-2).trim();
-									 	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
+									 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
 									 	yybegin(BEGINFUNC);
 								 	}
 								 	
 	      		{FUNCSTART}			{
 		      							if(!functionStack.empty()){
 		      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
-		      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
+		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
 		      									functionStack.peek().addStarterRepetition();
 		      								}
-	      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity for FUNCSTART  \""+yytext()+"\" )");
+	      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity for FUNCSTART  \""+yytext()+"\" )");
 	      									functionStack.peek().addComplexity(FunctionComplexitySimplified.computeComplexity(yytext()));
 		      							} else {
-		      								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity for main function with FUNCSTART  \""+yytext()+"\" )");
+		      								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity for main function with FUNCSTART  \""+yytext()+"\" )");
 		      								mainComplexity += FunctionComplexitySimplified.computeComplexity(yytext());
 		      							}
 		      							
@@ -170,17 +170,17 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 		      						
 		      	{COMPLEX}			{
 										if(functionStack.empty()){
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the main function");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the main function");
 											mainComplexity += FunctionComplexitySimplified.computeComplexity(yytext());
 										}else{
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the function "+functionStack.peek().getName()+".");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the function "+functionStack.peek().getName()+".");
 											functionStack.peek().addComplexity(FunctionComplexitySimplified.computeComplexity(yytext()));
 										}
 									}
 				{CASE}				{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] increasing case number to "+caseState+" for CASE  \""+yytext()+"\" .");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] increasing case number to "+caseState+" for CASE  \""+yytext()+"\" .");
 										caseState++;
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STATE (Transition : CASE \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STATE (Transition : CASE \""+yytext()+"\" )");
 										yybegin(CASE);
 									}
 
@@ -189,39 +189,39 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 		      							if(!functionStack.empty()){
 		      								if(functionStack.peek().isFinisher(yytext())){
 		      									if(functionStack.peek().getStarterRepetition()>0) {
-		      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
+		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
 	      										    functionStack.peek().removeStarterRepetition();
 		      									} else {
-		      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
+		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
 		      										endLocation();
 		      									}
 		      								}else{
-		      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Do nothing for FUNCEND  \""+yytext()+"\" )");
+		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Do nothing for FUNCEND  \""+yytext()+"\" )");
 		      								}
 		      							}else{
-			      							LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Do nothing for FUNCEND  \""+yytext()+"\" )");
+			      							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Do nothing for FUNCEND  \""+yytext()+"\" )");
   										}
 		      						}
 		      	{IGNORE}			{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
 									}
 				{STRING_D}			{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
 										yybegin(STRING_DOUBLE);
 									}
 				{STRING_S}			{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
 										yybegin(STRING_SIMPLE);
 									}
 				{COMMAND}			{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
 										commandClosureStack.push(ShellUtils.commandClosure(yytext()));
 										yybegin(COMMAND);
 									}
 				
 		      	
 		      	{VAR}				{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
 									}
 
 
@@ -237,32 +237,32 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 		{
 				
 				{COMMENT_WORD}	 	{
-			  							LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
+			  							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
 			  							yybegin(COMMENT);
 			  						}
 			  						
 				{FUNCTION}     		{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
 										yybegin(NAMING);
 									}
 				
 				{FUNCT}				{
 										functionLine = yyline+1;
 										location = yytext().substring(0,yytext().length()-2).trim();
-									 	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
+									 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
 									 	yybegin(BEGINFUNC);
 								 	}
 								 	
 	      		{FUNCSTART}			{
 		      							if(!functionStack.empty()){
 		      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
-		      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
+		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
 		      									functionStack.peek().addStarterRepetition();
 		      								}
-	      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity for FUNCSTART  \""+yytext()+"\" )");
+	      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity for FUNCSTART  \""+yytext()+"\" )");
 	      									functionStack.peek().addComplexity(FunctionComplexitySimplified.computeComplexity(yytext()));
 		      							} else {
-		      								LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity for main function with FUNCSTART  \""+yytext()+"\" )");
+		      								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity for main function with FUNCSTART  \""+yytext()+"\" )");
 		      								mainComplexity += FunctionComplexitySimplified.computeComplexity(yytext());
 		      							}
 		      							
@@ -270,34 +270,34 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 		      						
 		      	{COMPLEX}			{
 										if(functionStack.empty()){
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the main function");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the main function");
 											mainComplexity += FunctionComplexitySimplified.computeComplexity(yytext());
 										}else{
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the function "+functionStack.peek().getName()+".");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] computing complexity of OTHER_COMPLEX  \""+yytext()+"\" ) for the function "+functionStack.peek().getName()+".");
 											functionStack.peek().addComplexity(FunctionComplexitySimplified.computeComplexity(yytext()));
 										}
 									}
 				
 				{CASE}				{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] increasing case number to "+caseState+" for CASE  \""+yytext()+"\" .");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] increasing case number to "+caseState+" for CASE  \""+yytext()+"\" .");
 										caseState++;
 									}
 				{ESAC}				{
 										if(caseState > 0){
 											caseState--;
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] decreasing case number to "+caseState+" for CASE  \""+yytext()+"\" .");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] decreasing case number to "+caseState+" for CASE  \""+yytext()+"\" .");
 											
 											if(!functionStack.empty()){
 			      								if(functionStack.peek().isFinisher(yytext())){
 			      									if(functionStack.peek().getStarterRepetition()>0) {
-			      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] removeStarterRepetition() for ESAC  \""+yytext()+"\" )");
+			      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] removeStarterRepetition() for ESAC  \""+yytext()+"\" )");
 		      										    functionStack.peek().removeStarterRepetition();
 			      									} else {
-			      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Running endLocation() for ESAC  \""+yytext()+"\" )");
+			      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Running endLocation() for ESAC  \""+yytext()+"\" )");
 			      										endLocation();
 			      									}
 			      								}else{
-			      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Case ending is not closing a function for ESAC : \""+yytext()+"\" ");
+			      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Case ending is not closing a function for ESAC : \""+yytext()+"\" ");
 		      									}
 		      								}
 		      								if(caseState==0){
@@ -311,10 +311,10 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 				{CASE_STATEMENT}	{
 										if(caseState>0){
 											if(functionStack.empty()){
-												LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Compute case statement for main function with CASE_STATEMENT \""+yytext()+"\".");
+												LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Compute case statement for main function with CASE_STATEMENT \""+yytext()+"\".");
 												mainComplexity++;
 											}else{
-												LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Compute case statement for "+functionStack.peek().getName()+" for CASE_STATEMENT \""+yytext()+"\".");
+												LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Compute case statement for "+functionStack.peek().getName()+" for CASE_STATEMENT \""+yytext()+"\".");
 												functionStack.peek().computeCase();
 											}	
 										}else{
@@ -326,39 +326,39 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 		      							if(!functionStack.empty()){
 		      								if(functionStack.peek().isFinisher(yytext())){
 		      									if(functionStack.peek().getStarterRepetition()>0) {
-		      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
+		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
 	      										    functionStack.peek().removeStarterRepetition();
 		      									} else {
-		      										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] endLocation() for FUNCEND  \""+yytext()+"\" )");
+		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] endLocation() for FUNCEND  \""+yytext()+"\" )");
 		      										endLocation();
 		      									}
 		      								}else{
-		      									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Do nothing for FUNCEND  \""+yytext()+"\" )");
+		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Do nothing for FUNCEND  \""+yytext()+"\" )");
 		      								}
 		      							}else{
-			      							LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Do nothing for FUNCEND  \""+yytext()+"\" )");
+			      							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] Do nothing for FUNCEND  \""+yytext()+"\" )");
   										}
 		      						}
 		      	{IGNORE}			{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] do nothing for IGNORE  \""+yytext()+"\" )");
 									}
 				{STRING_D}			{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
 										yybegin(STRING_DOUBLE);
 									}
 				{STRING_S}			{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
 										yybegin(STRING_SIMPLE);
 									}
 				{COMMAND}			{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - CASE -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
 										commandClosureStack.push(ShellUtils.commandClosure(yytext()));
 										yybegin(COMMAND);
 									}
 				
 		      	
 		      	{VAR}				{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [CASE] do nothing for IGNORE  \""+yytext()+"\" )");
 									}
 
 
@@ -373,19 +373,19 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 <STRING_SIMPLE>   	
 		{
 					{IGNORE}		{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_SIMPLE] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_SIMPLE] do nothing for IGNORE  \""+yytext()+"\" )");
 									}
 					{STRING_S}    	{
 										if(commandClosureStack.empty()){
 											if(caseState==0){
-												LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_SIMPLE -> YYINITIAL (Transition STRING_S : \""+yytext()+"\" )");
+												LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_SIMPLE -> YYINITIAL (Transition STRING_S : \""+yytext()+"\" )");
 												yybegin(YYINITIAL);
 											}else{
-												LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_SIMPLE -> CASE (Transition STRING_S : \""+yytext()+"\" )");
+												LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_SIMPLE -> CASE (Transition STRING_S : \""+yytext()+"\" )");
 												yybegin(CASE);
 											}
 										}else{
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_SIMPLE -> COMMAND (Transition STRING_S : \""+yytext()+"\" )");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_SIMPLE -> COMMAND (Transition STRING_S : \""+yytext()+"\" )");
 											yybegin(COMMAND);
 										}
 									}  
@@ -399,20 +399,20 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 <STRING_DOUBLE>   	
 		{
 					{IGNORE}		{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_DOUBLE] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_DOUBLE] do nothing for IGNORE  \""+yytext()+"\" )");
 	
 									}
 					{STRING_D}    	{
 										if(commandClosureStack.empty()){
 											if(caseState==0){
-												LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> YYINITIAL (Transition STRING_D : \""+yytext()+"\" )");
+												LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> YYINITIAL (Transition STRING_D : \""+yytext()+"\" )");
 												yybegin(YYINITIAL);
 											}else{
-												LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> CASE (Transition STRING_D : \""+yytext()+"\" )");
+												LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> CASE (Transition STRING_D : \""+yytext()+"\" )");
 												yybegin(CASE);
 											}
 										}else{
-											LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> COMMAND (Transition STRING_D : \""+yytext()+"\" )");
+											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> COMMAND (Transition STRING_D : \""+yytext()+"\" )");
 											yybegin(COMMAND);
 										}
 									}  
@@ -426,15 +426,15 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 <COMMAND>   	
 		{
 					{IGNORE}		{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] do nothing for IGNORE  \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] do nothing for IGNORE  \""+yytext()+"\" )");
 	
 									}
 					{STRING_D}		{   
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
 										yybegin(STRING_DOUBLE);
 									}
 					{STRING_S}		{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
 										yybegin(STRING_SIMPLE);
 									}
 					{FUNCT}			{}
@@ -446,10 +446,10 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 											commandClosureStack.pop();
 											if(commandClosureStack.empty()){
 												if(caseState==0){
-													LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition COMMAND : \""+yytext()+"\" )");
+													LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition COMMAND : \""+yytext()+"\" )");
 													yybegin(YYINITIAL);
 												}else{
-													LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> CASE (Transition COMMAND : \""+yytext()+"\" )");
+													LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> CASE (Transition COMMAND : \""+yytext()+"\" )");
 													yybegin(CASE);
 												}
 											}
@@ -469,15 +469,15 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 				{VAR}			{
 									location = yytext();
 									functionLine = yyline+1;
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
 									yybegin(BEGINFUNC);
 								}
 				\n             	{
 									if(caseState==0){
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
 										yybegin(YYINITIAL);
 									}else{
-										LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> CASE (Transition : \\n )");
+										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> CASE (Transition : \\n )");
 										yybegin(CASE);
 									}
 								}  
@@ -502,13 +502,13 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 				{FUNCSTART}		{
 									FunctionComplexitySimplified function;
 									function = new FunctionComplexitySimplified(location, functionLine, yytext());
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
 									functionStack.push(function);
 								 	if(caseState==0){
-								 		LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
+								 		LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
 								 		yybegin(YYINITIAL);
 								 	}else{
-								 		LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> CASE (Transition : FUNCSTART \""+yytext()+"\" )");
+								 		LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> CASE (Transition : FUNCSTART \""+yytext()+"\" )");
 								 		yybegin(CASE);
 								 	}
 							 	}
@@ -516,9 +516,9 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 									caseState++;
 									FunctionComplexitySimplified function;
 									function = new FunctionComplexitySimplified(location, functionLine, yytext());
-									LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for CASE  \""+yytext()+"\" )");
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for CASE  \""+yytext()+"\" )");
 									functionStack.push(function);
-								 	LOGGER.info("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> CASE (Transition : CASE \""+yytext()+"\" )");
+								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> CASE (Transition : CASE \""+yytext()+"\" )");
 									yybegin(CASE);
 								}
 			   	. |{SPACE} | \n {	
