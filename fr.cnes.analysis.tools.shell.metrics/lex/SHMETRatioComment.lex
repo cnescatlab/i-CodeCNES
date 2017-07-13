@@ -8,31 +8,35 @@
 /* This file is used to generate a metric checker for comment's rate. For 		*/
 /* further information on this, we advise you to refer to CNES manual dealing	*/
 /* with metrics.																*/
-/* As many comments have been done on the RATEComment.lex file, this file 		*/
+/* As many comments have been done on the MAXImbric.lex file, this file 		*/
 /* will restrain its comments on modifications.									*/
 /*																				*/
 /********************************************************************************/
 
 package fr.cnes.analysis.tools.shell.metrics;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.eclipse.core.runtime.Path;
-
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+import java.util.EmptyStackException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
+import java.util.logging.Logger;
+
+import org.eclipse.core.runtime.Path;
 
 %%
 
 %class SHMETRatioComment
 %extends AbstractChecker
 %public
-%ignorecase
 %line
 %column
 
@@ -40,23 +44,42 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %yylexthrow JFlexException
 %type List<CheckResult>
 
-%state COMMENT, AVOID, NAMING, FUNCTION, USEFUL
+%state COMMENT, NAMING, BEGINFUNC, STRING, COMMAND
 
-COMMENT_WORD = \#
-FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
-SPACE		 = [\ \r\t\f]
-VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
-
-
+COMMENT_WORD 	= [\#]
+FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FUNCTION    	= "function"
+FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE			= [\ \r\t\f\space]
+NAME	     	= [a-zA-Z\_][a-zA-Z0-9\_]*
+SHELL_VAR		= ([0-9]+|[\-\@\?\#\!\_\*\$])
+EXPANDED_VAR	= [\$][\{](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\:\%\=\+\?\/\!\-\,\^\#\*\@]|([\[](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\/\:\%\=\+\?\!\$\-\,\^\#\*\@\[\]\{\}])+[\]]))+[\}]
+VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
+IGNORE_COMMAND  = \\`
+COMMAND			= \`
+STRING_D		= \"
+IGNORE_STRING_D = \\\"
+STRING_S	 	= \'
+IGNORE_STRING_S = \\\'
+IGNORE			= {IGNORE_STRING_D} | {IGNORE_STRING_S} | {IGNORE_COMMAND}
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 %{
-	String location = "MAIN PROGRAM";
-	List<String> linesType = new LinkedList<String>();
-	List<Integer> locationsLines = new LinkedList<>();
-	List<String> locations = new LinkedList<String>();
-	int brackets = 0;
-
+	private String location = "MAIN PROGRAM";
+	private List<String> identifiers = new LinkedList<String>();
+	private float lines=0;
+	private boolean emptyLine = true;
+	private boolean inStringSimpleQuoted = false;
+	private boolean inStringDoubleQuoted = false;
+	private float lastLinesCommented = 0;
+	private int functionLine;
+	private float commentLinesMain=0;
+	private float commentLinesTotal=0;
+	private float linesMain=0;
+	private float linesTotal=0;
+	private Stack<FunctionLineOfComment> functionStack = new Stack<>();
+	private static final Logger LOGGER = Logger.getLogger(SHMETRatioComment.class.getName());	
 	
 	public SHMETRatioComment(){
 	}
@@ -64,125 +87,102 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		LOGGER.fine("begin method setInputFile");
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		LOGGER.fine("end method setInputFile");
 	}
 	
-	private float getComments(int indexOriginal) {
-		float comments = 0;
-		// comments before the function -> header
-		int index = indexOriginal - 1;
-		while (index >= 0 && linesType.get(index).equals("comment")) {
-			comments++;
-			index--;
-		}
-		//comments inside the function
-		index = indexOriginal + 1;
-		while ( index<linesType.size() && !linesType.get(index).equals("finFunction")) {
-			if(linesType.get(index).equals("comment")) comments++;
-			index++;
-		}	
-		return comments;
-	}
-	
-	private float getLines(int indexOriginal) {
-		float lines = 0;
-		// comments before the function -> header
-		int index = indexOriginal - 1;
-		while (index >= 0 && linesType.get(index).equals("comment")) {
-			lines++;
-			index--;
-		}
-		//lines inside the function
-		index = indexOriginal + 1;
-		while (index<linesType.size() && !linesType.get(index).equals("finFunction")) {
-			if(linesType.get(index).equals("line") ||
-			   linesType.get(index).equals("comment")) lines++;
-			index++;
-		}	
-		return lines+2;
-	}
-	
-	private void getRateCommentsFunctions() throws JFlexException  {
-		// get the rate of comments for the functions
-		int functNumber = 0;
-		for (int i=0; i<linesType.size(); i++) {
-			if (linesType.get(i).equals("function")) {
-				// count the number of comments and lines
-				float comments = getComments(i);
-				float lines    = getLines(i);
-				// insert the rate into list
-			 	this.computeMetric(locations.get(functNumber), comments/lines, locationsLines.get(functNumber));
-       			functNumber++;
+	private void endLocation() throws JFlexException {
+		LOGGER.fine("begin method endLocation");
+		try{
+		    FunctionLineOfComment functionFinished = functionStack.pop();
+	       	if(functionFinished.getLineOfCode() > 10){
+	       		LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionFinished.getName()+" line :"+ functionFinished.getBeginLine()+" with value : "+(functionFinished.getLineOfComment()/functionFinished.getLineOfCode())*100);
+      	 		this.computeMetric(functionFinished.getName(), (functionFinished.getLineOfComment()/(functionFinished.getLineOfCode()+functionFinished.getLineOfComment()))*100, functionFinished.getBeginLine());
+			} else {
+				this.computeMetric(functionFinished.getName(), Float.NaN, functionFinished.getBeginLine());
 			}
-		}
-		// get the number of comments for the main program
-		boolean found = false;
-		for (int i=linesType.size()-1; i>0 && !found; i--) {
-			if (linesType.get(i).equals("finFunction")) {
-				// count the number of comments and lines
-				float comments = getComments(i+1);
-				float lines    = getLines(i+1);
-				// insert the rate into list
-				this.computeMetric("MAIN PROGRAM", comments/lines, 1);
-       			found=true;
+			if(functionStack.empty()){
+				linesMain+=functionFinished.getLineOfCode();
+				commentLinesMain+=functionFinished.getLineOfComment();
+			}else{
+				FunctionLineOfComment function = functionStack.peek();
+				function.setLineOfCode(function.getLineOfCode()+functionFinished.getLineOfCode());
+				function.setLineOfComment(function.getLineOfComment()+functionFinished.getLineOfComment());
 			}
+		}catch(EmptyStackException e){
+		    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
+		    throw new JFlexException(new Exception(errorMessage));
 		}
+		LOGGER.fine("end method setInputFile");
 	}
 	
-	private void getRateCommentsFile() throws JFlexException {
-		float comments = 0;
-		float lines = 0;
-		for (int i=0; i<linesType.size(); i++) {
-			if (linesType.get(i).equals("comment")) comments++;
-			else if (linesType.get(i).equals("line") ||
-			         linesType.get(i).equals("function") ||
-			         linesType.get(i).equals("finFunction")) lines++;
+	private void addLines(){
+		LOGGER.fine("begin method addLines");
+		if(!emptyLine){
+			if(functionStack.empty()){
+				LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line to MAIN PROGRAM");
+				linesMain++;
+			} else {
+				LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line to the function "+ functionStack.peek().getName());
+				functionStack.peek().addLineOfCode();
+			}
+			LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one line for the whole file");
+			linesTotal++;
 		}
-		this.computeMetric(null, lines/comments, 0);
+		LOGGER.fine("end method addLines");
+	}
+	private void addCommentLines(){
+		LOGGER.fine("begin method addCommentLines");
+		if(functionStack.empty()){
+			LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one comment line to MAIN PROGRAM");
+			commentLinesMain++;
+		} else {
+			LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one comment line to the function "+ functionStack.peek().getName());
+			functionStack.peek().addLineOfComment();
+		}
+		LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] counting one comment line for the whole file");
+		commentLinesTotal++;
+		LOGGER.fine("end method addLines");
 	}
 	
 %}
 
 %eofval{
-	getRateCommentsFunctions();
-	getRateCommentsFile();
+	if(functionStack.empty()){
+		if(linesMain > 10) {
+			this.computeMetric("MAIN PROGRAM", (commentLinesMain/(linesMain+commentLinesMain))*100, 1);
+		}else{
+			this.computeMetric("MAIN PROGRAM", Float.NaN, 1);
+		}
+	}else{
+		String errorMessage = "Class"+this.getClass().getName()+"\nunreadable by analyzer, at least one function is not ending correctly.\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
+		throw new JFlexException(new Exception(errorMessage));
+	}
+	if(linesTotal > 10){
+		this.computeMetric(null, (commentLinesTotal/(linesTotal+commentLinesTotal))*100, 0);
+	}else{
+		this.computeMetric(null, Float.NaN, 0);
+	}
 	return getCheckResults();
 %eofval}
-
 %%
-
-/************************/
-
 
 /************************/
 /* COMMENT STATE	    */
 /************************/
 <COMMENT>   	
 		{
-				\n             	{linesType.add("comment"); yybegin(YYINITIAL);}  
-			   	.              	{}
-		}
-		
-/************************/
-/* AVOID STATE	    */
-/************************/
-<AVOID>   	
-		{
-				\n             	{yybegin(YYINITIAL);}  
-			   	.              	{}
-		}
-		
-/************************/
-/* NAMING STATE	    */
-/************************/
-<NAMING>   	
-		{
-				{VAR}			{location = yytext(); locations.add(location);locationsLines.add(yyline+1);}
-				\{				{brackets++;}
-				\n             	{linesType.add("function");
-								 yybegin(YYINITIAL);
+				\n             	{	
+									lastLinesCommented++;
+									//Count pending the value of emptyline (as the comment might be on the right side of some code)
+									addLines();
+									addCommentLines();
+									emptyLine=true;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
+									yybegin(YYINITIAL);
 								}  
-			   	.              	{}
+				. | {SPACE} 	{ }
 		}
 
 /************************/
@@ -190,44 +190,203 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 /************************/
 <YYINITIAL>
 		{
-			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
-				{FUNCTION}     	{yybegin(NAMING);}
-				{FUNCT}			{location=yytext().substring(0,yytext().length()-2).trim(); locations.add(location);locationsLines.add(yyline+1); yybegin(NAMING);}
-			    {VAR}			{yybegin(USEFUL);}
-			    \{				{brackets++; yybegin(USEFUL);}
-			   	\}				{brackets--;
-		    				 	 if(brackets==0 && !location.equals("MAIN PROGRAM")) {
-		    				 	 	linesType.add("finFunction");
-		    				 	 	location = "MAIN PROGRAM";
-		    				 	 	yybegin(AVOID);
-		    				 	 } else {
-		    				 		yybegin(USEFUL); 
-		    				 	}}
-				{SPACE}			{}
-				\n				{linesType.add("empty");}
-	      		.              	{yybegin(USEFUL);}
+				
+				
+				{COMMENT_WORD} 	{
+		  							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
+		  							yybegin(COMMENT);
+		  						}	
+				{FUNCTION}     	{
+									emptyLine = false;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
+									yybegin(NAMING);
+								}
+				{FUNCT}			{
+									emptyLine = false;
+									functionLine = yyline+1;
+									location = yytext().substring(0,yytext().length()-2).trim();
+								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
+								 	yybegin(BEGINFUNC);
+							 	}
+				
+	      		{FUNCSTART}		{
+	      							emptyLine = false;
+	      							if(!functionStack.empty()){
+	      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+	      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
+	      									functionStack.peek().addStarterRepetition();
+	      								}
+	      								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for FUNCSTART  \""+yytext()+"\" )");
+	      							}
+	      						}
+	      		{FUNCEND}		{
+	      							lastLinesCommented=0;
+	      							emptyLine = false;
+	      							if(!functionStack.empty()){
+	      								if(functionStack.peek().isFinisher(yytext())){
+	      									if(functionStack.peek().getStarterRepetition()>0) {
+	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
+	      										try{
+	      										    functionStack.peek().removeStarterRepetition();
+	      										}catch(JFlexException e){
+	      										    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
+	      										    throw new JFlexException(new Exception(errorMessage));
+	      										}
+	      									} else {
+	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
+	      										addLines();
+	      										emptyLine=true;
+	      										endLocation();
+	      									}
+	      								}
+	      							}
+	      						}
+	      		{VAR}			{ 
+									lastLinesCommented=0;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for VAR  \""+yytext()+"\" )");
+									emptyLine = false;
+								}
+				{IGNORE}		{   
+									lastLinesCommented=0;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
+									emptyLine = false;
+								}
+				{COMMAND}		{
+									lastLinesCommented=0;
+									emptyLine = false;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
+								 	yybegin(COMMAND);
+								}
+				{STRING_S}		{  
+									lastLinesCommented=0;
+									emptyLine = false; 
+									inStringSimpleQuoted = true;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING (Transition : STRING_S \""+yytext()+"\" )");
+								 	yybegin(STRING);
+								}
+				{STRING_D}		{
+									lastLinesCommented=0;
+									emptyLine = false; 
+									inStringDoubleQuoted = true;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING (Transition : STRING_D \""+yytext()+"\" )");
+								 	yybegin(STRING);
+								}
+				      					
+	      		\n 				{
+	      							lastLinesCommented=0;
+	      							addLines();
+	      							emptyLine=true;
+	      						}
+	      		{SPACE}			{ }
+	      		. 				{
+									lastLinesCommented=0;
+									emptyLine = false;
+								}
 		}
 		
+		
 /************************/
-/* USEFUL STATE	    	*/
+/* NAMING STATE	    */
 /************************/
-<USEFUL>
+<NAMING>   	
 		{
-				{FUNCTION}     	{yybegin(NAMING);}
-				{FUNCT}			{location=yytext().substring(0,yytext().length()-2).trim(); locations.add(location);locationsLines.add(yyline+1); yybegin(NAMING);}
-			    {VAR}			{}
-			    \{				{brackets++;}
-		    	\}				{brackets--;
-		    				 	 if(brackets==0 && !location.equals("MAIN PROGRAM")) {
-		    				 	 	linesType.add("finFunction");
-		    				 	 	location = "MAIN PROGRAM";
-		    				 	 	yybegin(AVOID);
-		    				 	}}
-				\n				{linesType.add("line"); yybegin(YYINITIAL);}
-	      		.              	{}
+				{VAR}			{
+	      							emptyLine = false;
+									location = yytext();
+									functionLine = yyline+1;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
+									yybegin(BEGINFUNC);
+								}
+				\n             	{
+									addLines();
+									emptyLine = true;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
+									yybegin(YYINITIAL);
+								}  
+			   	. | {SPACE}     {}
+		}
+
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{}
+				{FUNCSTART}		{
+									FunctionLineOfComment function = new FunctionLineOfComment(location, functionLine, yytext());
+      								if(lastLinesCommented>0){
+      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] Transfering "+ lastLinesCommented +" lines detected as header comment from the last function to the new one. )");
+	      					 			if(functionStack.empty()){
+	      									commentLinesMain-=lastLinesCommented;
+	      								}else{
+			                                functionStack.peek().setLineOfComment(functionStack.peek().getLineOfComment() - lastLinesCommented);
+			                            }
+		                            	function.setLineOfComment(lastLinesCommented);
+		                            	lastLinesCommented = 0;
+  									}
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
+									functionStack.push(function);
+								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
+								 	yybegin(YYINITIAL);
+							 	}
+			   	. | \n |{SPACE} { }
+		}
+/************************/
+/* COMMAND STATE	    */
+/************************/
+<COMMAND>
+		{
+				\n			{ 
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] count line for \\n");
+								addLines();
+							}
+				{COMMAND}	{
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition : COMMAND \""+yytext()+"\" )");
+								yybegin(YYINITIAL);
+							}
+				. | {SPACE} { }
+		}
+/************************/
+/* STRING STATE	    */
+/************************/
+<STRING>
+		{
+				\n			{ 
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING] count line for \\n");
+								addLines();
+							}
+				{IGNORE}	{
+								LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING] do nothing for IGNORE  \""+yytext()+"\" )");
+							}
+				{STRING_S}	{
+								if(inStringSimpleQuoted){
+									inStringSimpleQuoted=false;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING -> YYINITIAL (Transition : STRING_S \""+yytext()+"\" )");
+									yybegin(YYINITIAL);
+								}
+								
+							}
+				{STRING_D}	{
+								if(inStringDoubleQuoted){
+									inStringDoubleQuoted=false;
+									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING -> YYINITIAL (Transition : STRING_D \""+yytext()+"\" )");
+									yybegin(YYINITIAL);
+								}
+								
+							}
+				. | {SPACE} { }
 		}
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]             {}
+				[^]             {
+									String errorMessage = "Class: "+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.getInputFile().getAbsolutePath() +"\nat line:"+yyline+" column:"+yycolumn+"\nLast word read : "+yytext();
+                                    throw new JFlexException(new Exception(errorMessage));	
+								}
+				

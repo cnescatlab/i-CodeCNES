@@ -17,10 +17,11 @@
          <menu
                id="fr.cnes.analysis.tools.ui.menu"
                label="i-Code CNES">
-            <command 
-                  commandId="fr.cnes.analysis.tools.all.ui.handler.metricsAndRules"
+            <command
+                  commandId="fr.cnes.analysis.tools.ui.checkCode"
                   label="Check Code"
-                  style="push">
+                  style="push"
+                  tooltip="Running an i-Code CNES analysis on selected files.">
             </command>
              <command
                   commandId="fr.cnes.analysis.tools.ui.handler.ClearHandler"
@@ -99,7 +100,10 @@
             name="Clear All">
       </command>
       <command
-            id="fr.cnes.analysis.tools.fortran90.ui.handler.rule"
+            defaultHandler="fr.cnes.analysis.tools.ui.handler.AnalysisHandler"
+            description="Running an i-Code CNES analysis on selected files."
+            helpContextId="Running an i-Code CNES analysis on selected files."
+            id="fr.cnes.analysis.tools.ui.checkCode"
             name="Check code">
          <state
                class="org.eclipse.ui.handlers.RegistryToggleState:true"
@@ -170,7 +174,8 @@
          </enabledWhen>
       </handler>
       <handler
-            commandId="fr.cnes.analysis.tools.all.ui.handler.metricsAndRules">
+            commandId="fr.cnes.analysis.tools.all.ui.handler.AnalysisHandler"
+            helpContextId="Running an i-Code CNES analysis on selected files.">
          <class
                class="fr.cnes.analysis.tools.ui.handler.AnalysisHandler">
          </class>
