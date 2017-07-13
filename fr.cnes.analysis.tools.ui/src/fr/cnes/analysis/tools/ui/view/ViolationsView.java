@@ -434,6 +434,7 @@ public class ViolationsView extends ViewPart {
      *             necessarily used)
      */
     public void clear() throws EmptyProviderException {
+        this.analysisResults.clear();
         this.getViewer().setInput(new CheckResult[0]);
         this.getViewer().refresh();
     }
