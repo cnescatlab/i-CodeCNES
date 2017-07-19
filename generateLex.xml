@@ -1,0 +1,62 @@
+<!-- This ant file is used as a common ant file for all projects that need a lex generation with jflex.
+     Subprojects needs only to define their properties and the generate-all target will work with this local parameters 
+     This file assumes that : 
+         - there is a 'lex' directory in the current project
+         - ExampleMetric.lex is excluded from generation
+         
+     If at least one file is modified in the lex directory, or one java file is deleted, the full generation is proceeded
+-->
+
+<project name="Parent" default="generate-all">
+
+	<!-- Use the ant-contrib with foreach, provided in libtools of current project -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<!-- basedir will be the current build path, so use .. here -->
+			<pathelement location="../libtools/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
+
+		<!-- basedir will be the current build path, so must use also .. to access to jar file -->
+	<property name="jflex-jar" value="../fr.cnes.analysis.tools.jflex/lib/jflex-1.6.1/lib/jflex-1.6.1.jar" />
+
+	<!-- Override these properties in sub ant files (copy these 2 lines in child and set dest) -->
+	<property name="dest" value="TOBEDEFINED_IN_CHILD with for instance : src-gen/fr/cnes/analysis/tools/fortran77/metrics" />
+	<property name="absdest" location="${dest}" />
+	<property name="lexDir" location="lex/" />
+	<property name="excludedLex" value="Set here the name of the lex file to exclude from generation : ExampleMetric.lex or ExampleRule.lex..."/>
+
+	<uptodate property="javaCodeIsGenerated">
+		<srcfiles dir="${lexDir}" includes="*.lex" excludes="${excludedLex}" />
+		<mapper type="glob" from="*.lex" to="${absdest}/*.java" />
+	</uptodate>
+
+	<target name="clean">
+		<delete dir="src-gen/fr" />
+	</target>
+
+	<target name="generate-all" unless="javaCodeIsGenerated">
+
+		<foreach target="generate" param="lexFile">
+			<path>
+				<fileset dir="${lexDir}">
+					<include name="*.lex" />
+					<exclude name="${excludedLex}" />
+				</fileset>
+			</path>
+		</foreach>
+		<move todir="${dest}">
+			<fileset dir="${lexDir}">
+				<include name="*.java" />
+			</fileset>
+		</move>
+	</target>
+
+	<target name="generate">
+		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="${lexFile}" />
+		</java>
+
+	</target>
+
+</project>
