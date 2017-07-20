@@ -39,16 +39,16 @@ public class ExportXml implements IExport {
     public static String ATTRIBUTE_AnalysisProjectVersion = "analysisProjectVersion";
     /** Identifier of element <i>AnalysisProject</i>. */
     public static String ELEMENT_AnalysisProject = "analysisProject";
-    /** Default <i>analysisProject</i> name. */
-    private String analysisProject_key = "Project name";
-    /** Default <i>analysisAuthor</i> value. */
-    private String analysisAuthor_key = "Analysis author";
-    /** Default <i>projectVersion</i> value. */
-    private String analysisProjectVersion_key = "Project version";
-    /** Default <i>projectVersion</i> value. */
-    private String analysisConfigurationId_key = "Analysis configuration (id)";
-    /** DEfault <i>analysisDate</i> value */
-    private String analysisDate_key = "Analysis date (YYYY-MM-DD)";
+    /**  <i>PROJECT_NAME </i> parameter. */
+    public static final String PARAM_PROJECT_NAME = "ProjectName";
+    /** Default <i>AUTHOR</i> parameter. */
+    public static final String PARAM_AUTHOR = "Analysis author";
+    /** Default <i>PROJECT_VERSION</i> parameter. */
+    public static final String PARAM_PROJECT_VERSION = "ProjectVersion";
+    /**  <i>CONFIGURATION_ID</i> parameter. */
+    public static final String PARAM_CONFIGURATION_ID = "AnalysisConfigurationID";
+    /** DEfault <i>analysisDate</i> parameter */
+    public static final String PARAM_DATE = "Date";
     /** Parameter required by this export. */
     private Map<String, String> parameters;
 
@@ -58,11 +58,11 @@ public class ExportXml implements IExport {
      */
     public ExportXml() {
         this.parameters = new TreeMap<>();
-        this.parameters.put(analysisProject_key, "Unknown");
-        this.parameters.put(analysisAuthor_key, "i-Code CNES Analyzer");
-        this.parameters.put(analysisProjectVersion_key, "1.0.0");
-        this.parameters.put(analysisDate_key, this.currentDate());
-        this.parameters.put(analysisConfigurationId_key, "analysis1");
+        this.parameters.put(PARAM_PROJECT_NAME, "Unknown");
+        this.parameters.put(PARAM_AUTHOR, "i-Code CNES Analyzer");
+        this.parameters.put(PARAM_PROJECT_VERSION, "1.0.0");
+        this.parameters.put(PARAM_DATE, this.currentDate());
+        this.parameters.put(PARAM_CONFIGURATION_ID, "analysis1");
 
     }
 
@@ -94,9 +94,9 @@ public class ExportXml implements IExport {
 
         final Element analysisProjectElement = new Element(ELEMENT_AnalysisProject);
         analysisProjectElement.setAttribute(
-                new Attribute(ATTRIBUTE_AnalysisProjectName, parameters.get(analysisProject_key)));
+                new Attribute(ATTRIBUTE_AnalysisProjectName, parameters.get(PARAM_PROJECT_NAME)));
         analysisProjectElement.setAttribute(new Attribute(ATTRIBUTE_AnalysisProjectVersion,
-                parameters.get(analysisProjectVersion_key)));
+                parameters.get(PARAM_PROJECT_VERSION)));
         final Document document = new Document(analysisProjectElement);
 
         // BEGINNING OF SEQUENCE <xsd:sequence>
@@ -106,9 +106,9 @@ public class ExportXml implements IExport {
 
         final Element analysisInformation = new Element("analysisInformations");
         attributes.add(new Attribute("analysisConfigurationId",
-                parameters.get(analysisConfigurationId_key)));
-        attributes.add(new Attribute("analysisDate", parameters.get(analysisDate_key)));
-        attributes.add(new Attribute("author", parameters.get(analysisAuthor_key)));
+                parameters.get(PARAM_CONFIGURATION_ID)));
+        attributes.add(new Attribute("analysisDate", parameters.get(PARAM_DATE)));
+        attributes.add(new Attribute("author", parameters.get(PARAM_AUTHOR)));
 
         analysisInformation.setAttributes(attributes);
         document.getRootElement().addContent(analysisInformation);
