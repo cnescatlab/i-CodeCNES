@@ -10,6 +10,7 @@
 
 	<properties>
 		<tycho-version>1.0.0</tycho-version>
+		<jflex-version>1.6.1</jflex-version>
 		<project.java.version>1.8</project.java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -94,6 +95,36 @@
 					</environments>
 				</configuration>
 			</plugin>
+
+			<!-- Get the jflex library -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.0.1</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>validate</phase> 
+						<goals>
+							<goal>copy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>de.jflex</groupId>
+							<artifactId>jflex</artifactId>
+							<version>${jflex-version}</version>
+							<type>jar</type>
+							<overWrite>false</overWrite>
+							<outputDirectory>${project.build.directory}/jflex</outputDirectory>
+						</artifactItem>
+					</artifactItems>
+			</configuration>
+			</plugin>
+
 		</plugins>
 
 		<pluginManagement>
@@ -158,7 +189,7 @@
 		<module>fr.cnes.analysis.tools.shell.rules</module>
 
 		<module>fr.cnes.analysis.tools.ui</module>
-		
+
 		<module>fr.cnes.icode.application</module>
 		<module>fr.cnes.icode.feature.core</module>
 		<module>fr.cnes.icode.feature.ui</module>
