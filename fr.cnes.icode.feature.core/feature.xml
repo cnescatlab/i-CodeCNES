@@ -5,6 +5,11 @@
       version="2.0.0.qualifier"
       provider-name="CNES">
 
+   <description>
+      This feature contains the core to run icode analyzer. 
+There is no UI concerns in this feature
+   </description>
+
    <copyright url="http://www.example.com/copyright">
       [Enter Copyright Description here.]
    </copyright>
@@ -101,33 +106,22 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.junit"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources" version="3.10.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.views" version="3.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.e4.ui.workbench.swt" version="0.13.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.e4.ui.model.workbench" version="1.1.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.ide" version="3.11.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jface.text" version="3.10.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.editors" version="3.9.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.e4.core.di" version="1.6.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.export" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.12.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.11.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.export" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.export.csv" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.export.xml" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.languages" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.fortran77.metrics" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.fortran77.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.fortran90.metrics" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.fortran90.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.shell.metrics" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.shell.rules" version="2.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="fr.cnes.analysis.tools.analyzer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.analysis.tools.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -156,6 +150,13 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="fr.cnes.analysis.tools.languages"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.cnes.analysis.tools.analyzer.appli"
          download-size="0"
          install-size="0"
          version="0.0.0"
