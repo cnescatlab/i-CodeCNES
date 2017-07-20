@@ -142,7 +142,6 @@
 	<modules>
 		<module>fr.cnes.icode.tp</module>
 		<module>fr.cnes.analysis.tools.analyzer</module>
-		<module>fr.cnes.analysis.tools.languages</module>
 		<module>fr.cnes.analysis.tools.export</module>
 		<module>fr.cnes.analysis.tools.export.csv</module>
 		<module>fr.cnes.analysis.tools.export.xml</module>
@@ -159,7 +158,10 @@
 		<module>fr.cnes.analysis.tools.shell.rules</module>
 
 		<module>fr.cnes.analysis.tools.ui</module>
+		
+		<module>fr.cnes.icode.application</module>
 		<module>fr.cnes.icode.feature.core</module>
+		<module>fr.cnes.icode.feature.ui</module>
 		<module>fr.cnes.icode.feature.fortran77</module>
 		<module>fr.cnes.icode.feature.fortran90</module>
 		<module>fr.cnes.icode.feature.shell</module>

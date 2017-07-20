@@ -3,26 +3,5 @@
 <plugin>
    <extension-point id="languages" name="languages" schema="schema/languages.exsd"/>
    <extension-point id="checks" name="checks" schema="schema/checks.exsd"/>
-   <extension
-         id="application"
-         point="org.eclipse.core.runtime.applications">
-      <application
-            cardinality="*"
-            thread="main"
-            visible="true">
-         <run
-               class="fr.cnes.analysis.tools.analyzer.AnalyzerApplication">
-         </run>
-      </application>
-   </extension>
-   <extension
-         id="product"
-         name="Icode command line product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="fr.cnes.analysis.tools.analyzer.application"
-            description="The product to run icode using a commande line "
-            name="Cnes Icode Command Line product">
-      </product>
-   </extension>
+   
 </plugin>

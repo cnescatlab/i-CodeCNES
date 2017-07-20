@@ -18,7 +18,6 @@
    <windowImages/>
 
    <launcher name="icodeIDE">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -53,7 +52,7 @@
    </plugins>
 
    <features>
-      <feature id="fr.cnes.icode.feature.core" version="2.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.ui" version="2.0.0.qualifier"/>
       <feature id="fr.cnes.icode.feature.fortran77" version="2.0.0.qualifier"/>
       <feature id="fr.cnes.icode.feature.fortran90" version="2.0.0.qualifier"/>
       <feature id="fr.cnes.icode.feature.shell" version="2.0.0.qualifier"/>
