@@ -17,8 +17,8 @@
 		</classpath>
 	</taskdef>
 
-		<!-- basedir will be the current build path, so must use also .. to access to jar file -->
-	<property name="jflex-jar" value="../fr.cnes.analysis.tools.jflex/lib/jflex-1.6.1/lib/jflex-1.6.1.jar" />
+		<!-- basedir will be the current build path, so must use also .. to access to jar file pulled by the parent pom -->
+	    <property name="jflex-jar" value="../target/jflex/jflex-1.6.1.jar" /> 
 
 	<!-- Override these properties in sub ant files (copy these 2 lines in child and set dest) -->
 	<property name="dest" value="TOBEDEFINED_IN_CHILD with for instance : src-gen/fr/cnes/analysis/tools/fortran77/metrics" />
