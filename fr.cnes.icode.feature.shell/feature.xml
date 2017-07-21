@@ -106,7 +106,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.junit"/>
       <import feature="fr.cnes.icode.feature.core" version="2.0.0"/>
    </requires>
 

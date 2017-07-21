@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.cnes.icode.feature.core"
-      label="iCode CNES Core"
+      id="fr.cnes.icode.feature.ui"
+      label="iCode CNES UI"
       version="2.0.0.qualifier"
-      provider-name="CNES">
+      provider-name="Cnes">
 
-   <description>
-      This feature contains the core to run icode analyzer. 
-There is no UI concerns in this feature
+   <description url="http://www.example.com/description">
+      This feature contains the core feature for icore and the UI concerns to include it in your IDE.
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -104,59 +103,29 @@ Everyone is permitted to copy and distribute copies of this Agreement, but in or
 This Agreement is governed by the laws of the State of New York and the intellectual property laws of the United States of America. No party to this Agreement will bring a legal action under this Agreement more than one year after the cause of action arose. Each party waives its rights to a jury trial in any resulting litigation.
    </license>
 
+   <includes
+         id="fr.cnes.icode.feature.core"
+         version="0.0.0"/>
+
    <requires>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.core.runtime" version="3.12.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.export" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.export.csv" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.export.xml" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.languages" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran77.metrics" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran77.rules" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran90.metrics" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran90.rules" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.shell.metrics" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.shell.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.11.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources" version="3.10.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.views" version="3.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.ui.workbench.swt" version="0.13.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.ui.model.workbench" version="1.1.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.11.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.text" version="3.10.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.editors" version="3.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.core.di" version="1.6.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.export" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface"/>
    </requires>
 
    <plugin
-         id="fr.cnes.analysis.tools.analyzer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.analysis.tools.export"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.analysis.tools.export.csv"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.analysis.tools.export.xml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.analysis.tools.languages"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.cnes.icode.application"
+         id="fr.cnes.analysis.tools.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

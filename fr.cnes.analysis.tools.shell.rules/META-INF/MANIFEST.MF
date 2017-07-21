@@ -8,7 +8,4 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.junit,
- org.junit.runner,
- org.junit.runners
 Bundle-Vendor: CNES

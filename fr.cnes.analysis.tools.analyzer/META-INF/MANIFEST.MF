@@ -13,6 +13,5 @@ Export-Package: fr.cnes.analysis.tools.analyzer;uses:="org.osgi.framework,org.ec
  fr.cnes.analysis.tools.analyzer.exception,
  fr.cnes.analysis.tools.analyzer.services.checkers,
  fr.cnes.analysis.tools.analyzer.services.languages
-Import-Package: org.junit
 Bundle-Vendor: CNES
 Bundle-ClassPath: .

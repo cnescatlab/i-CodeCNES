@@ -1,52 +1,13 @@
 <project name="Metrics" default="generate-all" basedir=".">
 
-	<property name="jflex-jar" value="../fr.cnes.analysis.tools.jflex/lib/jflex-1.6.1/lib/jflex-1.6.1.jar">
-	</property>
-	<property name="dest" value="src-gen/fr/cnes/analysis/tools/fortran90/metrics">
-	</property>
+	<!-- Override the properties used in the generateLex.xml before importing it -->
+	<property name="dest" value="src-gen/fr/cnes/analysis/tools/fortran90/metrics"/>
+	<property name="absdest" location="${dest}"/>
+	<property name="excludedLex" value=""/>
 
-	<target name="clean">
-		<delete dir="src-gen/fr"/>
-	</target>
-
-	<target name="generate-all">
-		<antcall target="generate-METComplexitySimplified">
-		</antcall>
-		<antcall target="generate-METNesting">
-		</antcall>
-		<antcall target="generate-METLineOfCode">
-		</antcall>
-		<antcall target="generate-METRatioComment">
-		</antcall>
-	</target>
-
-	<target name="generate-METComplexitySimplified">
-		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
-			<arg value="lex/F90METComplexitySimplified.lex" />
-		</java>
-		<move file="lex/F90METComplexitySimplified.java" todir="${dest}">
-		</move>
-	</target>
-	<target name="generate-METNesting">
-		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
-			<arg value="lex/F90METNesting.lex" />
-		</java>
-		<move file="lex/F90METNesting.java" todir="${dest}">
-		</move>
-	</target>
-	<target name="generate-METLineOfCode">
-		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
-			<arg value="lex/F90METLineOfCode.lex" />
-		</java>
-		<move file="lex/F90METLineOfCode.java" todir="${dest}">
-		</move>
-	</target>
-	<target name="generate-METRatioComment">
-		<java jar="${jflex-jar}" fork="true" failonerror="true" maxmemory="128m">
-			<arg value="lex/F90METRatioComment.lex" />
-		</java>
-		<move file="lex/F90METRatioComment.java" todir="${dest}">
-		</move>
-	</target>
 	
+	<!-- Warning : must import the file after properties override -->
+	<import file="../generateLex.xml"/>
+
+
 </project>
