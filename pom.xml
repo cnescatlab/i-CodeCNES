@@ -173,6 +173,7 @@
 	<modules>
 		<module>fr.cnes.icode.tp</module>
 		<module>fr.cnes.analysis.tools.analyzer</module>
+		<module>fr.cnes.analysis.tools.languages</module>
 		<module>fr.cnes.analysis.tools.export</module>
 		<module>fr.cnes.analysis.tools.export.csv</module>
 		<module>fr.cnes.analysis.tools.export.xml</module>
