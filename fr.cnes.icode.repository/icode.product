@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Cnes Icode Command Line product" uid="icode.product" id="fr.cnes.analysis.tools.analyzer.product" application="fr.cnes.analysis.tools.analyzer.application" version="2.0.0" useFeatures="true" includeLaunchers="true">
+<product name="Cnes Icode Command Line product" uid="icode.product" id="fr.cnes.icode.application.product" application="fr.cnes.icode.application.application" version="2.0.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
-      <programArgs>-consoleLog
-      </programArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
    </launcherArgs>

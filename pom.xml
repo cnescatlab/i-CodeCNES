@@ -10,6 +10,7 @@
 
 	<properties>
 		<tycho-version>1.0.0</tycho-version>
+		<jflex-version>1.6.1</jflex-version>
 		<project.java.version>1.8</project.java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -95,11 +96,77 @@
 				</configuration>
 			</plugin>
 
+			<!-- Get the jflex library -->
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.0.1</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>validate</phase> 
+						<goals>
+							<goal>copy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>de.jflex</groupId>
+							<artifactId>jflex</artifactId>
+							<version>${jflex-version}</version>
+							<type>jar</type>
+							<overWrite>false</overWrite>
+							<outputDirectory>${project.build.directory}/jflex</outputDirectory>
+						</artifactItem>
+					</artifactItems>
+			</configuration>
 			</plugin>
+
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+					<executions>
+						<execution>
+							<id>generateflex</id>
+							<phase>generate-sources</phase>
+							<configuration>
+								<target>
+									<ant antfile="build.xml">
+										<target name="generate-all" />
+									</ant>
+								</target>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>clean</id>
+							<phase>clean</phase>
+							<configuration>
+								<target>
+									<ant antfile="build.xml">
+										<target name="clean" />
+									</ant>
+								</target>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+
 	</build>
 
 
@@ -110,20 +177,23 @@
 		<module>fr.cnes.analysis.tools.export</module>
 		<module>fr.cnes.analysis.tools.export.csv</module>
 		<module>fr.cnes.analysis.tools.export.xml</module>
-		
+
 		<module>fr.cnes.analysis.tools.fortran77.metrics</module>
 		<module>fr.cnes.analysis.tools.fortran77.rules</module>
-		
-		
+
+
 		<module>fr.cnes.analysis.tools.fortran90.metrics</module>
 		<module>fr.cnes.analysis.tools.fortran90.rules</module>
-		
-		
+
+
 		<module>fr.cnes.analysis.tools.shell.metrics</module>
 		<module>fr.cnes.analysis.tools.shell.rules</module>
-		
+
 		<module>fr.cnes.analysis.tools.ui</module>
+
+		<module>fr.cnes.icode.application</module>
 		<module>fr.cnes.icode.feature.core</module>
+		<module>fr.cnes.icode.feature.ui</module>
 		<module>fr.cnes.icode.feature.fortran77</module>
 		<module>fr.cnes.icode.feature.fortran90</module>
 		<module>fr.cnes.icode.feature.shell</module>
@@ -132,8 +202,8 @@
 		<!-- tests -->
 		<module>tests</module>
 
-		
-		
+
+
 	</modules>
 
 </project>
