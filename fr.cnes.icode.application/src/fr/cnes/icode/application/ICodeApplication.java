@@ -3,15 +3,13 @@ package fr.cnes.icode.application;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.apache.tools.ant.DirectoryScanner;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -96,7 +94,7 @@ public class ICodeApplication implements IApplication {
 
 	private String[] args;
 
-	private List<String> filenames = new ArrayList<>();
+	private List<String> filenames = new ArrayList<String>();
 
 	// Logger information
 	private ILog log;
@@ -208,9 +206,14 @@ public class ICodeApplication implements IApplication {
 
 	private void setHelp(Boolean help) {
 		System.out.println("Minimal Usage : \n\n\ticode files...\n");
-		System.out.println("This will print the result in console using the default output in XML format\n");
-		System.out.println("Available options : ");
-		System.out.println("\t-v : verbose, will display some traces ");
+		System.out.println("This will print the result in console using the default output in XML format.\n");
+		System.out.println("Files can be either absolute paths or patterns like : \t icode *.f90 ~/tmp/**/*.f77 /tmp/myfile.f77\n");
+		System.out.println("Examples :  ");
+		System.out.println("*.f90           : all the f90 files in current directory ");
+		System.out.println("~/tmp/**/*.f77  : all files with f77 extension in $HOME/tmp and any of its sub directoryies");
+		System.out.println("/tmp/myfile.f77 : the specific file /tmp/myfile.f77");
+		System.out.println("\nAvailable options : ");
+		System.out.println("\t-v : verbose, will display some traces, namely the files found in pattern");
 		System.out.println("\t-f [xml | csv] : output format. Can be xml or csv.");
 		System.out.println("\t-output filename : filename to store the result. ");
 		System.out.println("\nFor XML output format these optional parameters can be used in any order : \n");
@@ -229,18 +232,38 @@ public class ICodeApplication implements IApplication {
 	private List<File> resolveFileNames() {
 		List<File> result = new ArrayList<>();
 
-		for (String s : filenames) {
-			if (s.contains("*"))
-				System.out.println("Can not resolve pattern for the moment : " + s);
-			else {
-				File f = new File(s);
-				if (!f.exists())
-					warning("the file '" + s + "' does not exist");
-				else
-					result.add(f);
-			}
+		// Convert parameters into array of Strings for scanner
+		String[] names = new String[filenames.size()];
+		int i = 0;
+		for (String n : filenames) {
+			names[i++] = n;
 		}
+
+		DirectoryScanner scanner = new DirectoryScanner();
+		scanner.setIncludes(names);
+		// Scan with absolute path in scan
+		scanner.setCaseSensitive(false);
+		scanner.scan();
+		scanFiles(scanner, result);
+		// Scan again with basedir for relative path in scan
+		scanner.setBasedir(new File("."));
+		if (verbose)
+			info("Base dir for scan is : " + scanner.getBasedir().getAbsolutePath());
+		scanner.scan();
+		scanFiles(scanner, result);
+
 		return result;
+
+	}
+
+	private void scanFiles(DirectoryScanner scanner, List<File> result) {
+		for (String name : scanner.getIncludedFiles()) {
+			File f = new File(name);
+			if (!f.exists())
+				warning("\t\tthe file '" + name + "' does not exist");
+			else
+				result.add(f);
+		}
 	}
 
 	private void setOutputFilename(String v) {
