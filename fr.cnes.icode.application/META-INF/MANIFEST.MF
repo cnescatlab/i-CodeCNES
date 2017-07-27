@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.cnes.analysis.tools.fortran90.rules;bundle-version="2.0.0",
  fr.cnes.analysis.tools.shell.metrics;bundle-version="2.0.0",
  fr.cnes.analysis.tools.shell.rules;bundle-version="2.0.0"
+Import-Package: org.apache.tools.ant

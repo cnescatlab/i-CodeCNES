@@ -118,6 +118,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="fr.cnes.analysis.tools.fortran90.rules" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="fr.cnes.analysis.tools.shell.metrics" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="fr.cnes.analysis.tools.shell.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.ant"/>
    </requires>
 
    <plugin
