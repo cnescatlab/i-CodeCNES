@@ -62,6 +62,7 @@ public class ICodeApplication implements IApplication {
 	/** The optional output filename */
 	public static final String ARG_OUTPUT_FILE = "-output"; //$NON-NLS-1$
 
+
 	// --------------------------------------------------------------------------------------
 	// Specific additional parameters only relevant for the XML output (no effect on
 	// CSV)
@@ -77,6 +78,9 @@ public class ICodeApplication implements IApplication {
 
 	private List<String> availableArgs = Arrays.asList(new String[] { ARG_HELP, ARG_VERBOSE, ARG_OUTPUT_FORMAT,
 			ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT, ARG_PROJECT_VERSION, ARG_CONFIG_ID });
+
+	// List args that are used alone (no parameters)
+	private List<String> singleArgs = Arrays.asList(new String[] { ARG_HELP, ARG_VERBOSE });
 
 	/** output format to be used by default is XML */
 	private String outputFormat = ARG_OUTPUT_FORMAT_XML;
@@ -133,7 +137,7 @@ public class ICodeApplication implements IApplication {
 			// No single argument without values
 			// Skip all arguments to get filename index
 			if (s.startsWith("-")) {
-				indexFiles += ((s.equals(ARG_VERBOSE) ? 1 : 2)); // Add 2 if not verbose single argument
+				indexFiles += ((singleArgs.contains(s) ? 1 : 2)); // Add 1 for single arguments, else add 2
 				// Check if argument exists
 				if (!availableArgs.contains(s)) {
 					warning("The argument name '" + s + "' is not expected for this command. Check help : ");
