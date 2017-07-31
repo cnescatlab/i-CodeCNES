@@ -169,7 +169,9 @@ public class CheckerExportWizardPage extends WizardPage {
                                 }
                                 parametersFields.put(fieldName, fieldInput);
                             }
+                            nextPage.updateParameters(params);
                         }
+                       
                     } catch (NoContributorMatchingException e) {
                         e.printStackTrace();
                     }
