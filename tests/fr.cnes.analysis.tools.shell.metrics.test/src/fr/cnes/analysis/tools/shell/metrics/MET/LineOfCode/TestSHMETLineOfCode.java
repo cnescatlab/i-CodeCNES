@@ -127,10 +127,10 @@ public class TestSHMETLineOfCode {
                 exceptedValues.put("vm_ls_remote",(float)12.0);
                 for(CheckResult metricValue : functionValues){
                 	assertTrue("Test do not excepts function : "+metricValue.getLocation()+".",exceptedValues.containsKey(metricValue.getLocation()));
-                	assertTrue("Test excepts value of ["+exceptedValues.get(metricValue.getLocation())+"] while metric computed ["+metricValue.getValue()+"].",metricValue.getValue().equals(exceptedValues.get(metricValue.getLocation())));
+                	assertTrue("Test excepts value of ["+Math.round(exceptedValues.get(metricValue.getLocation()))+"] while metric computed ["+Math.round(metricValue.getValue())+"] for the function "+metricValue.getLocation()+".",Math.round(metricValue.getValue()) == Math.round(exceptedValues.get(metricValue.getLocation())));
                 }
                 assertTrue("Test excepts "+exceptedValues.size()+" functions computed for the file while the metric computed ["+functionValues.size()+"].",functionValues.size() == exceptedValues.size());
-            }
+          }
         } catch (final FileNotFoundException e) {
             fail("Erreur d'analyse (FileNotFoundException)");
         } catch (final IOException e) {
