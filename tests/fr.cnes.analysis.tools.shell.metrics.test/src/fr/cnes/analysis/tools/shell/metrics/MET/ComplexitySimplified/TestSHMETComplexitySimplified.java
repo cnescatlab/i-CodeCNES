@@ -9,17 +9,21 @@ package fr.cnes.analysis.tools.shell.metrics.MET.ComplexitySimplified;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.junit.Test;
+
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified;
 import fr.cnes.analysis.tools.shell.metrics.TestUtils;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
-import org.eclipse.core.runtime.FileLocator;
-import org.junit.Test;
 
 /**
  * This class aims to test Don.Declaration rule. There are 2 functions in this
@@ -39,7 +43,7 @@ public class TestSHMETComplexitySimplified {
         try {
             // Initializing rule and getting error file.
             final AbstractChecker metric = new SHMETComplexitySimplified();
-            final String fileName = "file.sh";
+            final String fileName = "nvm.sh";
             final File file = new File(
                     FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
@@ -61,29 +65,54 @@ public class TestSHMETComplexitySimplified {
                 fail("Erreur : Aucun résultat sur le fichier trouvé.");
             } else {
                 assertTrue(fileValue.getFile().getName().equals(fileName));
-                assertTrue(fileValue.getValue().isNaN());
+                assertTrue(fileValue.getValue().equals((float) 131.0));
 
-                // Value 1
                 final List<CheckResult> functionValues = checkResults;
+                Map<String, Float> exceptedValues = new TreeMap<>();
+                exceptedValues.put("MAIN PROGRAM",(float)5.0);
+                exceptedValues.put("nvm_alias",(float)3.0);
+                exceptedValues.put("nvm_alias_path",(float)1.0);
+                exceptedValues.put("nvm_cd",(float)1.0);
+                exceptedValues.put("nvm_clang_version",(float)1.0);
+                exceptedValues.put("nvm_command_info",(float)6.0);
+                exceptedValues.put("nvm_curl_libz_support",(float)1.0);
+                exceptedValues.put("nvm_curl_use_compression",(float)1.0);
+                exceptedValues.put("nvm_curl_version",(float)1.0);
+                exceptedValues.put("nvm_download",(float)4.0);
+                exceptedValues.put("nvm_ensure_version_installed",(float)6.0);
+                exceptedValues.put("nvm_err",(float)1.0);
+                exceptedValues.put("nvm_find_nvmrc",(float)2.0);
+                exceptedValues.put("nvm_find_up",(float)3.0);
+                exceptedValues.put("nvm_get_latest",(float)6.0);
+                exceptedValues.put("nvm_grep",(float)1.0);
+                exceptedValues.put("nvm_has",(float)1.0);
+                exceptedValues.put("nvm_has_colors",(float)2.0);
+                exceptedValues.put("nvm_has_non_aliased",(float)1.0);
+                exceptedValues.put("nvm_has_system_iojs",(float)1.0);
+                exceptedValues.put("nvm_has_system_node",(float)1.0);
+                exceptedValues.put("nvm_install_latest_npm",(float)16.0);
+                exceptedValues.put("nvm_is_alias",(float)1.0);
+                exceptedValues.put("nvm_is_valid_version",(float)4.0);
+                exceptedValues.put("nvm_is_version_installed",(float)1.0);
+                exceptedValues.put("nvm_ls_current",(float)7.0);
+                exceptedValues.put("nvm_make_alias",(float)3.0);
+                exceptedValues.put("nvm_prepend_path",(float)3.0);
+                exceptedValues.put("nvm_print_npm_version",(float)2.0);
+                exceptedValues.put("nvm_rc_version",(float)3.0);
+                exceptedValues.put("nvm_remote_version",(float)10.0);
+                exceptedValues.put("nvm_resolve_alias",(float)11.0);
+                exceptedValues.put("nvm_tree_contains_path",(float)4.0);
+                exceptedValues.put("nvm_version",(float)5.0);
+                exceptedValues.put("nvm_version_dir",(float)5.0);
+                exceptedValues.put("nvm_version_greater",(float)1.0);
+                exceptedValues.put("nvm_version_greater_than_or_equal_to",(float)1.0);
+                exceptedValues.put("nvm_version_path",(float)4.0);
+                for(CheckResult metricValue : functionValues){
+                	assertTrue("Test do not excepts function : "+metricValue.getLocation()+".",exceptedValues.containsKey(metricValue.getLocation()));
+                	assertTrue("Test excepts value of ["+exceptedValues.get(metricValue.getLocation())+"] while metric computed ["+metricValue.getValue()+"].",metricValue.getValue().equals(exceptedValues.get(metricValue.getLocation())));
+                }
+                assertTrue("Test excepts "+exceptedValues.size()+" functions computed for the file while the metric computed ["+functionValues.size()+"].",functionValues.size() == exceptedValues.size());
 
-                CheckResult metricValue = functionValues.get(0);
-                assertTrue(metricValue.getLocation().equals("help"));
-                assertTrue(metricValue.getValue() == 1.0);
-
-                // Value 2
-                metricValue = functionValues.get(1);
-                assertTrue(metricValue.getLocation().equals("search_base_dir"));
-                assertTrue(metricValue.getValue() == 3.0);
-
-                // Value 3
-                metricValue = functionValues.get(2);
-                assertTrue(metricValue.getLocation().equals("verify_process"));
-                assertTrue(metricValue.getValue() == 2.0);
-
-                // Value 4
-                metricValue = functionValues.get(3);
-                assertTrue(metricValue.getLocation().equals("MAIN PROGRAM"));
-                assertTrue(metricValue.getValue() == 12.0);
             }
         } catch (final FileNotFoundException e) {
             fail("Erreur d'analyse (FileNotFoundException)");
