@@ -102,6 +102,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
+	printError();
+	
 	return getCheckResults();
 %eofval}
 
