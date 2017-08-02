@@ -64,10 +64,9 @@ public abstract class AbstractChecker {
      */
     protected void setError(final String pLocation, final String pMessage, final int pLine)
             throws JFlexException {
-        // TODO Improve how is set the language id
         CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                 this.getContribution().getAttribute("id"),
-                this.getContribution().getDeclaringExtension().getExtensionPointUniqueIdentifier());
+                this.getContribution().getAttribute("languageId"));
         checkResult.setLine(pLine);
         checkResult.setLocation(pLocation);
         checkResult.setMessage(pMessage);
@@ -91,11 +90,9 @@ public abstract class AbstractChecker {
      */
     protected void computeMetric(final String pLocation, final float pValue, final int pLine)
             throws JFlexException {
-
-        // TODO Improve how is set the language id
         CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                 this.getContribution().getAttribute("id"),
-                this.getContribution().getDeclaringExtension().getExtensionPointUniqueIdentifier());
+                this.getContribution().getAttribute("languageId"));
         checkResult.setLine(pLine);
         checkResult.setLocation(pLocation);
         checkResult.setValue(pValue);
@@ -114,10 +111,9 @@ public abstract class AbstractChecker {
      */
     public void setInputFile(final File pInputFile) throws FileNotFoundException {
         this.checkResults = new LinkedList<CheckResult>();
-        // TODO improve language identifier retrieval
         CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                 this.getContribution().getAttribute("id"),
-                this.getContribution().getDeclaringExtension().getExtensionPointUniqueIdentifier());
+                this.getContribution().getAttribute("languageId"));
         checkResult.setFile(pInputFile);
         this.inputFile = pInputFile;
     }
