@@ -106,7 +106,7 @@ public class TestSHMETComplexitySimplified {
                 exceptedValues.put("nvm_version_dir",(float)5.0);
                 exceptedValues.put("nvm_version_greater",(float)1.0);
                 exceptedValues.put("nvm_version_greater_than_or_equal_to",(float)1.0);
-                exceptedValues.put("nvm_version_path",(float)4.0);
+                exceptedValues.put("nvm_version_path",(float)5.0);
                 for(CheckResult metricValue : functionValues){
                 	assertTrue("Test do not excepts function : "+metricValue.getLocation()+".",exceptedValues.containsKey(metricValue.getLocation()));
                 	assertTrue("Test excepts value of ["+Math.round(exceptedValues.get(metricValue.getLocation()))+"] while metric computed ["+Math.round(metricValue.getValue())+"] for the function "+metricValue.getLocation()+".",Math.round(metricValue.getValue()) == Math.round(exceptedValues.get(metricValue.getLocation())));
