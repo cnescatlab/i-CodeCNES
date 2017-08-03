@@ -34,6 +34,7 @@ public final class TestUtils {
 
 		when(contribution.getAttribute("id")).thenReturn(id);
 		when(contribution.getAttribute("name")).thenReturn(name);
+        when(contribution.getAttribute("languageId")).thenReturn("");
 
 		return contribution;
 	}
