@@ -13,10 +13,14 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.fortran90.metrics.F90METNesting;
 import fr.cnes.analysis.tools.fortran90.metrics.TestUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.eclipse.core.runtime.FileLocator;
 import org.junit.Test;
 
@@ -38,7 +42,7 @@ public class TestF90METNesting {
         try {
             // Initializing rule and getting error file.
             final AbstractChecker metric = new F90METNesting();
-            final String fileName = "file.f";
+            final String fileName = "type_var2d_pdf2d.f90";
             final File file = new File(
                     FileLocator.resolve(this.getClass().getResource(fileName)).getFile());
 
@@ -59,20 +63,23 @@ public class TestF90METNesting {
             if (fileValue == null) {
                 fail("Erreur : Aucun résultat sur le fichier trouvé.");
             } else {
-                assertTrue(fileValue.getValue().isNaN());
-
-                // Value 1
+            	assertTrue("Test except a file value of ["+Float.NaN +"] while metric computed ["+Math.round(fileValue.getValue())+"].", fileValue.getValue().isNaN());
                 final List<CheckResult> functionValues = checkResults;
+                Map<String, Float> exceptedValues = new TreeMap<>();
+                exceptedValues.put("function  interpolate_var2d_pdf2d_dp",(float)0.0);
+                exceptedValues.put("function  interpolate_var2d_pdf2d_sp",(float)0.0);
+                exceptedValues.put("function  set_var2d_pdf2d_dp",(float)2.0);
+                exceptedValues.put("function  set_var2d_pdf2d_sp",(float)2.0);
+                exceptedValues.put("module  procedure",(float)0.0);
+                exceptedValues.put("module  type_var2d_pdf2d",(float)0.0);
+                exceptedValues.put("subroutine  sample_var2d_pdf2d_dp",(float)1.0);
+                exceptedValues.put("subroutine  sample_var2d_pdf2d_sp",(float)1.0);
 
-                CheckResult metricValue = functionValues.get(0);
-                assertTrue(metricValue.getLocation()
-                        .equals("subroutine  osci_recherche_deb_plan_grp"));
-                assertTrue(metricValue.getValue() == 2.0);
-
-                // Value 2
-                metricValue = functionValues.get(1);
-                assertTrue(metricValue.getLocation().equals("subroutine  ostc_lecdon"));
-                assertTrue(metricValue.getValue() == 2.0);
+                for(CheckResult metricValue : functionValues){
+                	assertTrue("Test do not excepts function : "+metricValue.getLocation()+".",exceptedValues.containsKey(metricValue.getLocation()));
+                	assertTrue("Test excepts value of ["+Math.round(exceptedValues.get(metricValue.getLocation()))+"] while metric computed ["+Math.round(metricValue.getValue())+"] for the function "+metricValue.getLocation()+".",Math.round(metricValue.getValue()) == Math.round(exceptedValues.get(metricValue.getLocation())));
+                }
+                assertTrue("Test excepts "+exceptedValues.size()+" functions computed for the file while the metric computed ["+functionValues.size()+"].",functionValues.size() == exceptedValues.size());
             }
         } catch (final FileNotFoundException e) {
             fail("Erreur d'analyse (FileNotFoundException)");

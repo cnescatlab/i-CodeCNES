@@ -93,6 +93,8 @@ EQUAL		 = \= [^\,\n\"\']*
 %}
 
 %eofval{
+	printError();
+	
 	return getCheckResults();
 %eofval}
 

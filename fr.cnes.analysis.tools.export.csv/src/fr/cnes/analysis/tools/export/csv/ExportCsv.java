@@ -48,10 +48,15 @@ public class ExportCsv implements IExport {
     public void export(List<CheckResult> checkResults, File outputFile,
             Map<String, String> parameters) throws IOException {
         final FileWriter writer = new FileWriter(outputFile);
-        writer.write("Rule, File, Location, Value, Criticity\n");
+        writer.write("Rule, File, Location, Line, Value\n");
         for (final CheckResult checkResult : checkResults) {
-            writer.write(checkResult.getName() + "," + checkResult.getFile().getAbsolutePath() + ","
-                    + checkResult.getLocation() + "," + checkResult.getLine().toString() + "\n");
+            if(checkResult.getValue()!=null){
+            	writer.write(checkResult.getName() + "," + checkResult.getFile().getAbsolutePath() + ","
+                    + checkResult.getLocation() + "," + checkResult.getLine().toString() + "," + checkResult.getValue()+"\n");
+            }else{
+            	writer.write(checkResult.getName() + "," + checkResult.getFile().getAbsolutePath() + ","
+                        + checkResult.getLocation() + "," + checkResult.getLine().toString() + ", -- \n");
+            }
         }
 
         writer.close();
