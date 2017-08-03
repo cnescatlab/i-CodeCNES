@@ -5,10 +5,20 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
+
 /**
- * This class is used to test
+ * This class is used to test UI
+ * 
+ * @deprecated This class is testing old {@link AnalysisHandlerUIUtils} which is
+ *             not used anymore.
  * 
  */
+@Deprecated
 public class TestAnalysisHandlerUIUtils {
 
     /** Message for a SecurityException fail. **/
@@ -46,6 +56,11 @@ public class TestAnalysisHandlerUIUtils {
     public final static String NOT_EMP_PATH_MSG = "Path is not empty";
     /** Assert message when exception is thrown but not the right one. **/
     public final static String WRG_EXCP_MSG = "Wrong exception";
+
+    @Test
+    public void noUITest() {
+        assertTrue(1 == 1);
+    }
 
     // checkSelection(IStructuredSelection)
     // --------------------------------------
