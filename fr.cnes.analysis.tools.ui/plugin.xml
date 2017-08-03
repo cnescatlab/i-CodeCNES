@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="fr.cnes.analysis.tools.preferencePages.utils" name="fr.cnes.analysis.tools.preferencePages.utils" schema="schema/fr.cnes.analysis.tools.preferencePages.utils.exsd"/>
    <extension-point id="configuration" name="configuration" schema="schema/configuration.exsd"/>
     <extension point="org.eclipse.core.resources.markers" id="fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker"
   name="i-Code CNES Violation error marker">
