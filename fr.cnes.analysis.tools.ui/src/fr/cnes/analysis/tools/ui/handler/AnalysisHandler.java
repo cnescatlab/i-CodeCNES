@@ -5,16 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import fr.cnes.analysis.tools.analyzer.Analyzer;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.markers.InformationMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -23,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
@@ -48,6 +39,20 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.handlers.HandlerUtil;
+
+import fr.cnes.analysis.tools.analyzer.Analyzer;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.ui.decorators.InformationDecorator;
+import fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator;
+import fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator;
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
+import fr.cnes.analysis.tools.ui.markers.InformationMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
 /**
  * This class can run analysis using {@link Analyzer} service.
@@ -100,9 +105,10 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
             /*
              * 4. Creation of jobs to run analysis.
              */
-            final AnalysisJob rulesJob = new AnalysisJob("Running analysis...", files, languagesIds,
-                    excludedChecksIds);
-            rulesJob.addJobChangeListener(new JobChangeAdapter() {
+            final AnalysisJob analysisJob = new AnalysisJob("Running analysis...", files,
+                            languagesIds, excludedChecksIds);
+            analysisJob.setUser(true);
+            analysisJob.addJobChangeListener(new JobChangeAdapter() {
 
                 @Override
                 public void done(final IJobChangeEvent event) {
@@ -110,11 +116,11 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
 
                         @Override
                         public void run() {
-                            if (rulesJob.getResult().isOK()) {
-                                List<CheckResult> results = ((AnalysisJob) event.getJob())
-                                        .getCheckResults();
-                                List<CheckResult> resultsViolation = new ArrayList<>();
-                                List<CheckResult> resultsMetric = new ArrayList<>();
+                            if (analysisJob.getResult().isOK()) {
+                                final List<CheckResult> results = ((AnalysisJob) event.getJob())
+                                                .getCheckResults();
+                                final List<CheckResult> resultsViolation = new ArrayList<>();
+                                final List<CheckResult> resultsMetric = new ArrayList<>();
                                 for (CheckResult result : results) {
                                     if (result.getValue() == null) {
                                         resultsViolation.add(result);
@@ -124,12 +130,7 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
                                 }
                                 AnalysisHandler.updateViolationsView(resultsViolation);
                                 AnalysisHandler.updateMetricsView(resultsMetric);
-                                try {
-                                    AnalysisHandler.insertMarkers(results);
-                                } catch (InvocationTargetException | InterruptedException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
+                                AnalysisHandler.insertMarkers(results);
                             }
                         }
                     });
@@ -137,13 +138,13 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
             });
 
             final JobGroup group = new JobGroup("i-Code CNES Analysis.", 2, 2);
-            rulesJob.setJobGroup(group);
+            analysisJob.setJobGroup(group);
 
             // Launching the analysis.
-            rulesJob.schedule();
+            analysisJob.schedule();
         } catch (EmptySelectionException | CoreException exception) {
             MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "Core exception",
-                    exception.getMessage());
+                            exception.getMessage());
         }
         LOGGER.exiting(this.getClass().getName(), METHOD, null);
         return null;
@@ -161,17 +162,17 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
      *             when some resources are not reachable.
      */
     private List<File> retrieveSelectedFiles(IStructuredSelection pSelection)
-            throws EmptySelectionException, CoreException {
+                    throws EmptySelectionException, CoreException {
         METHOD = "retrieveSelectedFiles";
         LOGGER.entering(this.getClass().getName(), METHOD, pSelection);
         final List<File> files = new ArrayList<>();
-        final Iterator<IResource> selectionIterator = pSelection.iterator();
+        final Iterator<?> selectionIterator = pSelection.iterator();
         if (!selectionIterator.hasNext()) {
-            throw new EmptySelectionException(
-                    "i-Code CNES : Please select file(s) in the Project Explorer before running an analysis.");
+            throw new EmptySelectionException("i-Code CNES : Please select file(s) in the Project"
+                            + " Explorer before running an analysis.");
         }
         while (selectionIterator.hasNext()) {
-            final IResource selection = selectionIterator.next();
+            final IResource selection = (IResource) selectionIterator.next();
             files.addAll(this.findFiles(selection));
         }
         LOGGER.exiting(this.getClass().getName(), METHOD, files);
@@ -198,26 +199,26 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
         LOGGER.entering(this.getClass().getName(), METHOD);
         final List<File> files = new ArrayList<>();
         switch (selection.getType()) {
-            case IResource.ROOT:
-                for (IResource resource : ((IWorkspaceRoot) selection).members()) {
-                    files.addAll(this.findFiles(resource));
-                }
-                break;
-            case IResource.PROJECT:
-                for (IResource resource : ((IProject) selection).members()) {
-                    files.addAll(this.findFiles(resource));
-                }
-                break;
-            case IResource.FOLDER:
-                for (IResource resource : ((IFolder) selection).members()) {
-                    files.addAll(this.findFiles(resource));
-                }
-                break;
-            case IResource.FILE:
-                files.add(((IFile) selection).getLocation().toFile().getAbsoluteFile());
-                break;
-            default:
-                break;
+        case IResource.ROOT:
+            for (IResource resource : ((IWorkspaceRoot) selection).members()) {
+                files.addAll(this.findFiles(resource));
+            }
+            break;
+        case IResource.PROJECT:
+            for (IResource resource : ((IProject) selection).members()) {
+                files.addAll(this.findFiles(resource));
+            }
+            break;
+        case IResource.FOLDER:
+            for (IResource resource : ((IFolder) selection).members()) {
+                files.addAll(this.findFiles(resource));
+            }
+            break;
+        case IResource.FILE:
+            files.add(((IFile) selection).getLocation().toFile().getAbsoluteFile());
+            break;
+        default:
+            break;
         }
         LOGGER.exiting(this.getClass().getName(), METHOD, files);
         return files;
@@ -236,7 +237,7 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
         try {
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                    .getActivePage();
+                            .getActivePage();
 
             // open view
             page.showView(ViolationsView.VIEW_ID);
@@ -251,9 +252,10 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
 
         } catch (final PartInitException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.exiting(AnalysisHandler.class.getName(), METHOD);
@@ -272,7 +274,7 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
         try {
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                    .getActivePage();
+                            .getActivePage();
 
             // open view
             page.showView(MetricsView.VIEW_ID);
@@ -287,14 +289,16 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
 
         } catch (final PartInitException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         } catch (final EmptyProviderException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             showError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.exiting(AnalysisHandler.class.getName(), METHOD);
@@ -306,123 +310,198 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
      * 
      * @param checks
      *            the checks to add marker with
-     * @throws InterruptedException
-     * @throws InvocationTargetException
      */
-    public static void insertMarkers(List<CheckResult> checks)
-            throws InvocationTargetException, InterruptedException {
+    public static void insertMarkers(List<CheckResult> checks) {
         LOGGER.finest("begin method insertMarkers");
         final ProgressMonitorDialog pmdialog = new ProgressMonitorDialog(
-                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-        pmdialog.run(true, true, new WorkspaceModifyOperation() {
+                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+        try {
+            pmdialog.run(true, true, new WorkspaceModifyOperation() {
+                @Override
+                protected void execute(final IProgressMonitor monitor) throws CoreException,
+                                InvocationTargetException, InterruptedException {
+                    try {
 
-            @Override
-            protected void execute(final IProgressMonitor monitor)
-                    throws CoreException, InvocationTargetException, InterruptedException {
-                // create all my markers here
-
-                try {
-
-                    final HashSet<IFile> cleanedFiles = new HashSet<IFile>();
-                    String ruleName, severity, message = "Violation detected here.";
-                    Integer line;
-                    IFile file;
-
-                    for (final CheckResult check : checks) {
-                        file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
-                                new Path(check.getFile().getAbsolutePath()).makeRelativeTo(
-                                        ResourcesPlugin.getWorkspace().getRoot().getFullPath()));
-                        if (file != null && file.exists()) {
-                            // If the file already has marker of type violations
-                            // then we clean the file once
-                            if (file != null && !cleanedFiles.contains(file)) {
-                                cleanedFiles.add(file);
-                                file.deleteMarkers(
-                                        "fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker",
-                                        true, 1);
-                                file.deleteMarkers(
-                                        "fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker",
-                                        true, 1);
-                                file.deleteMarkers(
-                                        "fr.cnes.analysis.tools.ui.markers.InformationMarker", true,
-                                        1);
+                        final HashSet<IFile> cleanedFiles = new HashSet<IFile>();
+                        String message = "Violation detected here.";
+                        IFile file;
+                        for (final CheckResult check : checks) {
+                            file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
+                                            new Path(check.getFile().getAbsolutePath())
+                                                            .makeRelativeTo(ResourcesPlugin
+                                                                            .getWorkspace()
+                                                                            .getRoot()
+                                                                            .getFullPath()));
+                            if (file != null && file.exists()) {
+                                if (!cleanedFiles.contains(file)) {
+                                    cleanedFiles.add(file);
+                                    file.deleteMarkers(ViolationErrorMarker.MARKER, true, 1);
+                                    file.deleteMarkers(ViolationWarningMarker.MARKER, true, 1);
+                                    file.deleteMarkers(InformationMarker.MARKER, true, 1);
+                                }
                             }
-                        }
-
-                        Float limit = Float.NaN;
-                        boolean violation = false;
-
-                        if (UserPreferencesService.hasMaxValue(check.getId())
-                                && !UserPreferencesService.getMaxValue(check.getId()).isNaN()) {
-                            limit = UserPreferencesService.getMaxValue(check.getId());
-                            violation = check.getValue().compareTo(limit) > 0;
-                            message = violation
-                                    ? check.getName() + " | Value is " + check.getValue()
-                                            + " while it should not exceed " + limit + "."
-                                    : check.getName() + " | Value is " + check.getValue()
-                                            + ", below it's maximum limit of " + limit + ".";
-                        } else if (UserPreferencesService.hasMinValue(check.getId())
-                                && !UserPreferencesService.getMaxValue(check.getId()).isNaN()) {
-                            limit = UserPreferencesService.getMinValue(check.getId());
-                            violation = check.getValue().compareTo(limit) < 0;
-                            message = violation
-                                    ? check.getName() + " | Value is " + check.getValue()
-                                            + " while it should not below  " + limit + "."
-                                    : check.getName() + " | Value is " + check.getValue()
-                                            + ", above it's minimum limit of  " + limit + ".";
-                        } else {
-                            if (check.getMessage() == null || check.getMessage().isEmpty()) {
-                                if (check.getValue() != null && !check.getValue().isNaN()) {
-                                    message = check.getName() + " | Value is " + check.getValue()
-                                            + ".";
+                            Float limit = Float.valueOf(Float.NaN);
+                            boolean violation = false;
+                            if (UserPreferencesService.hasMaxValue(check.getId())
+                                            && !UserPreferencesService.getMaxValue(check.getId())
+                                                            .isNaN()) {
+                                limit = UserPreferencesService.getMaxValue(check.getId());
+                                violation = check.getValue().compareTo(limit) > 0;
+                                if (violation) {
+                                    message = getMaximumViolationMessage(check.getName(),
+                                                    check.getValue(), limit);
                                 } else {
-                                    message = check.getName()
-                                            + " | No message in description. Please refer to CNES"
-                                            + " RNC.";
-                                    violation = true;
+                                    message = getMaximumComplianceMessage(check.getName(),
+                                                    check.getValue(), limit);
+
+                                }
+                            } else if (UserPreferencesService.hasMinValue(check.getId())
+                                            && !UserPreferencesService.getMaxValue(check.getId())
+                                                            .isNaN()) {
+                                limit = UserPreferencesService.getMinValue(check.getId());
+                                violation = check.getValue().compareTo(limit) < 0;
+                                if (violation) {
+                                    message = getMinimumViolationMessage(check.getName(),
+                                                    check.getValue(), limit);
+                                } else {
+                                    message = getMinimumComplianceMessage(check.getName(),
+                                                    check.getValue(), limit);
                                 }
                             } else {
-                                message = check.getName() + " | " + check.getMessage();
-                                violation = true;
+                                if (check.getMessage() == null || check.getMessage().isEmpty()) {
+                                    if (check.getValue() != null && !check.getValue().isNaN()) {
+                                        message = getDefaultMetricComputedMessage(check.getName(),
+                                                        check.getValue());
+                                    } else {
+                                        message = getDefaultMetricUncomputedMessage(
+                                                        check.getName());
+                                        violation = false;
+                                    }
+                                } else {
+                                    message = check.getName() + " | " + check.getMessage();
+                                    violation = true;
+                                }
+
                             }
 
+                            if (violation && UserPreferencesService
+                                            .getCheckerSeverity(check.getId())
+                                            .equals(UserPreferencesService.PREF_SEVERITY_ERROR_VALUE)) {
+                                ViolationErrorMarker.createMarker(file, check.getLine(),
+                                                check.getName(), message);
+                            } else if (violation && UserPreferencesService
+                                            .getCheckerSeverity(check.getId())
+                                            .equals(UserPreferencesService.PREF_SEVERITY_WARNING_VALUE)) {
+                                ViolationWarningMarker.createMarker(file, check.getLine(),
+                                                check.getName(), message);
+                            } else {
+                                InformationMarker.createMarker(file, check.getLine(),
+                                                check.getName(), message);
+                            }
                         }
+                    } catch (final CoreException exception) {
+                        LOGGER.log(Level.FINER,
+                                        exception.getClass() + " : " + exception.getMessage(),
+                                        exception);
+                        MessageDialog.openError(
+                                        PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                                        .getShell(),
+                                        "Marker problem", exception.getMessage());
 
-                        if (violation && UserPreferencesService.getCheckerSeverity(check.getId())
-                                .equals(UserPreferencesService.PREF_SEVERITY_ERROR_VALUE)) {
-                            ViolationErrorMarker.createMarker(file, check.getLine(),
-                                    check.getName(), message);
-                        } else if (violation
-                                && UserPreferencesService.getCheckerSeverity(check.getId()).equals(
-                                        UserPreferencesService.PREF_SEVERITY_WARNING_VALUE)) {
-                            ViolationWarningMarker.createMarker(file, check.getLine(),
-                                    check.getName(), message);
-                        } else {
-                            InformationMarker.createMarker(file, check.getLine(), check.getName(),
-                                    message);
-                        }
                     }
-                } catch (final CoreException exception) {
-                    LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
-                    MessageDialog.openError(
-                            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Marker problem", exception.getMessage());
-
                 }
-            }
-        });
+            });
+        } catch (InvocationTargetException | InterruptedException exception) {
+            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
+                            exception);
+            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                            "Marker problem", exception.getMessage());
+        }
         // One time all markers have been insert, we refresh all
         // decorators.
 
         final IDecoratorManager manager = PlatformUI.getWorkbench().getDecoratorManager();
 
-        manager.update("fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator");
-        manager.update("fr.cnes.analysis.tools.ui.decorators.violationerrordecorator");
-        manager.update("fr.cnes.analysis.tools.ui.decorators.informationdecorator");
+        manager.update(ViolationWarningDecorator.ID);
+        manager.update(ViolationErrorDecorator.ID_VIOLATION_ERROR_DECORATOR);
+        manager.update(InformationDecorator.ID_INFORMATION_DECORATOR);
 
         LOGGER.finest("end method insertMarkers");
 
+    }
+
+    /**
+     * @param name
+     *            of the metric
+     * @return Default message when a metric is not being computed for a
+     *         function.
+     */
+    protected static String getDefaultMetricUncomputedMessage(String name) {
+        return name + " | Checker value for this function was not computed. Please refer to CNES"
+                        + " RNC for more informations.";
+    }
+
+    /**
+     * @param name
+     *            of the metric
+     * @param value
+     *            of the metric
+     * @return default message when a metric is computed.
+     */
+    protected static String getDefaultMetricComputedMessage(String name, Float value) {
+        return name + " | Value is " + value + ".";
+    }
+
+    /**
+     * @param name
+     *            of the metric
+     * @param value
+     *            of the metric
+     * @param limit
+     *            set by the user for the metric
+     * @return the error message
+     */
+    protected static String getMaximumViolationMessage(String name, Float value, Float limit) {
+        return name + " | Value is " + value + " while it should not exceed " + limit + ".";
+    }
+
+    /**
+     * @param name
+     *            of the metric
+     * @param value
+     *            of the metric
+     * @param limit
+     *            set by the user for the metric
+     * @return the compliance message
+     */
+    protected static String getMaximumComplianceMessage(String name, Float value, Float limit) {
+        return name + " | Value is " + value + ", below it's maximum limit of " + limit + ".";
+    }
+
+    /**
+     * @param name
+     *            of the metric
+     * @param value
+     *            of the metric
+     * @param limit
+     *            set by the user for the metric
+     * @return the error message
+     */
+    protected static String getMinimumViolationMessage(String name, Float value, Float limit) {
+        return name + " | Value is " + value + " while it should not below " + limit + ".";
+    }
+
+    /**
+     * @param name
+     *            of the metric
+     * @param value
+     *            of the metric
+     * @param limit
+     *            set by the user for the metric
+     * @return the error message
+     */
+    protected static String getMinimumComplianceMessage(String name, Float value, Float limit) {
+        return name + " | Value is " + value + " above it's minimum limit of " + limit + ".";
     }
 
 }
