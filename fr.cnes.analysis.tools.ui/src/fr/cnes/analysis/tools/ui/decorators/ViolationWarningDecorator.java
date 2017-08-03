@@ -5,15 +5,17 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.decorators;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
 import java.util.List;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
+
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
 
 /**
  * ViolationWarningDecorator add decorators to the file's icon when there is
@@ -32,6 +34,11 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
      * Link to the i-Code CNES Warning criticity icon.
      */
     public static final String ICON = ImageFactory.WARNING_VERY_SMALL;
+    /**
+     * Decorator identifier
+     */
+    public static final String ID = "fr.cnes.analysis.tools.ui.decorators."
+                    + "violationwarningdecorator";
 
     /*
      * (non-Javadoc)
@@ -47,9 +54,9 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
             // We add a ViolationWarningDecorator only if there is a warning in
             // the file and that there is no errors markers in the file
             final List<IMarker> vErrorMarkers = ViolationErrorMarker
-                    .findAllMarkers((IResource) resource);
+                            .findAllMarkers((IResource) resource);
             final List<IMarker> vWarningMarkers = ViolationWarningMarker
-                    .findAllMarkers((IResource) resource);
+                            .findAllMarkers((IResource) resource);
 
             if (vErrorMarkers.isEmpty() && !vWarningMarkers.isEmpty()) {
                 // If the file do not contain error marker and contain warning
