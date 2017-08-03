@@ -2,6 +2,8 @@ package fr.cnes.icode.application;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,12 +11,23 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.tools.ant.DirectoryScanner;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import fr.cnes.analysis.tools.analyzer.Analyzer;
@@ -41,6 +54,8 @@ import fr.cnes.analysis.tools.export.xml.ExportXml;
  */
 public class ICodeApplication implements IApplication {
 
+	private static final String FORMAT2HTML_XSLT = "format2html.xslt";
+
 	// -----------------------------------------------
 	// Define the parameters for this application
 	// -----------------------------------------------
@@ -62,6 +77,12 @@ public class ICodeApplication implements IApplication {
 	/** The optional output filename */
 	public static final String ARG_OUTPUT_FILE = "-output"; //$NON-NLS-1$
 
+	/** The optional output HTML filename */
+	public static final String ARG_HTML_OUTPUT_FILE = "-htmlOutput"; //$NON-NLS-1$
+
+	/** The optional html output format (only if xml is used) */
+	public static final String ARG_HTML = "-html"; //$NON-NLS-1$
+
 	// --------------------------------------------------------------------------------------
 	// Specific additional parameters only relevant for the XML output (no effect on
 	// CSV)
@@ -75,8 +96,12 @@ public class ICodeApplication implements IApplication {
 	/** The optional configuration ID (for XML output) */
 	public static final String ARG_CONFIG_ID = "-configID"; //$NON-NLS-1$
 
-	private List<String> availableArgs = Arrays.asList(new String[] { ARG_HELP, ARG_VERBOSE, ARG_OUTPUT_FORMAT,
-			ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT, ARG_PROJECT_VERSION, ARG_CONFIG_ID });
+	private List<String> availableArgs = Arrays
+			.asList(new String[] { ARG_HELP, ARG_VERBOSE, ARG_OUTPUT_FORMAT, ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT,
+					ARG_PROJECT_VERSION, ARG_CONFIG_ID, ARG_HTML_OUTPUT_FILE, ARG_HTML });
+
+	// List args that are used alone (no parameters)
+	private List<String> singleArgs = Arrays.asList(new String[] { ARG_HELP, ARG_VERBOSE, ARG_HTML });
 
 	/** output format to be used by default is XML */
 	private String outputFormat = ARG_OUTPUT_FORMAT_XML;
@@ -84,8 +109,28 @@ public class ICodeApplication implements IApplication {
 	/** output filename to be used, by default sysout */
 	private String outputFilename = null;
 
+	/** Output file depending on -output or temporary file */
+	private File outputFile = null;
+
+	/** HTML output filename to be used, by default sysout */
+	private String htmlOutputFilename = null;
+
+	/** Real HTML file created (with parameter or temporary) */
+	private File htmlOutputFile = null;
+
 	/** verbose mode (default is false) */
 	private boolean verbose = false;
+
+	/** HTML output (default is false) */
+	private boolean htmlOutput = false;
+
+	public boolean isHtmlOutput() {
+		return htmlOutput;
+	}
+
+	public void setHtmlOutput(boolean htmlOutput) {
+		this.htmlOutput = htmlOutput;
+	}
 
 	/** config ID */
 	private String configID = null;
@@ -110,6 +155,7 @@ public class ICodeApplication implements IApplication {
 		log = Platform.getLog(FrameworkUtil.getBundle(getClass()));
 
 		getBooleanArg(ARG_VERBOSE, v -> setVerbose(v));
+		getBooleanArg(ARG_HTML, v -> setHtmlOutput(v));
 
 		if (verbose)
 			info("Running ICode Analyzer ");
@@ -133,7 +179,7 @@ public class ICodeApplication implements IApplication {
 			// No single argument without values
 			// Skip all arguments to get filename index
 			if (s.startsWith("-")) {
-				indexFiles += ((s.equals(ARG_VERBOSE) ? 1 : 2)); // Add 2 if not verbose single argument
+				indexFiles += ((singleArgs.contains(s) ? 1 : 2)); // Add 1 for single arguments, else add 2
 				// Check if argument exists
 				if (!availableArgs.contains(s)) {
 					warning("The argument name '" + s + "' is not expected for this command. Check help : ");
@@ -166,10 +212,20 @@ public class ICodeApplication implements IApplication {
 		// -------------------------------------
 		getArgValue(ARG_OUTPUT_FORMAT, v -> setOutputFormat(v));
 		getArgValue(ARG_OUTPUT_FILE, v -> setOutputFilename(v));
+		getArgValue(ARG_HTML_OUTPUT_FILE, v -> setHtmlOutputFilename(v));
 		getArgValue(ARG_AUTHOR, v -> setAuthor(v));
 		getArgValue(ARG_PROJECT, v -> setProjectName(v));
 		getArgValue(ARG_PROJECT_VERSION, v -> setProjectVersion(v));
 		getArgValue(ARG_CONFIG_ID, v -> setConfigID(v));
+
+		// Display additional verbose information if optional parameters were missing
+		if (verbose) {
+			if (outputFilename == null)
+				info("  -> Output filename : " + getOutputFile().getAbsolutePath());
+			if (outputFormat == ARG_OUTPUT_FORMAT_XML && htmlOutputFilename == null)
+				info("  -> HTML Output filename (tmp) : " + getHtmlOutputFile().getAbsolutePath());
+
+		}
 
 		// -------------------------------------------------------------------
 		// 4. Can now launch the job using the Analyzer and export the results
@@ -187,12 +243,44 @@ public class ICodeApplication implements IApplication {
 
 		exporter.export(checks, outputFile, exporter.getParameters());
 
-		// print the file content if no outputfilename (-> temporoary file)
+		// print the file content if no outputfilename (-> temporary file)
 		if (outputFilename == null) {
 			displayFile(outputFile);
 		}
 
+		// Try to launch HTML processing
+		if (isHtmlOutput()) {
+			generateHtml(outputFile);
+			// Print the HTML result if any and if no XML already displayed and no HTML
+			// output provided
+			if (outputFilename != null && htmlOutputFilename == null)
+				displayFile(getHtmlOutputFile());
+		}
+
 		return EXIT_OK;
+	}
+
+	private void generateHtml(File xmlInputFile) throws TransformerFactoryConfigurationError, URISyntaxException,
+			TransformerConfigurationException, TransformerException {
+		TransformerFactory factory = TransformerFactory.newInstance();
+		Bundle b = FrameworkUtil.getBundle(getClass());
+		URL xslUrl = b.getEntry(FORMAT2HTML_XSLT);
+
+		File dataFile = null;
+		try {
+			dataFile = new File(FileLocator.resolve(xslUrl).toURI());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		Source xslt = new StreamSource(dataFile);
+		Transformer transformer = factory.newTransformer(xslt);
+
+		Source text = new StreamSource(xmlInputFile);
+		File result = getHtmlOutputFile();
+		transformer.transform(text, new StreamResult(result));
 	}
 
 	private void displayFile(File outputFile) {
@@ -207,24 +295,36 @@ public class ICodeApplication implements IApplication {
 	private void setHelp(Boolean help) {
 		System.out.println("Minimal Usage : \n\n\ticode files...\n");
 		System.out.println("This will print the result in console using the default output in XML format.\n");
-		System.out.println("Files can be either absolute paths or patterns like : \t icode *.f90 ~/tmp/**/*.f77 /tmp/myfile.f77\n");
+		System.out.println(
+				"Files can be either absolute paths or patterns like : \t icode *.f90 ~/tmp/**/*.f77 /tmp/myfile.f77\n");
 		System.out.println("Examples :  ");
 		System.out.println("*.f90           : all the f90 files in current directory ");
-		System.out.println("~/tmp/**/*.f77  : all files with f77 extension in $HOME/tmp and any of its sub directoryies");
+		System.out
+				.println("~/tmp/**/*.f77  : all files with f77 extension in $HOME/tmp and any of its sub directoryies");
 		System.out.println("/tmp/myfile.f77 : the specific file /tmp/myfile.f77");
 		System.out.println("\nAvailable options : ");
 		System.out.println("\t-v : verbose, will display some traces, namely the files found in pattern");
 		System.out.println("\t-f [xml | csv] : output format. Can be xml or csv.");
-		System.out.println("\t-output filename : filename to store the result. ");
+		System.out.println(
+				"\t-output filename : optional, filename to store the xml or csv result. If none will be displayed in shell ");
+		System.out.println("\t-html : display html output (only for xml output with -output) ");
+		System.out.println("\t-htmlOutput filename : optional, filename to store the html transformation");
 		System.out.println("\nFor XML output format these optional parameters can be used in any order : \n");
 		System.out.println("\t\t-project yourProject -projectVersion yourVersion -author yourName -configID yourID \n");
-		System.out.println("These XML parameters are not used by CSV\n");
+		System.out.println(
+				"\nFor HTML output format it is possible to specify the html output file. \nIf none and no xml output file provided, html result will be displayed in shell \n");
+		System.out.println("The XML and HTML parameters are not used by CSV format\n");
 		System.out.println("Examples:");
 		System.out.println("\ticode  -f xml -output result.xml *.f ");
 		System.out.println("\ticode  -f xml -author Me -output result.xml *.f ");
 		System.out.println("\ticode  -f xml -author Me -project MyProject -output result.xml *.f ");
 		System.out
 				.println("\ticode  -f xml -author Me -project MyProject -projectVersion 1.2.0 -output result.xml *.f ");
+
+		System.out.println("\ticode -html *.f ");
+		System.out.println("\ticode -f xml -output result.xml -html *.f ");
+		System.out.println("\ticode -f xml -output result.xml -html -htmlOutput result.html *.f ");
+
 		System.exit(0);
 	}
 
@@ -273,21 +373,52 @@ public class ICodeApplication implements IApplication {
 			outputFilename = null;
 
 		if (verbose)
-			info("  -> Output filename : " + (outputFilename == null ? "in console" : outputFilename));
+			info("  -> Output filename : " + outputFilename);
 
 	}
 
+	public String getHtmlOutputFilename() {
+		return htmlOutputFilename;
+	}
+
+	public void setHtmlOutputFilename(String v) {
+		if ((v != null) && v.length() > 0)
+			htmlOutputFilename = v;
+		else
+			htmlOutputFilename = null;
+
+		if (verbose)
+			info("  -> HTML Output filename : " + htmlOutputFilename);
+	}
+
 	private File getOutputFile() {
-		if (outputFilename != null)
-			return new File(outputFilename);
-		else {
-			try {
-				return File.createTempFile("icodeResult", outputFormat);
-			} catch (IOException e) {
-				e.printStackTrace();
+		if (outputFile == null) {
+			if (outputFilename != null)
+				outputFile = new File(outputFilename);
+			else {
+				try {
+					outputFile = File.createTempFile("icodeResult", outputFormat);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		return null;
+		return outputFile;
+	}
+
+	private File getHtmlOutputFile() {
+		if (htmlOutputFile == null) {
+			if (htmlOutputFilename != null)
+				htmlOutputFile = new File(htmlOutputFilename);
+			else {
+				try {
+					htmlOutputFile = File.createTempFile("icodeResult", ".html");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return htmlOutputFile;
 	}
 
 	/** Set the config file if any */
@@ -332,9 +463,13 @@ public class ICodeApplication implements IApplication {
 	}
 
 	private void setOutputFormat(String value) {
-		if (ARG_OUTPUT_FORMAT_CSV.equals(value))
+		if (ARG_OUTPUT_FORMAT_CSV.equals(value)) {
 			outputFormat = ARG_OUTPUT_FORMAT_CSV;
-		else if (ARG_OUTPUT_FORMAT_XML.equals(value)) {
+			// No html output for csv
+			if (verbose && htmlOutput)
+				info("  -> The -html argument is useless. Can be applied only if output is XML");
+			htmlOutput = false;
+		} else if (ARG_OUTPUT_FORMAT_XML.equals(value)) {
 			outputFormat = ARG_OUTPUT_FORMAT_XML;
 		} else
 			warning("Parameter for outputFileFormat (-f) must be 'csv' or 'xml', default is 'xml'");
