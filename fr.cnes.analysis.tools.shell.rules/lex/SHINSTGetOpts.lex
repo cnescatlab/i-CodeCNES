@@ -136,7 +136,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 <STRING>
 	{
 				{PARAMETER} {
-								if(!(functionContainGetOpt && yytext().matches("[\\$][\\1]"))){
+								if(!(functionContainGetOpt && yytext().matches("\\$1"))){
 										String result = functionContainGetOpt ? "true" : "false";
 										LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - setError (Detection : PARAMETER \""+yytext()+"\" && functionContainGetOpt="+result+" )");
 										setError(location,"Parameter "+yytext()+" must be treated with getopt or getopts command.", yyline+1);
@@ -182,7 +182,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 									/*
 									 * We do not raise error if it's $1  parameter call when a getopts was found because the command require this use.
 									 */
-									if(!(functionContainGetOpt && yytext().matches("[\\$][1]"))){
+									if(!(functionContainGetOpt && yytext().matches("\\$1"))){
 										String result = functionContainGetOpt ? "true" : "false";
 										LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - setError (Detection : PARAMETER \""+yytext()+"\" && functionContainGetOpt="+result+" )");
 										setError(location,"Parameters must be treated with getopt or getopts command.", yyline+1);}

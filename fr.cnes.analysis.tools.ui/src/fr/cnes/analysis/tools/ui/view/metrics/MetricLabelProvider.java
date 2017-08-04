@@ -23,24 +23,26 @@ import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
  * 
  */
 public class MetricLabelProvider extends AbstractLabelProvider {
-    /** Logger **/
-    private final static Logger LOGGER = Logger.getLogger(MetricLabelProvider.class.getName());
-
     /** Static values that determines column types. **/
     /** This value is for metric name column. **/
-    public final static int METRIC_NAME = 0;
+    public static final int METRIC_NAME = 0;
     /** This value is for metric value column. **/
-    public final static int METRIC_VALUE = 1;
+    public static final int METRIC_VALUE = 1;
     /** This value is for mean value column. **/
-    public final static int MEAN = 2;
+    public static final int MEAN = 2;
     /** This value is for minimum value column. **/
-    public final static int MINIMUM = 3;
+    public static final int MINIMUM = 3;
     /** This value is for maximum value column. **/
-    public final static int MAXIMUM = 4;
+    public static final int MAXIMUM = 4;
     /** This value is for minimum resource cause column. **/
-    public final static int MIN_CAUSE = 5;
+    public static final int MIN_CAUSE = 5;
     /** This value is for maximum resource cause column. **/
-    public final static int MAX_CAUSE = 6;
+    public static final int MAX_CAUSE = 6;
+
+    /** Logger **/
+    private static final Logger LOGGER = Logger.getLogger(MetricLabelProvider.class.getName());
+    /** Nan value displaying */
+    private static final String NAN_VALUE_DISPLAY = "--";
 
     /**
      * Constructor with integer parameter which represents the column created.
@@ -70,13 +72,14 @@ public class MetricLabelProvider extends AbstractLabelProvider {
             }
         } else {
             final UnknownInstanceException exception = new UnknownInstanceException(
-                    "getForeground method of MetricLabelProvider class has a "
-                            + element.getClass().getName()
-                            + " element, but it should be a Viewable instance.");
+                            "getForeground method of MetricLabelProvider class has a "
+                                            + element.getClass().getName()
+                                            + " element, but it should be a Viewable instance.");
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.finest("End getForeground method");
@@ -96,66 +99,68 @@ public class MetricLabelProvider extends AbstractLabelProvider {
         String text = "";
         if (element instanceof IMetricDescriptor) {
             switch (this.getType()) {
-                case METRIC_NAME:
-                    text = ((IMetricDescriptor) element).getName();
-                    break;
-                case METRIC_VALUE:
-                    if (((IMetricDescriptor) element).getValue().isInfinite()
-                            || ((IMetricDescriptor) element).getValue().isNaN()) {
-                        text = "--";
-                    } else {
-                        text = ((IMetricDescriptor) element).getValue().toString();
-                    }
-                    break;
-                case MEAN:
-                    if (((IMetricDescriptor) element).getValue().isInfinite()
-                            || ((IMetricDescriptor) element).getMean().isNaN()) {
-                        text = "--";
-                    } else {
-                        text = ((IMetricDescriptor) element).getMean().toString();
-                    }
-                    break;
-                case MINIMUM:
-                    if (((IMetricDescriptor) element).getValue().isInfinite()
-                            || ((IMetricDescriptor) element).getMinimum().isNaN()) {
-                        text = "--";
-                    } else {
-                        text = ((IMetricDescriptor) element).getMinimum().toString();
-                    }
-                    break;
-                case MAXIMUM:
-                    if (((IMetricDescriptor) element).getValue().isInfinite()
-                            || ((IMetricDescriptor) element).getMaximum().isNaN()) {
-                        text = "--";
-                    } else {
-                        text = ((IMetricDescriptor) element).getMaximum().toString();
-                    }
-                    break;
-                case MIN_CAUSE:
-                    text = ((IMetricDescriptor) element).getMinCause();
-                    break;
-                case MAX_CAUSE:
-                    text = ((IMetricDescriptor) element).getMaxCause();
-                    break;
-                default:
-                    final RuntimeException exception = new ArrayIndexOutOfBoundsException(
-                            "Wrong column value for MetricLabelProvider class : " + this.getType());
-                    LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
-                    MessageDialog.openError(
-                            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
+            case METRIC_NAME:
+                text = ((IMetricDescriptor) element).getName();
+                break;
+            case METRIC_VALUE:
+                if (((IMetricDescriptor) element).getValue().isInfinite()
+                                || ((IMetricDescriptor) element).getValue().isNaN()) {
+                    text = NAN_VALUE_DISPLAY;
+                } else {
+                    text = ((IMetricDescriptor) element).getValue().toString();
+                }
+                break;
+            case MEAN:
+                if (((IMetricDescriptor) element).getValue().isInfinite()
+                                || ((IMetricDescriptor) element).getMean().isNaN()) {
+                    text = NAN_VALUE_DISPLAY;
+                } else {
+                    text = ((IMetricDescriptor) element).getMean().toString();
+                }
+                break;
+            case MINIMUM:
+                if (((IMetricDescriptor) element).getValue().isInfinite()
+                                || ((IMetricDescriptor) element).getMinimum().isNaN()) {
+                    text = NAN_VALUE_DISPLAY;
+                } else {
+                    text = ((IMetricDescriptor) element).getMinimum().toString();
+                }
+                break;
+            case MAXIMUM:
+                if (((IMetricDescriptor) element).getValue().isInfinite()
+                                || ((IMetricDescriptor) element).getMaximum().isNaN()) {
+                    text = NAN_VALUE_DISPLAY;
+                } else {
+                    text = ((IMetricDescriptor) element).getMaximum().toString();
+                }
+                break;
+            case MIN_CAUSE:
+                text = ((IMetricDescriptor) element).getMinCause();
+                break;
+            case MAX_CAUSE:
+                text = ((IMetricDescriptor) element).getMaxCause();
+                break;
+            default:
+                final RuntimeException exception = new ArrayIndexOutOfBoundsException(
+                                "Wrong column value for MetricLabelProvider class : "
+                                                + this.getType());
+                LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
+                                exception);
+                MessageDialog.openError(
+                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                "Internal Error",
+                                "Contact support service : \n" + exception.getMessage());
             }
         } else {
             final UnknownInstanceException exception = new UnknownInstanceException(
-                    "getText method of MetricLabelProvider class has a "
-                            + element.getClass().getName()
-                            + " element, but it should be a Viewable instance.");
+                            "getText method of MetricLabelProvider class has a "
+                                            + element.getClass().getName()
+                                            + " element, but it should be a Viewable instance.");
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.finest("End getText method");

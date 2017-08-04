@@ -5,8 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.core.runtime.IPath;
+
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
 /**
  * Descriptor for metric's value of a function.
@@ -36,8 +37,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
     public FunctionMetricDescriptor() {
         this.metricId = "";
         this.location = "";
-        this.value = 0.0f;
-        this.line = 0;
+        this.value = Float.valueOf(0.0f);
+        this.line = Integer.valueOf(0);
     }
 
     /**
@@ -55,7 +56,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            metric's line
      */
     public FunctionMetricDescriptor(final String pId, final String pLocation, final Float pValue,
-            final IPath pFilePath, final Integer pLine) {
+                    final IPath pFilePath, final Integer pLine) {
         this.metricId = pId;
         this.filePath = pFilePath;
         this.location = pLocation;
@@ -174,7 +175,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMean() {
-        return Float.NaN;
+        return Float.valueOf(Float.NaN);
     }
 
     /*
@@ -185,7 +186,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMinimum() {
-        return Float.NaN;
+        return Float.valueOf(Float.NaN);
     }
 
     /*
@@ -196,7 +197,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMaximum() {
-        return Float.NaN;
+        return Float.valueOf(Float.NaN);
     }
 
     /*
@@ -232,11 +233,11 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
         boolean result = true;
         if (UserPreferencesService.hasMaxValue(this.getMetricId())) {
             result = this.getValue()
-                    .compareTo(UserPreferencesService.getMaxValue(this.getMetricId())) > 0;
+                            .compareTo(UserPreferencesService.getMaxValue(this.getMetricId())) > 0;
         }
         if (UserPreferencesService.hasMinValue(this.getMetricId())) {
             result = this.getValue()
-                    .compareTo(UserPreferencesService.getMinValue(this.getMetricId())) < 0;
+                            .compareTo(UserPreferencesService.getMinValue(this.getMetricId())) < 0;
         }
 
         return result;
@@ -249,10 +250,11 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final boolean isEqual;
         if (object instanceof FunctionMetricDescriptor) {
             isEqual = this.location.equals(((FunctionMetricDescriptor) object).getLocation())
-                    && this.metricId.equals(((FunctionMetricDescriptor) object).getMetricId());
+                            && this.metricId.equals(
+                                            ((FunctionMetricDescriptor) object).getMetricId());
         } else {
             isEqual = false;
         }

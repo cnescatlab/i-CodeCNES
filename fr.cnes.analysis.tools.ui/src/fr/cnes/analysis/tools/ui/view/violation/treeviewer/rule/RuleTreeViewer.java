@@ -1,3 +1,8 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
 
 import java.util.logging.Logger;
@@ -40,15 +45,16 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
             "Number of violations", "Message" };
 
     /** Bounds of the TreeViewer */
-    private static final int[] BOUNDS       = new int[] { 50, 200, 50, 50, 200 };
+    private static final int[] BOUNDS = new int[] { 50, 200, 50, 50, 200 };
     /**
      * Kind of bitmap to know if the sorting should be up or down for each
      * column of the tree
      */
-    private boolean[]          columnSortUp = new boolean[] { true, true, false, true, true };
+    private boolean[] columnSortUp = new boolean[] { true, true, false, true, true };
 
     /** Index selected to sort the columns, by default 1 */
     private int indexSort = 1;
+
     /** Bounds of the columns */
 
     /**
@@ -97,7 +103,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
      * @return The treeViewerColumn created.
      */
     private TreeViewerColumn createTreeViewerColumn(final String title, final int bound,
-            final int colNumber) {
+                    final int colNumber) {
         final TreeViewerColumn viewerColumn = new TreeViewerColumn(this, SWT.NONE);
         final TreeColumn column = viewerColumn.getColumn();
         column.setText(title);
@@ -137,19 +143,19 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
             public void doubleClick(final DoubleClickEvent event) {
                 final TreeViewer tViewer = (TreeViewer) event.getViewer();
                 final IStructuredSelection thisSelection = (IStructuredSelection) event
-                        .getSelection();
+                                .getSelection();
                 final Object selectedNode = thisSelection.getFirstElement();
 
                 tViewer.setExpandedState(selectedNode, !tViewer.getExpandedState(selectedNode));
 
                 // if it is a leaf -> open the file
                 if (!tViewer.isExpandable(selectedNode)
-                        && selectedNode instanceof FunctionRuleDescriptor) {
+                                && selectedNode instanceof FunctionRuleDescriptor) {
                     final IPath path = ((FunctionRuleDescriptor) selectedNode).getFilePath();
                     final int number = ((FunctionRuleDescriptor) selectedNode).getValue();
                     // get resource
                     final IFile fileToOpen = ResourcesPlugin.getWorkspace().getRoot()
-                            .getFileForLocation(path);
+                                    .getFileForLocation(path);
                     final IResource res = fileToOpen;
 
                     // open file in editor
@@ -197,49 +203,49 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
                 final RuleDescriptor rule2 = (RuleDescriptor) e2;
 
                 switch (indexSort) {
-                    case 0:
-                        rc = rule1.getSeverity().compareTo(rule2.getSeverity());
-                        break;
-                    case 1:
-                        rc = rule1.getName().compareToIgnoreCase(rule2.getName());
-                        break;
-                    case 3:
-                        rc = rule1.getValue() - rule2.getValue();
-                        break;
-                    default:
-                        rc = 0;
+                case 0:
+                    rc = rule1.getSeverity().compareTo(rule2.getSeverity());
+                    break;
+                case 1:
+                    rc = rule1.getName().compareToIgnoreCase(rule2.getName());
+                    break;
+                case 3:
+                    rc = rule1.getValue() - rule2.getValue();
+                    break;
+                default:
+                    rc = 0;
                 }
             } else if (e1 instanceof FileRuleDescriptor && e2 instanceof FileRuleDescriptor) {
                 final FileRuleDescriptor file1 = (FileRuleDescriptor) e1;
                 final FileRuleDescriptor file2 = (FileRuleDescriptor) e2;
 
                 switch (indexSort) {
-                    case 1:
-                        rc = file1.getName().compareToIgnoreCase(file2.getName());
-                        break;
-                    case 3:
-                        rc = file1.getValue() - file2.getValue();
-                        break;
-                    default:
-                        rc = 0;
+                case 1:
+                    rc = file1.getName().compareToIgnoreCase(file2.getName());
+                    break;
+                case 3:
+                    rc = file1.getValue() - file2.getValue();
+                    break;
+                default:
+                    rc = 0;
                 }
-            } else
-                if (e1 instanceof FunctionRuleDescriptor && e2 instanceof FunctionRuleDescriptor) {
+            } else if (e1 instanceof FunctionRuleDescriptor
+                            && e2 instanceof FunctionRuleDescriptor) {
                 final FunctionRuleDescriptor function1 = (FunctionRuleDescriptor) e1;
                 final FunctionRuleDescriptor function2 = (FunctionRuleDescriptor) e2;
 
                 switch (indexSort) {
-                    case 1:
-                        rc = function1.getLocation().compareToIgnoreCase(function2.getLocation());
-                        break;
-                    case 2:
-                        rc = function1.getValue() - function2.getValue();
-                        break;
-                    case 4:
-                        rc = function1.getName().compareToIgnoreCase(function2.getName());
-                        break;
-                    default:
-                        rc = 0;
+                case 1:
+                    rc = function1.getLocation().compareToIgnoreCase(function2.getLocation());
+                    break;
+                case 2:
+                    rc = function1.getValue() - function2.getValue();
+                    break;
+                case 4:
+                    rc = function1.getName().compareToIgnoreCase(function2.getName());
+                    break;
+                default:
+                    rc = 0;
                 }
             }
             // If descending order, flip the direction

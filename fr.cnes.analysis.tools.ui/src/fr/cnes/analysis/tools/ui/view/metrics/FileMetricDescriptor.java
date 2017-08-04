@@ -18,9 +18,9 @@ import org.eclipse.core.runtime.IPath;
 public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /** File's path. **/
-    private IPath                          filePath;
+    private IPath filePath;
     /** Value for the file. **/
-    private Float                          value;
+    private Float value;
     /** List of descriptors for the function in the file. **/
     private List<FunctionMetricDescriptor> descriptors;
 
@@ -28,7 +28,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      * Empty constructor.
      */
     public FileMetricDescriptor() {
-        this.value = 0.0f;
+        this.value = Float.valueOf(0.0f);
         this.descriptors = new LinkedList<FunctionMetricDescriptor>();
     }
 
@@ -121,11 +121,11 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMean() {
-        Float mean = 0.0f;
+        Float mean = Float.valueOf(0.0f);
         for (final FunctionMetricDescriptor descriptor : this.descriptors) {
-            mean = mean + descriptor.getValue();
+            mean = Float.valueOf((mean.floatValue() + descriptor.getValue().floatValue()));
         }
-        return mean / this.descriptors.size();
+        return Float.valueOf(mean.floatValue() / this.descriptors.size());
     }
 
     /*
@@ -136,13 +136,13 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMinimum() {
-        Float min = Float.POSITIVE_INFINITY;
+        float min = Float.NaN;
         for (final FunctionMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getValue() < min) {
-                min = descriptor.getValue();
+            if (descriptor.getValue().floatValue() < min || Float.isNaN(min)) {
+                min = descriptor.getValue().floatValue();
             }
         }
-        return min;
+        return Float.valueOf(min);
     }
 
     /*
@@ -153,13 +153,13 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMaximum() {
-        Float max = Float.NEGATIVE_INFINITY;
+        float max = Float.NaN;
         for (final FunctionMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getValue() > max) {
-                max = descriptor.getValue();
+            if (descriptor.getValue().floatValue() > max || Float.isNaN(max)) {
+                max = descriptor.getValue().floatValue();
             }
         }
-        return max;
+        return Float.valueOf(max);
     }
 
     /*
@@ -170,10 +170,10 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getMinCause() {
-        final Float min = Float.POSITIVE_INFINITY;
+        final float min = Float.NaN;
         String minCause = "";
         for (final FunctionMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getValue() < min) {
+            if (descriptor.getValue().floatValue() < min || Float.isNaN(min)) {
                 minCause = descriptor.getName();
             }
         }
@@ -188,10 +188,10 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getMaxCause() {
-        final Float max = Float.NEGATIVE_INFINITY;
+        final float max = Float.NaN;
         String maxCause = "";
         for (final FunctionMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getValue() > max) {
+            if (descriptor.getValue().floatValue() > max || Float.isNaN(max)) {
                 maxCause = descriptor.getName();
             }
         }
@@ -220,7 +220,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final boolean isEqual;
         if (object instanceof FileMetricDescriptor) {
             isEqual = this.filePath.equals(((FileMetricDescriptor) object).getFilePath());
         } else {

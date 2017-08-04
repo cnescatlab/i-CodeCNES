@@ -1,7 +1,10 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.export.xml;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.export.IExport;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,18 +14,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.export.IExport;
+
 /**
  * This class is an attribute of the {@code ExtensionPoint} implementing
- * {@link IExport} interface of the plugin <i>fr.cnes.analysis.tools.export</i>.
+ * {@link IExport} interface of the plug-in
+ * <i>fr.cnes.analysis.tools.export</i>.
  * <p>
  * This class is also exported in the <i>fr.cnes.analysis.tools.export.csv</i>
- * plugin and could be used as a service from any third.
+ * plug-in and could be used as a service from any third.
  * </p>
  * <p>
  * This class is responsible of the export in the format XML of
@@ -34,18 +42,18 @@ import org.jdom2.output.XMLOutputter;
 public class ExportXml implements IExport {
 
     /** Identifier of the attribute <i>AnalysisProjectName</i>. */
-    public static String ATTRIBUTE_AnalysisProjectName = "analysisProjectName";
+    public static final String ATTRIBUTE_ANALYSISPROJECTNAME = "analysisProjectName";
     /** Identifier of the attribute <i>AnalysisProjectVersion</i>. */
-    public static String ATTRIBUTE_AnalysisProjectVersion = "analysisProjectVersion";
+    public static final String ATTRIBUTE_ANALYSISPROJECTVERSION = "analysisProjectVersion";
     /** Identifier of element <i>AnalysisProject</i>. */
-    public static String ELEMENT_AnalysisProject = "analysisProject";
-    /**  <i>PROJECT_NAME </i> parameter. */
+    public static final String ELEMENT_ANALYSISPROJECT = "analysisProject";
+    /** <i>PROJECT_NAME </i> parameter. */
     public static final String PARAM_PROJECT_NAME = "ProjectName";
     /** Default <i>AUTHOR</i> parameter. */
     public static final String PARAM_AUTHOR = "Analysis author";
     /** Default <i>PROJECT_VERSION</i> parameter. */
     public static final String PARAM_PROJECT_VERSION = "ProjectVersion";
-    /**  <i>CONFIGURATION_ID</i> parameter. */
+    /** <i>CONFIGURATION_ID</i> parameter. */
     public static final String PARAM_CONFIGURATION_ID = "AnalysisConfigurationID";
     /** DEfault <i>analysisDate</i> parameter */
     public static final String PARAM_DATE = "Date";
@@ -84,7 +92,7 @@ public class ExportXml implements IExport {
      */
     @Override
     public void export(List<CheckResult> checkResults, File outputFile,
-            Map<String, String> parameters) throws IOException {
+                    Map<String, String> pParameters) throws IOException {
         final List<Attribute> attributes = new ArrayList<Attribute>();
         final List<Attribute> resultAttributes = new ArrayList<Attribute>();
         /*
@@ -92,11 +100,11 @@ public class ExportXml implements IExport {
          * type="anr:analysisProjectType" minOccurs="1" maxOccurs="1" />
          */
 
-        final Element analysisProjectElement = new Element(ELEMENT_AnalysisProject);
-        analysisProjectElement.setAttribute(
-                new Attribute(ATTRIBUTE_AnalysisProjectName, parameters.get(PARAM_PROJECT_NAME)));
-        analysisProjectElement.setAttribute(new Attribute(ATTRIBUTE_AnalysisProjectVersion,
-                parameters.get(PARAM_PROJECT_VERSION)));
+        final Element analysisProjectElement = new Element(ELEMENT_ANALYSISPROJECT);
+        analysisProjectElement.setAttribute(new Attribute(ATTRIBUTE_ANALYSISPROJECTNAME,
+                        pParameters.get(PARAM_PROJECT_NAME)));
+        analysisProjectElement.setAttribute(new Attribute(ATTRIBUTE_ANALYSISPROJECTVERSION,
+                        pParameters.get(PARAM_PROJECT_VERSION)));
         final Document document = new Document(analysisProjectElement);
 
         // BEGINNING OF SEQUENCE <xsd:sequence>
@@ -106,9 +114,9 @@ public class ExportXml implements IExport {
 
         final Element analysisInformation = new Element("analysisInformations");
         attributes.add(new Attribute("analysisConfigurationId",
-                parameters.get(PARAM_CONFIGURATION_ID)));
-        attributes.add(new Attribute("analysisDate", parameters.get(PARAM_DATE)));
-        attributes.add(new Attribute("author", parameters.get(PARAM_AUTHOR)));
+                        pParameters.get(PARAM_CONFIGURATION_ID)));
+        attributes.add(new Attribute("analysisDate", pParameters.get(PARAM_DATE)));
+        attributes.add(new Attribute("author", pParameters.get(PARAM_AUTHOR)));
 
         analysisInformation.setAttributes(attributes);
         document.getRootElement().addContent(analysisInformation);
@@ -130,7 +138,7 @@ public class ExportXml implements IExport {
             boolean analysisFileMarked = false;
             for (final Element element : document.getRootElement().getChildren("analysisFile")) {
                 if (element.getAttributeValue("fileName").equals(fileName)
-                        && element.getAttributeValue("language").equals(language)) {
+                                && element.getAttributeValue("language").equals(language)) {
                     analysisFileMarked = true;
                 }
             }
@@ -151,7 +159,7 @@ public class ExportXml implements IExport {
             for (final Element element : document.getRootElement().getChildren("analysisRule")) {
                 for (final Attribute attribute : element.getAttributes()) {
                     if (attribute.getName().equals("analysisRuleId")
-                            && attribute.getValue().equals(checkResult.getId())) {
+                                    && attribute.getValue().equals(checkResult.getId())) {
                         elementAlreadyExisting = true;
                         existingElement = element;
                     }
@@ -190,8 +198,8 @@ public class ExportXml implements IExport {
              */
 
             if (checkResult.getValue() != null) {
-                resultAttributes
-                        .add(new Attribute("resultValue", checkResult.getValue().toString()));
+                resultAttributes.add(
+                                new Attribute("resultValue", checkResult.getValue().toString()));
             }
             /*
              * 
@@ -224,10 +232,10 @@ public class ExportXml implements IExport {
 
         final XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
-        final FileOutputStream fileOutput = new FileOutputStream(outputFile);
-
-        xmlOutput.output(document, fileOutput);
-        fileOutput.close();
+        try (final FileOutputStream fileOutput = new FileOutputStream(outputFile)) {
+            xmlOutput.output(document, fileOutput);
+            fileOutput.close();
+        }
 
     }
 
@@ -241,8 +249,8 @@ public class ExportXml implements IExport {
     protected String getFileExtension(String filePath) {
         String extension = "unknown";
 
-        int i = filePath.lastIndexOf('.');
-        int p = Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\'));
+        final int i = filePath.lastIndexOf('.');
+        final int p = Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\'));
 
         if (i > p) {
             extension = filePath.substring(i + 1);

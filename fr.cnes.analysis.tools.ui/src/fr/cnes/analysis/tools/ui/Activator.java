@@ -16,10 +16,11 @@ import org.osgi.framework.BundleContext;
  * 
  */
 public class Activator extends AbstractUIPlugin implements BundleActivator {
-
+    /** Plug-in ID */
+    public static final String PLUGIN_ID = "fr.cnes.analysis.tools.ui";
     /** The static bundle context **/
     private static BundleContext context;
-    public static final String PLUGIN_ID = "fr.cnes.analysis.tools.ui";
+    /** Plugin activator */
     private static Activator plugin;
 
     /**
@@ -56,6 +57,9 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
         Activator.context = null;
     }
 
+    /**
+     * @return plugin activator.
+     */
     public static Activator getDefault() {
         return plugin;
     }

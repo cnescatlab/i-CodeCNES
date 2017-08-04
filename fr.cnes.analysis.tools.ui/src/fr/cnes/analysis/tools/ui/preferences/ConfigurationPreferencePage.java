@@ -1,15 +1,14 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences;
 
-import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
-import fr.cnes.analysis.tools.ui.Activator;
-import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
-import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerMetricTableViewer;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerTableViewer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
@@ -28,8 +27,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerMetricTableViewer;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerTableViewer;
+
+/**
+ * i-Code CNES Preferences page.
+ */
 public class ConfigurationPreferencePage extends PreferencePage
-        implements IWorkbenchPreferencePage {
+                implements IWorkbenchPreferencePage {
     /** Composite containing the configuration preference page */
     private Composite composite;
     /** List of {@link CheckerPreferencesContainer} displayed on the page */
@@ -48,8 +58,8 @@ public class ConfigurationPreferencePage extends PreferencePage
         // Page description
         setImageDescriptor(ImageFactory.getDescriptor(ImageFactory.ERROR_BIG));
         setDescription("This preference page is dedicated to iCode analysis. On this page,"
-                + " you can enable/disable language and checker that should be run during the "
-                + "analysis.");
+                        + " you can enable/disable language and checker that should be "
+                        + "run during the analysis.");
 
         // Associate preference store
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
@@ -74,11 +84,9 @@ public class ConfigurationPreferencePage extends PreferencePage
         for (ConfigurationContainer config : configs) {
             configurationSelection.add(config.getName());
         }
-        if (configurationSelection.indexOf(UserPreferencesService.getConfigurationName()) == -1) {
-            // TODO throw ERROR
-        } else {
-            configurationSelection.select(
-                    configurationSelection.indexOf(UserPreferencesService.getConfigurationName()));
+        if (configurationSelection.indexOf(UserPreferencesService.getConfigurationName()) != -1) {
+            configurationSelection.select(configurationSelection
+                            .indexOf(UserPreferencesService.getConfigurationName()));
         }
 
         composite = new Composite(parent, SWT.LEFT);
@@ -97,7 +105,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
                 @Override
                 public int compare(CheckerPreferencesContainer arg0,
-                        CheckerPreferencesContainer arg1) {
+                                CheckerPreferencesContainer arg1) {
                     return arg0.getName().compareTo(arg1.getName());
                 }
             });
@@ -110,13 +118,14 @@ public class ConfigurationPreferencePage extends PreferencePage
         final GridLayout layout = new GridLayout();
         layout.makeColumnsEqualWidth = true;
         final Color expandBarColor = new Color(parent.getBackground().getDevice(),
-                parent.getBackground().getRed() - 10, parent.getBackground().getGreen() - 10,
-                parent.getBackground().getBlue() - 10);
+                        parent.getBackground().getRed() - 10,
+                        parent.getBackground().getGreen() - 10,
+                        parent.getBackground().getBlue() - 10);
 
         expandBar.setBackground(expandBarColor);
 
-        List<CheckerPreferencesContainer> metrics = new ArrayList<>();
-        List<CheckerPreferencesContainer> rules = new ArrayList<>();
+        final List<CheckerPreferencesContainer> metrics = new ArrayList<>();
+        final List<CheckerPreferencesContainer> rules = new ArrayList<>();
         for (CheckerPreferencesContainer checker : preferences) {
             if (checker.isMetric()) {
                 metrics.add(checker);
@@ -133,8 +142,8 @@ public class ConfigurationPreferencePage extends PreferencePage
         ruleExpandItem.setText("Rules");
         ruleExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
         checkersTable = new CheckerTableViewer(checkersExpandBarContainer, rules);
-        ruleExpandItem
-                .setHeight(checkersExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+        ruleExpandItem.setHeight(
+                        checkersExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
         ruleExpandItem.setControl(checkersExpandBarContainer);
         // We build the expandItem Metrics;
         final Composite metricsExpandBarContainer = new Composite(expandBar, SWT.EMBEDDED);
@@ -144,8 +153,8 @@ public class ConfigurationPreferencePage extends PreferencePage
         metricExpandItem.setText("Metric");
         metricExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
         checkersMetricTable = new CheckerMetricTableViewer(metricsExpandBarContainer, metrics);
-        metricExpandItem
-                .setHeight(metricsExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+        metricExpandItem.setHeight(
+                        metricsExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
         metricExpandItem.setControl(metricsExpandBarContainer);
 
         // Then the expandItem Rules
@@ -156,7 +165,7 @@ public class ConfigurationPreferencePage extends PreferencePage
             @Override
             public void widgetSelected(SelectionEvent e) {
                 configurationId = configurationSelection
-                        .getItem(configurationSelection.getSelectionIndex());
+                                .getItem(configurationSelection.getSelectionIndex());
                 refresh();
             }
 
@@ -220,8 +229,8 @@ public class ConfigurationPreferencePage extends PreferencePage
             checker.setToDefault();
         }
         UserPreferencesService.setDefaultConfiguration();
-        configurationSelection.select(
-                configurationSelection.indexOf(UserPreferencesService.getConfigurationName()));
+        configurationSelection.select(configurationSelection
+                        .indexOf(UserPreferencesService.getConfigurationName()));
         this.refresh();
     }
 

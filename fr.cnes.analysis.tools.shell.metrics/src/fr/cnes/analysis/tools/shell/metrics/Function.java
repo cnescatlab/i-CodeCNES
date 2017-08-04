@@ -1,3 +1,8 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                               */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.shell.metrics;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
@@ -79,13 +84,14 @@ public class Function {
             starterRepetition--;
         } else {
             throw new JFlexException(
-                    new Exception("Count of function's starter closure is negative."));
+                            new Exception("Count of function's starter closure is negative."));
         }
     }
 
     /**
      * @return the {@link String} element that would close the function.
      * @throws JFlexException
+     *             when no finisher can be recognized from the parameter
      */
     public final String getFinisher() throws JFlexException {
         return Function.finisherOf(this.starter);
@@ -101,34 +107,34 @@ public class Function {
      *             when no finisher can be recognized from the parameter.
      */
     public static final String finisherOf(String str) throws JFlexException {
-        String functionFinisher;
+        final String functionFinisher;
         switch (str) {
-            case "if":
-                functionFinisher = "fi";
-                break;
-            case "case":
-                functionFinisher = "esac";
-                break;
-            case "select":
-            case "for":
-            case "while":
-            case "until":
-                functionFinisher = "done";
-                break;
-            case "{":
-                functionFinisher = "}";
-                break;
-            case "(":
-                functionFinisher = ")";
-                break;
-            case "((":
-                functionFinisher = "))";
-                break;
-            case "[[":
-                functionFinisher = "]]";
-                break;
-            default:
-                throw new JFlexException(new Exception("Function's finisher unknown."));
+        case "if":
+            functionFinisher = "fi";
+            break;
+        case "case":
+            functionFinisher = "esac";
+            break;
+        case "select":
+        case "for":
+        case "while":
+        case "until":
+            functionFinisher = "done";
+            break;
+        case "{":
+            functionFinisher = "}";
+            break;
+        case "(":
+            functionFinisher = ")";
+            break;
+        case "((":
+            functionFinisher = "))";
+            break;
+        case "[[":
+            functionFinisher = "]]";
+            break;
+        default:
+            throw new JFlexException(new Exception("Function's finisher unknown."));
         }
         return functionFinisher;
     }
@@ -138,6 +144,7 @@ public class Function {
      *            the string to compare
      * @return if the parameter can close the function or not.
      * @throws JFlexException
+     *             when no finisher can be recognized from the parameter
      */
     public final boolean isFinisher(String str) throws JFlexException {
         return str.equals(this.getFinisher());
@@ -151,11 +158,11 @@ public class Function {
     }
 
     /**
-     * @param name
+     * @param pName
      *            the name to set
      */
-    public final void setName(String name) {
-        this.name = name;
+    public final void setName(String pName) {
+        this.name = pName;
     }
 
     /**
@@ -166,11 +173,11 @@ public class Function {
     }
 
     /**
-     * @param beginLine
+     * @param pBeginLine
      *            the beginLine to set
      */
-    public final void setBeginLine(int beginLine) {
-        this.beginLine = beginLine;
+    public final void setBeginLine(int pBeginLine) {
+        this.beginLine = pBeginLine;
     }
 
     /**

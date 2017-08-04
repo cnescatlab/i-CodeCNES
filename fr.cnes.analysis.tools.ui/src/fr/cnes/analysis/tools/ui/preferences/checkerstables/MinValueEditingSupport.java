@@ -1,31 +1,32 @@
-/**
- * 
- */
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+
 /**
- * @author waldmao
- *
+ * Editing support for minimum
  */
 public class MinValueEditingSupport extends EditingSupport {
 
-    private final ColumnViewer viewer;
+    /** Cell editor */
     private final CellEditor editor;
 
     /**
      * @param pViewer
+     *            Table viewer containing the cell
      */
     public MinValueEditingSupport(TableViewer pViewer) {
         super(pViewer);
-        this.viewer = pViewer;
         this.editor = new TextCellEditor(pViewer.getTable());
     }
 
@@ -48,7 +49,7 @@ public class MinValueEditingSupport extends EditingSupport {
     @Override
     protected boolean canEdit(Object element) {
         return UserPreferencesService.isDefaultConfigurationActive()
-                && ((CheckerPreferencesContainer) element).isMetric();
+                        && ((CheckerPreferencesContainer) element).isMetric();
     }
 
     /*
@@ -58,12 +59,15 @@ public class MinValueEditingSupport extends EditingSupport {
      */
     @Override
     protected Object getValue(Object element) {
+        final Object value;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
-            return Float.toString(((CheckerPreferencesContainer) element).getMinValue());
+            value = Float.toString(
+                            ((CheckerPreferencesContainer) element).getMinValue().floatValue());
         } else {
-            return UserPreferencesService
-                    .getMinValue(((CheckerPreferencesContainer) element).getId());
+            value = UserPreferencesService
+                            .getMinValue(((CheckerPreferencesContainer) element).getId());
         }
+        return value;
     }
 
     /*
@@ -76,7 +80,7 @@ public class MinValueEditingSupport extends EditingSupport {
     protected void setValue(Object element, Object value) {
         try {
             ((CheckerPreferencesContainer) element).setMinValue(Float.parseFloat((String) value));
-        } catch (NullPointerException | NumberFormatException e) {
+        } catch (@SuppressWarnings("unused") NullPointerException | NumberFormatException e) {
             ((CheckerPreferencesContainer) element).setMinValue(Float.NaN);
         }
 
