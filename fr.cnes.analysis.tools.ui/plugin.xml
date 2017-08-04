@@ -6,7 +6,7 @@
   name="i-Code CNES Violation error marker">
         <super type="org.eclipse.core.resources.textmarker"/>
         <super type="org.eclipse.core.resources.marker"/>
-        <persistent value="true"/><attribute name="description"/>
+        <persistent value="false"/><attribute name="description"/>
     </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -262,7 +262,7 @@
   name="i-Code CNES Violation Warning">
         <super type="org.eclipse.core.resources.textmarker"/>
         <super type="org.eclipse.core.resources.marker"/>
-        <persistent value="true"/><attribute name="description"/>
+        <persistent value="false"/><attribute name="description"/>
     </extension>
     <extension
           point="fr.cnes.analysis.tools.ui.configuration">
