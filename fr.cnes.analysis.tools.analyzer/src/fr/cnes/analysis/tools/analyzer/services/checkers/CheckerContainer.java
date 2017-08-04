@@ -1,9 +1,17 @@
+/* 
+ * i-Code CNES is a static code analyser. 
+ * This software is a free software, under the terms of the Eclipse Public License version 1.0. 
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ */
 package fr.cnes.analysis.tools.analyzer.services.checkers;
+
+import java.util.List;
+
+import org.eclipse.core.runtime.IConfigurationElement;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageContainer;
-import java.util.List;
-import org.eclipse.core.runtime.IConfigurationElement;
 
 /**
  * Container for checker defined in contribution of the
@@ -38,7 +46,7 @@ public class CheckerContainer {
      *            Checker's contribution.
      */
     public CheckerContainer(String pId, String pName, LanguageContainer pLanguage,
-            AbstractChecker pChecker, IConfigurationElement pCheckerContribution) {
+                    AbstractChecker pChecker, IConfigurationElement pCheckerContribution) {
         this.id = pId;
         this.name = pName;
         this.language = pLanguage;
@@ -62,8 +70,8 @@ public class CheckerContainer {
      *            whether or not the checker returns a value.
      */
     public CheckerContainer(String pId, String pName, LanguageContainer pLanguage,
-            AbstractChecker pChecker, IConfigurationElement pCheckerContribution,
-            boolean pIsMetric) {
+                    AbstractChecker pChecker, IConfigurationElement pCheckerContribution,
+                    boolean pIsMetric) {
         this.id = pId;
         this.name = pName;
         this.language = pLanguage;
@@ -72,10 +80,18 @@ public class CheckerContainer {
         this.isMetric = pIsMetric;
     }
 
+    /**
+     * @param pFormat
+     *            to test
+     * @return whether or not the format is handled by this checker.
+     */
     public boolean canVerifyFormat(String pFormat) {
         return this.language.getFileExtension().contains(pFormat);
     }
 
+    /**
+     * @return format that can be handled by this checker's language.
+     */
     public List<String> getVerifiableFormat() {
         return this.language.getFileExtension();
     }

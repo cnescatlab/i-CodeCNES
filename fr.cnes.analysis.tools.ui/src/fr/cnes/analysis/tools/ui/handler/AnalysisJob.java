@@ -1,16 +1,23 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import fr.cnes.analysis.tools.analyzer.Analyzer;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+
+import fr.cnes.analysis.tools.analyzer.Analyzer;
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.
@@ -53,7 +60,7 @@ public class AnalysisJob extends Job {
      *            to exclude from analysis
      */
     public AnalysisJob(String pName, List<File> pInputFiles, List<String> pLanguageIds,
-            List<String> pExcludedIds) {
+                    List<String> pExcludedIds) {
         super(pName);
         this.inputFiles = pInputFiles;
         this.languageIds = pLanguageIds;
@@ -70,7 +77,7 @@ public class AnalysisJob extends Job {
             this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {
             LOGGER.info(exception.getClass() + " handled in method " + METHOD
-                    + " changing Job status.");
+                            + " changing Job status.");
             status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID, exception.getMessage());
         }
         LOGGER.exiting(this.getClass().getName(), METHOD, monitor);

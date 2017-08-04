@@ -5,17 +5,19 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.decorators;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.InformationMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
 import java.util.List;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
+
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.InformationMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
 
 /**
  * Put a new Decoration in the files tree on the top right of an icon of a file
@@ -34,7 +36,9 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
      * Link to the Violation Error icon
      */
     public static final String ICON = ImageFactory.INFO_VERY_SMALL;
-    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.tools.ui.decorators.informationdecorator";
+    /** Decorator ID */
+    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.tools.ui.decorators"
+                    + ".informationdecorator";
 
     /**
      * An Violation Error icon is being put on the top-right of the icon's file
@@ -49,19 +53,18 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
             // the file and that there is no errors markers nor warning markers
             // in the file
             final List<IMarker> vErrorMarkers = ViolationErrorMarker
-                    .findAllMarkers((IResource) resource);
+                            .findAllMarkers((IResource) resource);
             final List<IMarker> vWarningMarkers = ViolationWarningMarker
-                    .findAllMarkers((IResource) resource);
+                            .findAllMarkers((IResource) resource);
             final List<IMarker> vInformationMarkers = InformationMarker
-                    .findAllMarkers((IResource) resource);
+                            .findAllMarkers((IResource) resource);
             if (vErrorMarkers.isEmpty() && vWarningMarkers.isEmpty()
-                    && !vInformationMarkers.isEmpty()) {
+                            && !vInformationMarkers.isEmpty()) {
                 // If the file do not contain error marker and contain warning
                 // markers then we put an overlay icon on the top right of the
                 // file's icon
-                decoration.addOverlay(
-                        ImageDescriptor.createFromFile(ViolationWarningDecorator.class, ICON),
-                        IDecoration.TOP_RIGHT);
+                decoration.addOverlay(ImageDescriptor.createFromFile(
+                                ViolationWarningDecorator.class, ICON), IDecoration.TOP_RIGHT);
             } else {
                 // otherwise we remove the overlay if there is no violation
                 // error neither violation warning markers.
@@ -69,7 +72,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
                 // here that we remove the markers if both
                 // Error and Warnings decorators are removed.
                 if (vErrorMarkers.isEmpty() && vWarningMarkers.isEmpty()
-                        && vInformationMarkers.isEmpty()) {
+                                && vInformationMarkers.isEmpty()) {
                     decoration.addOverlay(null);
                 }
             }

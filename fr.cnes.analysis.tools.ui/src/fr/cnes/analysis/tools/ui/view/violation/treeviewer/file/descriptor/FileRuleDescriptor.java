@@ -117,7 +117,7 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final boolean isEqual;
         if (object instanceof FileRuleDescriptor) {
             isEqual = this.filePath.equals(((FileRuleDescriptor) object).getFilePath());
         } else {

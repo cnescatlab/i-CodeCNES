@@ -1,4 +1,16 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.jface.preference.PreferenceStore;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
@@ -9,11 +21,6 @@ import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.analysis.tools.ui.configurations.CheckConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
-import java.util.ArrayList;
-import java.util.List;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.PreferenceStore;
 
 /**
  *
@@ -60,18 +67,18 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
             Activator.getDefault().getPreferenceStore().setDefault(languageId, true);
             for (CheckerContainer checker : CheckerService.getCheckers(languageId)) {
                 Activator.getDefault().getPreferenceStore().setDefault(checker.getId(), true);
-                Activator.getDefault().getPreferenceStore()
-                        .setDefault(checker.getId() + PREF_SEVERITY_KEY, PREF_SEVERITY_ERROR_VALUE);
+                Activator.getDefault().getPreferenceStore().setDefault(
+                                checker.getId() + PREF_SEVERITY_KEY, PREF_SEVERITY_ERROR_VALUE);
                 if (checker.isMetric()) {
                     Activator.getDefault().getPreferenceStore()
-                            .setDefault(checker.getId() + PREF_MAX_VALUE_KEY, Float.NaN);
+                                    .setDefault(checker.getId() + PREF_MAX_VALUE_KEY, Float.NaN);
                     Activator.getDefault().getPreferenceStore()
-                            .setDefault(checker.getId() + PREF_MIN_VALUE_KEY, Float.NaN);
+                                    .setDefault(checker.getId() + PREF_MIN_VALUE_KEY, Float.NaN);
                 }
             }
         }
         Activator.getDefault().getPreferenceStore().setDefault(PREF_CONFIGURATION_KEY,
-                PREF_CONFIGURATION_CUSTOMVALUE);
+                        PREF_CONFIGURATION_CUSTOMVALUE);
     }
 
     /*
@@ -213,10 +220,12 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return Language identifier of languages enabled in the
      *         {@link PreferenceStore}.
      * @throws CoreException
+     *             on execution failure
      * @throws NullContributionException
+     *             when no contribution can be found
      */
     public static List<LanguagePreferencesContainer> getLanguagesPreferences()
-            throws NullContributionException, CoreException {
+                    throws NullContributionException, CoreException {
         final List<LanguagePreferencesContainer> languagesPrefs = new ArrayList<>();
         for (LanguageContainer language : LanguageService.getLanguages()) {
             if (languageExists(language.getId())) {
@@ -225,13 +234,13 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
                 for (CheckerContainer checker : CheckerService.getCheckers(language.getId())) {
                     if (checkerExists(language.getId(), checker.getId())) {
                         checkersPrefs.add(new CheckerPreferencesContainer(language.getId(),
-                                language.getName(), checker.getId(), checker.getName(),
-                                isEnabledChecker(checker.getId()),
-                                getCheckerSeverity(checker.getId()), checker.isMetric()));
+                                        language.getName(), checker.getId(), checker.getName(),
+                                        isEnabledChecker(checker.getId()),
+                                        getCheckerSeverity(checker.getId()), checker.isMetric()));
                     }
                 }
                 languagesPrefs.add(new LanguagePreferencesContainer(language.getId(),
-                        language.getName(), languageEnabled, checkersPrefs));
+                                language.getName(), languageEnabled, checkersPrefs));
 
             }
         }
@@ -246,7 +255,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *             when a checker can be reached for some runtime reasons.
      */
     public static List<CheckerPreferencesContainer> getCheckersPreferences()
-            throws NullContributionException, CoreException {
+                    throws NullContributionException, CoreException {
         final List<CheckerPreferencesContainer> checkPrefs = new ArrayList<>();
         for (CheckerContainer checker : CheckerService.getCheckers()) {
             final String languageId = checker.getLanguage().getId();
@@ -258,20 +267,20 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
                 if (hasMinValue(checker.getId())) {
                     minValue = getMinValue(checker.getId());
                 } else {
-                    minValue = Float.NaN;
+                    minValue = Float.valueOf(Float.NaN);
                 }
                 final Float maxValue;
                 if (hasMaxValue(checker.getId())) {
                     maxValue = getMaxValue(checker.getId());
                 } else {
-                    maxValue = Float.NaN;
+                    maxValue = Float.valueOf(Float.NaN);
                 }
-                checkPrefs.add(
-                        new CheckerPreferencesContainer(languageId, languageName, checker.getId(),
-                                checker.getName(), isEnabled, severity, minValue, maxValue, true));
+                checkPrefs.add(new CheckerPreferencesContainer(languageId, languageName,
+                                checker.getId(), checker.getName(), isEnabled, severity, minValue,
+                                maxValue, true));
             } else {
                 checkPrefs.add(new CheckerPreferencesContainer(languageId, languageName,
-                        checker.getId(), checker.getName(), isEnabled, severity, false));
+                                checker.getId(), checker.getName(), isEnabled, severity, false));
             }
         }
         return checkPrefs;
@@ -299,7 +308,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
             Activator.getDefault().getPreferenceStore().setValue(checkerId + PREF_SEVERITY_KEY,
-                    severity);
+                            severity);
             success = true;
         }
         return success;
@@ -320,18 +329,22 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @param configurationName
      *            Configuration name to set in preferences.
      * @throws NullContributionException
+     *             when a contribution could not be reached.
      */
     public static void setConfiguration(String configurationName) throws NullContributionException {
         Activator.getDefault().getPreferenceStore().setValue(PREF_CONFIGURATION_KEY,
-                configurationName);
-        ConfigurationContainer config = ConfigurationService.getConfigurations(configurationName);
+                        configurationName);
+        final ConfigurationContainer config = ConfigurationService
+                        .getConfigurations(configurationName);
         for (CheckConfigurationContainer checker : config.getCheckConfigurations()) {
-            Activator.getDefault().getPreferenceStore()
-                    .setValue(checker.getCheckId() + PREF_MAX_VALUE_KEY, checker.getMaxValue());
-            Activator.getDefault().getPreferenceStore()
-                    .setValue(checker.getCheckId() + PREF_MIN_VALUE_KEY, checker.getMinValue());
+            Activator.getDefault().getPreferenceStore().setValue(
+                            checker.getCheckId() + PREF_MAX_VALUE_KEY,
+                            checker.getMaxValue().floatValue());
+            Activator.getDefault().getPreferenceStore().setValue(
+                            checker.getCheckId() + PREF_MIN_VALUE_KEY,
+                            checker.getMinValue().floatValue());
             Activator.getDefault().getPreferenceStore().setValue(checker.getCheckId(),
-                    checker.isEnabled());
+                            checker.isEnabled());
         }
 
     }
@@ -356,7 +369,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      */
     public static boolean isDefaultConfigurationActive() {
         return Activator.getDefault().getPreferenceStore().getString(PREF_CONFIGURATION_KEY)
-                .equals(PREF_CONFIGURATION_CUSTOMVALUE);
+                        .equals(PREF_CONFIGURATION_CUSTOMVALUE);
     }
 
     /**
@@ -374,7 +387,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return the maxValue allowed for the <code>checkerId<code>, if it's set.
      */
     public static Float getMaxValue(String checkerId) {
-        return Activator.getDefault().getPreferenceStore().getFloat(checkerId + PREF_MAX_VALUE_KEY);
+        return Float.valueOf(Activator.getDefault().getPreferenceStore()
+                        .getFloat(checkerId + PREF_MAX_VALUE_KEY));
     }
 
     /**
@@ -385,8 +399,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      */
     public static boolean hasMaxValue(String checkerId) {
         return Activator.getDefault().getPreferenceStore().contains(checkerId + PREF_MAX_VALUE_KEY)
-                && !Float.isNaN(Activator.getDefault().getPreferenceStore()
-                        .getFloat(checkerId + PREF_MAX_VALUE_KEY));
+                        && !Float.isNaN(Activator.getDefault().getPreferenceStore()
+                                        .getFloat(checkerId + PREF_MAX_VALUE_KEY));
     }
 
     /**
@@ -396,7 +410,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *         set.
      */
     public static Float getMinValue(String checkerId) {
-        return Activator.getDefault().getPreferenceStore().getFloat(checkerId + PREF_MIN_VALUE_KEY);
+        return Float.valueOf(Activator.getDefault().getPreferenceStore()
+                        .getFloat(checkerId + PREF_MIN_VALUE_KEY));
     }
 
     /**
@@ -407,8 +422,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      */
     public static boolean hasMinValue(String checkerId) {
         return Activator.getDefault().getPreferenceStore().contains(checkerId + PREF_MIN_VALUE_KEY)
-                && !Float.isNaN(Activator.getDefault().getPreferenceStore()
-                        .getFloat(checkerId + PREF_MIN_VALUE_KEY));
+                        && !Float.isNaN(Activator.getDefault().getPreferenceStore()
+                                        .getFloat(checkerId + PREF_MIN_VALUE_KEY));
     }
 
 }

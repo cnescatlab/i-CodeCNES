@@ -10,26 +10,26 @@ package fr.cnes.analysis.tools.ui.exception;
  */
 public class EmptySelectionException extends Exception {
 
-	/**
-	 * Serial Version UID.
-	 */
-	private static final long serialVersionUID = 4395611590755520580L;
+    /**
+     * Serial Version UID.
+     */
+    private static final long serialVersionUID = 4395611590755520580L;
 
-	/**
-	 * Default constructor.
-	 */
-	public EmptySelectionException() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public EmptySelectionException() {
+        super();
+    }
 
-	/**
-	 * Constructor with a message as parameter.
-	 * 
-	 * @param message
-	 *            The exception message.
-	 */
-	public EmptySelectionException(final String message) {
-		super(message);
-	}
+    /**
+     * Constructor with a message as parameter.
+     * 
+     * @param message
+     *            The exception message.
+     */
+    public EmptySelectionException(final String message) {
+        super(message);
+    }
 
 }

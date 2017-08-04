@@ -1,19 +1,16 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -29,6 +26,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
 
 public class ViolationsView extends ViewPart {
 
@@ -80,7 +87,7 @@ public class ViolationsView extends ViewPart {
             int res = value1.getId().compareTo(value2.getId());
             if (res == 0) {
                 res = value1.getFile().getAbsoluteFile()
-                        .compareTo(value2.getFile().getAbsoluteFile());
+                                .compareTo(value2.getFile().getAbsoluteFile());
             }
             return res;
         }
@@ -138,7 +145,7 @@ public class ViolationsView extends ViewPart {
         final Text search = new Text(pParent, SWT.SEARCH | SWT.CANCEL | SWT.ICON_SEARCH);
         search.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
         search.setMessage("Filter : Enter part of file path, name, rule name or function's name... "
-                + "(not case sensitive)");
+                        + "(not case sensitive)");
 
         /*
          * Updating search attribute every time the search field is being
@@ -223,7 +230,7 @@ public class ViolationsView extends ViewPart {
         for (final ViewerFilter filter : this.viewer.getFilters()) {
             if (filter instanceof IUpdatableAnalysisFilter) {
                 ((IUpdatableAnalysisFilter) filter).update(searchString, showInfo, showWarning,
-                        showError);
+                                showError);
             }
         }
         viewer.refresh();
@@ -357,49 +364,51 @@ public class ViolationsView extends ViewPart {
 
         synchronized (this) {
             final Set<CheckResult> listInputs = new TreeSet<CheckResult>(
-                    new Comparator<CheckResult>() {
+                            new Comparator<CheckResult>() {
 
-                        @Override
-                        public int compare(final CheckResult check1, final CheckResult check2) {
-                            int res = check1.getName().split("\\.")[0]
-                                    .compareTo(check2.getName().split("\\.")[0]);
-                            if (res == 0) {
-                                res = check1.getName().split("\\.")[1]
-                                        .compareTo(check2.getName().split("\\.")[1]);
-                                if (res == 0) {
-                                    res = check1.getName().split("\\.")[2]
-                                            .compareTo(check2.getName().split("\\.")[2]);
+                                @Override
+                                public int compare(final CheckResult check1,
+                                                final CheckResult check2) {
+                                    int res = check1.getName().split("\\.")[0]
+                                                    .compareTo(check2.getName().split("\\.")[0]);
                                     if (res == 0) {
-                                        res = check1.getFile().getAbsolutePath()
-                                                .compareTo(check2.getFile().getAbsolutePath());
+                                        res = check1.getName().split("\\.")[1].compareTo(
+                                                        check2.getName().split("\\.")[1]);
                                         if (res == 0) {
-                                            res = check1.getLine().compareTo(check2.getLine());
+                                            res = check1.getName().split("\\.")[2].compareTo(
+                                                            check2.getName().split("\\.")[2]);
                                             if (res == 0) {
-                                                res = check1.getLocation()
-                                                        .compareTo(check2.getLocation());
+                                                res = check1.getFile().getAbsolutePath().compareTo(
+                                                                check2.getFile().getAbsolutePath());
+                                                if (res == 0) {
+                                                    res = check1.getLine()
+                                                                    .compareTo(check2.getLine());
+                                                    if (res == 0) {
+                                                        res = check1.getLocation().compareTo(
+                                                                        check2.getLocation());
+                                                    }
+                                                }
                                             }
                                         }
                                     }
+                                    return res;
                                 }
-                            }
-                            return res;
-                        }
 
-                    });
+                            });
 
             if (this.treeViewerType.equals(FILE_TREE_VIEWER_TYPE)
-                    && ((FileTreeViewerContentProvider) this.viewer.getContentProvider())
-                            .getConverter().getInputs() != null) {
+                            && ((FileTreeViewerContentProvider) this.viewer.getContentProvider())
+                                            .getConverter().getInputs() != null) {
                 for (final CheckResult value : ((FileTreeViewerContentProvider) this.getViewer()
-                        .getContentProvider()).getConverter().getInputs()) {
+                                .getContentProvider()).getConverter().getInputs()) {
                     listInputs.add(value);
                 }
             }
             if (this.treeViewerType.equals(RULE_TREE_VIEWER_TYPE)
-                    && ((RuleTreeViewerContentProvider) this.viewer.getContentProvider())
-                            .getConverter().getInputs() != null) {
+                            && ((RuleTreeViewerContentProvider) this.viewer.getContentProvider())
+                                            .getConverter().getInputs() != null) {
                 for (final CheckResult value : ((RuleTreeViewerContentProvider) this.getViewer()
-                        .getContentProvider()).getConverter().getInputs()) {
+                                .getContentProvider()).getConverter().getInputs()) {
                     listInputs.add(value);
                 }
             }
@@ -462,16 +471,16 @@ public class ViolationsView extends ViewPart {
                 this.createFileTreeViewer(this.parent);
                 // We reinsert inputs from previous TreeViewer in the current
                 // one
-                this.getViewer().setInput(
-                        this.analysisResults.toArray(new CheckResult[this.analysisResults.size()]));
+                this.getViewer().setInput(this.analysisResults
+                                .toArray(new CheckResult[this.analysisResults.size()]));
                 this.treeViewerType = name;
 
             } else if (name.equals(RULE_TREE_VIEWER_TYPE)) {
                 this.createRuleTreeViewer(this.parent);
                 // We reinsert inputs from previous TreeViewer in the current
                 // one
-                this.getViewer().setInput(
-                        this.analysisResults.toArray(new CheckResult[this.analysisResults.size()]));
+                this.getViewer().setInput(this.analysisResults
+                                .toArray(new CheckResult[this.analysisResults.size()]));
                 this.treeViewerType = name;
 
             }

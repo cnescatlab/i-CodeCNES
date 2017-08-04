@@ -1,8 +1,14 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.markers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -24,19 +30,38 @@ import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
  * the decorator. It allows also multiple lines selection.
  * 
  */
-
-public class ViolationWarningMarker {
-    // Marker ID pointing on the image.
+public final class ViolationWarningMarker {
+    /** Marker ID pointing on the image. */
     public static final String MARKER = "fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker";
 
-    // Annotation ID
+    /** Annotation ID */
     public static final String ANNOTATION = "fr.cnes.analysis.tools.ui.ViolationWarning";
 
-    /*
-     * Creates a Marker
+    /**
+     * Default constructor removal to avoid instantiation.
+     */
+    private ViolationWarningMarker() {
+
+    }
+
+    /**
+     * Create a new marker
+     * 
+     * @param res
+     *            The resource in which must be put the marker (file)
+     * @param line
+     *            Line number of the marker
+     * @param description
+     *            The description of the function
+     * @param message
+     *            The error message
+     *
+     * @return the new marker
+     * @throws CoreException
+     *             when marker could not be created.
      */
     public static IMarker createMarker(IResource res, Integer line, String description,
-            String message) throws CoreException {
+                    String message) throws CoreException {
         IMarker marker = null;
         // note: you use the id that is defined in your plugin.xml
         marker = res.createMarker(MARKER);
@@ -47,15 +72,21 @@ public class ViolationWarningMarker {
         return marker;
     }
 
-    /*
-     * returns a list of a resources markers
+    /**
+     * Find all markers in a file.
+     * 
+     * @param resource
+     *            to find marker on.
+     * @return list of a resources markers
      */
     public static List<IMarker> findMarkers(IResource resource) {
+        List<IMarker> markers;
         try {
-            return Arrays.asList(resource.findMarkers(MARKER, true, IResource.DEPTH_ZERO));
-        } catch (CoreException e) {
-            return new ArrayList<IMarker>();
+            markers = Arrays.asList(resource.findMarkers(MARKER, true, IResource.DEPTH_ZERO));
+        } catch (@SuppressWarnings("unused") CoreException e) {
+            markers = new ArrayList<IMarker>();
         }
+        return markers;
     }
 
     /**
@@ -63,15 +94,19 @@ public class ViolationWarningMarker {
      * resource of the resource
      * 
      * @param resource
+     *            to find marker on.
+     * 
      * @return list of markers that are linked to the resource or any
      *         sub-resource or resource
      */
     public static List<IMarker> findAllMarkers(IResource resource) {
+        List<IMarker> markers;
         try {
-            return Arrays.asList(resource.findMarkers(MARKER, true, IResource.DEPTH_INFINITE));
-        } catch (CoreException e) {
-            return new ArrayList<IMarker>();
+            markers = Arrays.asList(resource.findMarkers(MARKER, true, IResource.DEPTH_INFINITE));
+        } catch (@SuppressWarnings("unused") CoreException e) {
+            markers = new ArrayList<IMarker>();
         }
+        return markers;
     }
 
     /**
@@ -82,7 +117,7 @@ public class ViolationWarningMarker {
     public static TreeSelection getTreeSelection() {
         TreeSelection toReturn = null;
         final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                .getSelectionService().getSelection();
+                        .getSelectionService().getSelection();
         if (selection instanceof TreeSelection) {
             toReturn = (TreeSelection) selection;
         }
@@ -97,21 +132,29 @@ public class ViolationWarningMarker {
     public static TextSelection getTextSelection() {
         TextSelection toReturn = null;
         final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                .getSelectionService().getSelection();
+                        .getSelectionService().getSelection();
         if (selection instanceof TextSelection) {
             toReturn = (TextSelection) selection;
         }
         return toReturn;
     }
 
+    /**
+     * @param marker
+     *            Marker to add annotation
+     * @param selection
+     *            selection to add annotation on.
+     * @param editor
+     *            document editor to add annotation on.
+     */
     public static void addAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor) {
         // The DocumentProvider enables to get the document currently loaded in
         // the editor
-        IDocumentProvider idp = editor.getDocumentProvider();
+        final IDocumentProvider idp = editor.getDocumentProvider();
 
         // This is the document we want to connect to. This is taken from the
         // current editor input.
-        IDocument document = idp.getDocument(editor.getEditorInput());
+        final IDocument document = idp.getDocument(editor.getEditorInput());
 
         // The IannotationModel enables to add/remove/change annoatation to a
         // Document loaded in an Editor
@@ -119,7 +162,7 @@ public class ViolationWarningMarker {
 
         // Note: The annotation type id specify that you want to create one of
         // your annotations
-        SimpleMarkerAnnotation ma = new SimpleMarkerAnnotation(ANNOTATION, marker);
+        final SimpleMarkerAnnotation ma = new SimpleMarkerAnnotation(ANNOTATION, marker);
 
         // Finally add the new annotation to the model
         iamf.connect(document);

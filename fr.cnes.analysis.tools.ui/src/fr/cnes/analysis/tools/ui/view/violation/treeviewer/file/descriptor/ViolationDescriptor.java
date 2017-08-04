@@ -49,7 +49,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      *            The filePath to the violation
      */
     public ViolationDescriptor(final String pRuleId, final String pLocation, final String pMessage,
-            final Integer pLine, final IPath pFilePath) {
+                    final Integer pLine, final IPath pFilePath) {
         super();
         this.ruleId = pRuleId;
         this.message = pMessage;
@@ -65,7 +65,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
         this.ruleId = "";
         this.message = "";
         this.location = "";
-        this.line = -1;
+        this.line = Integer.valueOf(-1);
     }
 
     /*
@@ -168,12 +168,19 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
         return clone;
     }
 
+    /**
+     * @return Violation message.
+     */
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    /**
+     * @param pMessage
+     *            Violation message to set.
+     */
+    public void setMessage(String pMessage) {
+        this.message = pMessage;
     }
 
 }
