@@ -1,15 +1,14 @@
-package fr.cnes.analysis.tools.export;
-
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-
 /************************************************************************************************/
 /* i-Code CNES is a static code analyzer. */
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html */
 /************************************************************************************************/
+package fr.cnes.analysis.tools.export;
 
 import java.io.File;
 import java.util.List;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 /**
  * This interface must be implemented by any class of {@code ImportClass}

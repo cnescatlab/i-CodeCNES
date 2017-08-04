@@ -42,13 +42,16 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
     public FunctionDescriptor() {
         this.descriptors = new LinkedList<>();
         this.location = "";
-        this.value = -1;
+        this.value = Integer.valueOf(-1);
     }
 
     /**
      * @param pLocation
+     *            Function's name.
      * @param pValue
+     *            Value computed for the function.
      * @param pFilePath
+     *            Function's file.
      */
     public FunctionDescriptor(final String pLocation, final Integer pValue, final IPath pFilePath) {
         super();
@@ -65,11 +68,11 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
 
     @Override
     public Integer getValue() {
-        Integer sum = 0;
+        int sum = 0;
         for (RuleDescriptor r : this.descriptors) {
-            sum += r.getValue();
+            sum += r.getValue().intValue();
         }
-        return sum;
+        return Integer.valueOf(sum);
     }
 
     /*
@@ -92,18 +95,23 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        FunctionDescriptor other = (FunctionDescriptor) obj;
+        }
+        final FunctionDescriptor other = (FunctionDescriptor) obj;
         if (location == null) {
-            if (other.location != null)
+            if (other.location != null) {
                 return false;
-        } else if (!location.equals(other.location))
+            }
+        } else if (!location.equals(other.location)) {
             return false;
+        }
         return true;
     }
 

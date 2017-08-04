@@ -10,26 +10,26 @@ package fr.cnes.analysis.tools.ui.exception;
  */
 public class EmptyNodeException extends Exception {
 
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = -2622872998164155942L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = -2622872998164155942L;
 
-	/**
-	 * Default constructor.
-	 */
-	public EmptyNodeException() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public EmptyNodeException() {
+        super();
+    }
 
-	/**
-	 * Constructor with a message as parameter.
-	 * 
-	 * @param message
-	 *            The exception message.
-	 */
-	public EmptyNodeException(final String message) {
-		super(message);
-	}
+    /**
+     * Constructor with a message as parameter.
+     * 
+     * @param message
+     *            The exception message.
+     */
+    public EmptyNodeException(final String message) {
+        super(message);
+    }
 
 }

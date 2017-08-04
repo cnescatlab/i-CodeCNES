@@ -1,29 +1,29 @@
-package fr.cnes.analysis.tools.export;
-
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-
 /************************************************************************************************/
 /* i-Code CNES is a static code analyzer. */
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html */
 /************************************************************************************************/
+package fr.cnes.analysis.tools.export;
 
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
+import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
+
 /**
  * This class is an import and export service for i-Code CNES.
  * <p>
- * To use it, your plugin must be dependent of the
- * {@link fr.cnes.analysis.tools.analyzer} plugin.
+ * To use it, your plug-in must be dependent of the
+ * {@link fr.cnes.analysis.tools.analyzer} plug-in.
  * </p>
  * 
  * <p>
@@ -62,7 +62,7 @@ public class Export {
         final Map<String, String> formats = new TreeMap<>();
         for (IConfigurationElement contribution : this.getContributions()) {
             formats.put(contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_FORMATNAME),
-                    contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION));
+                            contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION));
         }
         return formats;
     }
@@ -76,7 +76,7 @@ public class Export {
      */
     private IConfigurationElement[] getContributions() {
         return Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(EXPORT_EXTENSIONPOINT_ID);
+                        .getConfigurationElementsFor(EXPORT_EXTENSIONPOINT_ID);
     }
 
     /**
@@ -99,10 +99,10 @@ public class Export {
      *             exception.
      */
     public void export(List<CheckResult> checkResults, File outputFile,
-            Map<String, String> parameters)
-            throws NoContributorMatchingException, NoExtensionIndicatedException, IOException {
-        final IExport exporter = this
-                .getExportClass(this.getExtensionFromFilePath(outputFile.getAbsolutePath()));
+                    Map<String, String> parameters) throws NoContributorMatchingException,
+                    NoExtensionIndicatedException, IOException {
+        final IExport exporter = this.getExportClass(
+                        this.getExtensionFromFilePath(outputFile.getAbsolutePath()));
         exporter.export(checkResults, outputFile, parameters);
     }
 
@@ -115,7 +115,7 @@ public class Export {
      *             when the indicated format has no exporter defined
      */
     public Map<String, String> getParameters(String formatExtension)
-            throws NoContributorMatchingException {
+                    throws NoContributorMatchingException {
         return this.getExportClass(formatExtension).getParameters();
     }
 
@@ -143,10 +143,10 @@ public class Export {
      *             contributors {@code ExtensionPoint}.
      */
     public List<CheckResult> importResults(File inputFile)
-            throws NoExtensionIndicatedException, NoContributorMatchingException {
+                    throws NoExtensionIndicatedException, NoContributorMatchingException {
         List<CheckResult> checkResults = null;
         final IImport importer = this
-                .getImportClass(this.getExtensionFromFilePath(inputFile.getAbsolutePath()));
+                        .getImportClass(this.getExtensionFromFilePath(inputFile.getAbsolutePath()));
         checkResults = importer.importResults(inputFile);
         if (checkResults == null) {
             throw new NoContributorMatchingException();
@@ -165,7 +165,7 @@ public class Export {
      *             when there is no indicated format in the file's path.
      */
     private String getExtensionFromFilePath(final String filePath)
-            throws NoExtensionIndicatedException {
+                    throws NoExtensionIndicatedException {
         String extension = "";
 
         final int index = filePath.lastIndexOf('.');
@@ -196,10 +196,10 @@ public class Export {
         IImport importClass = null;
         for (IConfigurationElement contribution : this.getContributions()) {
             if (contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION)
-                    .equals(formatExtension)) {
+                            .equals(formatExtension)) {
                 try {
-                    importClass = (IImport) contribution
-                            .createExecutableExtension(EXPORT_EXTENSIONPOINT_ATTRIBUTE_IMPORTCLASS);
+                    importClass = (IImport) contribution.createExecutableExtension(
+                                    EXPORT_EXTENSIONPOINT_ATTRIBUTE_IMPORTCLASS);
                 } catch (CoreException e) {
                     e.printStackTrace();
                 }
@@ -233,10 +233,10 @@ public class Export {
         IExport exportClass = null;
         for (IConfigurationElement contribution : this.getContributions()) {
             if (contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION)
-                    .equals(formatExtension)) {
+                            .equals(formatExtension)) {
                 try {
-                    Object o = contribution
-                            .createExecutableExtension(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS);
+                    final Object o = contribution.createExecutableExtension(
+                                    EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS);
                     if (o instanceof IExport) {
                         exportClass = (IExport) o;
                     }

@@ -10,26 +10,26 @@ package fr.cnes.analysis.tools.ui.exception;
  */
 public class UnknownInstanceException extends Exception {
 
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = 431826525188171840L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 431826525188171840L;
 
-	/**
-	 * Default constructor.
-	 */
-	public UnknownInstanceException() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public UnknownInstanceException() {
+        super();
+    }
 
-	/**
-	 * Constructor with a message as parameter.
-	 * 
-	 * @param message
-	 *            The exception message.
-	 */
-	public UnknownInstanceException(final String message) {
-		super(message);
-	}
+    /**
+     * Constructor with a message as parameter.
+     * 
+     * @param message
+     *            The exception message.
+     */
+    public UnknownInstanceException(final String message) {
+        super(message);
+    }
 
 }

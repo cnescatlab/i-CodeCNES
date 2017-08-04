@@ -1,24 +1,29 @@
-/**
- * 
- */
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+
 /**
- *
+ * Editing support for Severity.
  */
 public class SeverityEditingSupport extends EditingSupport {
 
+    /** TableViewer containing the column */
     private final TableViewer viewer;
 
     /**
      * @param pViewer
+     *            TableViewer containing the column
      */
     public SeverityEditingSupport(TableViewer pViewer) {
         super(pViewer);
@@ -33,7 +38,8 @@ public class SeverityEditingSupport extends EditingSupport {
      */
     @Override
     protected CellEditor getCellEditor(Object element) {
-        String[] severity = new String[3];
+        final int options = 3;
+        final String[] severity = new String[options];
         severity[0] = UserPreferencesService.PREF_SEVERITY_INFO_VALUE;
         severity[1] = UserPreferencesService.PREF_SEVERITY_WARNING_VALUE;
         severity[2] = UserPreferencesService.PREF_SEVERITY_ERROR_VALUE;
@@ -58,25 +64,25 @@ public class SeverityEditingSupport extends EditingSupport {
      */
     @Override
     protected Object getValue(Object element) {
-        Integer severityCode;
-        String severity;
+        final Integer severityCode;
+        final String severity;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
             severity = ((CheckerPreferencesContainer) element).getSeverity();
         } else {
             severity = UserPreferencesService
-                    .getCheckerSeverity(((CheckerPreferencesContainer) element).getId());
+                            .getCheckerSeverity(((CheckerPreferencesContainer) element).getId());
         }
         switch (severity) {
-            case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
-                severityCode = 2;
-                break;
-            case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
-                severityCode = 1;
-                break;
-            case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
-            default:
-                severityCode = 0;
-                break;
+        case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
+            severityCode = Integer.valueOf(2);
+            break;
+        case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
+            severityCode = Integer.valueOf(1);
+            break;
+        case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
+        default:
+            severityCode = Integer.valueOf(0);
+            break;
         }
         return severityCode;
     }
@@ -89,19 +95,19 @@ public class SeverityEditingSupport extends EditingSupport {
      */
     @Override
     protected void setValue(Object element, Object value) {
-        Integer severityCode = (Integer) value;
-        String severity;
+        final int severityCode = ((Integer) value).intValue();
+        final String severity;
         switch (severityCode) {
-            case 2:
-                severity = UserPreferencesService.PREF_SEVERITY_ERROR_VALUE;
-                break;
-            case 1:
-                severity = UserPreferencesService.PREF_SEVERITY_WARNING_VALUE;
-                break;
-            case 0:
-            default:
-                severity = UserPreferencesService.PREF_SEVERITY_INFO_VALUE;
-                break;
+        case 2:
+            severity = UserPreferencesService.PREF_SEVERITY_ERROR_VALUE;
+            break;
+        case 1:
+            severity = UserPreferencesService.PREF_SEVERITY_WARNING_VALUE;
+            break;
+        case 0:
+        default:
+            severity = UserPreferencesService.PREF_SEVERITY_INFO_VALUE;
+            break;
         }
         ((CheckerPreferencesContainer) element).setSeverity(severity);
         viewer.refresh();

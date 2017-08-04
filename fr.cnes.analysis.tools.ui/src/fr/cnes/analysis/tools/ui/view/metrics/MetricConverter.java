@@ -5,15 +5,17 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 
 /**
  * Job used to converter inputs from analysis to valuable inputs for the
@@ -22,7 +24,9 @@ import org.eclipse.core.runtime.jobs.Job;
  */
 public class MetricConverter extends Job {
     /** Logger. **/
-    public final static Logger LOGGER = Logger.getLogger(MetricConverter.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(MetricConverter.class.getName());
+
+    private static final String CONVERT_JOB_MESSAGE = "Converting results...";
 
     /** The original inputs. **/
     private CheckResult[] inputs;
@@ -33,7 +37,7 @@ public class MetricConverter extends Job {
      * Empty constructor for this Job.
      */
     public MetricConverter() {
-        super("Converting results...");
+        super(CONVERT_JOB_MESSAGE);
         this.inputs = new CheckResult[0];
         this.container = new MetricDescriptor[0];
 
@@ -46,7 +50,7 @@ public class MetricConverter extends Job {
      *            the inputs
      */
     public MetricConverter(final CheckResult[] checkResults) {
-        super("Converting results...");
+        super(CONVERT_JOB_MESSAGE);
         this.inputs = checkResults.clone();
         this.container = new MetricDescriptor[0];
     }
@@ -100,7 +104,7 @@ public class MetricConverter extends Job {
         LOGGER.finest("Begin run method");
 
         // Instantiate return variable
-        IStatus status = Status.OK_STATUS;
+        final IStatus status = Status.OK_STATUS;
         final int totalWork = this.inputs.length;
 
         // Instantiate descriptors
@@ -122,13 +126,13 @@ public class MetricConverter extends Job {
             boolean metricDefined = false;
             boolean fileDefined = false;
             while (metricIndex < descriptors.size() && !metricDefined) {
-                MetricDescriptor metric = descriptors.get(metricIndex);
+                final MetricDescriptor metric = descriptors.get(metricIndex);
                 if (checker.getName().equals(metric.getName())) {
                     metricDefined = true;
                     while (fileIndex < metric.getDescriptors().size() && !fileDefined) {
-                        FileMetricDescriptor file = metric.getDescriptors().get(fileIndex);
+                        final FileMetricDescriptor file = metric.getDescriptors().get(fileIndex);
                         if (file.getFilePath().toFile().getAbsolutePath()
-                                .equals(checker.getFile().getAbsolutePath())) {
+                                        .equals(checker.getFile().getAbsolutePath())) {
                             fileDefined = true;
                         } else {
                             fileIndex++;
@@ -144,14 +148,14 @@ public class MetricConverter extends Job {
             /*
              * 2.1 Defining the metric if not defined
              */
-            MetricDescriptor metric;
+            final MetricDescriptor metric;
             if (!metricDefined) {
                 metric = new MetricDescriptor(checker.getName());
                 descriptors.add(metric);
             } else {
                 metric = descriptors.get(metricIndex);
             }
-            FileMetricDescriptor file;
+            final FileMetricDescriptor file;
             /*
              * 2.2 If the checker is defined for a file. The job is done once
              * FileMetricDescriptor is updated or created.
@@ -159,7 +163,7 @@ public class MetricConverter extends Job {
             if (checker.getLocation() == null || checker.getLocation().isEmpty()) {
                 if (!fileDefined) {
                     file = new FileMetricDescriptor(new Path(checker.getFile().getAbsolutePath()),
-                            checker.getValue());
+                                    checker.getValue());
                     metric.getDescriptors().add(file);
                 } else {
                     file = metric.getDescriptors().get(fileIndex);
@@ -178,10 +182,9 @@ public class MetricConverter extends Job {
                 } else {
                     file = metric.getDescriptors().get(fileIndex);
                 }
-                file.getDescriptors()
-                        .add(new FunctionMetricDescriptor(checker.getId(), checker.getLocation(),
-                                checker.getValue(), new Path(checker.getFile().getAbsolutePath()),
-                                checker.getLine()));
+                file.getDescriptors().add(new FunctionMetricDescriptor(checker.getId(),
+                                checker.getLocation(), checker.getValue(),
+                                new Path(checker.getFile().getAbsolutePath()), checker.getLine()));
             }
         }
         this.container = descriptors.toArray(new MetricDescriptor[descriptors.size()]);
