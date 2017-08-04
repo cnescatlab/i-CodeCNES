@@ -5,12 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.export.Export;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -27,6 +22,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.export.Export;
+import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
+import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
 /**
  * This class is an adaptive {@link WizardNewFileCreationPage} which format is
@@ -43,7 +45,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPage {
     /** The logger **/
     public static final Logger LOGGER = Logger
-            .getLogger(CheckerFileCreationExportWizardPage.class.getName());
+                    .getLogger(CheckerFileCreationExportWizardPage.class.getName());
 
     /** Export service used */
     private Export exporter;
@@ -61,13 +63,13 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      *            the format requested by the user (can be default one also).
      */
     public CheckerFileCreationExportWizardPage(final IStructuredSelection selection,
-            String pRequestedFormat) {
+                    String pRequestedFormat) {
         super("RuleCreationFileExportWizardPage", selection);
         exporter = new Export();
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Rules export (" + pRequestedFormat + ")");
-        this.setDescription(
-                "Description : Create a result export file in " + pRequestedFormat + " format.");
+        this.setDescription("Description : Create a result export file in " + pRequestedFormat
+                        + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
     }
 
@@ -87,8 +89,8 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
     public void updateFormat(String pRequestedFormat) {
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Analysis results export (" + pRequestedFormat + ")");
-        this.setDescription(
-                "Description : Create a result export file in " + pRequestedFormat + " format.");
+        this.setDescription("Description : Create a result export file in " + pRequestedFormat
+                        + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
     }
 
@@ -105,26 +107,26 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
         InputStream stream = null;
         try {
             // create a temporary file
-            File temp;
+            final File temp;
             temp = File.createTempFile("export",
-                    "." + exporter.getAvailableFormats().get(this.requestedFormat));
-            Export export = new Export();
+                            "." + exporter.getAvailableFormats().get(this.requestedFormat));
+            final Export export = new Export();
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                    .getActivePage();
+                            .getActivePage();
 
             // open view
             page.showView(ViolationsView.VIEW_ID);
 
             // get view
             final ViolationsView violationView = (ViolationsView) page
-                    .findView(ViolationsView.VIEW_ID);
+                            .findView(ViolationsView.VIEW_ID);
             page.showView(MetricsView.VIEW_ID);
             final MetricsView metricsView = (MetricsView) page.findView(MetricsView.VIEW_ID);
             /*
              * Retrieving violations to export into a list.
              */
-            List<CheckResult> checkResults = new ArrayList<>();
+            final List<CheckResult> checkResults = new ArrayList<>();
             checkResults.addAll(violationView.getAnalysisResults());
             checkResults.addAll(metricsView.getAnalysisResult());
             /* exporting the violations into the temp file */
@@ -133,24 +135,28 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             stream = new FileInputStream(temp);
         } catch (final IOException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         } catch (final PartInitException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         } catch (NoContributorMatchingException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         } catch (NoExtensionIndicatedException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
         LOGGER.finest("End getInitialContents method");
         return stream;

@@ -1,12 +1,18 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter;
+
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 
 /**
  * This class is a filter to apply on RuleTreeViewers.
@@ -44,14 +50,14 @@ public class RuleViewerFilter extends ViewerFilter implements IUpdatableAnalysis
                     show = false;
                     for (FileRuleDescriptor file : rule.getDescriptors()) {
                         if (file.getFilePath().toString().toUpperCase()
-                                .contains(searchString.toUpperCase())) {
+                                        .contains(searchString.toUpperCase())) {
                             show = true;
                             filteringFile = true;
 
                         } else {
                             for (FunctionRuleDescriptor function : file.getDescriptors()) {
                                 if (function.getName().toUpperCase()
-                                        .contains(searchString.toUpperCase())) {
+                                                .contains(searchString.toUpperCase())) {
                                     show = true;
                                 }
                             }
@@ -62,7 +68,7 @@ public class RuleViewerFilter extends ViewerFilter implements IUpdatableAnalysis
         } else if (pElement instanceof FileRuleDescriptor) {
             final FileRuleDescriptor file = (FileRuleDescriptor) pElement;
             if (file.getFilePath().toString().toUpperCase().contains(searchString.toUpperCase())
-                    || filteringRule) {
+                            || filteringRule) {
                 show = true;
             } else {
                 for (FunctionRuleDescriptor function : file.getDescriptors()) {
@@ -74,7 +80,7 @@ public class RuleViewerFilter extends ViewerFilter implements IUpdatableAnalysis
         } else if (pElement instanceof FunctionRuleDescriptor) {
             final FunctionRuleDescriptor function = (FunctionRuleDescriptor) pElement;
             show = function.getName().toUpperCase().contains(searchString.toUpperCase())
-                    || filteringFile || filteringRule;
+                            || filteringFile || filteringRule;
         }
         return show;
 
@@ -82,16 +88,18 @@ public class RuleViewerFilter extends ViewerFilter implements IUpdatableAnalysis
 
     private boolean checkSeverity(RuleDescriptor rule) {
         return (rule.getSeverity().equals(UserPreferencesService.PREF_SEVERITY_WARNING_VALUE)
-                && showWarning)
-                || (rule.getSeverity().equals(UserPreferencesService.PREF_SEVERITY_ERROR_VALUE)
-                        && showError)
-                || (rule.getSeverity().equals(UserPreferencesService.PREF_SEVERITY_INFO_VALUE)
-                        && showInfo);
+                        && showWarning)
+                        || (rule.getSeverity()
+                                        .equals(UserPreferencesService.PREF_SEVERITY_ERROR_VALUE)
+                                        && showError)
+                        || (rule.getSeverity()
+                                        .equals(UserPreferencesService.PREF_SEVERITY_INFO_VALUE)
+                                        && showInfo);
     }
 
     @Override
     public void update(String searchString, boolean showInfo, boolean showWarning,
-            boolean showError) {
+                    boolean showError) {
         this.searchString = searchString;
         this.showError = showError;
         this.showWarning = showWarning;

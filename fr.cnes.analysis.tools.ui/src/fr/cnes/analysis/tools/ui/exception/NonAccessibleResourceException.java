@@ -11,31 +11,31 @@ package fr.cnes.analysis.tools.ui.exception;
  */
 public class NonAccessibleResourceException extends Exception {
 
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = 6576045126274438859L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 6576045126274438859L;
 
-	/**
-	 * Constructor with message.
-	 * 
-	 * @param message
-	 *            the error message.
-	 */
-	public NonAccessibleResourceException(final String message) {
-		super(message);
-	}
+    /**
+     * Constructor with message.
+     * 
+     * @param message
+     *            the error message.
+     */
+    public NonAccessibleResourceException(final String message) {
+        super(message);
+    }
 
-	/**
-	 * Constructor with message and original exception.
-	 * 
-	 * @param message
-	 *            the error message.
-	 * @param exception
-	 *            original exception.
-	 */
-	public NonAccessibleResourceException(final String message, final Exception exception) {
-		super(message, exception);
-	}
+    /**
+     * Constructor with message and original exception.
+     * 
+     * @param message
+     *            the error message.
+     * @param exception
+     *            original exception.
+     */
+    public NonAccessibleResourceException(final String message, final Exception exception) {
+        super(message, exception);
+    }
 
 }

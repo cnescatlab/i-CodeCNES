@@ -5,10 +5,12 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.eclipse.core.runtime.IPath;
+
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
 /**
  * Descriptor for a Rule that is intended to be shown.</br>
@@ -47,7 +49,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
         this.ruleId = "";
         this.name = "";
         this.location = "";
-        this.value = -1;
+        this.value = Integer.valueOf(-1);
         this.descriptors = new LinkedList<>();
     }
 
@@ -67,7 +69,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
      *            Path to the file containing the rule
      */
     public RuleDescriptor(String pRuleId, String pName, String pLocation, Integer pValue,
-            IPath pPath) {
+                    IPath pPath) {
         super();
         this.ruleId = pRuleId;
         this.name = pName;
@@ -140,7 +142,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public Integer getValue() {
-        return this.descriptors.size();
+        return Integer.valueOf(this.descriptors.size());
     }
 
     /**
@@ -174,7 +176,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final boolean isEqual;
         if (object instanceof RuleDescriptor) {
             isEqual = this.name.equals(((RuleDescriptor) object).getName());
         } else {

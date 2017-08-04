@@ -1,10 +1,10 @@
-/**
- * 
- */
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
@@ -12,16 +12,24 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+
 /**
- *
+ * Editing support for Enabled cells.
  */
 public class EnabledEditingSupport extends EditingSupport {
 
+    /** Column viewer containing the cell */
     private final ColumnViewer viewer;
+    /** TableViewer containing the column */
     private CheckerTableViewer checkerTableViewer;
 
     /**
      * @param pViewer
+     *            Column viewer containing the cell
+     * @param pCheckerTableViewer
+     *            TableViewer containing the column
      */
     public EnabledEditingSupport(TableViewer pViewer, CheckerTableViewer pCheckerTableViewer) {
         super(pViewer);
@@ -57,12 +65,14 @@ public class EnabledEditingSupport extends EditingSupport {
      */
     @Override
     protected Object getValue(Object element) {
+        final Object value;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
-            return ((CheckerPreferencesContainer) element).isChecked();
+            value = Boolean.valueOf(((CheckerPreferencesContainer) element).isChecked());
         } else {
-            return UserPreferencesService
-                    .isEnabledChecker(((CheckerPreferencesContainer) element).getId());
+            value = Boolean.valueOf(UserPreferencesService
+                            .isEnabledChecker(((CheckerPreferencesContainer) element).getId()));
         }
+        return value;
     }
 
     /*
@@ -73,9 +83,9 @@ public class EnabledEditingSupport extends EditingSupport {
      */
     @Override
     protected void setValue(Object element, Object value) {
-        ((CheckerPreferencesContainer) element).setChecked((Boolean) value);
+        ((CheckerPreferencesContainer) element).setChecked(((Boolean) value).booleanValue());
 
-        if (!(Boolean) value) {
+        if (!((Boolean) value).booleanValue()) {
             this.checkerTableViewer.setAllEnabledChecker(false);
         }
         viewer.refresh();

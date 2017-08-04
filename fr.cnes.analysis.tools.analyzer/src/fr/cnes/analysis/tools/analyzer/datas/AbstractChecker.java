@@ -6,14 +6,16 @@
  */
 package fr.cnes.analysis.tools.analyzer.datas;
 
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.eclipse.core.runtime.IConfigurationElement;
+
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 /**
  * This class must be extended by any Rule analyzer or Metric computer
@@ -32,11 +34,13 @@ import org.eclipse.core.runtime.IConfigurationElement;
  * </p>
  */
 public abstract class AbstractChecker {
-    /** Analysed file. */
+    /** Analyzed file. */
     private File inputFile;
 
     /** List of {@link CheckResult} found during analysis. **/
     private List<CheckResult> checkResults = new ArrayList<>();
+    /** The configuration element linked to this evaluation. **/
+    private IConfigurationElement contribution;
 
     /**
      * Run analysis for considering file and rule.
@@ -63,11 +67,11 @@ public abstract class AbstractChecker {
      *             exception thrown when cloning error appears
      */
     protected void setError(final String pLocation, final String pMessage, final int pLine)
-            throws JFlexException {
-        CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
-                this.getContribution().getAttribute("id"),
-                this.getContribution().getAttribute("languageId"));
-        checkResult.setLine(pLine);
+                    throws JFlexException {
+        final CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
+                        this.getContribution().getAttribute("id"),
+                        this.getContribution().getAttribute("languageId"));
+        checkResult.setLine(Integer.valueOf(pLine));
         checkResult.setLocation(pLocation);
         checkResult.setMessage(pMessage);
         checkResult.setFile(inputFile);
@@ -89,13 +93,13 @@ public abstract class AbstractChecker {
      *             exception thrown when cloning error appears
      */
     protected void computeMetric(final String pLocation, final float pValue, final int pLine)
-            throws JFlexException {
-        CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
-                this.getContribution().getAttribute("id"),
-                this.getContribution().getAttribute("languageId"));
-        checkResult.setLine(pLine);
+                    throws JFlexException {
+        final CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
+                        this.getContribution().getAttribute("id"),
+                        this.getContribution().getAttribute("languageId"));
+        checkResult.setLine(Integer.valueOf(pLine));
         checkResult.setLocation(pLocation);
-        checkResult.setValue(pValue);
+        checkResult.setValue(Float.valueOf(pValue));
         checkResult.setFile(this.inputFile);
         this.checkResults.add(checkResult);
 
@@ -104,22 +108,19 @@ public abstract class AbstractChecker {
     /**
      * Set the input file to be analyzed.
      * 
-     * @param inputFile
+     * @param pInputFile
      *            file's path
      * @throws FileNotFoundException
      *             exception thrown when a file is not found
      */
     public void setInputFile(final File pInputFile) throws FileNotFoundException {
         this.checkResults = new LinkedList<CheckResult>();
-        CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
-                this.getContribution().getAttribute("id"),
-                this.getContribution().getAttribute("languageId"));
+        final CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
+                        this.getContribution().getAttribute("id"),
+                        this.getContribution().getAttribute("languageId"));
         checkResult.setFile(pInputFile);
         this.inputFile = pInputFile;
     }
-
-    /** The configuration element linked to this evaluation. **/
-    private IConfigurationElement contribution;
 
     /**
      * Getter for the contribution.

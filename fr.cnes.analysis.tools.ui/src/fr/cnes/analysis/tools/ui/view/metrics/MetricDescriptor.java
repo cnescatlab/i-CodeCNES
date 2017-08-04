@@ -84,9 +84,9 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getValue() {
-        Float value = 0.0f;
+        Float value = Float.valueOf(0.0f);
         for (final FileMetricDescriptor descriptor : this.descriptors) {
-            value = value + descriptor.getValue();
+            value = Float.valueOf(value.floatValue() + descriptor.getValue().floatValue());
         }
         return value;
     }
@@ -98,13 +98,13 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMean() {
-        Float mean = 0.0f;
-        Float totalSize = 0.0f;
+        float mean = 0.0f;
+        float totalSize = 0.0f;
         for (final FileMetricDescriptor descriptor : this.descriptors) {
-            mean = mean + descriptor.getMean() * descriptor.getDescriptors().size();
+            mean = mean + descriptor.getMean().floatValue() * descriptor.getDescriptors().size();
             totalSize = totalSize + descriptor.getDescriptors().size();
         }
-        return mean / totalSize;
+        return Float.valueOf(mean / totalSize);
     }
 
     /*
@@ -115,13 +115,13 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMinimum() {
-        Float min = Float.POSITIVE_INFINITY;
+        float min = Float.NaN;
         for (final FileMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getMinimum() < min) {
-                min = descriptor.getMinimum();
+            if (descriptor.getMinimum().floatValue() < min || Float.isNaN(min)) {
+                min = descriptor.getMinimum().floatValue();
             }
         }
-        return min;
+        return Float.valueOf(min);
     }
 
     /*
@@ -132,13 +132,13 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMaximum() {
-        Float max = Float.NEGATIVE_INFINITY;
+        float max = Float.NaN;
         for (final FileMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getMaximum() > max) {
-                max = descriptor.getMaximum();
+            if (descriptor.getMaximum().floatValue() > max || Float.isNaN(max)) {
+                max = descriptor.getMaximum().floatValue();
             }
         }
-        return max;
+        return Float.valueOf(max);
     }
 
     /*
@@ -149,10 +149,10 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getMinCause() {
-        final Float min = Float.POSITIVE_INFINITY;
+        final float min = Float.NaN;
         String minCause = "";
         for (final FileMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getMinimum() < min) {
+            if (descriptor.getMinimum().floatValue() < min || Float.isNaN(min)) {
                 minCause = descriptor.getName();
             }
         }
@@ -167,10 +167,10 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getMaxCause() {
-        final Float max = Float.POSITIVE_INFINITY;
+        final float max = Float.NaN;
         String maxCause = "";
         for (final FileMetricDescriptor descriptor : this.descriptors) {
-            if (descriptor.getMaximum() > max) {
+            if (descriptor.getMaximum().floatValue() > max || Float.isNaN(max)) {
                 maxCause = descriptor.getName();
             }
         }
@@ -199,7 +199,7 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final boolean isEqual;
         if (object instanceof MetricDescriptor) {
             isEqual = this.name.equals(((MetricDescriptor) object).getName());
         } else {

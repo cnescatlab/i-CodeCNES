@@ -5,9 +5,8 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.decorators;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import java.util.List;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IDecoration;
@@ -15,6 +14,9 @@ import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
+
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 
 /**
  * Put a new Decoration in the files tree on the top right of an icon of a file
@@ -33,7 +35,9 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
      * Link to the Violation Error icon
      */
     public static final String ICON = ImageFactory.ERROR_VERY_SMALL;
-    public static final String ID_VIOLATION_ERROR_DECORATOR = "fr.cnes.tools.ui.decorators.violationerrordecorator";
+    /** Decorator ID */
+    public static final String ID_VIOLATION_ERROR_DECORATOR = "fr.cnes.tools.ui."
+                    + "decorators.violationerrordecorator";
 
     /**
      * An Violation Error icon is being put on the top-right of the icon's file

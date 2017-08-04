@@ -1,3 +1,8 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
 import java.util.logging.Level;
@@ -21,7 +26,7 @@ import org.eclipse.ui.ide.IDE;
 public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
 
     public final static Logger LOGGER = Logger
-            .getLogger(AbstractAnalysisTreeViewer.class.getName());
+                    .getLogger(AbstractAnalysisTreeViewer.class.getName());
 
     /** Titles of the columns */
     private String[] titles;
@@ -40,7 +45,7 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            Bounds of the TreeViewer.
      */
     public AbstractAnalysisTreeViewer(Composite parent, int style, String[] pTitles,
-            int[] pBounds) {
+                    int[] pBounds) {
         super(parent, style);
 
         this.titles = pTitles;
@@ -75,7 +80,7 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     protected void openFileInEditor(final IResource res, final int line) {
         LOGGER.finest("begin method openFileInEditor");
         final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                .getActivePage();
+                        .getActivePage();
         try {
             // Before creating the marker
             res.deleteMarkers(IMarker.MARKER, false, 1);
@@ -84,9 +89,9 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
             IDE.openEditor(page, marker);
         } catch (final CoreException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Marker problem", exception.getMessage());
+                            "Marker problem", exception.getMessage());
         }
         LOGGER.finest("end method openFileInEditor");
     }

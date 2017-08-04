@@ -6,12 +6,6 @@
  */
 package fr.cnes.analysis.tools.analyzer;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
-import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
-import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
-import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +15,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
+
 import org.eclipse.core.runtime.CoreException;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
+import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
+import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 
 /**
  * <h1>i-Code CNES Analyzer service</h1>
@@ -45,12 +47,11 @@ import org.eclipse.core.runtime.CoreException;
  *
  */
 public class Analyzer {
+    /** Analyzer plugin ID */
+    public static final String ANALYZER_PLUGIN_ID = "fr.cnes.analysis.tools.analyzer";
 
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger(Analyzer.class.getName());
-
-    /** Analyzer plugin ID */
-    public static final String ANALYZER_PLUGIN_ID = "fr.cnes.analysis.tools.analyzer";
 
     /** Number of thread to run the analysis */
     private static int THREAD_NB = 1;
@@ -81,7 +82,7 @@ public class Analyzer {
      *             when the syntax analysis failed.
      */
     public List<CheckResult> check(List<File> pInputFiles, List<String> pLanguageIds,
-            List<String> pExcludedCheckIds) throws IOException, JFlexException {
+                    List<String> pExcludedCheckIds) throws IOException, JFlexException {
         final String methodName = "check";
         LOGGER.entering(this.getClass().getName(), methodName);
 
@@ -98,8 +99,6 @@ public class Analyzer {
          * The number of threads could be defined by the number of files or the
          * number of rule or both of them. This is pending how we decide to run
          * the analysis.
-         * 
-         * TODO : Chose one solution for the number of threads
          */
         final ExecutorService service = Executors.newFixedThreadPool(THREAD_NB);
         final List<Future<List<CheckResult>>> analyzers = new ArrayList<Future<List<CheckResult>>>();
@@ -116,13 +115,12 @@ public class Analyzer {
                 for (File file : pInputFiles) {
                     if (checker.canVerifyFormat(this.getFileExtension(file.getAbsolutePath()))) {
                         final CallableChecker callableAnalysis = new CallableChecker(
-                                checker.getChecker(), file);
+                                        checker.getChecker(), file);
                         analyzers.add(service.submit(callableAnalysis));
                     }
                 }
             }
         } catch (NullContributionException | CoreException e) {
-            // TODO : Define how to handles theses cases.
             e.printStackTrace();
         }
         for (Future<List<CheckResult>> analysis : analyzers) {

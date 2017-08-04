@@ -5,14 +5,13 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export;
 
-import fr.cnes.analysis.tools.export.Export;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -27,6 +26,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import fr.cnes.analysis.tools.export.Export;
+import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
 
 /**
  * This class is the main page of the {@link CheckerExportWizard}. It's
@@ -70,7 +72,7 @@ public class CheckerExportWizardPage extends WizardPage {
         super("RuleExportWizardPage");
         this.setTitle("i-Code CNES - Analysis result export.");
         this.setDescription(
-                "Description : Please choose the format of the export of you file. \nNote: This export will contain both metric & rules analysis result.");
+                        "Description : Please choose the format of the export of you file. \nNote: This export will contain both metric & rules analysis result.");
         this.exporter = exporter;
         formatButtons = new ArrayList<>();
         parametersFields = new HashMap<>();
@@ -98,7 +100,7 @@ public class CheckerExportWizardPage extends WizardPage {
         setControl(container);
         container.setLayout(new GridLayout(1, false));
         for (String export : exporter.getAvailableFormats().keySet()) {
-            Button btn = new Button(container, SWT.RADIO);
+            final Button btn = new Button(container, SWT.RADIO);
             btn.setText(export);
 
             /*
@@ -107,8 +109,8 @@ public class CheckerExportWizardPage extends WizardPage {
             btn.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    CheckerFileCreationExportWizardPage nextPage = (CheckerFileCreationExportWizardPage) getWizard()
-                            .getPage("RuleCreationFileExportWizardPage");
+                    final CheckerFileCreationExportWizardPage nextPage = (CheckerFileCreationExportWizardPage) getWizard()
+                                    .getPage("RuleCreationFileExportWizardPage");
                     nextPage.updateFormat(btn.getText());
                     this.updateParameters(nextPage);
                     container.layout();
@@ -125,21 +127,21 @@ public class CheckerExportWizardPage extends WizardPage {
                     }
                     parametersFields.clear();
                     try {
-                        if (exporter
-                                .hasParameters(exporter.getAvailableFormats().get(btn.getText()))) {
-                            Map<String, String> params = exporter.getParameters(
-                                    exporter.getAvailableFormats().get(btn.getText()));
+                        if (exporter.hasParameters(
+                                        exporter.getAvailableFormats().get(btn.getText()))) {
+                            final Map<String, String> params = exporter.getParameters(
+                                            exporter.getAvailableFormats().get(btn.getText()));
                             parametersIndicator = new Label(container,
-                                    SWT.WRAP | SWT.BORDER | SWT.LEFT);
+                                            SWT.WRAP | SWT.BORDER | SWT.LEFT);
                             if (params.size() == 1) {
                                 parametersIndicator.setText(
-                                        "Information : This export requires parameters, edit default parameter if necessary before reaching next page.");
+                                                "Information : This export requires parameters, edit default parameter if necessary before reaching next page.");
                             } else {
                                 parametersIndicator.setText(
-                                        "Information : This export requires parameters, edit default parameters if necessary before reaching next page.");
+                                                "Information : This export requires parameters, edit default parameters if necessary before reaching next page.");
                             }
                             final GridData data = new GridData(SWT.HORIZONTAL, SWT.TOP, true, false,
-                                    1, 1);
+                                            1, 1);
                             parametersIndicator.setLayoutData(data);
                             for (String key : params.keySet()) {
 
@@ -154,11 +156,11 @@ public class CheckerExportWizardPage extends WizardPage {
 
                                     @Override
                                     public void modifyText(ModifyEvent e) {
-                                        Map<String, String> params = new TreeMap<>();
+                                        final Map<String, String> params = new TreeMap<>();
                                         for (Entry<Label, Text> param : parametersFields
-                                                .entrySet()) {
+                                                        .entrySet()) {
                                             params.put(param.getKey().getText(),
-                                                    param.getValue().getText());
+                                                            param.getValue().getText());
                                         }
                                         nextPage.updateParameters(params);
 
@@ -171,7 +173,7 @@ public class CheckerExportWizardPage extends WizardPage {
                             }
                             nextPage.updateParameters(params);
                         }
-                       
+
                     } catch (NoContributorMatchingException e) {
                         e.printStackTrace();
                     }
@@ -185,8 +187,8 @@ public class CheckerExportWizardPage extends WizardPage {
 
         if (this.formatButtons.size() > 0) {
             this.formatButtons.get(0).setSelection(true);
-            CheckerFileCreationExportWizardPage nextPage = (CheckerFileCreationExportWizardPage) getWizard()
-                    .getPage("RuleCreationFileExportWizardPage");
+            final CheckerFileCreationExportWizardPage nextPage = (CheckerFileCreationExportWizardPage) getWizard()
+                            .getPage("RuleCreationFileExportWizardPage");
             nextPage.updateFormat(this.formatButtons.get(0).getText());
         }
 

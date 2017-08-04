@@ -5,15 +5,17 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.PlatformUI;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 
 /**
  * This class provides a content provider for the tree viewer in the metric
@@ -23,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class MetricContentProvider implements ITreeContentProvider {
     /** Logger **/
-    private final static Logger LOGGER = Logger.getLogger(MetricContentProvider.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MetricContentProvider.class.getName());
 
     /** A value container which has all values of metrics. **/
     private MetricConverter converter;
@@ -59,7 +61,7 @@ public class MetricContentProvider implements ITreeContentProvider {
         LOGGER.finest("Begin hasChildren method");
 
         // Every type has a child except for FunctionValue type
-        boolean result;
+        final boolean result;
         if (element instanceof FunctionMetricDescriptor) {
             result = false;
         } else if (element instanceof FileMetricDescriptor) {
@@ -108,20 +110,22 @@ public class MetricContentProvider implements ITreeContentProvider {
 
             } else if (newInput != null) {
                 final UnknownInstanceException exception = new UnknownInstanceException(
-                        "inputChanged method of AbstractContentProvider has a "
-                                + newInput.getClass().getName()
-                                + " type instead of a Descriptor<?>[] instance");
+                                "inputChanged method of AbstractContentProvider has a "
+                                                + newInput.getClass().getName()
+                                                + " type instead of a Descriptor<?>[] instance");
                 LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                        exception);
+                                exception);
                 MessageDialog.openError(
-                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        "Internal Error", "Contact support service : \n" + exception.getMessage());
+                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                "Internal Error",
+                                "Contact support service : \n" + exception.getMessage());
             }
         } catch (final InterruptedException exception) {
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.finest("End inputChanged method");
@@ -155,13 +159,13 @@ public class MetricContentProvider implements ITreeContentProvider {
             // The parent element can be a FileValue : we find array of
             // function values depending
             final List<FunctionMetricDescriptor> mVals = ((FileMetricDescriptor) parentElement)
-                    .getDescriptors();
+                            .getDescriptors();
             values = mVals.toArray(new FunctionMetricDescriptor[mVals.size()]);
 
         } else if (parentElement instanceof MetricDescriptor) {
             // A Descriptor : we find array of file values depending
             final List<FileMetricDescriptor> mVals = ((MetricDescriptor) parentElement)
-                    .getDescriptors();
+                            .getDescriptors();
             values = mVals.toArray(new FileMetricDescriptor[mVals.size()]);
 
         } else if (parentElement instanceof MetricDescriptor[]) {
@@ -171,12 +175,13 @@ public class MetricContentProvider implements ITreeContentProvider {
         } else if (!(parentElement instanceof FunctionMetricDescriptor)) {
             // Otherwise, an error is thrown on the interface
             final UnknownInstanceException exception = new UnknownInstanceException(
-                    "Unknow type in getChildren method of AbstractContentProvider : "
-                            + parentElement.getClass().getName());
+                            "Unknow type in getChildren method of AbstractContentProvider : "
+                                            + parentElement.getClass().getName());
             LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                    exception);
+                            exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                    "Internal Error", "Contact support service : \n" + exception.getMessage());
+                            "Internal Error",
+                            "Contact support service : \n" + exception.getMessage());
         }
 
         LOGGER.finest("End getChildren method");

@@ -1,3 +1,8 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                               */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.shell.metrics;
 
 /**
@@ -41,11 +46,11 @@ public class FunctionLineOfCode extends Function {
     }
 
     /**
-     * @param lineOfCode
+     * @param pLineOfCode
      *            the lineOfCode to set
      */
-    public final void setLineOfCode(float lineOfCode) {
-        this.lineOfCode = lineOfCode;
+    public final void setLineOfCode(float pLineOfCode) {
+        this.lineOfCode = pLineOfCode;
     }
 
 }

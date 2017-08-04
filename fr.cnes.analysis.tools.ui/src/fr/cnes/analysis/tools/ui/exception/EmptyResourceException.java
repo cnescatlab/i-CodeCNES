@@ -11,26 +11,26 @@ package fr.cnes.analysis.tools.ui.exception;
  */
 public class EmptyResourceException extends Exception {
 
-	/**
-	 * Serial Version UID.
-	 */
-	private static final long serialVersionUID = 6504785843304862870L;
+    /**
+     * Serial Version UID.
+     */
+    private static final long serialVersionUID = 6504785843304862870L;
 
-	/**
-	 * Default constructor.
-	 */
-	public EmptyResourceException() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public EmptyResourceException() {
+        super();
+    }
 
-	/**
-	 * Constructor with a message as parameter.
-	 * 
-	 * @param message
-	 *            The exception message.
-	 */
-	public EmptyResourceException(final String message) {
-		super(message);
-	}
+    /**
+     * Constructor with a message as parameter.
+     * 
+     * @param message
+     *            The exception message.
+     */
+    public EmptyResourceException(final String message) {
+        super(message);
+    }
 
 }

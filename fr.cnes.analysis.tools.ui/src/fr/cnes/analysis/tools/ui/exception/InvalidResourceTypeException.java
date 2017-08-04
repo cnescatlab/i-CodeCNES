@@ -12,18 +12,18 @@ package fr.cnes.analysis.tools.ui.exception;
  */
 public class InvalidResourceTypeException extends Exception {
 
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = -8619336880299930548L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = -8619336880299930548L;
 
-	/**
-	 * Constructor with message.
-	 * 
-	 * @param message
-	 *            the error message.
-	 */
-	public InvalidResourceTypeException(final String message) {
-		super(message);
-	}
+    /**
+     * Constructor with message.
+     * 
+     * @param message
+     *            the error message.
+     */
+    public InvalidResourceTypeException(final String message) {
+        super(message);
+    }
 }

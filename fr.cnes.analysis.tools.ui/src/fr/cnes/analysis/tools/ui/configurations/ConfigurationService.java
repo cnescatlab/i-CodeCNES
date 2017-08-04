@@ -1,10 +1,17 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.configurations;
 
-import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+
+import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 
 /**
  * This class should be used to reach configurations data contributing to
@@ -53,41 +60,42 @@ public final class ConfigurationService {
     public static List<ConfigurationContainer> getConfigurations() {
         final List<ConfigurationContainer> configurations = new ArrayList<>();
         final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(CONFIGURATION_EP_ID);
+                        .getConfigurationElementsFor(CONFIGURATION_EP_ID);
         for (IConfigurationElement configuration : configurationsContributors) {
             final List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
             final ConfigurationContainer configContainer = new ConfigurationContainer(
-                    configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
-                    configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
+                            configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
+                            configuration.getAttribute(
+                                            CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
             for (IConfigurationElement checkerConfiguration : configuration
-                    .getChildren(CONFIGURATION_EP_EL_CHECKCONFIGURATION)) {
-                Boolean isEnabled = true;
+                            .getChildren(CONFIGURATION_EP_EL_CHECKCONFIGURATION)) {
+                Boolean isEnabled = Boolean.valueOf(true);
                 if (checkerConfiguration
-                        .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
-                        .equals("false")) {
-                    isEnabled = false;
+                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
+                                .equals("false")) {
+                    isEnabled = Boolean.valueOf(false);
                 }
                 Float minValue, maxValue;
                 try {
-                    minValue = Float.parseFloat(checkerConfiguration
-                            .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MINVALUE));
-                } catch (NullPointerException e) {
-                    minValue = Float.NaN;
+                    minValue = Float.valueOf(Float.parseFloat(checkerConfiguration.getAttribute(
+                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MINVALUE)));
+                } catch (@SuppressWarnings("unused") NullPointerException exception) {
+                    minValue = Float.valueOf(Float.NaN);
                 }
                 try {
-                    maxValue = Float.parseFloat(checkerConfiguration
-                            .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MAXVALUE));
-                } catch (NullPointerException e) {
-                    maxValue = Float.NaN;
+                    maxValue = Float.valueOf(Float.parseFloat(checkerConfiguration.getAttribute(
+                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MAXVALUE)));
+                } catch (@SuppressWarnings("unused") NullPointerException exception) {
+                    maxValue = Float.valueOf(Float.NaN);
                 }
                 checkersConfigurations.add(new CheckConfigurationContainer(
-                        checkerConfiguration
-                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
-                        checkerConfiguration
-                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
-                        checkerConfiguration.getAttribute(
-                                CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
-                        isEnabled, maxValue, minValue));
+                                checkerConfiguration
+                                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
+                                checkerConfiguration
+                                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
+                                checkerConfiguration
+                                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
+                                isEnabled, maxValue, minValue));
             }
             configContainer.setCheckConfigurations(checkersConfigurations);
             configurations.add(configContainer);
@@ -105,53 +113,53 @@ public final class ConfigurationService {
      *             reach contribution not available/
      */
     public static ConfigurationContainer getConfigurations(String configurationName)
-            throws NullContributionException {
-        final List<ConfigurationContainer> configurations = new ArrayList<>();
+                    throws NullContributionException {
         final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
-                .getConfigurationElementsFor(CONFIGURATION_EP_ID);
+                        .getConfigurationElementsFor(CONFIGURATION_EP_ID);
         for (IConfigurationElement configuration : configurationsContributors) {
             final List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
             if (configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME)
-                    .equals(configurationName)) {
+                            .equals(configurationName)) {
                 final ConfigurationContainer configContainer = new ConfigurationContainer(
-                        configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
-                        configuration
-                                .getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
+                                configuration.getAttribute(
+                                                CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
+                                configuration.getAttribute(
+                                                CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
                 for (IConfigurationElement checkerConfiguration : configuration
-                        .getChildren(CONFIGURATION_EP_EL_CHECKCONFIGURATION)) {
-                    Boolean isEnabled = true;
+                                .getChildren(CONFIGURATION_EP_EL_CHECKCONFIGURATION)) {
+                    Boolean isEnabled = Boolean.valueOf(true);
                     if (checkerConfiguration
-                            .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
-                            .equals("false")) {
-                        isEnabled = false;
+                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
+                                    .equals("false")) {
+                        isEnabled = Boolean.valueOf(false);
                     }
                     Float minValue, maxValue;
                     try {
-                        minValue = Float.parseFloat(checkerConfiguration
-                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MINVALUE));
-                    } catch (NullPointerException e) {
-                        minValue = Float.NaN;
+                        minValue = Float.valueOf(Float.parseFloat(checkerConfiguration.getAttribute(
+                                        CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MINVALUE)));
+                    } catch (@SuppressWarnings("unused") NullPointerException e) {
+                        minValue = Float.valueOf(Float.NaN);
                     }
                     try {
-                        maxValue = Float.parseFloat(checkerConfiguration
-                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MAXVALUE));
-                    } catch (NullPointerException e) {
-                        maxValue = Float.NaN;
+                        maxValue = Float.valueOf(Float.parseFloat(checkerConfiguration.getAttribute(
+                                        CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MAXVALUE)));
+                    } catch (@SuppressWarnings("unused") NullPointerException e) {
+                        maxValue = Float.valueOf(Float.NaN);
                     }
                     checkersConfigurations.add(new CheckConfigurationContainer(
-                            checkerConfiguration.getAttribute(
-                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
-                            checkerConfiguration
-                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
-                            checkerConfiguration.getAttribute(
-                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
-                            isEnabled, maxValue, minValue));
+                                    checkerConfiguration
+                                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
+                                    checkerConfiguration
+                                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
+                                    checkerConfiguration
+                                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
+                                    isEnabled, maxValue, minValue));
                 }
                 configContainer.setCheckConfigurations(checkersConfigurations);
                 return configContainer;
             }
         }
         throw new NullContributionException("Impossible to find " + configurationName + " in "
-                + CONFIGURATION_EP_ID + " contributors.");
+                        + CONFIGURATION_EP_ID + " contributors.");
     }
 }

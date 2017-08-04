@@ -1,10 +1,12 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import java.util.List;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -23,23 +25,71 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+
+/**
+ * This viewer can show {@link CheckerPreferencesContainer} in a Table,
+ * editable.
+ */
 public class CheckerTableViewer {
+    /** Enable or disable checkers column's index. */
+    private static final int COLUMN_ENABLED_INDEX = 0;
+    /** Enable or disable checkers column's bound. */
+    private static final int COLUMN_ENABLED_BOUND = 30;
+    /** Checker's name column's name. */
+    private static final String COLUMN_CHECKER_NAME = "Checker";
+    /** Checker's name checkers column's index. */
+    private static final int COLUMN_CHECKER_INDEX = 1;
+    /** Checker's name checkers column's bound. */
+    private static final int COLUMN_CHECKER_BOUND = 200;
+    /** Checker's languages column's name. */
+    private static final String COLUMN_LANGUAGE_NAME = "Language";
+    /** Checker's languages checkers column's index. */
+    private static final int COLUMN_LANGUAGE_INDEX = 2;
+    /** Checker's languages checkers column's bound. */
+    private static final int COLUMN_LANGUAGE_BOUND = 80;
+    /** Checker's severity column's name. */
+    private static final String COLUMN_SEVERITY_NAME = "Severity";
+    /** Checker's severity column's index. */
+    private static final int COLUMN_SEVERITY_INDEX = 3;
+    /** Checker's severity column's bound. */
+    private static final int COLUMN_SEVERITY_BOUND = 80;
 
-    private TableViewer checkersTableViewer;
-    protected Image infoImage;
-    protected Image warningImage;
-    protected Image errorImage;
-    protected Image enabledImage;
-    protected Image disabledImage;
+    /** Image of information severity level */
+    private Image infoImage;
+    /** Image of warning severity level */
+    private Image warningImage;
+    /** Image of error severity level */
+    private Image errorImage;
+    /** Image of information enabled checker */
+    private Image enabledImage;
+    /** Image of disabled checker */
+    private Image disabledImage;
+    /** Enabled column */
+    private TableViewerColumn enabledColumn;
+    /** All checkers are enabled */
+    private boolean allEnabledChecked;
+
+    /** Parent composite containing the Tableviewer */
     private Composite parent;
-    protected TableViewerColumn enabledColumn;
-
+    /** The tableviewer */
+    private TableViewer checkersTableViewer;
+    /** Language preference container */
     private LanguagePreferencesContainer language;
+    /** Checkers to configure in the table */
     private List<CheckerPreferencesContainer> inputs;
-
-    protected boolean allEnabledChecked;
+    /** Listener for all checker enabling/disabling */
     private Listener enableAllListerner;
 
+    /**
+     * @param pParent
+     *            Composite containing the Table Viewer.
+     * @param checkers
+     *            Table viewer's inputs.
+     */
     public CheckerTableViewer(Composite pParent, List<CheckerPreferencesContainer> checkers) {
         this.inputs = checkers;
         parent = pParent;
@@ -48,16 +98,16 @@ public class CheckerTableViewer {
         errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
         enabledImage = ImageFactory.getImage(ImageFactory.ENABLED);
         disabledImage = ImageFactory.getImage(ImageFactory.DISABLED);
-        GridLayout layout = new GridLayout(2, false);
-        pParent.setLayout(layout);
-        Label searchLabel = new Label(pParent, SWT.NONE);
+        final GridLayout layout = new GridLayout(2, false);
+        parent.setLayout(layout);
+        final Label searchLabel = new Label(parent, SWT.NONE);
         searchLabel.setText("Search: ");
-        final Text searchText = new Text(pParent, SWT.BORDER | SWT.SEARCH);
+        final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
         searchText.setLayoutData(
-                new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+                        new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 
-        createViewer(pParent);
-        CheckersFilter filter = new CheckersFilter();
+        createViewer(parent);
+        final CheckersFilter filter = new CheckersFilter();
         searchText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
@@ -68,10 +118,14 @@ public class CheckerTableViewer {
         checkersTableViewer.addFilter(filter);
     }
 
-    private void createViewer(Composite parent) {
-        checkersTableViewer = new TableViewer(parent,
-                SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-        createColumns(parent, checkersTableViewer);
+    /**
+     * @param pParent
+     *            Composite containing the Table Viewer
+     */
+    private void createViewer(Composite pParent) {
+        checkersTableViewer = new TableViewer(pParent,
+                        SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+        createColumns(pParent, checkersTableViewer);
         final Table table = checkersTableViewer.getTable();
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
@@ -83,7 +137,7 @@ public class CheckerTableViewer {
         // make the selection available to other views
 
         // define layout for the viewer
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.verticalAlignment = GridData.FILL;
         gridData.horizontalSpan = 2;
         gridData.grabExcessHorizontalSpace = true;
@@ -92,12 +146,16 @@ public class CheckerTableViewer {
         checkersTableViewer.getControl().setLayoutData(gridData);
     }
 
-    protected void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
+    /**
+     * @param pParent
+     *            Composite containing the Table Viewer
+     * @param pCheckersTableViewer
+     *            TableViewer containing the columns.
+     * 
+     */
+    protected void createColumns(Composite pParent, TableViewer pCheckersTableViewer) {
 
-        String[] titles = { "Enabled", "Checker", "Language", "Severity" };
-        int[] bounds = { 30, 200, 80, 80 };
-
-        enabledColumn = createEnabledViewerColumn(bounds[0], 0);
+        enabledColumn = createEnabledViewerColumn(COLUMN_ENABLED_BOUND, COLUMN_ENABLED_INDEX);
         enabledColumn.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
         enabledColumn.setLabelProvider(new ColumnLabelProvider() {
 
@@ -108,8 +166,8 @@ public class CheckerTableViewer {
 
             @Override
             public Image getImage(Object element) {
-                Image image;
-                CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
+                final Image image;
+                final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
                     image = enabledImage;
                 } else {
@@ -119,7 +177,8 @@ public class CheckerTableViewer {
                 return image;
             }
         });
-        TableViewerColumn col = createTableViewerColumn(titles[1], bounds[1], 1);
+        TableViewerColumn col = createTableViewerColumn(COLUMN_CHECKER_NAME, COLUMN_CHECKER_BOUND,
+                        COLUMN_CHECKER_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -127,7 +186,8 @@ public class CheckerTableViewer {
                 return checker.getName();
             }
         });
-        col = createTableViewerColumn(titles[2], bounds[2], 2);
+        col = createTableViewerColumn(COLUMN_LANGUAGE_NAME, COLUMN_LANGUAGE_BOUND,
+                        COLUMN_LANGUAGE_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -136,7 +196,8 @@ public class CheckerTableViewer {
             }
         });
 
-        col = createTableViewerColumn(titles[3], bounds[3], 3);
+        col = createTableViewerColumn(COLUMN_SEVERITY_NAME, COLUMN_SEVERITY_BOUND,
+                        COLUMN_SEVERITY_INDEX);
         col.setEditingSupport(new SeverityEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
 
@@ -147,19 +208,19 @@ public class CheckerTableViewer {
 
             @Override
             public Image getImage(Object element) {
-                CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
-                Image severityImage;
+                final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
+                final Image severityImage;
                 switch (checker.getSeverity()) {
-                    case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
-                        severityImage = errorImage;
-                        break;
-                    case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
-                        severityImage = warningImage;
-                        break;
-                    case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
-                    default:
-                        severityImage = infoImage;
-                        break;
+                case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
+                    severityImage = errorImage;
+                    break;
+                case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
+                    severityImage = warningImage;
+                    break;
+                case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
+                default:
+                    severityImage = infoImage;
+                    break;
                 }
 
                 return severityImage;
@@ -170,10 +231,19 @@ public class CheckerTableViewer {
 
     }
 
+    /**
+     * @param title
+     *            Column's title.
+     * @param bound
+     *            Column's bound
+     * @param colNumber
+     *            Column's index.
+     * @return {@link TableViewerColumn} created.
+     */
     protected TableViewerColumn createTableViewerColumn(String title, int bound,
-            final int colNumber) {
+                    final int colNumber) {
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
-                SWT.NONE);
+                        SWT.NONE);
         final TableColumn column = viewerColumn.getColumn();
         column.setText(title);
         column.setWidth(bound);
@@ -182,9 +252,16 @@ public class CheckerTableViewer {
         return viewerColumn;
     }
 
+    /**
+     * @param bound
+     *            Column's bound.
+     * @param colNumber
+     *            Column's index.
+     * @return A column with an Image to set checker enabled or disabled.
+     */
     protected TableViewerColumn createEnabledViewerColumn(int bound, final int colNumber) {
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
-                SWT.CENTER);
+                        SWT.CENTER);
         final TableColumn column = viewerColumn.getColumn();
         column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
         column.setToolTipText("Check to select or unselect every rules in the table.");
@@ -254,10 +331,118 @@ public class CheckerTableViewer {
 
     }
 
+    /**
+     * Refresh the TableViewer and it's components.
+     */
     public void refresh() {
         this.checkersTableViewer.getControl().redraw();
         this.enableAllListerner.handleEvent(new Event());
         this.checkersTableViewer.refresh();
+    }
+
+    /**
+     * @return the infoImage
+     */
+    protected Image getInfoImage() {
+        return infoImage;
+    }
+
+    /**
+     * @param pInfoImage
+     *            the infoImage to set
+     */
+    protected void setInfoImage(Image pInfoImage) {
+        this.infoImage = pInfoImage;
+    }
+
+    /**
+     * @return the warningImage
+     */
+    protected Image getWarningImage() {
+        return warningImage;
+    }
+
+    /**
+     * @param pWarningImage
+     *            the warningImage to set
+     */
+    protected void setWarningImage(Image pWarningImage) {
+        this.warningImage = pWarningImage;
+    }
+
+    /**
+     * @return the errorImage
+     */
+    protected Image getErrorImage() {
+        return errorImage;
+    }
+
+    /**
+     * @param pErrorImage
+     *            the errorImage to set
+     */
+    protected void setErrorImage(Image pErrorImage) {
+        this.errorImage = pErrorImage;
+    }
+
+    /**
+     * @return the enabledImage
+     */
+    protected Image getEnabledImage() {
+        return enabledImage;
+    }
+
+    /**
+     * @param pEnabledImage
+     *            the enabledImage to set
+     */
+    protected void setEnabledImage(Image pEnabledImage) {
+        this.enabledImage = pEnabledImage;
+    }
+
+    /**
+     * @return the disabledImage
+     */
+    protected Image getDisabledImage() {
+        return disabledImage;
+    }
+
+    /**
+     * @param pDisabledImage
+     *            the disabledImage to set
+     */
+    protected void setDisabledImage(Image pDisabledImage) {
+        this.disabledImage = pDisabledImage;
+    }
+
+    /**
+     * @return the enabledColumn
+     */
+    protected TableViewerColumn getEnabledColumn() {
+        return enabledColumn;
+    }
+
+    /**
+     * @param pEnabledColumn
+     *            the enabledColumn to set
+     */
+    protected void setEnabledColumn(TableViewerColumn pEnabledColumn) {
+        this.enabledColumn = pEnabledColumn;
+    }
+
+    /**
+     * @return the allEnabledChecked
+     */
+    protected boolean isAllEnabledChecked() {
+        return allEnabledChecked;
+    }
+
+    /**
+     * @param pAllEnabledChecked
+     *            the allEnabledChecked to set
+     */
+    protected void setAllEnabledChecked(boolean pAllEnabledChecked) {
+        this.allEnabledChecked = pAllEnabledChecked;
     }
 
     /**
@@ -290,6 +475,10 @@ public class CheckerTableViewer {
         this.inputs = pInputs;
     }
 
+    /**
+     * @param isEnabled
+     *            Set enabled or disabled all checker of the TableViewer.
+     */
     public void setAllEnabledChecker(boolean isEnabled) {
         if (allEnabledChecked && !isEnabled) {
             allEnabledChecked = false;
