@@ -8,6 +8,7 @@ package fr.cnes.analysis.tools.analyzer.services.checkers;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
@@ -32,6 +33,8 @@ public class CheckerContainer {
     private AbstractChecker checker;
     /** Whether or not the checker is a metric */
     private boolean isMetric;
+    /** Contribution of the checker */
+    private IConfigurationElement contribution;
 
     /**
      * @param pId
@@ -76,6 +79,7 @@ public class CheckerContainer {
         this.name = pName;
         this.language = pLanguage;
         this.checker = pChecker;
+        this.contribution = pCheckerContribution;
         this.checker.setContribution(pCheckerContribution);
         this.isMetric = pIsMetric;
     }
@@ -142,10 +146,17 @@ public class CheckerContainer {
     }
 
     /**
-     * @return the checker
+     * @return the checker A clone class of the checker.
+     * @throws CoreException
+     *             when {@link AbstractChecker} class can't be created from
+     *             extension point.
      */
-    public final AbstractChecker getChecker() {
-        return checker;
+    public final AbstractChecker getChecker() throws CoreException {
+        final AbstractChecker cloneChecker = (AbstractChecker) this.checker.getContribution()
+                        .createExecutableExtension(
+                                        CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_CLASS);
+        cloneChecker.setContribution(contribution);
+        return cloneChecker;
     }
 
     /**
