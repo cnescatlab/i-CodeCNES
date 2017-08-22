@@ -54,7 +54,12 @@ public class Analyzer {
     private static final Logger LOGGER = Logger.getLogger(Analyzer.class.getName());
 
     /** Number of thread to run the analysis */
-    private static int THREAD_NB = 1;
+    private static final int THREAD_NB = Runtime.getRuntime().availableProcessors();
+
+    /**
+     * Define ratio of max memory allocated to the JVM to use for the analysis.
+     */
+    private static final double MAX_MEMORY_THRESHOLD = 0.90;
 
     /**
      * <h1>{@link #check(List, List, List)}</h1>
@@ -108,35 +113,35 @@ public class Analyzer {
          * extension).
          */
         final List<CheckerContainer> checkers;
-
         try {
+
+            final long maxMemory = Runtime.getRuntime().maxMemory();
             checkers = CheckerService.getCheckers(languageIds, excludedCheckIds);
             for (CheckerContainer checker : checkers) {
                 for (File file : pInputFiles) {
                     if (checker.canVerifyFormat(this.getFileExtension(file.getAbsolutePath()))) {
                         final CallableChecker callableAnalysis = new CallableChecker(
                                         checker.getChecker(), file);
+                        if ((MAX_MEMORY_THRESHOLD * maxMemory < (Runtime.getRuntime().totalMemory()
+                                        - Runtime.getRuntime().freeMemory()))
+                                        && !analyzers.isEmpty()) {
+                            for (Future<List<CheckResult>> analysis : analyzers) {
+                                analysisResultCheckResult.addAll(analysis.get());
+                            }
+                            analyzers.clear();
+                            Runtime.getRuntime().gc();
+                        }
                         analyzers.add(service.submit(callableAnalysis));
+
                     }
                 }
             }
-        } catch (NullContributionException | CoreException e) {
-            e.printStackTrace();
-        }
-        for (Future<List<CheckResult>> analysis : analyzers) {
-            try {
+            for (Future<List<CheckResult>> analysis : analyzers) {
                 analysisResultCheckResult.addAll(analysis.get());
-            } catch (InterruptedException interruptedException) {
-                LOGGER.throwing(this.getClass().getName(), methodName, interruptedException);
-            } catch (ExecutionException executionException) {
-                if (executionException.getCause() instanceof IOException) {
-                    throw ((IOException) executionException.getCause());
-                } else if (executionException.getCause() instanceof JFlexException) {
-                    throw ((JFlexException) executionException.getCause());
-                } else {
-                    executionException.printStackTrace();
-                }
             }
+        } catch (NullContributionException | ExecutionException | InterruptedException
+                        | CoreException e) {
+            LOGGER.throwing(this.getClass().getName(), methodName, e);
         }
         return analysisResultCheckResult;
     }
