@@ -1,7 +1,7 @@
 /************************************************************************************************/
-/* i-Code CNES is a static code analyzer. */
+/* i-Code CNES is a static code analyzer.                                                       */
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
-/* http://www.eclipse.org/legal/epl-v10.html */
+/* http://www.eclipse.org/legal/epl-v10.html                                               */
 /************************************************************************************************/
 
 package fr.cnes.analysis.tools.fortran77.rules;
@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,22 +26,35 @@ import org.junit.Test;
 
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
-public class TestGlobal_4 {
-    /** This list contains all the violations when the analyse is executed **/
-    public static List<CheckResult> list = new LinkedList<CheckResult>();
-    List<File> listFiles = new LinkedList<File>();
+/**
+ * This class is intended to run test on all the files contained in the package
+ * f77_1 of resources.
+ */
+public class TestGlobal1 {
+    /** This list contains all the violations when the analysis is executed **/
+    private static List<CheckResult> list = new LinkedList<CheckResult>();
+    /** File to analyze */
+    private final List<File> listFiles = new LinkedList<File>();
 
     /**********************/
     /** PARAMS TO DEFINE **/
     /**********************/
 
     /** Folder where the function find files to execute the analyze **/
-    final String resources = "/resources/f77_4";
+    private final String resources = "/resources/f77_1";
     /** Extension of the files to be analyzed **/
-    final String extension = "f";
+    private final String extension = "f";
     /** Id to execute the analysis **/
-    final String ruleExtensionId = "fr.cnes.analysis.tools.fortran77.analyzer.rule";
+    private final String languageId = "fr.cnes.analysis.tools.languages.f77";
+    /** Id of metrics of Fortran 77 that are excluded from the analysis */
+    private final String[] excludedIds = new String[] {
+        "fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified",
+        "fr.cnes.analysis.tools.fortran77.metrics.F77METNesting",
+        "fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode",
+        "fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
+    };
 
     /**
      * Function test to validate global test. This function do - get all files
@@ -53,48 +67,57 @@ public class TestGlobal_4 {
     public void runGlobalTest() {
         try {
             /** File where to save the result of the execution **/
-            File fileResult = new File("resources/globalTest_4.txt");
+            final File fileResult = new File("resources/globalTest_1.txt");
             fileResult.deleteOnExit();
             /**
              * File to compare with fileResult. This file is the verified
              * version of the execution
              **/
-            File fileResultValidated = new File("resources/globalTestValidated_4.txt");
+            final File fileResultValidated = new File("resources/globalTestValidated_1.txt");
 
             /** Get resources file **/
-            String resourcesPath = System.getProperty("user.dir") + resources;
-            File folder = new File(resourcesPath);
+            final String resourcesPath = System.getProperty("user.dir") + resources;
+            final File folder = new File(resourcesPath);
             /** Save files into a list **/
             getFilesIntoFolder(folder);
 
             /** Create the analysis job **/
-            Analyzer analysis = new Analyzer();
-            List<String> extensionIds = new ArrayList<>();
-            extensionIds.add(ruleExtensionId);
+            final Analyzer analysis = new Analyzer();
+            final List<String> extensionIds = new ArrayList<>();
+            extensionIds.add(languageId);
 
-            TestGlobal_4.list = analysis.check(listFiles, extensionIds, null);
+            TestGlobal1.list = analysis.check(listFiles, extensionIds, Arrays.asList(excludedIds));
 
             /** Export values into file **/
             createExportFile(fileResult);
 
             /** Compare new test with last one **/
             assertTrue(compareFiles(fileResult, fileResultValidated));
-        } catch (Exception e) {
-            fail("Erreur d'analyse " + e.getMessage());
+
+        } catch (IOException exception) {
+            fail("Erreur d'analyse (IOException)");
+            exception.printStackTrace();
+        } catch (JFlexException exception) {
+            fail("Erreur d'analyse (JFlexException)");
+            exception.printStackTrace();
         }
+
     }
 
+    /**
+     * @param folder
+     *            to run analysis on.
+     */
     private void getFilesIntoFolder(File folder) {
         if (folder.isDirectory()) {
-            File[] listOfFiles = folder.listFiles();
+            final File[] listOfFiles = folder.listFiles();
             /** For each file, check the extension and save IPath into List **/
             for (File file : listOfFiles) {
-                if (file.isDirectory())
+                if (file.isDirectory()) {
                     getFilesIntoFolder(file);
-                else {
-                    int i = file.getAbsolutePath().lastIndexOf(".");
+                } else {
+                    final int i = file.getAbsolutePath().lastIndexOf(".");
                     if (file.getAbsolutePath().substring(i + 1).equals(extension)) {
-
                         listFiles.add(file);
                     }
                 }
@@ -106,11 +129,14 @@ public class TestGlobal_4 {
     /**
      * Function to create the error file. The file has the following: RuleName
      * FileName NumError
+     * 
+     * @param fileResult
+     *            The file to export result in.
      */
     private void createExportFile(File fileResult) {
         try {
             /** Create result file **/
-            BufferedWriter output = new BufferedWriter(new FileWriter(fileResult));
+            final BufferedWriter output = new BufferedWriter(new FileWriter(fileResult));
 
             /** If the list is bigger than one **/
             if (list.size() > 1) {
@@ -119,7 +145,7 @@ public class TestGlobal_4 {
                 int errors = 1;
                 /** Iterate over the elements **/
                 for (int i = 1; i < list.size(); i++) {
-                    CheckResult violation = list.get(i);
+                    final CheckResult violation = list.get(i);
                     /** If the is more errors in the same rule **/
                     if (violation.getName().equals(rule)) {
                         /**
@@ -154,7 +180,7 @@ public class TestGlobal_4 {
             }
             /** After run for all files: close file writer **/
             output.close();
-        } catch (IOException e) {
+        } catch (IOException exception) {
             fail("Erreur d'analyse (IOException)");
         }
     }
@@ -192,7 +218,11 @@ public class TestGlobal_4 {
              * Both documents should be at their last line at the end of the
              * test.
              */
-            if (!(testedLine == null && validatedLine == null)) {
+            final boolean bothDocumentEndingNull = (testedLine == null && validatedLine == null);
+            final boolean bothDocumentEndingWithSameLine = (testedLine != null
+                            && validatedLine != null)
+                            && !testedLine.equalsIgnoreCase(validatedLine);
+            if (bothDocumentEndingNull || bothDocumentEndingWithSameLine) {
                 equals = false;
             }
 
@@ -202,10 +232,8 @@ public class TestGlobal_4 {
 
         FileNotFoundException exception) {
             fail("Erreur d'analyse (FileNotFoundException)");
-            exception.printStackTrace();
         } catch (IOException exception) {
             fail("Erreur d'analyse (IOException)");
-            exception.printStackTrace();
         }
         /** Return value **/
         return equals;
