@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -120,6 +121,8 @@ SPACE		 = [\ \r\t\f]
      int nbTotal = 0;
    //percent of fault tolerance
      double rateLimit = 0.5;
+     
+     private String parsedFileName;
 	 	
 
 	
@@ -129,6 +132,7 @@ SPACE		 = [\ \r\t\f]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -171,6 +175,9 @@ SPACE		 = [\ \r\t\f]
 <COMMENT>   	\n             	{
 								 if(nbTotal >0) {
 									 if((nbError/nbTotal)>rateLimit){	
+									 	if(loc.isEmpty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable", yytext(), yyline, yycolumn);
+										}
                                  		setError(loc.get(loc.size()-1),"Commented code is not allowed. It shall be suppressed.", yyline+1);
       							 	}
       							 }
@@ -212,7 +219,11 @@ SPACE		 = [\ \r\t\f]
 <NEW_LINE>  	{COMMENT_WORD} 	{if(loc.size()>0)yybegin(COMMENT); else yybegin(HEADER);}
 <NEW_LINE>		{STRING}		{}
 <NEW_LINE>		{TYPE}        	{location = yytext(); yybegin(NAMING);}
-<NEW_LINE>		{END_TYPE}		{loc.remove(loc.size()-1);}
+<NEW_LINE>		{END_TYPE}		{
+									if(loc.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable", yytext(), yyline, yycolumn);
+									}
+									loc.remove(loc.size()-1);}
 <NEW_LINE>  	\n             	{}
 <NEW_LINE>		\s				{yybegin(LINE);}
 <NEW_LINE>  	.              	{yybegin(LINE);}
@@ -224,7 +235,11 @@ SPACE		 = [\ \r\t\f]
 <LINE>		  	{COMMENT_WORD} 	{if(loc.size()>0)yybegin(COMMENT); else yybegin(HEADER);}
 <LINE>			{STRING}		{}
 <LINE>			{TYPE}        	{location = yytext(); yybegin(NAMING);}
-<LINE>			{END_TYPE}		{loc.remove(loc.size()-1);}
+<LINE>			{END_TYPE}		{
+									if(loc.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable", yytext(), yyline, yycolumn);
+									}
+									loc.remove(loc.size()-1);}
 <LINE>      	\n             	{yybegin(NEW_LINE);}
 <LINE>			{SPACE}			{endHeader=false;}
 <LINE>      	.              	{}
