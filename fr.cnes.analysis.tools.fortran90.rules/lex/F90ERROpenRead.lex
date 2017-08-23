@@ -36,6 +36,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -83,6 +84,7 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 	List<String> files = new LinkedList<String>();
 	int errorLine = 0;
 	String descr = "", iostatVal = "";
+	private String parsedFileName;
 	
 	public F90ERROpenRead() {
     }
@@ -90,6 +92,7 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 %}
@@ -162,6 +165,9 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 										yybegin(IF_STATE);
 									}
 									else {
+										if(files.isEmpty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Last instruction stored unreachable.", yytext(), yyline, yycolumn);
+										}
 										files.remove(files.size()-1); //delete the last element -> this instruction does not open a file
 										yybegin(YYINITIAL);
 									}
