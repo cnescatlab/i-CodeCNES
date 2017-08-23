@@ -102,12 +102,17 @@ SPACE		 = [\ \r\t\f]
 			parenthesis.remove(index);
 			parenthesis.add(value);
 			if (value == 0) {
-				if (operators.get(index) > 1){
-				    LOGGER.fine("Setting error line "+(yyline+1)+" because parentheses are needed for readability.");
-				    setError(location,"Parentheses are needed for readability.", yyline+1);
-			    }
-				parenthesis.remove(index);
-				operators.remove(index);
+				if(operator.size() > index){
+					if (operators.get(index) > 1){
+					    LOGGER.fine("Setting error line "+(yyline+1)+" because parentheses are needed for readability.");
+					    setError(location,"Parentheses are needed for readability.", yyline+1);
+				    }
+					parenthesis.remove(index);
+					operators.remove(index);
+				}else{
+					String errorMessage = "Class"+this.getClass().getName()+"\n Operator not reachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+					throw new JFlexException(new Exception(errorMessage));
+				}
 			}
 		}
         LOGGER.finest("end method closeParenthesis");
