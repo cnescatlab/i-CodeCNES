@@ -110,7 +110,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void raiseErrors() throws JFlexException {	
         LOGGER.finest("begin method raiseErrors");
-	
+		if(linesType.isEmpty()){
+			String errorMessage = "Class"+this.getClass().getName()+"\nRaising violation failed. Line type unreachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+			throw new JFlexException(new Exception(errorMessage));
+		}
 		if (!linesType.get(0).equals("comment") && !linesType.get(1).equals("comment")){
             LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
