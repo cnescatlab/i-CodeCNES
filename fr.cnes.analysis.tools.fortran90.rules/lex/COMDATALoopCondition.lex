@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -77,12 +78,15 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	boolean doVar = true;
 	String descr = "";
 	
+	private String parsedFileName;
+	
 	public COMDATALoopCondition() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -90,13 +94,17 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	    - DO -> check conditionsDo list
 	    - WHILE -> check conditionsWhile list
 	**/
-	private void closeCondition() {
+	private void closeCondition() throws JFlexException {
 		int idLength = identifiers.size() - 1;
-		if (identifiers.get(idLength).equals("DO")) 
-			closeDoLoop();
-		else if (identifiers.get(idLength).equals("WHILE"))
-			closeWhileLoop();
-		identifiers.remove(idLength);
+		if(idLength >= 0){
+			if (identifiers.get(idLength).equals("DO")) 
+				closeDoLoop();
+			else if (identifiers.get(idLength).equals("WHILE"))
+				closeWhileLoop();
+			identifiers.remove(idLength);
+		}else{
+			throw new JFlexException(this.getClass().getName(), parsedFileName, "Identifier unreachable", yytext(), yyline, yycolumn);
+		}
 	}
 	
 	/** Delete the identifiers and variables in do loop **/
