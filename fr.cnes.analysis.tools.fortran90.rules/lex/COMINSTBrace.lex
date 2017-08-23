@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -65,6 +66,7 @@ SPACE		 = [\ \r\t\f]
 	List<Integer> parenthesis = new LinkedList<Integer>();
 	List<Integer> operators   = new LinkedList<Integer>();
 	boolean end = true;
+	private String parsedFileName;
 	
 	public COMINSTBrace(){
 	}
@@ -72,6 +74,7 @@ SPACE		 = [\ \r\t\f]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -85,6 +88,9 @@ SPACE		 = [\ \r\t\f]
 	private void closeParenthesis() throws JFlexException {
 		int index = parenthesis.size() - 1;
 		int value = parenthesis.get(index) - 1;
+		if(index<0){
+			throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis couldn't handle parenthesis closure.", yytext(), yyline, yycolumn);
+		}
 		parenthesis.remove(index);
 		parenthesis.add(value);
 		if (value == 0) {
