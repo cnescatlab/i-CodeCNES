@@ -260,7 +260,7 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 				if(entList!=null && !entList.isEmpty())
 				for(int i=0;i<entList.size();i++){				
 					if(entList.get(i).contains("paramVar=")){
-						if(i+3 < enList.size()){
+						if(i+3 < entList.size()){
 							final String error= entList.get(i+3).substring(entList.get(i+3).indexOf("=")+1, entList.get(i+3).length());
 							final String paramVar= entList.get(i).substring(entList.get(i).indexOf("=")+1, entList.get(i).length());
 							if("true".equals(error)){
