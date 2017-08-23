@@ -34,6 +34,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -127,12 +128,15 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	/** A boolean to determine if an else statement if found. **/
 	boolean elseFound = false;
 	
+	private String parsedFileName;
+	
     public COMFLOWCheckCodeReturn() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 		codeLevel.add(1);
 	}
@@ -319,6 +323,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 												LinkedList<LinkedList<Integer>> tempLevel = new LinkedList<LinkedList<Integer>>();
 												int i = 0;
 												for(String var : variables){
+													if(i>codeLevels.size()){
+														throw new JFlexException(this.getClass().getName(), parsedFileName, "Code level of variable "+var+"can not be reached.", yytext(), yyline, yycolumn);
+													}
 													if (var.equals(variable) && isConflictLevel(codeLevels.get(i), codeLevel)) {
 														setError(locations.get(i),"The return code of the function "+ variables.get(i) + " is not checked.", lines.get(i));
 													} else {
