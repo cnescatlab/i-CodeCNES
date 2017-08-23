@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -67,12 +68,15 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	boolean first = true;
 	int errorLine = 0;
 	
+	private String parsedFileName;
+	
 	public COMPROJECTHeader() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -100,7 +104,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	}
 	
 	private void raiseErrors() throws JFlexException {
-
+		if(this.linesType.isEmpty()){
+			throw new JFlexException(this.getClass().getName(), parsedFileName, "Line type unreachable.", yytext(), yyline, yycolumn);
+		}
         if (!this.linesType.get(0).equals("comment")
                 && !this.linesType.get(1).equals("comment")) {
             this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
