@@ -441,6 +441,9 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 					{FUNCSTART}	{}
 					{VAR}			{}
 					{END_COMMAND}  	{
+										if(commandClosureStack.empty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Command closure unreachable.", yytext(), yyline, yycolumn);	
+										}
 										if(yytext().equals(commandClosureStack.peek())){
 											
 											commandClosureStack.pop();
