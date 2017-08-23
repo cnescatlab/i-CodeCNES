@@ -102,7 +102,7 @@ SPACE		 = [\ \r\t\f]
 			parenthesis.remove(index);
 			parenthesis.add(value);
 			if (value == 0) {
-				if(operator.size() > index){
+				if(operators.size() > index){
 					if (operators.get(index) > 1){
 					    LOGGER.fine("Setting error line "+(yyline+1)+" because parentheses are needed for readability.");
 					    setError(location,"Parentheses are needed for readability.", yyline+1);
