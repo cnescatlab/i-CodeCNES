@@ -100,14 +100,19 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	    - DO -> check conditionsDo list
 	    - WHILE -> check conditionsWhile list
 	**/
-	private void closeCondition() {
+	private void closeCondition() throws JFlexException {
         LOGGER.finest("begin method closeCondition");
 		int idLength = identifiers.size() - 1;
-		if (identifiers.get(idLength).equals("DO")) 
-			closeDoLoop();
-		else if (identifiers.get(idLength).equals("WHILE"))
-			closeWhileLoop();
-		identifiers.remove(idLength);
+		if(idLength >= 0){
+			if (identifiers.get(idLength).equals("DO")) 
+				closeDoLoop();
+			else if (identifiers.get(idLength).equals("WHILE"))
+				closeWhileLoop();
+			identifiers.remove(idLength);
+		}else{
+			String errorMessage = "Class"+this.getClass().getName()+"\nLoop's identifier unreachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
+            throw new JFlexException(new Exception(errorMessage));
+		}
         LOGGER.finest("end method closeCondition");
 	}
 	

@@ -260,14 +260,19 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 				if(entList!=null && !entList.isEmpty())
 				for(int i=0;i<entList.size();i++){				
 					if(entList.get(i).contains("paramVar=")){
-						final String error= entList.get(i+3).substring(entList.get(i+3).indexOf("=")+1, entList.get(i+3).length());
-						final String paramVar= entList.get(i).substring(entList.get(i).indexOf("=")+1, entList.get(i).length());
-						if("true".equals(error)){
-							final String dLocation= entList.get(i+1).substring(entList.get(i+1).indexOf("=")+1, entList.get(i+1).length());
-							final String line= entList.get(i+2).substring(entList.get(i+2).indexOf("=")+1, entList.get(i+2).length());
-							LOGGER.fine("Setting error line "+line+" for the variable "+paramVar+".");								
-							setError(dLocation,"The variable " + paramVar + " is used before being initialized. ", Integer.parseInt(line));
-												 
+						if(i+3 < entList.size()){
+							final String error= entList.get(i+3).substring(entList.get(i+3).indexOf("=")+1, entList.get(i+3).length());
+							final String paramVar= entList.get(i).substring(entList.get(i).indexOf("=")+1, entList.get(i).length());
+							if("true".equals(error)){
+								final String dLocation= entList.get(i+1).substring(entList.get(i+1).indexOf("=")+1, entList.get(i+1).length());
+								final String line= entList.get(i+2).substring(entList.get(i+2).indexOf("=")+1, entList.get(i+2).length());
+								LOGGER.fine("Setting error line "+line+" for the variable "+paramVar+".");								
+								setError(dLocation,"The variable " + paramVar + " is used before being initialized. ", Integer.parseInt(line));
+													 
+							}
+						}else{
+							String errorMessage = "Class"+this.getClass().getName()+"\nExcepted parameter of "+ entList.get(i) +" not reachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+							throw new JFlexException(new Exception(errorMessage));
 						}
 						
 					}

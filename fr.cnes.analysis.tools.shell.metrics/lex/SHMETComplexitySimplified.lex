@@ -78,7 +78,8 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 	int functionLine = 0;
 	Stack<String> commandClosureStack = new Stack<>();
 	private static final Logger LOGGER = Logger.getLogger(SHMETComplexitySimplified.class.getName());	
-
+	
+	private String parsedFileName;
 	
 	public SHMETComplexitySimplified(){
 	}
@@ -86,6 +87,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -441,6 +443,9 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 					{FUNCSTART}	{}
 					{VAR}			{}
 					{END_COMMAND}  	{
+										if(commandClosureStack.empty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Command closure unreachable.", yytext(), yyline, yycolumn);	
+										}
 										if(yytext().equals(commandClosureStack.peek())){
 											
 											commandClosureStack.pop();

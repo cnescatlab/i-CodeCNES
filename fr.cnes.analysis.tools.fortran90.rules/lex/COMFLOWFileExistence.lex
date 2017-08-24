@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -71,6 +72,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	List<String> files = new LinkedList<String>();
 	List<String> chars = new LinkedList<String>();
 	boolean endLine = true;
+	private String parsedFileName;
 	
 	public COMFLOWFileExistence(){
 	}
@@ -78,6 +80,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -181,10 +184,16 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /************************/
 <INQ_EXIST>		{EXIST}			{yybegin(COMMENT);}
 <INQ_EXIST>		\&				{endLine=false;}
-<INQ_EXIST>  	\n             	{if(endLine) {
-									files.remove(files.size()-1);
-									yybegin(NEW_LINE);
-								 } endLine = true; }
+<INQ_EXIST>  	\n             	{
+									if(endLine) {
+										if(files.isEmpty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analyzer failed to reach last file inquired.", yytext(), yyline, yycolumn);
+										}
+										files.remove(files.size()-1);
+										yybegin(NEW_LINE);
+									 } 
+									 endLine = true; 
+								}
 <INQ_EXIST> 	.              	{}
 
 
