@@ -220,7 +220,7 @@ return getCheckResults();
                                     LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NEW_LINE -> NAMING (Transition : TYPE \""+yytext()+"\" )");
                                     yybegin(NAMING);}
 <NEW_LINE>		{END_TYPE}		{
-									if(locOder.isEmpty()){
+									if(locOrder.isEmpty()){
 										throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Location unreachable.", yytext(), yyline, yycolumn);
 									}
 									locOrder.remove(locOrder.size()-1);}
@@ -245,7 +245,7 @@ return getCheckResults();
                                     LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - LINE -> NAMING (Transition : TYPE \""+yytext()+"\" )");
                                     yybegin(NAMING);}
 <LINE>			{END_TYPE}		{
-									if(locOder.isEmpty()){
+									if(locOrder.isEmpty()){
 										throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Location unreachable.", yytext(), yyline, yycolumn);
 									}
 									locOrder.remove(locOrder.size()-1);}
