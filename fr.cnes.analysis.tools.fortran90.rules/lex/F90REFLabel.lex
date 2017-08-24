@@ -33,6 +33,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -65,12 +66,15 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 	/** Boolean to determine if an IF statement if over. **/
 	boolean endLine = true;
 	
+	private String parsedFileName;
+	
 	public F90REFLabel() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
@@ -138,6 +142,9 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 			{END}			{if (!identifiers.isEmpty()) yybegin(END_STATE);}
 			{END_FUN_TYPE}	{String funType = yytext().toLowerCase().substring(3);
 							 if (!funType.contains("interface")) {
+								 if(identifiers.isEmpty()){
+								 	throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Identifier unreachable", yytext(), yyline, yycolumn);
+								 }
 								 String type = identifiers.get(identifiers.size()-1).split(" ")[0];
 								 if(type.equals("block")) {
 								 	if (!funType.contains("block")) {

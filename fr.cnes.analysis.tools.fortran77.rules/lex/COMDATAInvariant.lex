@@ -104,8 +104,13 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
         LOGGER.finest("begin method printError");
 		for(int i=0; i < locations.size(); i++) {
 			if(usedVariables.contains(variables.get(i))){
-		        LOGGER.fine("Setting error line "+errors.get(i)+" for the variable "+variables.get(i)+".");
-				setError(locations.get(i),"The variable " + variables.get(i) + " must be defined as constant.", errors.get(i));
+		        if(errors.size() > i){
+		        	LOGGER.fine("Setting error line "+errors.get(i)+" for the variable "+variables.get(i)+".");
+					setError(locations.get(i),"The variable " + variables.get(i) + " must be defined as constant.", errors.get(i));
+ 				}else{
+                    String errorMessage = "Class"+this.getClass().getName()+"\nImpossible to reach error's line for variable"+ variables.get(i)+" violation. <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+                    throw new JFlexException(new Exception(errorMessage));
+ 				}
             }		
 		}
         LOGGER.finest("end method printError");
