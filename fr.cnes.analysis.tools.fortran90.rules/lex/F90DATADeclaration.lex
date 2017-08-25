@@ -31,6 +31,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90DATADeclaration	
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -115,7 +116,8 @@ SPACE		 = [\ \t\f\r]
 /* A method called setError with String and integer parameters is used to store	*/
 /* an error found during analysis.												*/
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
 	 	int line = 0;
   	/** List of variables**/
   	List<String> variables = new LinkedList<String>();
@@ -133,7 +135,8 @@ SPACE		 = [\ \t\f\r]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	private void comparerError()throws JFlexException{
@@ -315,5 +318,9 @@ SPACE		 = [\ \t\f\r]
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
-
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

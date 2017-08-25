@@ -33,8 +33,9 @@ import java.util.logging.Logger;
 %class SHINSTKeywords
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -66,7 +67,8 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 %{
     private static final Logger LOGGER = Logger.getLogger(SHINSTKeywords.class.getName());
 	String location = "MAIN PROGRAM";
-    String parsedFileName;
+    private String parsedFileName;
+    
     
 	private boolean inString = false, escapeNext=false;
 	private String stringBeginner="", commandBeginner="";
@@ -88,6 +90,8 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.fine("begin method setInputFile");
+        
+        
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.fine("end method setInputFile");
@@ -275,4 +279,9 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

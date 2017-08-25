@@ -33,6 +33,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90DESIGNObsolete
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -68,7 +69,8 @@ IF_BRANCH    = [1-9]+[0-9]*{SPACE}*("end"){SPACE}*("if")
 CHAR		 = "character" {SPACE}* \*
 
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
 	/** Rule used to assert that arithmetical if is not used. **/
 	AbstractChecker rule1 = new F90DESIGNObsoleteArithmeticalIf();
 	/** Rule used to assert that do loop ending branch is done on a continue or an end do. **/
@@ -103,6 +105,7 @@ CHAR		 = "character" {SPACE}* \*
         this.rule4.setContribution(this.getContribution());
         this.rule4.setInputFile(file);
 		
+        this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
     }
 	
@@ -253,4 +256,9 @@ CHAR		 = "character" {SPACE}* \*
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

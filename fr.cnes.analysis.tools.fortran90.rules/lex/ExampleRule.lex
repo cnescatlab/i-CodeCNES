@@ -44,6 +44,7 @@ import fr.cnes.analysis.tools.analyzer.datas.Violation;
 %class GeneratedRuleName
 %extends AbstractChecker
 %public
+%column
 %line
 
 /* This three lines are not meant to be modified. */
@@ -86,7 +87,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* All this code is not meant to be deleted, but some Java program can be added */
 /* in this section.																*/
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
   List<Violation> list = new LinkedList<Violation>();
 	
 	public GeneratedRuleName() {
@@ -95,7 +97,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -167,4 +170,4 @@ RULE_WORD = first_word | SECOND_WORD
 <LINE>      	.              	{}
 
 /* Throw error if nothing is catch. */
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				                [^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}

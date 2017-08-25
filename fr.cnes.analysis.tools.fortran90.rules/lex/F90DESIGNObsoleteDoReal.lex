@@ -33,8 +33,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90DESIGNObsoleteDoReal
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -61,6 +62,7 @@ SPACE		 = [\ \t\r]
 
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	
 	
 	public F90DESIGNObsoleteDoReal() {
@@ -69,7 +71,8 @@ SPACE		 = [\ \t\r]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 %}
 
@@ -211,4 +214,9 @@ WRONG_TYPE  = {REAL} 			| {DOUBLE_PREC} | {COMPLEX} | {LOGICAL} | {CHAR}
 /*********************/
 /*	ERROR THROWN	 */
 /*********************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

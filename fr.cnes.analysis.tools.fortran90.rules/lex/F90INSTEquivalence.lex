@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90INSTEquivalence
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -54,6 +55,7 @@ EQUIV		 = [^a-zA-Z0-9\_]("equivalence")[^a-zA-Z0-9\_]
 %{
 	/** Variable used to store violation location and variable involved. **/
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	/** Variable used to store file value and function values associated. **/
 	
 	public F90INSTEquivalence() {
@@ -62,7 +64,8 @@ EQUIV		 = [^a-zA-Z0-9\_]("equivalence")[^a-zA-Z0-9\_]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -117,4 +120,9 @@ EQUIV		 = [^a-zA-Z0-9\_]("equivalence")[^a-zA-Z0-9\_]
 /************************/
 /* THROW ERROR          */
 /************************/
-			[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

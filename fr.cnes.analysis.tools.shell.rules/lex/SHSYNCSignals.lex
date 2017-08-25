@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class SHSYNCSignals
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -52,6 +53,7 @@ TRAP		 = "trap"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 
     public SHSYNCSignals() {
     	
@@ -60,7 +62,9 @@ TRAP		 = "trap"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 			
 %}
@@ -126,4 +130,9 @@ TRAP		 = "trap"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

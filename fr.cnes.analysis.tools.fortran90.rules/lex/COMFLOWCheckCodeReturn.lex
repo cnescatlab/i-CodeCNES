@@ -33,8 +33,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWCheckCodeReturn
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 %ignorecase
 
 %function run
@@ -104,6 +105,7 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 %{
 	/** Variable used to store violation location and variable involved. **/
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	/** Variable used to store file value and function values associated. **/
 	/** Boolean used to determine if a line continues or not. **/
 	boolean ampFound = false;
@@ -128,7 +130,6 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	/** A boolean to determine if an else statement if found. **/
 	boolean elseFound = false;
 	
-	private String parsedFileName;
 	
     public COMFLOWCheckCodeReturn() {
     }
@@ -136,8 +137,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		
 		this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 		codeLevel.add(1);
 	}
 	
@@ -455,4 +457,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            	{throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

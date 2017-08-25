@@ -33,6 +33,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -74,7 +75,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| \*
 	/** Posible list of error locatin **/
 	List<String> errorLocation     		= new LinkedList<String>();
 	/** Posible list of error lines **/
-	List<Integer> errorLine		   		= new LinkedList<Integer>();
+	List<Integer> errorLine		   		= new LinkedList<Integer>(); 
+	/** name of the file parsed */
+	private String parsedFileName;
 	
 	
 	public F77PROTODeclaration() {
@@ -89,7 +92,8 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| \*
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	/** For each value of call functions see if the is a true error. An error is when the function called is
@@ -187,5 +191,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| \*
 /*********************/
 /*	ERROR THROWN	 */
 /*********************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
-
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+				               }

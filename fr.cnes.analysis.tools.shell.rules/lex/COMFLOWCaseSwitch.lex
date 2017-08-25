@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWCaseSwitch
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -50,6 +51,7 @@ ESAC		 = "esac"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	boolean defaultExpr = false;
 
     public COMFLOWCaseSwitch() {
@@ -58,7 +60,9 @@ ESAC		 = "esac"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 		
 %}
@@ -105,7 +109,7 @@ ESAC		 = "esac"
 			    {STRING}		{}
 			    {CASE}			{defaultExpr=false; yybegin(CONDITIONAL);}
 			    {VAR}			{} /* Clause to match with words that contains "kill" */
-			 	.              	{}
+			 	[^]            	{}
 		}
 		
 /************************/
@@ -123,4 +127,9 @@ ESAC		 = "esac"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

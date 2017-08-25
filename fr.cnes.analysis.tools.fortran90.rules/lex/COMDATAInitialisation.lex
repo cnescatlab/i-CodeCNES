@@ -36,6 +36,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMDATAInitialisation
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -94,6 +95,7 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	
 	Map<String, Boolean> variables = new HashMap<String, Boolean>();
 	List<String> dimension = new LinkedList<String>();
@@ -117,8 +119,6 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 	//name of sunroutine
 	String nameType="";
 	
-	/** Name of the file analyzed.*/
-	private String parsedFileName;
 
     public COMDATAInitialisation() {
     }
@@ -126,8 +126,9 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		
 		this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	//Mantis 316 EGL : detect initialized by local fonction
@@ -560,4 +561,9 @@ return getCheckResults();
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + "> at line :"+yyline) );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

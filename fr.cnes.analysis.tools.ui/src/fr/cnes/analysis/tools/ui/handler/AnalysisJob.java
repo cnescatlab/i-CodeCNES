@@ -73,6 +73,7 @@ public class AnalysisJob extends Job {
         METHOD = "run";
         LOGGER.entering(this.getClass().getName(), METHOD, monitor);
         IStatus status = Status.OK_STATUS;
+        monitor.setTaskName("Analyzing files...");
         try {
             this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {

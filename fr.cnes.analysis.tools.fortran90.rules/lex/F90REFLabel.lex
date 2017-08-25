@@ -32,8 +32,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90REFLabel
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 %ignorecase
 
 %function run
@@ -58,6 +59,7 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 %{
 	/** Variable used to store violation location and variable involved. **/
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	/** Variable used to store file value and function values associated. **/
 	/** Boolean to determine if statement is completed. **/
 	Boolean endComplete = false;
@@ -66,7 +68,6 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 	/** Boolean to determine if an IF statement if over. **/
 	boolean endLine = true;
 	
-	private String parsedFileName;
 	
 	public F90REFLabel() {
     }
@@ -74,8 +75,9 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		
 		this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -211,4 +213,9 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 /************************/
 /* THROW ERROR          */
 /************************/
-			[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }
