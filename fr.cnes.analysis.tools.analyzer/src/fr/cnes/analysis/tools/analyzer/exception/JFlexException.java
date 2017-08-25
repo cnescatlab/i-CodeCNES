@@ -77,9 +77,9 @@ public class JFlexException extends Exception {
      */
     private static String errorMessage(String pRuleName, String pFileName, String pMessage,
                     String pLastScan, int pLine, int pColumn) {
-        final String message = "i-Code CNES Exception during analysis.\n" + "CheckerId : "
-                        + pRuleName + "\n" + "File : " + pFileName + "\n" + "ErrorMessage : "
-                        + pMessage + "\n" + "Line:" + pLine + "\n" + "Column:" + pColumn + "\n"
+        final String message = "i-Code CNES analysis encountered a problem.\n\n" + pMessage + "\n"
+                        + "CheckerId : " + pRuleName + "\n" + "File : " + pFileName + "\n" + "Line:"
+                        + pLine + "\n" + "Column:" + pColumn + "\n"
 
                         + "Last word scanned :" + pLastScan + "\n"
                         + "You can report this issue on : https://github.com/dupuisa/i-CodeCNES/issues/";
@@ -127,7 +127,7 @@ public class JFlexException extends Exception {
     /**
      * @return the message
      */
-    public final String getMessage() {
+    public final String getErrorMessage() {
         return message;
     }
 

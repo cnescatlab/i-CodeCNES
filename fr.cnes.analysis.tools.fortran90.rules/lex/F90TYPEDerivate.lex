@@ -31,8 +31,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90TYPEDerivate
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 %ignorecase
 
 %function run
@@ -54,9 +55,9 @@ STRUCT		 = "type"{SPACE}+{VAR}
 END_STRUCT	 = "end"{SPACE}*"type"
 
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
      List<String> locations = new LinkedList<String>(); 
-     private String parsedFileName;
 	
 	public F90TYPEDerivate() {
     }
@@ -64,8 +65,9 @@ END_STRUCT	 = "end"{SPACE}*"type"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		
 		this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 %}
@@ -147,4 +149,9 @@ END_STRUCT	 = "end"{SPACE}*"type"
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

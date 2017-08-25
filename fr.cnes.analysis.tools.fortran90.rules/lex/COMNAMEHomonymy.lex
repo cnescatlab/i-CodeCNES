@@ -36,8 +36,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMNAMEHomonymy
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 %ignorecase
 
 %function run
@@ -70,6 +71,7 @@ SPACE		 = [\ \r\t\f]
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	Map<String, List<String>> hierarchy = new HashMap<String, List<String>>();
 	Map<String, List<String>> variables = new HashMap<String, List<String>>();
 	List<String> locOrder = new LinkedList<String>();
@@ -77,7 +79,6 @@ SPACE		 = [\ \r\t\f]
 	int par = 0;
 	boolean end = true, endStruct = true;
 	
-	private String parsedFileName;
 	
 	public COMNAMEHomonymy(){
 		locOrder.add(location);
@@ -86,8 +87,9 @@ SPACE		 = [\ \r\t\f]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		
 		this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -289,4 +291,9 @@ SPACE		 = [\ \r\t\f]
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

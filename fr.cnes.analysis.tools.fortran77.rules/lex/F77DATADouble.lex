@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -70,7 +71,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]		| \~
 	/** Current variabe to analize **/
 	String variable = "";
 	/** Evluation boolean to detect if an error can be thrown or not **/
-	boolean eval = false;
+	boolean eval = false; 
+	/** name of the file parsed */
+	private String parsedFileName;
 	
 	public F77DATADouble() {
     }
@@ -78,7 +81,8 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]		| \~
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	/** If the var found is a double precision, check is there is a number after that
@@ -158,4 +162,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]		| \~
 <NUMBER>		\n				{eval = false; yybegin(NEW_LINE);}
 <NUMBER>		.				{eval = false; yybegin(LINE);}
 
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+								String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

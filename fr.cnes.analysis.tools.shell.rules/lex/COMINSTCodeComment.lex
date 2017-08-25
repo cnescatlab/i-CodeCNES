@@ -31,6 +31,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMINSTCodeComment
 %extends AbstractChecker
 %public
+%column
 %line
 
 %function run
@@ -105,6 +106,7 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	List<String> loc = new LinkedList<String>();
 
     public COMINSTCodeComment() {
@@ -114,7 +116,9 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 			
 %}
@@ -172,7 +176,7 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); loc.add(location); yybegin(PREHEADER);}
 			    {STRING}		{}
-	      		.              	{}
+	      		[^]           	{}
 		}
 
 
@@ -207,4 +211,9 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

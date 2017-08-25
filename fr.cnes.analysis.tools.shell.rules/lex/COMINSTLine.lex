@@ -33,8 +33,9 @@ import java.util.logging.Logger;
 %class COMINSTLine
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -64,7 +65,8 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 %{
     private static final Logger LOGGER = Logger.getLogger(COMINSTLine.class.getName());
 	String location = "MAIN PROGRAM";
-    String parsedFileName;
+    private String parsedFileName;
+    
 	
 
     public COMINSTLine() {
@@ -75,6 +77,8 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.fine("begin method setInputFile");
+        
+        
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.fine("end method setInputFile");
@@ -167,10 +171,15 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 			    							LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> IGNORE (NEW_INSTRUCTION : \""+yytext()+"\")");
 			    							yybegin(IGNORE);
 			    						}
-	      		.              			{}
+	      		[^]            			{}
 		}
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

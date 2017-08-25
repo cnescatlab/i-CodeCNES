@@ -31,6 +31,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90DESIGNObsoleteDoShared
 %extends AbstractChecker
 %public
+%column
 %line
 
 %function run
@@ -53,6 +54,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	
 	List<String> identifiers = new LinkedList<String>();
 	
@@ -62,7 +64,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	private void checkIndentifiers(String id) throws JFlexException {
@@ -132,4 +135,9 @@ INT		  = [0-9]+
 <LINE>      	\n             	{yybegin(NEW_LINE);}
 <LINE>      	.              	{}
 
-				[^]           {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

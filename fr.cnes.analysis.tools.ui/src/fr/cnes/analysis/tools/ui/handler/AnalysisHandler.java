@@ -131,6 +131,12 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
                                 AnalysisHandler.updateViolationsView(resultsViolation);
                                 AnalysisHandler.updateMetricsView(resultsMetric);
                                 AnalysisHandler.insertMarkers(results);
+                            } else {
+                                MessageDialog.openError(
+                                                PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                                                .getShell(),
+                                                "i-Code CNES - Analysis failure",
+                                                analysisJob.getResult().getMessage());
                             }
                         }
                     });
@@ -143,7 +149,7 @@ public class AnalysisHandler extends UIAndCommandAbstractHandler {
             // Launching the analysis.
             analysisJob.schedule();
         } catch (EmptySelectionException | CoreException exception) {
-            MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "Core exception",
+            MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "i-Code CNES - Warning",
                             exception.getMessage());
         }
         LOGGER.exiting(this.getClass().getName(), METHOD, null);

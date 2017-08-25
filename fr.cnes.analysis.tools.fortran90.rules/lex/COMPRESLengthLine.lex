@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMPRESLengthLine
 %extends AbstractChecker
 %public
+%column
 %line
 
 %function run
@@ -51,6 +52,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	int chars = 1;
 
 	
@@ -60,7 +62,8 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -125,4 +128,9 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

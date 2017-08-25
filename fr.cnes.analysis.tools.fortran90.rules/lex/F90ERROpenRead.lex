@@ -35,8 +35,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90ERROpenRead
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 %ignorecase
 
 %function run
@@ -78,13 +79,13 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 /* A method called setError with String and integer parameters is used to store	*/
 /* an error found during analysis.												*/
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
  	boolean iostat = false, file = false, add=false;
 	boolean multLines = false;
 	List<String> files = new LinkedList<String>();
 	int errorLine = 0;
 	String descr = "", iostatVal = "";
-	private String parsedFileName;
 	
 	public F90ERROpenRead() {
     }
@@ -92,8 +93,9 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		
 		this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 %}
 
@@ -231,4 +233,9 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }
