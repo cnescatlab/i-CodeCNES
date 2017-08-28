@@ -31,7 +31,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class COMDATALoopCondition
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -64,6 +66,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* A String name condition is created to store the current word.				*/
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	
 	List<String> identifiers = new LinkedList<String>();
 	List<String> conditionsDo = new LinkedList<String>();
@@ -77,26 +80,33 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	boolean doVar = true;
 	String descr = "";
 	
+	
 	public COMDATALoopCondition() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	/** If the last identifier is:
 	    - DO -> check conditionsDo list
 	    - WHILE -> check conditionsWhile list
 	**/
-	private void closeCondition() {
+	private void closeCondition() throws JFlexException {
 		int idLength = identifiers.size() - 1;
-		if (identifiers.get(idLength).equals("DO")) 
-			closeDoLoop();
-		else if (identifiers.get(idLength).equals("WHILE"))
-			closeWhileLoop();
-		identifiers.remove(idLength);
+		if(idLength >= 0){
+			if (identifiers.get(idLength).equals("DO")) 
+				closeDoLoop();
+			else if (identifiers.get(idLength).equals("WHILE"))
+				closeWhileLoop();
+			identifiers.remove(idLength);
+		}else{
+			throw new JFlexException(this.getClass().getName(), parsedFileName, "Identifier unreachable", yytext(), yyline, yycolumn);
+		}
 	}
 	
 	/** Delete the identifiers and variables in do loop **/
@@ -273,4 +283,9 @@ WHILE	  = "while"
 <LINE>      	\n             	{yybegin(NEW_LINE);}
 <LINE>      	.              	{}
 
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

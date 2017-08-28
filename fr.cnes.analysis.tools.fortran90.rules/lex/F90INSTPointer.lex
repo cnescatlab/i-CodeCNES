@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90INSTPointer
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -57,6 +58,7 @@ TIPUS		 = "type"
 %{
 	/** Variable used to store violation location and variable involved. **/
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	boolean dimension = false, type = false, pointer = false;
 
 	
@@ -66,7 +68,8 @@ TIPUS		 = "type"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -151,4 +154,9 @@ TIPUS		 = "type"
 /************************/
 /* THROW ERROR          */
 /************************/
-			[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

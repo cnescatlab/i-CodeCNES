@@ -82,8 +82,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
-        this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.finest("end method setInputFile");
 	}
 	
@@ -104,8 +105,13 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
         LOGGER.finest("begin method printError");
 		for(int i=0; i < locations.size(); i++) {
 			if(usedVariables.contains(variables.get(i))){
-		        LOGGER.fine("Setting error line "+errors.get(i)+" for the variable "+variables.get(i)+".");
-				setError(locations.get(i),"The variable " + variables.get(i) + " must be defined as constant.", errors.get(i));
+		        if(errors.size() > i){
+		        	LOGGER.fine("Setting error line "+errors.get(i)+" for the variable "+variables.get(i)+".");
+					setError(locations.get(i),"The variable " + variables.get(i) + " must be defined as constant.", errors.get(i));
+ 				}else{
+                    String errorMessage = "Class"+this.getClass().getName()+"\nImpossible to reach error's line for variable"+ variables.get(i)+" violation. <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+                    throw new JFlexException(new Exception(errorMessage));
+ 				}
             }		
 		}
         LOGGER.finest("end method printError");
@@ -321,6 +327,8 @@ return getCheckResults();
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-				                    String errorMessage = "Class"+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
-                                    throw new JFlexException(new Exception(errorMessage));
+				                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
                                 }

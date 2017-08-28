@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWAbort
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -51,6 +52,7 @@ OPTIONS		= \- ("9" | "SIGKILL" | "kill")
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	String errorKill = "";
 
     public COMFLOWAbort() {
@@ -59,7 +61,9 @@ OPTIONS		= \- ("9" | "SIGKILL" | "kill")
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 		
 %}
@@ -106,7 +110,7 @@ OPTIONS		= \- ("9" | "SIGKILL" | "kill")
 			    {ABORT}			{errorKill= yytext(); yybegin(KILL);}
 			    {STRING}		{}
 			    {VAR}			{} /* Clause to match with words that contains "kill" */
-			 	.              	{}
+			 	[^]            	{}
 		}
 	
 /************************/
@@ -125,4 +129,9 @@ OPTIONS		= \- ("9" | "SIGKILL" | "kill")
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class SHINSTSetShift
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -54,6 +55,7 @@ AVOID		 = "set"{SPACE}+\-"o"{SPACE}+"pipefail"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 
     public SHINSTSetShift() {
     	
@@ -62,7 +64,9 @@ AVOID		 = "set"{SPACE}+\-"o"{SPACE}+"pipefail"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 			
 %}
@@ -119,4 +123,9 @@ AVOID		 = "set"{SPACE}+\-"o"{SPACE}+"pipefail"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

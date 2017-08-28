@@ -82,6 +82,7 @@ SPACE		 = [\ \r\t\f]
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
+        
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.finest("end method setInputFile");
@@ -102,12 +103,17 @@ SPACE		 = [\ \r\t\f]
 			parenthesis.remove(index);
 			parenthesis.add(value);
 			if (value == 0) {
-				if (operators.get(index) > 1){
-				    LOGGER.fine("Setting error line "+(yyline+1)+" because parentheses are needed for readability.");
-				    setError(location,"Parentheses are needed for readability.", yyline+1);
-			    }
-				parenthesis.remove(index);
-				operators.remove(index);
+				if(operators.size() > index){
+					if (operators.get(index) > 1){
+					    LOGGER.fine("Setting error line "+(yyline+1)+" because parentheses are needed for readability.");
+					    setError(location,"Parentheses are needed for readability.", yyline+1);
+				    }
+					parenthesis.remove(index);
+					operators.remove(index);
+				}else{
+					String errorMessage = "Class"+this.getClass().getName()+"\n Operator not reachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+					throw new JFlexException(new Exception(errorMessage));
+				}
 			}
 		}
         LOGGER.finest("end method closeParenthesis");
@@ -374,6 +380,8 @@ SPACE		 = [\ \r\t\f]
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String errorMessage = "Class"+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
-                                    throw new JFlexException(new Exception(errorMessage));
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
                                 }

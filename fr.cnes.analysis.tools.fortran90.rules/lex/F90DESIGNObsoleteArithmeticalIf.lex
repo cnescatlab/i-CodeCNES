@@ -31,8 +31,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90DESIGNObsoleteArithmeticalIf
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -58,6 +59,7 @@ INT			 = [0-9]+
 
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	
 	int bracket = 0;
 	
@@ -67,7 +69,8 @@ INT			 = [0-9]+
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 %}
 
@@ -163,4 +166,9 @@ CONT	  = CONTINUE  | continue
 /*********************/
 /*	ERROR THROWN	 */
 /*********************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

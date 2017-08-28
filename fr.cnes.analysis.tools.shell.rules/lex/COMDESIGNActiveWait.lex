@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMDESIGNActiveWait
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -51,6 +52,7 @@ ACTWAIT     = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
                                                                 
 %{
     String location = "MAIN PROGRAM";
+    private String parsedFileName;
 
     public COMDESIGNActiveWait() {
     }
@@ -58,6 +60,8 @@ ACTWAIT     = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
     @Override
     public void setInputFile(final File file) throws FileNotFoundException {
         super.setInputFile(file);
+        
+        this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
     }
         
@@ -105,11 +109,16 @@ ACTWAIT     = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
                 {ACTWAIT}       {setError(location,"There is an active wait in this point.", yyline+1); }
                 {STRING}        {}
                 {VAR}           {} /* Clause to match with words */
-                .               {}
+                [^]             {}
         }
 
 
 /************************/
 /* ERROR STATE          */
 /************************/
-             [^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

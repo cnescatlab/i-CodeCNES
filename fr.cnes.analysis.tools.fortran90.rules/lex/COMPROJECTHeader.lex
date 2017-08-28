@@ -31,7 +31,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class COMPROJECTHeader
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -60,6 +62,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* A boolean called comment determines if a comment is set. */
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	List<String> linesType = new LinkedList<String>();
 	List<StringBuilder> locations = new LinkedList<StringBuilder>();
 	List<Integer> lines = new LinkedList<Integer>();
@@ -67,13 +70,16 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	boolean first = true;
 	int errorLine = 0;
 	
+	
 	public COMPROJECTHeader() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -100,7 +106,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	}
 	
 	private void raiseErrors() throws JFlexException {
-
+		if(this.linesType.isEmpty()){
+			throw new JFlexException(this.getClass().getName(), parsedFileName, "Line type unreachable.", yytext(), yyline, yycolumn);
+		}
         if (!this.linesType.get(0).equals("comment")
                 && !this.linesType.get(1).equals("comment")) {
             this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
@@ -275,4 +283,9 @@ SPACE = [\ \f\t]+
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

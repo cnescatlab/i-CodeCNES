@@ -36,8 +36,9 @@ import org.eclipse.core.runtime.Path;
 %extends AbstractChecker
 %public
 %ignorecase
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -71,6 +72,7 @@ ESAC 			= "esac"
 CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*))*[^\(\)][\)]
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	private Stack<FunctionComplexitySimplified> functionStack = new Stack<>();
 	float mainComplexity = 1;
 	float totalComplexity = 0;
@@ -78,7 +80,8 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 	int functionLine = 0;
 	Stack<String> commandClosureStack = new Stack<>();
 	private static final Logger LOGGER = Logger.getLogger(SHMETComplexitySimplified.class.getName());	
-
+	
+	
 	
 	public SHMETComplexitySimplified(){
 	}
@@ -86,7 +89,9 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 	@Override
 	public void setInputFile(File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -441,6 +446,9 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 					{FUNCSTART}	{}
 					{VAR}			{}
 					{END_COMMAND}  	{
+										if(commandClosureStack.empty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Command closure unreachable.", yytext(), yyline, yycolumn);	
+										}
 										if(yytext().equals(commandClosureStack.peek())){
 											
 											commandClosureStack.pop();
@@ -529,7 +537,9 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]             {
-									String errorMessage = "Class: "+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.getInputFile().getAbsolutePath() +"\nat line:"+yyline+" column:"+yycolumn+"\nLast word read : "+yytext();
-                                    throw new JFlexException(new Exception(errorMessage));	
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
 								}

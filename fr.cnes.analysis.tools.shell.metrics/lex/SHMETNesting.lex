@@ -37,8 +37,9 @@ import org.eclipse.core.runtime.Path;
 %class SHMETNesting
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -67,6 +68,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 %{
 	private String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	private List<String> identifiers = new LinkedList<String>();
 	private Stack<FunctionNesting> functionStack = new Stack<>();
 	private Stack<String> mainNestingStack = new Stack<>();
@@ -82,7 +84,8 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	public void setInputFile(File file) throws FileNotFoundException {
 		super.setInputFile(file);
 		LOGGER.fine("begin method setInputFile");
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 		LOGGER.fine("end method setInputFile");
 	}
 	
@@ -326,8 +329,9 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]             {
-									String errorMessage = "Class: "+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.getInputFile().getAbsolutePath() +"\nat line:"+yyline+" column:"+yycolumn+"\nLast word read : "+yytext();
-                                    throw new JFlexException(new Exception(errorMessage));	
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
 								}
-				

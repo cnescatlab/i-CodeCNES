@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90DESIGNInclude
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -55,6 +56,7 @@ INCLUDE	 	 = [^a-zA-Z0-9\_]("include"){SPACE}+{STRING}
 %{
 	/** Variable used to store violation location and variable involved. **/
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	/** Variable used to store file value and function values associated. **/
 	/** Used to determine if a comment is before an include declaration. **/
 	boolean comment = false;
@@ -67,7 +69,8 @@ INCLUDE	 	 = [^a-zA-Z0-9\_]("include"){SPACE}+{STRING}
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -134,4 +137,9 @@ INCLUDE	 	 = [^a-zA-Z0-9\_]("include"){SPACE}+{STRING}
 /************************/
 /* THROW ERROR          */
 /************************/
-			[^]           {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

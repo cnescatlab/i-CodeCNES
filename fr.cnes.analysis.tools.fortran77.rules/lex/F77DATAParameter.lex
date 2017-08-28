@@ -32,6 +32,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -75,7 +76,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]	| \*
 	int par = 0;
 	/** Paramters to throw error **/
 	String errors = "";
-	boolean first = true;
+	boolean first = true; 
+	/** name of the file parsed */
+	private String parsedFileName;
 	
 	
 	public F77DATAParameter() {
@@ -84,7 +87,8 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]	| \*
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	private void checkFucntionParameter(String param) throws JFlexException {
@@ -172,4 +176,9 @@ return getCheckResults();
 <PAR>			\)				{par--; if(par==0) yybegin(PARAMETERS); }
 <PAR>			[^]			{}
 
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

@@ -31,6 +31,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90DATAConstantFloat
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -75,7 +76,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* A method called setError with String and integer parameters is used to store	*/
 /* an error found during analysis.												*/
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
  	String constant = null;
 	String variable = null;
 	boolean wellDef = false;
@@ -89,7 +91,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -173,4 +176,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

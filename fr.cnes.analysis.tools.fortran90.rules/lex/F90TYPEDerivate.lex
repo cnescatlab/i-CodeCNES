@@ -31,7 +31,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90TYPEDerivate
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -53,7 +55,8 @@ STRUCT		 = "type"{SPACE}+{VAR}
 END_STRUCT	 = "end"{SPACE}*"type"
 
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
      List<String> locations = new LinkedList<String>(); 
 	
 	public F90TYPEDerivate() {
@@ -62,7 +65,9 @@ END_STRUCT	 = "end"{SPACE}*"type"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 %}
@@ -103,9 +108,17 @@ END_STRUCT	 = "end"{SPACE}*"type"
 /************************/
 <NEW_LINE>		{STRING}|{FALSE} {}
 <NEW_LINE>  	{TYPE}         	{location = yytext(); yybegin(NAMING);}
-<NEW_LINE>		{END_TYPE}		{locations.remove(locations.size() - 1);}
+<NEW_LINE>		{END_TYPE}		{
+								if(locations.isEmpty()){
+									throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Location unreachable.", yytext(), yyline, yycolumn);
+								}
+									locations.remove(locations.size() - 1);}
 <NEW_LINE>		{END_STRUCT}	{}
-<NEW_LINE>		{STRUCT}		{if (!locations.get(locations.size()-1).toLowerCase().contains("module")) 
+<NEW_LINE>		{STRUCT}		{
+									if(locations.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Location unreachable.", yytext(), yyline, yycolumn);
+									}
+									if (!locations.get(locations.size()-1).toLowerCase().contains("module")) 
 								 setError(location,"The " + yytext() + " must be defined inside the module structure." , yyline+1);}
 <NEW_LINE>  	\n             	{}
 <NEW_LINE>  	.              	{yybegin(LINE);}
@@ -116,9 +129,18 @@ END_STRUCT	 = "end"{SPACE}*"type"
 /************************/
 <LINE>			{STRING}|{FALSE} {}
 <LINE>		  	{TYPE}         	{location = yytext(); yybegin(NAMING);}
-<LINE>			{END_TYPE}		{locations.remove(locations.size() - 1);}
+<LINE>			{END_TYPE}		{
+									if(locations.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Location unreachable.", yytext(), yyline, yycolumn);
+									}
+									locations.remove(locations.size() - 1);
+								}
 <LINE>			{END_STRUCT}	{}
-<LINE>			{STRUCT}		{if (!locations.get(locations.size()-1).toLowerCase().contains("module")) 
+<LINE>			{STRUCT}		{
+									if(locations.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Location unreachable.", yytext(), yyline, yycolumn);
+									}
+									if (!locations.get(locations.size()-1).toLowerCase().contains("module")) 
 								 setError(location,"The " + yytext() + " must be defined inside the module structure." , yyline+1);}
 <LINE>      	\n             	{yybegin(NEW_LINE);}
 <LINE>      	.              	{}
@@ -127,4 +149,9 @@ END_STRUCT	 = "end"{SPACE}*"type"
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

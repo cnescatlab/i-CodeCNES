@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWExitLoop
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -55,6 +56,7 @@ BREAK		 = "break" | "exit"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	/* nb_loops counts the number of loop structures we are in */
 	/* It is used to ckeck that we are actually in a loop when raising a violation */
 	int nb_loops = 0;
@@ -66,7 +68,9 @@ BREAK		 = "break" | "exit"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 		
 %}
@@ -116,11 +120,16 @@ BREAK		 = "break" | "exit"
 			    {DONE}			{nb_loops --;}
 			    {BREAK}			{if(nb_loops>0) setError(location,"There is more than one exit in the loop.", yyline+1); } 
 			    {VAR}			{}
-			 	.              	{}
+			 	[^]            	{}
 		}
 
 
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

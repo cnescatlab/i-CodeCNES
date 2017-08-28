@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F77REFIO
 %extends AbstractChecker
 %public
+%column
 %line
 
 %function run
@@ -53,7 +54,9 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 INT			 = [0-9]+
 																
 %{
-	String location = "MAIN PROGRAM";
+	String location = "MAIN PROGRAM"; 
+	/** name of the file parsed */
+	private String parsedFileName;
 	
 	
 	public F77REFIO() {
@@ -62,7 +65,8 @@ INT			 = [0-9]+
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 
@@ -106,7 +110,6 @@ return getCheckResults();
 <RD_WR>			\(				{yybegin(RD_WR_PARAM);}
 <RD_WR>			\n				{yybegin(NEW_LINE);}
 <RD_WR>			.				{}
-
 <RD_WR_PARAM>	\,				{yybegin(LINE);}
 <RD_WR_PARAM>	{INT}			{setError(location,"The logical entities shall be declared using a symbolic name.", yyline+1);}
 <RD_WR_PARAM>	{VAR}			{}
@@ -114,4 +117,9 @@ return getCheckResults();
 <RD_WR_PARAM>	.				{}
 		
 
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+				               }

@@ -91,8 +91,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
-        this.parsedFileName = file.toString();
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+        
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.finest("end method setInputFile");
 	}
 	
@@ -100,14 +101,19 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	    - DO -> check conditionsDo list
 	    - WHILE -> check conditionsWhile list
 	**/
-	private void closeCondition() {
+	private void closeCondition() throws JFlexException {
         LOGGER.finest("begin method closeCondition");
 		int idLength = identifiers.size() - 1;
-		if (identifiers.get(idLength).equals("DO")) 
-			closeDoLoop();
-		else if (identifiers.get(idLength).equals("WHILE"))
-			closeWhileLoop();
-		identifiers.remove(idLength);
+		if(idLength >= 0){
+			if (identifiers.get(idLength).equals("DO")) 
+				closeDoLoop();
+			else if (identifiers.get(idLength).equals("WHILE"))
+				closeWhileLoop();
+			identifiers.remove(idLength);
+		}else{
+			String errorMessage = "Class"+this.getClass().getName()+"\nLoop's identifier unreachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
+            throw new JFlexException(new Exception(errorMessage));
+		}
         LOGGER.finest("end method closeCondition");
 	}
 	
@@ -403,6 +409,8 @@ WHILE	  = "while"
 <LINE>      	.              	{}
 
 				[^]            {
-                                    String errorMessage = "Class"+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
-                                    throw new JFlexException(new Exception(errorMessage));
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
                                 }

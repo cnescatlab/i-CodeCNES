@@ -33,8 +33,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %extends AbstractChecker
 %public
 %ignorecase
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -60,11 +61,12 @@ END			 = END		  | end
 	
 	
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	Float numLines = 0.0f;
 	Float numComments = 0.0f;
 	boolean endLine = true;
 	int functionLine = 0;
-    String parsedFileName;
+    
 	
 	
 	public F77METRatioComment() {
@@ -74,7 +76,8 @@ END			 = END		  | end
 	public void setInputFile(File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         this.parsedFileName = file.toString();
         LOGGER.finest("end method setInputFile");       
 	}
@@ -299,7 +302,9 @@ END			 = END		  | end
 /*********************/
 /*	ERROR THROWN	 */
 /*********************/	
-			[^]      	{
-            			        String errorMessage = "Class"+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
-                                throw new JFlexException(new Exception(errorMessage));
-            			}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}
