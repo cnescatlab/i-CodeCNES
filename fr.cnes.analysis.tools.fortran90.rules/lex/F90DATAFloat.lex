@@ -31,6 +31,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class F90DATAFloat
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -74,6 +75,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 %{
 	/** Variable used to determine violations' location. **/
     String location = "MAIN PROGRAM";
+    private String parsedFileName;
     final List<String> floatList = new LinkedList<String>();
     /** Boolean used to determine if star is used in a write. **/
     boolean star = false;
@@ -96,6 +98,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
     public final void setInputFile(final File file)
             throws FileNotFoundException {
         super.setInputFile(file);
+        this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
     }
 %}
@@ -195,4 +198,9 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

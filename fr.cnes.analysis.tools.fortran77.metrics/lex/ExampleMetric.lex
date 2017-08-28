@@ -39,6 +39,7 @@ import fr.cnes.analysis.tools.analyzer.metrics.FunctionMetricValue;
 %class GeneratedMetricName
 %extends AbstractChecker
 %public
+%column
 %line
 
 /* This three lines are not meant to be modified. */
@@ -84,6 +85,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* in this section.																*/
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	FileMetricValue fileValue;
 	
 	public GeneratedMetricName(){

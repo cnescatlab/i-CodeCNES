@@ -31,8 +31,9 @@ import java.util.logging.Logger;
 %class SHINSTGetOpts
 %extends AbstractChecker
 %public
-%line
 %column
+%line
+
 
 %function run
 %yylexthrow JFlexException
@@ -55,7 +56,8 @@ ESCAPE_STRING = [\\]([\']|[\"])
 %{
     private static final Logger LOGGER = Logger.getLogger(SHINSTGetOpts.class.getName());
 	String location = "MAIN PROGRAM";
-    String parsedFileName;
+    private String parsedFileName;
+    
     
     
 	boolean foundGetOpts = false;
@@ -74,6 +76,8 @@ ESCAPE_STRING = [\\]([\']|[\"])
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.fine("begin method setInputFile");
+        
+        
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.fine("end method setInputFile");
@@ -161,7 +165,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 								 	}	
 							}
 							
-				.			{
+				[^]			{
 								escapeNext=false;
 							}
 	
@@ -209,4 +213,9 @@ ESCAPE_STRING = [\\]([\']|[\"])
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

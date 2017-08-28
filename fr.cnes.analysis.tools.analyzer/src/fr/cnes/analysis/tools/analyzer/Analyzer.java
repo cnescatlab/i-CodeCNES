@@ -132,16 +132,19 @@ public class Analyzer {
                             Runtime.getRuntime().gc();
                         }
                         analyzers.add(service.submit(callableAnalysis));
-
                     }
                 }
             }
             for (Future<List<CheckResult>> analysis : analyzers) {
                 analysisResultCheckResult.addAll(analysis.get());
             }
-        } catch (NullContributionException | ExecutionException | InterruptedException
-                        | CoreException e) {
+        } catch (NullContributionException | InterruptedException | CoreException e) {
+
             LOGGER.throwing(this.getClass().getName(), methodName, e);
+        } catch (ExecutionException exception) {
+            if (exception.getCause() instanceof JFlexException) {
+                throw (JFlexException) exception.getCause();
+            }
         }
         return analysisResultCheckResult;
     }

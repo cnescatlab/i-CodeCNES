@@ -72,6 +72,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
+        
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.finest("end method setInputFile");
@@ -215,6 +216,8 @@ return getCheckResults();
 /* ERROR STATE	        */
 /************************/
 				[^]           {
-                                    String errorMessage = "Class"+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
-                                    throw new JFlexException(new Exception(errorMessage));
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
                                }

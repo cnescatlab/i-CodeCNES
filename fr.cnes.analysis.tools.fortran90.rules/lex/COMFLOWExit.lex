@@ -31,7 +31,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWExit
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -58,6 +60,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	List<String> loc = new LinkedList<String>();
 	boolean returnExist = false;
 	
@@ -68,7 +71,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 %}
 
@@ -113,9 +118,22 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 <NEW_LINE>  	{COMMENT_WORD} 	{yybegin(COMMENT);}
 <NEW_LINE>		{STRING}		{}
 <NEW_LINE>		{TYPE}        	{location = yytext(); yybegin(NAMING);}
-<NEW_LINE>		{END_TYPE}		{loc.remove(loc.size()-1);}
-<NEW_LINE>		{RETURN}		{if(returnExist) setError(loc.get(loc.size()-1),"There is more than one exit in the function.", yyline+1);
-								 else returnExist = true;}
+<NEW_LINE>		{END_TYPE}		{
+									if(loc.isEmpty()){
+								 		throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+							 	 	}
+									loc.remove(loc.size()-1);
+								}
+<NEW_LINE>		{RETURN}		{
+								 if(loc.isEmpty()){
+								 	throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+							 	 }
+								 if(returnExist){
+								 	setError(loc.get(loc.size()-1),"There is more than one exit in the function.", yyline+1);
+								 }else{
+								 	returnExist = true;
+								 }
+								}
 <NEW_LINE>  	\n             	{}
 <NEW_LINE>  	.              	{yybegin(LINE);}
 
@@ -125,9 +143,22 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /************************/
 <LINE>			{STRING}		{}
 <LINE>			{TYPE}        	{location=yytext(); yybegin(NAMING);}
-<LINE>			{END_TYPE}		{loc.remove(loc.size()-1);}
-<LINE>			{RETURN}		{if(returnExist) setError(loc.get(loc.size()-1),"There is more than one exit in the function.", yyline+1);
-								 else returnExist = true;}
+<LINE>			{END_TYPE}		{
+									if(loc.isEmpty()){
+								 		throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+							 	 	}
+									loc.remove(loc.size()-1);
+								}
+<LINE>			{RETURN}		{
+								 if(loc.isEmpty()){
+								 	throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+							 	 }
+								 if(returnExist){ 
+								 	setError(loc.get(loc.size()-1),"There is more than one exit in the function.", yyline+1);
+								 }else{ 
+								 	returnExist = true;
+								 }
+								}
 <LINE>      	\n             	{yybegin(NEW_LINE);}
 <LINE>      	.              	{}
 
@@ -135,4 +166,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

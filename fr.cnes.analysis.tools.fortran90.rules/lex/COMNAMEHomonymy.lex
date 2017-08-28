@@ -36,7 +36,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMNAMEHomonymy
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -69,12 +71,14 @@ SPACE		 = [\ \r\t\f]
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	Map<String, List<String>> hierarchy = new HashMap<String, List<String>>();
 	Map<String, List<String>> variables = new HashMap<String, List<String>>();
 	List<String> locOrder = new LinkedList<String>();
 	List<String> parameters = new LinkedList<String>();
 	int par = 0;
 	boolean end = true, endStruct = true;
+	
 	
 	public COMNAMEHomonymy(){
 		locOrder.add(location);
@@ -83,7 +87,9 @@ SPACE		 = [\ \r\t\f]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	
@@ -182,7 +188,11 @@ SPACE		 = [\ \r\t\f]
 <NEW_LINE>  	{COMMENT_WORD} 	{yybegin(COMMENT);}
 <NEW_LINE>		{STRING}		{}
 <NEW_LINE>		{TYPE}        	{location = yytext(); yybegin(NAMING);}
-<NEW_LINE>		{END_TYPE}		{locOrder.remove(locOrder.size()-1);}
+<NEW_LINE>		{END_TYPE}		{
+									if(locOrder.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+									}
+									locOrder.remove(locOrder.size()-1);}
 <NEW_LINE>		{DATA_TYPE}		{par=0; yybegin(DECL_PARAMS);}
 <NEW_LINE>		{STRUCT}		{yybegin(TYPE_DEC);}
 <NEW_LINE>		{VAR}			{}
@@ -195,7 +205,11 @@ SPACE		 = [\ \r\t\f]
 /************************/
 <LINE>			{STRING}		{}
 <LINE>			{TYPE}        	{location = yytext(); yybegin(NAMING);}
-<LINE>			{END_TYPE}		{locOrder.remove(locOrder.size()-1);}
+<LINE>			{END_TYPE}		{
+									if(locOrder.isEmpty()){
+										throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+									}
+									locOrder.remove(locOrder.size()-1);}
 <LINE>			{DATA_TYPE}		{par=0; yybegin(DECL_PARAMS);}
 <LINE>			{STRUCT}		{yybegin(TYPE_DEC);}
 <LINE>			{VAR}			{yybegin(NOTHING);}
@@ -277,4 +291,9 @@ SPACE		 = [\ \r\t\f]
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

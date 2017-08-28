@@ -31,6 +31,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMPRESHeader
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -51,6 +52,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	List<String> linesType = new LinkedList<String>();
 	List<StringBuilder> locations = new LinkedList<StringBuilder>();
 	List<Integer> lines = new LinkedList<Integer>();
@@ -64,7 +66,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 	
 	private void addType(String type, String location, int line){
@@ -191,4 +195,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

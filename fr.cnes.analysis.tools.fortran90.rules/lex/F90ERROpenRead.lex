@@ -35,7 +35,9 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %class F90ERROpenRead
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -77,7 +79,8 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 /* A method called setError with String and integer parameters is used to store	*/
 /* an error found during analysis.												*/
 %{
-	String location = "MAIN PROGRAM"; 
+	String location = "MAIN PROGRAM";
+    private String parsedFileName; 
  	boolean iostat = false, file = false, add=false;
 	boolean multLines = false;
 	List<String> files = new LinkedList<String>();
@@ -90,7 +93,9 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 %}
 
@@ -162,6 +167,9 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 										yybegin(IF_STATE);
 									}
 									else {
+										if(files.isEmpty()){
+											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analysis failure : Last instruction stored unreachable.", yytext(), yyline, yycolumn);
+										}
 										files.remove(files.size()-1); //delete the last element -> this instruction does not open a file
 										yybegin(YYINITIAL);
 									}
@@ -225,4 +233,9 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 /************************/
 /* THROW ERROR          */
 /************************/
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

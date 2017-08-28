@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWExit
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -51,6 +52,7 @@ RETURN		 = "return"
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	int brackets=0;
 	int returns=0;
 	int lineError=0;
@@ -61,7 +63,9 @@ RETURN		 = "return"
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 		
 %}
@@ -108,7 +112,7 @@ RETURN		 = "return"
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); returns=0; brackets=0; yybegin(FUNCTION);}
 			    {STRING}		{}
 			    {VAR}			{} /* Clause to match with words that contains "return" */
-			 	.              	{}
+			 	[^]            	{}
 		}
 		
 /************************/
@@ -136,4 +140,9 @@ RETURN		 = "return"
 /************************/
 /* ERROR STATE	        */
 /************************/
-			[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

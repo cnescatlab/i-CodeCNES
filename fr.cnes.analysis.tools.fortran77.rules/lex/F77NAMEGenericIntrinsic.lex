@@ -33,6 +33,7 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 %extends AbstractChecker
 %public
 %line
+%column
 %ignorecase
 
 %function run
@@ -61,7 +62,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]
 	
 	List<String> intrinseques =  new LinkedList<String>();
 	List<String> intrinsequesGeneriques =  new LinkedList<String>();
-	List<String> variables = new LinkedList<String>();
+	List<String> variables = new LinkedList<String>(); 
+	/** name of the file parsed */
+	private String parsedFileName;
 	
 	public F77NAMEGenericIntrinsic() {
 		List<String> intr = Arrays.asList("IFIX","IDINT","FLOAT","SNGL","ICHAR","CHAR","DINT","DNINT","IDNINT","IABS","DABS","CABS","AMOD","DMOD","ISIGN","DSIGN","IDIM","DDIM","DPROD","MAX0","AMAX1","DMAX1","AMAX0","MAX1","MIN0","AMIN1","DMIN1","AMIN0","MIN1","DSQRT","CSQRT","DEXP","CEXP","ALOG","DLOG","CLOG","ALOG10","DLOG10","DSIN","CSIN","DCOS","CCOS","DTAN","DASIN","DACOS","DATAN","DATAN2","DSINH","DCOSH","DTANH");
@@ -73,7 +76,8 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 
 	private void checkFunctionName(String text) throws JFlexException {
@@ -129,4 +133,9 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]
 <DECLARATION>  	\n             	{yybegin(NEW_LINE);}
 <DECLARATION>  	.              	{}
 
-				[^]            {throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);	
+								}

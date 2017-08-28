@@ -30,6 +30,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class SHERRString
 %extends AbstractChecker
 %public
+%column
 %line
 %ignorecase
 
@@ -52,6 +53,7 @@ COMPARISON	 = ("if" | "while") {SPACE}* \[ {SPACE}
 																
 %{
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	int brackets = 0;
 	
     public SHERRString() {
@@ -61,7 +63,9 @@ COMPARISON	 = ("if" | "while") {SPACE}* \[ {SPACE}
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+        this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
 			
 %}
@@ -127,4 +131,9 @@ COMPARISON	 = ("if" | "while") {SPACE}* \[ {SPACE}
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            {}
+				[^]            {
+									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+								}

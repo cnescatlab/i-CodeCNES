@@ -33,7 +33,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %class COMFLOWCheckCodeReturn
 %extends AbstractChecker
 %public
+%column
 %line
+
 %ignorecase
 
 %function run
@@ -103,6 +105,7 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 %{
 	/** Variable used to store violation location and variable involved. **/
 	String location = "MAIN PROGRAM";
+    private String parsedFileName;
 	/** Variable used to store file value and function values associated. **/
 	/** Boolean used to determine if a line continues or not. **/
 	boolean ampFound = false;
@@ -127,13 +130,16 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	/** A boolean to determine if an else statement if found. **/
 	boolean elseFound = false;
 	
+	
     public COMFLOWCheckCodeReturn() {
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
+		
+		this.parsedFileName = file.toString();
+        this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 		codeLevel.add(1);
 	}
 	
@@ -319,6 +325,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 												LinkedList<LinkedList<Integer>> tempLevel = new LinkedList<LinkedList<Integer>>();
 												int i = 0;
 												for(String var : variables){
+													if(i>codeLevels.size()){
+														throw new JFlexException(this.getClass().getName(), parsedFileName, "Code level of variable "+var+"can not be reached.", yytext(), yyline, yycolumn);
+													}
 													if (var.equals(variable) && isConflictLevel(codeLevels.get(i), codeLevel)) {
 														setError(locations.get(i),"The return code of the function "+ variables.get(i) + " is not checked.", lines.get(i));
 													} else {
@@ -448,4 +457,9 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 /************************/
 /* ERROR STATE	        */
 /************************/
-				[^]            	{throw new JFlexException( new Exception("Illegal character <" + yytext() + ">") );}
+				[^]            {
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
+                                }

@@ -80,6 +80,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
         LOGGER.finest("begin method setInputFile");
+        
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.finest("end method setInputFile");
@@ -110,7 +111,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void raiseErrors() throws JFlexException {	
         LOGGER.finest("begin method raiseErrors");
-	
+		if(linesType.isEmpty()){
+			String errorMessage = "Class"+this.getClass().getName()+"\nRaising violation failed. Line type unreachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
+			throw new JFlexException(new Exception(errorMessage));
+		}
 		if (!linesType.get(0).equals("comment") && !linesType.get(1).equals("comment")){
             LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
 			this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
@@ -269,6 +273,8 @@ SPACE = [\ \f\t]+
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String errorMessage = "Class"+this.getClass().getName()+"\nIllegal character <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
-                                    throw new JFlexException(new Exception(errorMessage));
+                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                                    errorMessage, parsedWord, yyline, yycolumn);
                                }
