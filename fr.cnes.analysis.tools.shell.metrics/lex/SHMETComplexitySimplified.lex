@@ -223,15 +223,11 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 										commandClosureStack.push(ShellUtils.commandClosure(yytext()));
 										yybegin(COMMAND);
 									}
-				
-		      	
-		      	{VAR}				{   
+				{VAR}				{   
 										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
 									}
 
-
-				      					
-	      		\n | {SPACE} | . 	{ 
+	      		[^]|{SPACE}  		{
 										LOGGER.fine("Do nothing");
 									}
 		}
@@ -368,7 +364,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 
 
 				      					
-	      		\n | {SPACE} | . 	{ 
+	      		[^]|{SPACE}  		{
 										LOGGER.fine("Do nothing");
 									}
 		}
@@ -394,7 +390,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 											yybegin(COMMAND);
 										}
 									}  
-		  	 	. | {SPACE} | \n	{ 
+		  	 	[^]|{SPACE}  		{
 										LOGGER.fine("Do nothing");
 									}
 		}
@@ -421,7 +417,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 											yybegin(COMMAND);
 										}
 									}  
-		  	 	. | {SPACE} | \n	{
+		  	 	[^]|{SPACE}  		{
 										LOGGER.fine("Do nothing");
 		  	 						}
 		}
@@ -465,7 +461,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 											//Do nothing
 										}
 									}  
-		  	 	. | {SPACE} | \n	{
+		  	 	[^]|{SPACE}  		{
 		  	 							LOGGER.fine("Do nothing");
 		  	 						}
 		}
@@ -529,17 +525,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> CASE (Transition : CASE \""+yytext()+"\" )");
 									yybegin(CASE);
 								}
-			   	. |{SPACE} | \n {	
+			   	[^]|{SPACE}  {	
 			   						LOGGER.fine("Do nothing");
 			   					}
 		}
-
-/************************/
-/* ERROR STATE	        */
-/************************/
-				[^]            {
-									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
-				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
-				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
-								}

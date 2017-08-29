@@ -60,10 +60,6 @@ public class TestSHINSTGetOpts {
 			// We verify that there is an error.
 			assertFalse("No error found.", list.isEmpty());
 
-			// We verify that there is the right number of errors
-
-			final int nb_CheckResults = list.size();
-
 			// We verify that the error detected is the right one. There is
 			// only one case of error : a blank common (with no name) is
 			// detected.

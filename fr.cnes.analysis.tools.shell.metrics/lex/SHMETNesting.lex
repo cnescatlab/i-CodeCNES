@@ -233,7 +233,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 									}
 
 				      					
-	      		\n | {SPACE} | . 	{}
+	      		[^]|{SPACE} 		{}
 		}
 		
 		
@@ -250,7 +250,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_S -> YYINITIAL (Transition STRING_S : \""+yytext()+"\" )");
 										yybegin(YYINITIAL);
 									}  
-		  	 	. | {SPACE} | \n	{}
+		  	 		[^]|{SPACE} 	{}
 		}
 /************************/
 /* STRING_DOUBLE STATE	    */
@@ -265,7 +265,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> YYINITIAL (Transition STRING_D : \""+yytext()+"\" )");
 										yybegin(YYINITIAL);
 									}  
-		  	 	. | {SPACE} | \n	{}
+		  	 		[^]|{SPACE} 	{}
 		}
 /************************/
 /* COMMAND STATE	    */
@@ -280,7 +280,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition COMMAND : \""+yytext()+"\" )");
 										yybegin(YYINITIAL);
 									}  
-		  	 	. | {SPACE} | \n	{}
+		  	 		[^]|{SPACE} 	{}
 		}
 /************************/
 /* NAMING STATE	    */
@@ -323,15 +323,5 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
 								 	yybegin(YYINITIAL);
 							 	}
-			   	. | \n |{SPACE} { }
+			   	[^]|{SPACE} { }
 		}
-
-/************************/
-/* ERROR STATE	        */
-/************************/
-				[^]            {
-									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
-				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
-				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
-								}

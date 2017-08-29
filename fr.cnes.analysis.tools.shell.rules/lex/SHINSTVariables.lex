@@ -187,17 +187,17 @@ VAR_ERROR	 = ([\$]({NAME}|{SHELL_VAR}))
 			  						  	}
 			  						  	escapeNext=false;
 			  						}
-			  	{VAR_NO_ERROR}		{}
+			  	{FUNCTION}     		{	
+										escapeNext=false;
+										yybegin(NAMING);
+									}
+				{VAR_NO_ERROR}		{}
 			    {VAR_ERROR}			{
 			    						if(!escapeNext){
 			    					 		setError(location,"The variable " + yytext() + " is not correctly used (must be used with the ${ } or \" \" notation )", yyline+1);
 			    					 	}
 			    					 	escapeNext=false;
 			    			 	   	}
-				{FUNCTION}     		{	
-										escapeNext=false;
-										yybegin(NAMING);
-									}
 				{FUNCT}				{	
 										location = yytext().replaceAll("[\\s]+", "");
 										location = location.substring(0,location.length()-2);

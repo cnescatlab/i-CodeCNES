@@ -20,8 +20,6 @@ import java.io.FileReader;
 import java.io.File;
 import java.util.List;
 
-import java.util.logging.Logger;
-
 
 import org.eclipse.core.runtime.Path;
 
