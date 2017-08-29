@@ -159,7 +159,6 @@ return getCheckResults();
 /************************/
 /* NAMING STATE	        */
 /************************/
-<NAMING>		{FREE_COMMENT}	{yybegin(COMMENT);}
 <NAMING>		{VAR}			{String text = yytext().toLowerCase().trim();
 								 if(!location.toLowerCase().trim().equals("module") || !text.equals("procedure")) {
 								 	location = location + " " + text; 

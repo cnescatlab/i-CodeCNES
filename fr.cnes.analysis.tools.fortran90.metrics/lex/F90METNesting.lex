@@ -21,10 +21,6 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-
-import java.util.logging.Logger;
-
-
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;

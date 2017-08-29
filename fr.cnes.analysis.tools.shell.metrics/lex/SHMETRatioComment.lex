@@ -337,7 +337,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
 								 	yybegin(YYINITIAL);
 							 	}
-			   	. | \n |{SPACE} { }
+			   	[^]|{SPACE} 	{}
 		}
 /************************/
 /* COMMAND STATE	    */
@@ -384,13 +384,3 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 							}
 				. | {SPACE} { }
 		}
-
-/************************/
-/* ERROR STATE	        */
-/************************/
-				[^]            {
-									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
-				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
-				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
-								}
