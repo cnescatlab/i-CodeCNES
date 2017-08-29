@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="Cnes ICode" sequenceNumber="1492454132">
+<target name="Cnes ICode" sequenceNumber="1504016150">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.platform.feature.group" version="4.6.3.v20170301-0400"/>
-      <unit id="org.eclipse.equinox.executable.feature.group" version="3.6.300.v20161122-1740"/>
+      <unit id="org.eclipse.platform.feature.group" version="4.7.0.v20170612-1255"/>
+      <unit id="org.eclipse.equinox.executable.feature.group" version="3.7.0.v20170531-1133"/>
       <unit id="org.junit" version="4.12.0.v201504281640"/>
-      <unit id="org.eclipse.photran.feature.group" version="9.1.2.201702230108"/>
-      <unit id="org.eclipse.ui.navigator.resources" version="3.5.101.v20161006-0640"/>
-      <repository location="http://download.eclipse.org/releases/neon"/>
+      <unit id="org.eclipse.photran.feature.group" version="9.1.1.201612062125"/>
+      <unit id="org.eclipse.ui.navigator.resources" version="3.6.0.v20170302-1409"/>
+      <repository location="http://download.eclipse.org/releases/oxygen"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.12.0.v20170209-1843"/>
-      <repository location="http://download.eclipse.org/eclipse/updates/4.6"/>
+      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.13.0.v20170531-1133"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.7"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.mockito" version="1.8.4.v201303031500"/>
       <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
-      <repository location="http://download.eclipse.org/tools/orbit/R-builds/R20170307180635/repository"/>
+      <repository location="http://download.eclipse.org/tools/orbit/R-builds/R20170516192513/repository"/>
     </location>
   </locations>
 </target>
