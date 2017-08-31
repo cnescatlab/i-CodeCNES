@@ -267,6 +267,94 @@
     <extension
           point="fr.cnes.analysis.tools.ui.configuration">
        <configuration
+             description="Configuration defined by RNC-CNES-Q-HB-80-501 class D"
+             name="RNC class D">
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
+                description="McCabe simplfied number should not exceed 20."
+                enabled="true"
+                maxValue="20"
+                name="F77.MET.ComplexitySimplified.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
+                description="Number of line of a function (without blank and comment lines) should not exceed 100."
+                enabled="true"
+                maxValue="100"
+                name="F77.MET.LineOfCode.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
+                description="Nesting of a control structure should not exceed 7."
+                enabled="true"
+                maxValue="7"
+                name="F77.MET.Nesting.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
+                description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
+                enabled="true"
+                minValue="20"
+                name="F77.MET.RatioComment.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+                description="McCabe simplfied number should not exceed 20."
+                enabled="true"
+                maxValue="20"
+                name="F90.MET.ComplexitySimplified.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+                description="Number of line of a function (without blank and comment lines) should not exceed 100."
+                enabled="true"
+                maxValue="100"
+                name="F90.MET.LineOfCode.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+                description="Nesting of a control structure should not exceed 7."
+                enabled="true"
+                maxValue="7"
+                name="F90.MET.Nesting.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+                description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
+                enabled="true"
+                minValue="20"
+                name="F90.MET.RatioComment.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+                description="McCabe simplfied number should not exceed 20."
+                enabled="true"
+                maxValue="20"
+                name="SH.MET.ComplexitySimplified.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+                description="Number of line of a function (without blank and comment lines) should not exceed 100."
+                enabled="true"
+                maxValue="100"
+                name="SH.MET.LineOfCode.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+                description="Nesting of a control structure should not exceed 7."
+                enabled="true"
+                maxValue="7"
+                name="SH.MET.Nesting.D">
+          </checkConfiguration>
+          <checkConfiguration
+                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+                description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
+                enabled="true"
+                minValue="20"
+                name="SH.MET.RatioComment.D">
+          </checkConfiguration>
+       </configuration>
+       <configuration
              description="Configuration defined by RNC-CNES-Q-HB-80-501 class C"
              name="RNC class C">
           <checkConfiguration
