@@ -10,7 +10,9 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferenceStore;
+import org.eclipse.ui.PlatformUI;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
@@ -21,6 +23,7 @@ import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.analysis.tools.ui.configurations.CheckConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
+import fr.cnes.analysis.tools.ui.logger.UILogger;
 
 /**
  *
@@ -62,7 +65,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *             when an eclipse related method couldn't be executed
      */
     public static void initPreferences() throws NullContributionException, CoreException {
-
+        final String method = "initPreferences";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         for (String languageId : LanguageService.getLanguagesIds()) {
             Activator.getDefault().getPreferenceStore().setDefault(languageId, true);
             for (CheckerContainer checker : CheckerService.getCheckers(languageId)) {
@@ -79,6 +83,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
         }
         Activator.getDefault().getPreferenceStore().setDefault(PREF_CONFIGURATION_KEY,
                         PREF_CONFIGURATION_CUSTOMVALUE);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
     }
 
     /*
@@ -89,12 +94,16 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      */
     @Override
     public void initializeDefaultPreferences() {
+        final String method = "initializeDefaultPreferences";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         try {
             initPreferences();
         } catch (NullContributionException | CoreException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                            Activator.PLUGIN_ID, e.getMessage());
+            UILogger.error(this.getClass().getName(), method, e);
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
     }
 
     /**
@@ -103,11 +112,14 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return Language enabling success.
      */
     public static boolean enableLanguage(String languageId) {
+        final String method = "enableLanguage";
+        UILogger.entering(UserPreferencesService.class.getName(), method, languageId);
         boolean success = false;
         if (languageExists(languageId)) {
             Activator.getDefault().getPreferenceStore().setValue(languageId, true);
             success = true;
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return success;
     }
 
@@ -117,6 +129,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return Whether or not the language is enabled.
      */
     public static boolean isEnabledLanguage(String languageId) {
+        final String method = "isEnabledLanguage";
+        UILogger.entering(UserPreferencesService.class.getName(), method, languageId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().getBoolean(languageId);
     }
 
@@ -126,6 +141,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return Whether or not the language is enabled.
      */
     public static boolean isEnabledChecker(String checkerId) {
+        final String method = "isEnabledChecker";
+        UILogger.entering(UserPreferencesService.class.getName(), method, checkerId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().getBoolean(checkerId);
     }
 
@@ -135,11 +153,14 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return Language disabling success.
      */
     public static boolean disableLanguage(String languageId) {
+        final String method = "disableLanguage";
+        UILogger.entering(UserPreferencesService.class.getName(), method, languageId);
         boolean success = false;
         if (languageExists(languageId)) {
             Activator.getDefault().getPreferenceStore().setValue(languageId, false);
             success = true;
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return success;
     }
 
@@ -154,12 +175,17 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return checker enabling success
      */
     public static boolean enableChecker(String languageId, String checkerId) {
+        final String method = "enableChecker";
+        UILogger.entering(UserPreferencesService.class.getName(), method, new Object[] {
+            languageId, checkerId
+        });
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
             Activator.getDefault().getPreferenceStore().setValue(languageId, true);
             Activator.getDefault().getPreferenceStore().setValue(checkerId, true);
             success = true;
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return success;
     }
 
@@ -173,11 +199,16 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return checker disabling success
      */
     public static boolean disableChecker(String languageId, String checkerId) {
+        final String method = "disableChecker";
+        UILogger.entering(UserPreferencesService.class.getName(), method, new Object[] {
+            languageId, checkerId
+        });
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
             Activator.getDefault().getPreferenceStore().setValue(checkerId, false);
             success = true;
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return success;
     }
 
@@ -189,12 +220,15 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *         {@link PreferenceStore}.
      */
     public static List<String> getEnabledLanguagesIds() {
+        final String method = "";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         final List<String> languages = new ArrayList<>();
         for (String language : LanguageService.getLanguagesIds()) {
             if (isEnabledLanguage(language)) {
                 languages.add(language);
             }
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method, languages);
         return languages;
     }
 
@@ -202,6 +236,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return identifiers of checkers disabled
      */
     public static List<String> getDisabledCheckersIds() {
+        final String method = "";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         final List<String> checkers = new ArrayList<>();
         for (String languageId : getEnabledLanguagesIds()) {
             for (String checkerId : CheckerService.getCheckersIds(languageId)) {
@@ -210,6 +246,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
                 }
             }
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method, checkers);
         return checkers;
     }
 
@@ -226,6 +263,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      */
     public static List<LanguagePreferencesContainer> getLanguagesPreferences()
                     throws NullContributionException, CoreException {
+        final String method = "getLanguagesPreferences";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         final List<LanguagePreferencesContainer> languagesPrefs = new ArrayList<>();
         for (LanguageContainer language : LanguageService.getLanguages()) {
             if (languageExists(language.getId())) {
@@ -244,6 +283,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
 
             }
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method, languagesPrefs);
         return languagesPrefs;
     }
 
@@ -256,6 +296,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      */
     public static List<CheckerPreferencesContainer> getCheckersPreferences()
                     throws NullContributionException, CoreException {
+        final String method = "getCheckersPreferences";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         final List<CheckerPreferencesContainer> checkPrefs = new ArrayList<>();
         for (CheckerContainer checker : CheckerService.getCheckers()) {
             final String languageId = checker.getLanguage().getId();
@@ -283,6 +325,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
                                 checker.getId(), checker.getName(), isEnabled, severity, false));
             }
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method, checkPrefs);
         return checkPrefs;
     }
 
@@ -292,6 +335,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return severity of the checker
      */
     public static String getCheckerSeverity(String checkerId) {
+        final String method = "getCheckerSeverity";
+        UILogger.entering(UserPreferencesService.class.getName(), method, checkerId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().getString(checkerId + PREF_SEVERITY_KEY);
     }
 
@@ -305,12 +351,17 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return set of the severity success
      */
     public static boolean setCheckerSeverity(String languageId, String checkerId, String severity) {
+        final String method = "setCheckerSeverity";
+        UILogger.entering(UserPreferencesService.class.getName(), method, new Object[] {
+            languageId, checkerId, severity
+        });
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
             Activator.getDefault().getPreferenceStore().setValue(checkerId + PREF_SEVERITY_KEY,
                             severity);
             success = true;
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return success;
     }
 
@@ -322,6 +373,11 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return whether or not the preferences store contains this checker.
      */
     public static boolean checkerExists(String languageId, String checkerId) {
+        final String method = "checkerExists";
+        UILogger.entering(UserPreferencesService.class.getName(), method, new Object[] {
+            languageId, checkerId
+        });
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().contains(checkerId);
     }
 
@@ -332,6 +388,8 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *             when a contribution could not be reached.
      */
     public static void setConfiguration(String configurationName) throws NullContributionException {
+        final String method = "setConfiguration";
+        UILogger.entering(UserPreferencesService.class.getName(), method, configurationName);
         Activator.getDefault().getPreferenceStore().setValue(PREF_CONFIGURATION_KEY,
                         configurationName);
         final ConfigurationContainer config = ConfigurationService
@@ -346,6 +404,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
             Activator.getDefault().getPreferenceStore().setValue(checker.getCheckId(),
                             checker.isEnabled());
         }
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
 
     }
 
@@ -354,13 +413,19 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * {@link #PREF_CONFIGURATION_CUSTOMVALUE}.
      */
     public static void setDefaultConfiguration() {
+        final String method = "setDefaultConfiguration";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
         Activator.getDefault().getPreferenceStore().setToDefault(PREF_CONFIGURATION_KEY);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
     }
 
     /**
      * @return active configuration
      */
     public static String getConfigurationName() {
+        final String method = "getConfigurationName";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().getString(PREF_CONFIGURATION_KEY);
     }
 
@@ -368,6 +433,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return active configuration
      */
     public static boolean isDefaultConfigurationActive() {
+        final String method = "isDefaultConfigurationActive";
+        UILogger.entering(UserPreferencesService.class.getName(), method);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().getString(PREF_CONFIGURATION_KEY)
                         .equals(PREF_CONFIGURATION_CUSTOMVALUE);
     }
@@ -378,6 +446,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return whether or not the preference store contains this language.
      */
     public static boolean languageExists(String languageId) {
+        final String method = "languageExists";
+        UILogger.entering(UserPreferencesService.class.getName(), method, languageId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().contains(languageId);
     }
 
@@ -387,6 +458,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * @return the maxValue allowed for the <code>checkerId<code>, if it's set.
      */
     public static Float getMaxValue(String checkerId) {
+        final String method = "getMaxValue";
+        UILogger.entering(UserPreferencesService.class.getName(), method, checkerId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Float.valueOf(Activator.getDefault().getPreferenceStore()
                         .getFloat(checkerId + PREF_MAX_VALUE_KEY));
     }
@@ -398,6 +472,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *         <code>checkerId<code>.
      */
     public static boolean hasMaxValue(String checkerId) {
+        final String method = "hasMaxValue";
+        UILogger.entering(UserPreferencesService.class.getName(), method, checkerId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().contains(checkerId + PREF_MAX_VALUE_KEY)
                         && !Float.isNaN(Activator.getDefault().getPreferenceStore()
                                         .getFloat(checkerId + PREF_MAX_VALUE_KEY));
@@ -410,6 +487,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *         set.
      */
     public static Float getMinValue(String checkerId) {
+        final String method = "getMinValue";
+        UILogger.entering(UserPreferencesService.class.getName(), method, checkerId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Float.valueOf(Activator.getDefault().getPreferenceStore()
                         .getFloat(checkerId + PREF_MIN_VALUE_KEY));
     }
@@ -421,6 +501,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      *         <code>checkedId</code>.
      */
     public static boolean hasMinValue(String checkerId) {
+        final String method = "hasMinValue";
+        UILogger.entering(UserPreferencesService.class.getName(), method, checkerId);
+        UILogger.exiting(UserPreferencesService.class.getName(), method);
         return Activator.getDefault().getPreferenceStore().contains(checkerId + PREF_MIN_VALUE_KEY)
                         && !Float.isNaN(Activator.getDefault().getPreferenceStore()
                                         .getFloat(checkerId + PREF_MIN_VALUE_KEY));

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -49,6 +50,9 @@ public class Export {
     /** Export extension point attribute ImportClass */
     public static final String EXPORT_EXTENSIONPOINT_ATTRIBUTE_IMPORTCLASS = "ImportClass";
 
+    /** Logger **/
+    private static final Logger LOGGER = Logger.getLogger(Export.class.getName());
+
     /**
      * This function return all available {@code formatName} and
      * {@code formatExtension} defined by {@link #EXPORT_EXTENSIONPOINT_ID}
@@ -59,11 +63,14 @@ public class Export {
      *         {@link Export_ExtensionPoint_ID}
      */
     public Map<String, String> getAvailableFormats() {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
         final Map<String, String> formats = new TreeMap<>();
         for (IConfigurationElement contribution : this.getContributions()) {
             formats.put(contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_FORMATNAME),
                             contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION));
         }
+        LOGGER.exiting(this.getClass().getName(), method, formats);
         return formats;
     }
 
@@ -75,6 +82,9 @@ public class Export {
      *         {@link #EXPORT_EXTENSIONPOINT_ID}
      */
     private IConfigurationElement[] getContributions() {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
+        LOGGER.exiting(this.getClass().getName(), method);
         return Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(EXPORT_EXTENSIONPOINT_ID);
     }
@@ -97,13 +107,20 @@ public class Export {
      * @throws IOException
      *             when the export failed due to a {@link java.io.File}
      *             exception.
+     * @throws CoreException
+     *             when failing to create executable from contributor of
+     *             {@link #EXPORT_EXTENSIONPOINT_ID}'s attribute
+     *             {@link #EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS}.
      */
     public void export(List<CheckResult> checkResults, File outputFile,
                     Map<String, String> parameters) throws NoContributorMatchingException,
-                    NoExtensionIndicatedException, IOException {
+                    NoExtensionIndicatedException, IOException, CoreException {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
         final IExport exporter = this.getExportClass(
                         this.getExtensionFromFilePath(outputFile.getAbsolutePath()));
         exporter.export(checkResults, outputFile, parameters);
+        LOGGER.exiting(this.getClass().getName(), method);
     }
 
     /**
@@ -113,9 +130,16 @@ public class Export {
      * @return the parameters of the plugin exporting the format requested
      * @throws NoContributorMatchingException
      *             when the indicated format has no exporter defined
+     * @throws CoreException
+     *             when failing to create executable from contributor of
+     *             {@link #EXPORT_EXTENSIONPOINT_ID}'s attribute
+     *             {@link #EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS}.
      */
     public Map<String, String> getParameters(String formatExtension)
-                    throws NoContributorMatchingException {
+                    throws NoContributorMatchingException, CoreException {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
+        LOGGER.exiting(this.getClass().getName(), method);
         return this.getExportClass(formatExtension).getParameters();
     }
 
@@ -125,8 +149,16 @@ public class Export {
      * @return if an exporter contributor requires parameters
      * @throws NoContributorMatchingException
      *             when the indicated format has no exporter defined.
+     * @throws CoreException
+     *             when failing to create executable from contributor of
+     *             {@link #EXPORT_EXTENSIONPOINT_ID}'s attribute
+     *             {@link #EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS}.
      */
-    public boolean hasParameters(String formatExtension) throws NoContributorMatchingException {
+    public boolean hasParameters(String formatExtension)
+                    throws NoContributorMatchingException, CoreException {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
+        LOGGER.exiting(this.getClass().getName(), method);
         return this.getExportClass(formatExtension).hasParameters();
     }
 
@@ -144,13 +176,18 @@ public class Export {
      */
     public List<CheckResult> importResults(File inputFile)
                     throws NoExtensionIndicatedException, NoContributorMatchingException {
+        final String method = "importResults";
+        LOGGER.entering(this.getClass().getName(), method, inputFile);
         List<CheckResult> checkResults = null;
         final IImport importer = this
                         .getImportClass(this.getExtensionFromFilePath(inputFile.getAbsolutePath()));
         checkResults = importer.importResults(inputFile);
         if (checkResults == null) {
-            throw new NoContributorMatchingException();
+            final NoContributorMatchingException exception = new NoContributorMatchingException();
+            LOGGER.throwing(this.getClass().getName(), method, exception);
+            throw exception;
         }
+        LOGGER.exiting(this.getClass().getName(), method, checkResults);
         return checkResults;
     }
 
@@ -166,6 +203,8 @@ public class Export {
      */
     private String getExtensionFromFilePath(final String filePath)
                     throws NoExtensionIndicatedException {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
         String extension = "";
 
         final int index = filePath.lastIndexOf('.');
@@ -174,8 +213,11 @@ public class Export {
         if (index > parents) {
             extension = filePath.substring(index + 1);
         } else {
-            throw new NoExtensionIndicatedException();
+            final NoExtensionIndicatedException exception = new NoExtensionIndicatedException();
+            LOGGER.throwing(this.getClass().getName(), method, exception);
+            throw exception;
         }
+        LOGGER.exiting(this.getClass().getName(), method, extension);
         return extension;
     }
 
@@ -190,9 +232,13 @@ public class Export {
      *         of this format.
      * @throws NoContributorMatchingException
      *             when the indicated format has no exporter contribution
-     *             defined
+     *             defined when failing to create executable from contributor of
+     *             {@link #EXPORT_EXTENSIONPOINT_ID}'s attribute
+     *             {@link #EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS}.
      */
     private IImport getImportClass(String formatExtension) throws NoContributorMatchingException {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
         IImport importClass = null;
         for (IConfigurationElement contribution : this.getContributions()) {
             if (contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION)
@@ -206,8 +252,11 @@ public class Export {
             }
         }
         if (importClass == null) {
-            throw new NoContributorMatchingException();
+            final NoContributorMatchingException exception = new NoContributorMatchingException();
+            LOGGER.throwing(this.getClass().getName(), method, exception);
+            throw exception;
         }
+        LOGGER.exiting(this.getClass().getName(), method, importClass);
         return importClass;
     }
 
@@ -224,8 +273,15 @@ public class Export {
      *             when there is no contributor of
      *             {@value #EXPORT_EXTENSIONPOINT_ID} able to export the
      *             requested format.
+     * @throws CoreException
+     *             when failing to create executable from contributor of
+     *             {@link #EXPORT_EXTENSIONPOINT_ID}'s attribute
+     *             {@link #EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS}.
      */
-    private IExport getExportClass(String formatExtension) throws NoContributorMatchingException {
+    private IExport getExportClass(String formatExtension)
+                    throws NoContributorMatchingException, CoreException {
+        final String method = "";
+        LOGGER.entering(this.getClass().getName(), method);
         /*
          * The export class to return from the contributors of the Extension
          * Point.
@@ -234,21 +290,20 @@ public class Export {
         for (IConfigurationElement contribution : this.getContributions()) {
             if (contribution.getAttribute(EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXTENSION)
                             .equals(formatExtension)) {
-                try {
-                    final Object o = contribution.createExecutableExtension(
-                                    EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS);
-                    if (o instanceof IExport) {
-                        exportClass = (IExport) o;
-                    }
-                } catch (CoreException e) {
-                    e.printStackTrace();
+                final Object o = contribution.createExecutableExtension(
+                                EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS);
+                if (o instanceof IExport) {
+                    exportClass = (IExport) o;
                 }
             }
         }
 
         if (exportClass == null) {
-            throw new NoContributorMatchingException();
+            final NoContributorMatchingException exception = new NoContributorMatchingException();
+            LOGGER.throwing(this.getClass().getName(), method, exception);
+            throw exception;
         }
+        LOGGER.exiting(this.getClass().getName(), method, exportClass);
         return exportClass;
     }
 

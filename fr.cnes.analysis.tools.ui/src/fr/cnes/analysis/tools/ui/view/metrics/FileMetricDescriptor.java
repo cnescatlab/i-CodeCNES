@@ -5,6 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            the descriptors to set
      */
     public void setDescriptors(final List<FunctionMetricDescriptor> pDescriptors) {
-        this.descriptors = pDescriptors;
+        this.descriptors = new ArrayList<>(pDescriptors);
     }
 
     /**

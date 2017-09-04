@@ -107,8 +107,11 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void raiseErrors() throws JFlexException {
 		if(this.linesType.isEmpty()){
-			throw new JFlexException(this.getClass().getName(), parsedFileName, "Line type unreachable.", yytext(), yyline, yycolumn);
-		}
+				String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+        		final String errorMessage = "Analysis failure : Line type unreachable.";
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, parsedWord, yyline, yycolumn);
+        }
         if (!this.linesType.get(0).equals("comment")
                 && !this.linesType.get(1).equals("comment")) {
             this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);

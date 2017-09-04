@@ -117,12 +117,16 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				}
 			}
 		} catch (FileNotFoundException exception) {
-			throw new JFlexException(exception);
+			String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+            final String errorMessage = exception.getMessage();
+            throw new JFlexException(this.getClass().getName(), parsedFileName,
+                            errorMessage, parsedWord, yyline, yycolumn);
 		} catch (IOException exception) {
-			throw new JFlexException(exception);
-		} catch (JFlexException exception) {
-			throw new JFlexException(exception);
-		}
+			String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+            final String errorMessage = exception.getMessage();
+            throw new JFlexException(this.getClass().getName(), parsedFileName,
+                            errorMessage, parsedWord, yyline, yycolumn);
+		} 
 	}
 	
 	private String getProjectPath(String filePath) {

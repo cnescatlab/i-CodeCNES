@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 
+import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
@@ -17,7 +18,8 @@ import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
  * Editing support for Maximum columns.
  */
 public class MaxValueEditingSupport extends EditingSupport {
-
+    /** Class name **/
+    private static final String CLASS = MaxValueEditingSupport.class.getName();
     /** Cell editor */
     private final CellEditor editor;
 
@@ -25,9 +27,12 @@ public class MaxValueEditingSupport extends EditingSupport {
      * @param pViewer
      *            Column viewer containing the cell
      */
-    public MaxValueEditingSupport(TableViewer pViewer) {
+    public MaxValueEditingSupport(final TableViewer pViewer) {
         super(pViewer);
+        final String method = "MaxValueEditingSupport";
+        UILogger.entering(CLASS, method, pViewer);
         this.editor = new TextCellEditor(pViewer.getTable());
+        UILogger.exiting(CLASS, method);
     }
 
     /*
@@ -37,7 +42,10 @@ public class MaxValueEditingSupport extends EditingSupport {
      * org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
      */
     @Override
-    protected CellEditor getCellEditor(Object element) {
+    protected CellEditor getCellEditor(final Object element) {
+        final String method = "getCellEditor";
+        UILogger.entering(CLASS, method, element);
+        UILogger.exiting(CLASS, method, editor);
         return editor;
     }
 
@@ -47,9 +55,13 @@ public class MaxValueEditingSupport extends EditingSupport {
      * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
      */
     @Override
-    protected boolean canEdit(Object element) {
-        return UserPreferencesService.isDefaultConfigurationActive()
+    protected boolean canEdit(final Object element) {
+        final String method = "canEdit";
+        UILogger.entering(CLASS, method, element);
+        final boolean canEdit = UserPreferencesService.isDefaultConfigurationActive()
                         && ((CheckerPreferencesContainer) element).isMetric();
+        UILogger.exiting(CLASS, method, Boolean.valueOf(canEdit));
+        return canEdit;
     }
 
     /*
@@ -58,7 +70,9 @@ public class MaxValueEditingSupport extends EditingSupport {
      * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
      */
     @Override
-    protected Object getValue(Object element) {
+    protected Object getValue(final Object element) {
+        final String method = "getValue";
+        UILogger.entering(CLASS, method, element);
         final Object value;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
             value = Float.toString(
@@ -67,6 +81,7 @@ public class MaxValueEditingSupport extends EditingSupport {
             value = UserPreferencesService
                             .getMaxValue(((CheckerPreferencesContainer) element).getId());
         }
+        UILogger.exiting(CLASS, method, value);
         return value;
     }
 
@@ -77,12 +92,17 @@ public class MaxValueEditingSupport extends EditingSupport {
      * java.lang.Object)
      */
     @Override
-    protected void setValue(Object element, Object value) {
+    protected void setValue(final Object element, final Object value) {
+        final String method = "setValue";
+        UILogger.entering(CLASS, method, new Object[] {
+            element, value
+        });
         try {
             ((CheckerPreferencesContainer) element).setMaxValue(Float.parseFloat((String) value));
         } catch (@SuppressWarnings("unused") NullPointerException | NumberFormatException e) {
             ((CheckerPreferencesContainer) element).setMaxValue(Float.NaN);
         }
+        UILogger.exiting(CLASS, method);
 
     }
 

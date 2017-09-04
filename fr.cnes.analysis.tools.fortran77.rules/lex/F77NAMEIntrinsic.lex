@@ -100,7 +100,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 		  	in.close();
 	    }
 		catch (Exception e){
-	    	throw new JFlexException(e);
+	    	String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+            final String errorMessage = e.getMessage();
+            throw new JFlexException(this.getClass().getName(), parsedFileName,
+                            errorMessage, parsedWord, yyline, yycolumn);
 	    }		
 	}
 %}

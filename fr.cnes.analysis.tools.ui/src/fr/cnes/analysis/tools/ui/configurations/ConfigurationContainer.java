@@ -9,11 +9,16 @@ package fr.cnes.analysis.tools.ui.configurations;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.cnes.analysis.tools.ui.logger.UILogger;
+
 /**
  * This class is a data structure being used by {@link ConfigurationService}.
  *
  */
 public class ConfigurationContainer {
+
+    /** Class name **/
+    private static final String CLASS = ConfigurationContainer.class.getName();
     /** Configuration's name */
     private String name;
     /** Configuration's description */
@@ -28,15 +33,23 @@ public class ConfigurationContainer {
      *            Configuration's description
      */
     public ConfigurationContainer(String pName, String pDescription) {
+        final String method = "ConfigurationContainer";
+        UILogger.entering(CLASS, method, new Object[] {
+            pName, pDescription
+        });
         this.name = pName;
         this.description = pDescription;
         this.checkConfigurations = new ArrayList<>();
+        UILogger.exiting(CLASS, method);
     }
 
     /**
      * @return the name
      */
     public final String getName() {
+        final String method = "getName";
+        UILogger.entering(CLASS, method);
+        UILogger.exiting(CLASS, method, name);
         return name;
     }
 
@@ -45,13 +58,19 @@ public class ConfigurationContainer {
      *            the name to set
      */
     public final void setName(String pName) {
+        final String method = "setName";
+        UILogger.entering(CLASS, method, pName);
         this.name = pName;
+        UILogger.exiting(CLASS, method);
     }
 
     /**
      * @return the description
      */
     public final String getDescription() {
+        final String method = "getDescription";
+        UILogger.entering(CLASS, method);
+        UILogger.exiting(CLASS, method, description);
         return description;
     }
 
@@ -60,13 +79,19 @@ public class ConfigurationContainer {
      *            the description to set
      */
     public final void setDescription(String pDescription) {
+        final String method = "setDescription";
+        UILogger.entering(CLASS, method, pDescription);
         this.description = pDescription;
+        UILogger.exiting(CLASS, method);
     }
 
     /**
      * @return the checkConfigurations
      */
     public final List<CheckConfigurationContainer> getCheckConfigurations() {
+        final String method = "getCheckConfigurations";
+        UILogger.entering(CLASS, method);
+        UILogger.exiting(CLASS, method, checkConfigurations);
         return checkConfigurations;
     }
 
@@ -76,7 +101,10 @@ public class ConfigurationContainer {
      */
     public final void setCheckConfigurations(
                     List<CheckConfigurationContainer> pCheckConfigurations) {
+        final String method = "setCheckConfigurations";
+        UILogger.entering(CLASS, method, pCheckConfigurations);
         this.checkConfigurations = pCheckConfigurations;
+        UILogger.exiting(CLASS, method);
     }
 
 }

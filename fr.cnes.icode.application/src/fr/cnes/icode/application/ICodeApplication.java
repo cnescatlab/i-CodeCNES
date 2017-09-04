@@ -98,13 +98,15 @@ public class ICodeApplication implements IApplication {
     /** The optional configuration ID (for XML output) */
     public static final String ARG_CONFIG_ID = "-configID"; //$NON-NLS-1$
 
-    private List<String> availableArgs = Arrays.asList(new String[] { ARG_HELP, ARG_VERBOSE,
-            ARG_OUTPUT_FORMAT, ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT, ARG_PROJECT_VERSION,
-            ARG_CONFIG_ID, ARG_HTML_OUTPUT_FILE, ARG_HTML });
+    private List<String> availableArgs = Arrays.asList(new String[] {
+        ARG_HELP, ARG_VERBOSE, ARG_OUTPUT_FORMAT, ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT,
+        ARG_PROJECT_VERSION, ARG_CONFIG_ID, ARG_HTML_OUTPUT_FILE, ARG_HTML
+    });
 
     // List args that are used alone (no parameters)
-    private List<String> singleArgs = Arrays
-                    .asList(new String[] { ARG_HELP, ARG_VERBOSE, ARG_HTML });
+    private List<String> singleArgs = Arrays.asList(new String[] {
+        ARG_HELP, ARG_VERBOSE, ARG_HTML
+    });
 
     /** output format to be used by default is XML */
     private String outputFormat = ARG_OUTPUT_FORMAT_XML;
@@ -212,8 +214,8 @@ public class ICodeApplication implements IApplication {
         if (verbose) {
             info("  -> Filenames :" + filenames);
             for (File f : files)
-                System.out.println("\t\t\tReal file : " + f.getAbsolutePath() + (f.exists() ? ""
-                                : " -> Warning : does not exists"));
+                System.out.println("\t\t\tReal file : " + f.getAbsolutePath()
+                                + (f.exists() ? "" : " -> Warning : does not exists"));
         }
 
         // -------------------------------------
@@ -519,6 +521,11 @@ public class ICodeApplication implements IApplication {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.equinox.app.IApplication#stop()
+     */
     @Override
     public void stop() {
         // TODO Auto-generated method stub

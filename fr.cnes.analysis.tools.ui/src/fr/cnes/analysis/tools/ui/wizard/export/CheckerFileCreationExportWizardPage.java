@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -157,6 +158,9 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
+        } catch (CoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         LOGGER.finest("End getInitialContents method");
         return stream;

@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.ui.logger.UILogger;
 
 /**
  * This class should be used to reach configurations data contributing to
@@ -46,6 +47,9 @@ public final class ConfigurationService {
     /** CheckConfiguration Element's attribute minValue */
     public static final String CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_MINVALUE = "minValue";
 
+    /** Class name **/
+    private static final String CLASS = ConfigurationService.class.getName();
+
     /**
      * This utility class should not be instantiated.
      */
@@ -58,6 +62,8 @@ public final class ConfigurationService {
      *         {@link #CONFIGURATION_EP_ID}.
      */
     public static List<ConfigurationContainer> getConfigurations() {
+        final String method = "getConfigurations";
+        UILogger.entering(CLASS, method);
         final List<ConfigurationContainer> configurations = new ArrayList<>();
         final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CONFIGURATION_EP_ID);
@@ -69,11 +75,11 @@ public final class ConfigurationService {
                                             CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
             for (IConfigurationElement checkerConfiguration : configuration
                             .getChildren(CONFIGURATION_EP_EL_CHECKCONFIGURATION)) {
-                Boolean isEnabled = Boolean.valueOf(true);
+                Boolean isEnabled = Boolean.TRUE;
                 if (checkerConfiguration
                                 .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
                                 .equals("false")) {
-                    isEnabled = Boolean.valueOf(false);
+                    isEnabled = Boolean.FALSE;
                 }
                 Float minValue, maxValue;
                 try {
@@ -89,17 +95,18 @@ public final class ConfigurationService {
                     maxValue = Float.valueOf(Float.NaN);
                 }
                 checkersConfigurations.add(new CheckConfigurationContainer(
-                                checkerConfiguration
-                                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
-                                checkerConfiguration
-                                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
-                                checkerConfiguration
-                                                .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
+                                checkerConfiguration.getAttribute(
+                                                CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
+                                checkerConfiguration.getAttribute(
+                                                CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
+                                checkerConfiguration.getAttribute(
+                                                CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
                                 isEnabled, maxValue, minValue));
             }
             configContainer.setCheckConfigurations(checkersConfigurations);
             configurations.add(configContainer);
         }
+        UILogger.exiting(CLASS, method, configurations);
         return configurations;
     }
 
@@ -114,24 +121,36 @@ public final class ConfigurationService {
      */
     public static ConfigurationContainer getConfigurations(String configurationName)
                     throws NullContributionException {
+        final String method = "getConfigurations";
+        UILogger.entering(CLASS, method, configurationName);
         final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CONFIGURATION_EP_ID);
-        for (IConfigurationElement configuration : configurationsContributors) {
+        boolean found = false;
+        IConfigurationElement configuration;
+        int configurationsCounter = 0;
+        IConfigurationElement checkerConfiguration;
+        int checkerConfigurationsCounter = 0;
+        ConfigurationContainer configContainer = null;
+        while (configurationsContributors.length > configurationsCounter && !found) {
+            configuration = configurationsContributors[configurationsCounter];
             final List<CheckConfigurationContainer> checkersConfigurations = new ArrayList<>();
             if (configuration.getAttribute(CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME)
                             .equals(configurationName)) {
-                final ConfigurationContainer configContainer = new ConfigurationContainer(
+                configContainer = new ConfigurationContainer(
                                 configuration.getAttribute(
                                                 CONFIGURATION_EP_EL_CONFIGURATION_ATT_NAME),
                                 configuration.getAttribute(
                                                 CONFIGURATION_EP_EL_CONFIGURATION_ATT_DESCRIPTION));
-                for (IConfigurationElement checkerConfiguration : configuration
-                                .getChildren(CONFIGURATION_EP_EL_CHECKCONFIGURATION)) {
-                    Boolean isEnabled = Boolean.valueOf(true);
-                    if (checkerConfiguration
-                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
+                while (configuration.getChildren(
+                                CONFIGURATION_EP_EL_CHECKCONFIGURATION).length > checkerConfigurationsCounter
+                                && !found) {
+                    checkerConfiguration = configuration.getChildren(
+                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION)[checkerConfigurationsCounter];
+                    Boolean isEnabled = Boolean.TRUE;
+                    if (checkerConfiguration.getAttribute(
+                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_ENABLED)
                                     .equals("false")) {
-                        isEnabled = Boolean.valueOf(false);
+                        isEnabled = Boolean.FALSE;
                     }
                     Float minValue, maxValue;
                     try {
@@ -146,20 +165,30 @@ public final class ConfigurationService {
                     } catch (@SuppressWarnings("unused") NullPointerException e) {
                         maxValue = Float.valueOf(Float.NaN);
                     }
-                    checkersConfigurations.add(new CheckConfigurationContainer(
-                                    checkerConfiguration
-                                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
-                                    checkerConfiguration
-                                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
-                                    checkerConfiguration
-                                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
+                    checkersConfigurations.add(new CheckConfigurationContainer(checkerConfiguration
+                                    .getAttribute(CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_CHECKID),
+                                    checkerConfiguration.getAttribute(
+                                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_NAME),
+                                    checkerConfiguration.getAttribute(
+                                                    CONFIGURATION_EP_EL_CHECKCONFIGURATION_ATT_DESCRIPTION),
                                     isEnabled, maxValue, minValue));
+                    checkerConfigurationsCounter++;
                 }
                 configContainer.setCheckConfigurations(checkersConfigurations);
-                return configContainer;
+                found = true;
             }
+            configurationsCounter++;
         }
-        throw new NullContributionException("Impossible to find " + configurationName + " in "
-                        + CONFIGURATION_EP_ID + " contributors.");
+
+        if (found) {
+            UILogger.exiting(CLASS, method, configContainer);
+            return configContainer;
+        }
+        final NullContributionException exception = new NullContributionException(
+                        "Impossible to find " + configurationName + " in " + CONFIGURATION_EP_ID
+                                        + " contributors.");
+        UILogger.throwing(CLASS, method, exception);
+        throw exception;
+
     }
 }
