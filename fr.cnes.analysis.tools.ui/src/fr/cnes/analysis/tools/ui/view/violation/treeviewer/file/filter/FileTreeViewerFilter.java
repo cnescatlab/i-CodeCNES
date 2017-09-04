@@ -57,13 +57,13 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
                 show = true;
                 filteringFile = true;
             } else {
-                for (FunctionDescriptor function : file.getDescriptors()) {
+                for (final FunctionDescriptor function : file.getDescriptors()) {
                     if (function.getName().toString().toUpperCase()
                                     .contains(searchString.toUpperCase())) {
                         show = true;
                         filteringFunction = true;
                     } else {
-                        for (RuleDescriptor rule : function.getDescriptors()) {
+                        for (final RuleDescriptor rule : function.getDescriptors()) {
                             if (rule.getName().toUpperCase().contains(searchString.toUpperCase())
                                             && checkSeverity(rule)) {
                                 show = true;
@@ -89,13 +89,13 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
                             || filteringFile) {
                 show = true;
             } else {
-                for (RuleDescriptor rule : function.getDescriptors()) {
+                for (final RuleDescriptor rule : function.getDescriptors()) {
                     if (rule.getName().toUpperCase().contains(searchString.toUpperCase())
                                     && checkSeverity(rule)) {
                         show = true;
                         ruleBeingShown = true;
                     } else {
-                        for (ViolationDescriptor violation : rule.getDescriptors()) {
+                        for (final ViolationDescriptor violation : rule.getDescriptors()) {
                             if (violation.getName().toString().toUpperCase()
                                             .contains(searchString.toUpperCase())) {
                                 show = true;
@@ -111,7 +111,7 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
                             || filteringFunction) && checkSeverity(rule)) {
                 show = true;
             } else {
-                for (ViolationDescriptor violation : rule.getDescriptors()) {
+                for (final ViolationDescriptor violation : rule.getDescriptors()) {
                     if (violation.getName().toString().toUpperCase()
                                     .contains(searchString.toUpperCase()) && checkSeverity(rule)) {
                         show = true;
@@ -136,7 +136,7 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
      * @return whether or not the CheckerResult should be shown pending it's
      *         severity configuration.
      */
-    private boolean checkSeverity(RuleDescriptor rule) {
+    private boolean checkSeverity(final RuleDescriptor rule) {
         return (rule.getSeverity().equals(UserPreferencesService.PREF_SEVERITY_WARNING_VALUE)
                         && showWarning)
                         || (rule.getSeverity()
@@ -155,8 +155,8 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
      * update(java.lang.String, boolean, boolean)
      */
     @Override
-    public void update(String pSearchString, boolean pShowInfo, boolean pShowWarning,
-                    boolean pShowError) {
+    public void update(final String pSearchString, final boolean pShowInfo,
+                    final boolean pShowWarning, final boolean pShowError) {
         this.searchString = pSearchString;
         this.showError = pShowError;
         this.showWarning = pShowWarning;

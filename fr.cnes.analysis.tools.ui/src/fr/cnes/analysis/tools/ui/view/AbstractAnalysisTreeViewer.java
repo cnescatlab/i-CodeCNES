@@ -5,9 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -18,6 +15,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+import fr.cnes.analysis.tools.ui.logger.UILogger;
+
 /**
  * AbstractviolationsTreeViewer is an abstract class containing most useful
  * method to create a TreeViewer showing result of a static analysis.
@@ -25,14 +24,14 @@ import org.eclipse.ui.ide.IDE;
  */
 public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
 
-    public final static Logger LOGGER = Logger
-                    .getLogger(AbstractAnalysisTreeViewer.class.getName());
-
     /** Titles of the columns */
     private String[] titles;
 
     /** Bounds of the TreeViewer */
     private int[] bounds;
+
+    /** Class name **/
+    private final static String CLASS = AbstractAnalysisTreeViewer.class.getName();
 
     /**
      * @param parent
@@ -78,7 +77,10 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            the line on which the file has to be opened
      */
     protected void openFileInEditor(final IResource res, final int line) {
-        LOGGER.finest("begin method openFileInEditor");
+        final String method = "openFileInEditor";
+        UILogger.entering(CLASS, method, new Object[] {
+            res, line
+        });
         final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getActivePage();
         try {
@@ -88,18 +90,20 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
             marker.setAttribute(IMarker.LINE_NUMBER, line);
             IDE.openEditor(page, marker);
         } catch (final CoreException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            UILogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Marker problem", exception.getMessage());
         }
-        LOGGER.finest("end method openFileInEditor");
+        UILogger.exiting(CLASS, method);
     }
 
     /**
      * @return the titles
      */
     public String[] getTitles() {
+        final String method = "getTitles";
+        UILogger.entering(CLASS, method);
+        UILogger.exiting(CLASS, method, titles);
         return titles;
     }
 
@@ -108,13 +112,20 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            the titles to set
      */
     public void setTitles(String[] pTitles) {
+        final String method = "setTitles";
+        UILogger.entering(CLASS, method, pTitles);
+
         this.titles = pTitles;
+        UILogger.exiting(CLASS, method);
     }
 
     /**
      * @return the bounds
      */
     public int[] getBounds() {
+        final String method = "getBounds";
+        UILogger.entering(CLASS, method);
+        UILogger.exiting(CLASS, method, bounds);
         return bounds;
     }
 
@@ -123,6 +134,9 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            the bounds to set
      */
     public void setBounds(int[] pBounds) {
+        final String method = "setBounds";
+        UILogger.entering(CLASS, method, pBounds);
         this.bounds = pBounds;
+        UILogger.exiting(CLASS, method);
     }
 }

@@ -86,8 +86,8 @@ public class Analyzer {
      * @throws JFlexException
      *             when the syntax analysis failed.
      */
-    public List<CheckResult> check(List<File> pInputFiles, List<String> pLanguageIds,
-                    List<String> pExcludedCheckIds) throws IOException, JFlexException {
+    public List<CheckResult> check(final List<File> pInputFiles, final List<String> pLanguageIds,
+                    final List<String> pExcludedCheckIds) throws IOException, JFlexException {
         final String methodName = "check";
         LOGGER.entering(this.getClass().getName(), methodName);
 
@@ -117,15 +117,15 @@ public class Analyzer {
 
             final long maxMemory = Runtime.getRuntime().maxMemory();
             checkers = CheckerService.getCheckers(languageIds, excludedCheckIds);
-            for (CheckerContainer checker : checkers) {
-                for (File file : pInputFiles) {
+            for (final CheckerContainer checker : checkers) {
+                for (final File file : pInputFiles) {
                     if (checker.canVerifyFormat(this.getFileExtension(file.getAbsolutePath()))) {
                         final CallableChecker callableAnalysis = new CallableChecker(
                                         checker.getChecker(), file);
                         if ((MAX_MEMORY_THRESHOLD * maxMemory < (Runtime.getRuntime().totalMemory()
                                         - Runtime.getRuntime().freeMemory()))
                                         && !analyzers.isEmpty()) {
-                            for (Future<List<CheckResult>> analysis : analyzers) {
+                            for (final Future<List<CheckResult>> analysis : analyzers) {
                                 analysisResultCheckResult.addAll(analysis.get());
                             }
                             analyzers.clear();

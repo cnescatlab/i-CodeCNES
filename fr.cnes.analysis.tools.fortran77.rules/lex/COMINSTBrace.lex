@@ -111,8 +111,10 @@ SPACE		 = [\ \r\t\f]
 					parenthesis.remove(index);
 					operators.remove(index);
 				}else{
-					String errorMessage = "Class"+this.getClass().getName()+"\n Operator not reachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
-					throw new JFlexException(new Exception(errorMessage));
+					String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                    final String errorMessage = "Analysis failure : Operator not reachable.";
+                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                    errorMessage, parsedWord, yyline, yycolumn);
 				}
 			}
 		}

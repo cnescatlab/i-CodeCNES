@@ -4,6 +4,6 @@
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
 /**
- * Package containing i-Code CNES Decorator of UI Plug-in.
+ * This package contains classes relative to the i-Code CNES UI plug-in logger.
  */
-package fr.cnes.analysis.tools.ui.decorators;
+package fr.cnes.analysis.tools.ui.logger;

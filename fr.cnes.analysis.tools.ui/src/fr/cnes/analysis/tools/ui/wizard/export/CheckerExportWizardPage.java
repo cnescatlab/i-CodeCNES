@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -175,6 +176,9 @@ public class CheckerExportWizardPage extends WizardPage {
                         }
 
                     } catch (NoContributorMatchingException e) {
+                        e.printStackTrace();
+                    } catch (CoreException e) {
+                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 

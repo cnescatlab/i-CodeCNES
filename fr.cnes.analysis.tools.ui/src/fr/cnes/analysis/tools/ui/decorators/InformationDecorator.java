@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.markers.InformationMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
@@ -40,6 +41,9 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
     public static final String ID_INFORMATION_DECORATOR = "fr.cnes.tools.ui.decorators"
                     + ".informationdecorator";
 
+    /** Class name **/
+    private static final String CLASS = InformationDecorator.class.getName();
+
     /**
      * An Violation Error icon is being put on the top-right of the icon's file
      * only if the file contain a marker of type "ViolationErrorMarker".
@@ -47,6 +51,10 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
      */
     @Override
     public void decorate(Object resource, final IDecoration decoration) {
+        final String method = "decorate";
+        UILogger.entering(CLASS, method, new Object[] {
+            resource, decoration
+        });
 
         if (resource instanceof IResource) {
             // We add a Information decorator only if there is a information in
@@ -77,6 +85,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
                 }
             }
         }
+        UILogger.exiting(CLASS, method);
     }
 
 }

@@ -103,8 +103,10 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
       	 	totalComplexity+=functionFinished.getComplexity();
       	 	this.computeMetric(functionFinished.getName(), functionFinished.getComplexity(), functionFinished.getBeginLine());
 		}catch(EmptyStackException e){
-		    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
-		    throw new JFlexException(new Exception(errorMessage));
+				String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, parsedWord, yyline, yycolumn);
 		}
 		LOGGER.fine("end method endLocation");
 	}
@@ -305,8 +307,10 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 		      									yybegin(YYINITIAL);
 		      								}
 										}else{
-											String errorMessage = "Class: "+this.getClass().getName()+"\nImpossible to handle case closure ESAC because no case has been declared.\nFile :"+ this.getInputFile().getAbsolutePath() +"\nat line:"+yyline+" column:"+yycolumn+"\nLast word read : "+yytext();
-											throw new JFlexException(new Exception(errorMessage));	
+											String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+							        		final String errorMessage = "Analysis failure : Impossible to handle case closure ESAC because no case statement has been declared.";
+							            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+							        errorMessage, parsedWord, yyline, yycolumn);	
 										}
 									}
 				{CASE_STATEMENT}	{
@@ -319,8 +323,10 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
 												functionStack.peek().computeCase();
 											}	
 										}else{
-											String errorMessage = "Class: "+this.getClass().getName()+"\nHandling CASE_STATEMENT while no case were declared.\nFile :"+ this.getInputFile().getAbsolutePath() +"\nat line:"+yyline+" column:"+yycolumn+"\nLast word read : "+yytext();
-											throw new JFlexException(new Exception(errorMessage));	
+											String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+							        		final String errorMessage = "Analysis failure : Impossible to handle CASE_STATEMENT while no case were declared.";
+							            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+							        errorMessage, parsedWord, yyline, yycolumn);
 										}										
 									}
 				{FUNCEND}			{

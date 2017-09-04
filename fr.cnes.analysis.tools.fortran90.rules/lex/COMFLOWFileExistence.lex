@@ -189,7 +189,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 <INQ_EXIST>  	\n             	{
 									if(endLine) {
 										if(files.isEmpty()){
-											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analyzer failed to reach last file inquired.", yytext(), yyline, yycolumn);
+											String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    		final String errorMessage = "Analysis failure : Last file inquired unreachable.";
+					                    	throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                    errorMessage, parsedWord, yyline, yycolumn);
 										}
 										files.remove(files.size()-1);
 										yybegin(NEW_LINE);

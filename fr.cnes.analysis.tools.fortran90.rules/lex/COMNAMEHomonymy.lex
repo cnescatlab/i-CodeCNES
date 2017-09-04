@@ -190,7 +190,10 @@ SPACE		 = [\ \r\t\f]
 <NEW_LINE>		{TYPE}        	{location = yytext(); yybegin(NAMING);}
 <NEW_LINE>		{END_TYPE}		{
 									if(locOrder.isEmpty()){
-										throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+											String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    		final String errorMessage = "Analysis failure : Location unreachable.";
+					                    	throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                    errorMessage, parsedWord, yyline, yycolumn);
 									}
 									locOrder.remove(locOrder.size()-1);}
 <NEW_LINE>		{DATA_TYPE}		{par=0; yybegin(DECL_PARAMS);}
@@ -207,7 +210,10 @@ SPACE		 = [\ \r\t\f]
 <LINE>			{TYPE}        	{location = yytext(); yybegin(NAMING);}
 <LINE>			{END_TYPE}		{
 									if(locOrder.isEmpty()){
-										throw new JFlexException(this.getClass().getName(), parsedFileName, "Location unreachable.", yytext(), yyline, yycolumn);
+											String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    		final String errorMessage = "Analysis failure : Location unreachable.";
+					                    	throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                    errorMessage, parsedWord, yyline, yycolumn);
 									}
 									locOrder.remove(locOrder.size()-1);}
 <LINE>			{DATA_TYPE}		{par=0; yybegin(DECL_PARAMS);}

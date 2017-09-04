@@ -114,8 +114,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 				function.setLineOfComment(function.getLineOfComment()+functionFinished.getLineOfComment());
 			}
 		}catch(EmptyStackException e){
-		    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
-		    throw new JFlexException(new Exception(errorMessage));
+		    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		    final String errorMessage = e.getMessage();
+		    throw new JFlexException(this.getClass().getName(), parsedFileName,
+		                    errorMessage, parsedWord, yyline, yycolumn);
 		}
 		LOGGER.fine("end method setInputFile");
 	}
@@ -159,8 +161,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 			this.computeMetric("MAIN PROGRAM", Float.NaN, 1);
 		}
 	}else{
-		String errorMessage = "Class"+this.getClass().getName()+"\nunreadable by analyzer, at least one function is not ending correctly.\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
-		throw new JFlexException(new Exception(errorMessage));
+		String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		    final String errorMessage = "Analysis failure : At least one function is not ending correctly.";
+		    throw new JFlexException(this.getClass().getName(), parsedFileName,
+		                    errorMessage, parsedWord, yyline, yycolumn);
 	}
 	if(linesTotal > 10){
 		this.computeMetric(null, (commentLinesTotal/(linesTotal+commentLinesTotal))*100, 0);
@@ -232,8 +236,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      										try{
 	      										    functionStack.peek().removeStarterRepetition();
 	      										}catch(JFlexException e){
-	      										    String errorMessage = "Class"+this.getClass().getName()+"\n"+e.getMessage()+"\nFile :"+ this.getInputFile().getAbsolutePath() + "\nat line:"+yyline+" column:"+yycolumn;
-	      										    throw new JFlexException(new Exception(errorMessage));
+	      										    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+												    final String errorMessage = e.getMessage();
+												    throw new JFlexException(this.getClass().getName(), parsedFileName,
+												                    errorMessage, parsedWord, yyline, yycolumn);
 	      										}
 	      									} else {
 	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");

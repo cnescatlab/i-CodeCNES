@@ -105,7 +105,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				closeWhileLoop();
 			identifiers.remove(idLength);
 		}else{
-			throw new JFlexException(this.getClass().getName(), parsedFileName, "Identifier unreachable", yytext(), yyline, yycolumn);
+			String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+            final String errorMessage = "Analysis failure : Identifier unreachable.";
+            throw new JFlexException(this.getClass().getName(), parsedFileName,
+                            errorMessage, parsedWord, yyline, yycolumn);
 		}
 	}
 	
