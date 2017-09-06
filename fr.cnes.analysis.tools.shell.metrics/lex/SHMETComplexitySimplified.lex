@@ -35,7 +35,7 @@ import org.eclipse.core.runtime.Path;
 %class SHMETComplexitySimplified
 %extends AbstractChecker
 %public
-%ignorecase
+
 %column
 %line
 
