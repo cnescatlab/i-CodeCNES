@@ -326,10 +326,10 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 												int i = 0;
 												for(String var : variables){
 													if(i>codeLevels.size()){
-														String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+														
 									                    final String errorMessage = "Analysis failure : Code level of variable "+var+" unreachable.";
 									                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
 													}
 													if (var.equals(variable) && isConflictLevel(codeLevels.get(i), codeLevel)) {
 														setError(locations.get(i),"The return code of the function "+ variables.get(i) + " is not checked.", lines.get(i));
@@ -461,8 +461,8 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

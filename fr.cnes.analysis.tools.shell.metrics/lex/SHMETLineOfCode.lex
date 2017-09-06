@@ -105,10 +105,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 				function.setLineOfCode(function.getLineOfCode()+functionEnded.getLineOfCode());
 			}
 		}catch(EmptyStackException e){
-		    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		    
             final String errorMessage = e.getMessage();
             throw new JFlexException(this.getClass().getName(), parsedFileName,
-                            errorMessage, parsedWord, yyline, yycolumn);
+                            errorMessage, yytext(), yyline, yycolumn);
 		}
 		LOGGER.fine("end method setInputFile");
 	}
@@ -135,10 +135,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	if(functionStack.empty()){
 		this.computeMetric("MAIN PROGRAM", linesMain, 1);
 	}else{
-		String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		
 	    final String errorMessage = "Analysis failure : At least one function isn't ending correctly.";
 	    throw new JFlexException(this.getClass().getName(), parsedFileName,
-	                    errorMessage, parsedWord, yyline, yycolumn);
+	                    errorMessage, yytext(), yyline, yycolumn);
 	}
 	this.computeMetric(null, linesTotal, 0);
 	return getCheckResults();
@@ -203,10 +203,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	      										try{
 	      										    functionStack.peek().removeStarterRepetition();
 	      										}catch(JFlexException e){
-	      										    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+	      										    
 												    final String errorMessage = e.getMessage();
 												    throw new JFlexException(this.getClass().getName(), parsedFileName,
-												                    errorMessage, parsedWord, yyline, yycolumn);
+												                    errorMessage, yytext(), yyline, yycolumn);
 	      										}
 	      									} else {
 	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
