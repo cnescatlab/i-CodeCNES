@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -38,7 +37,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
      */
     public static final String ICON = ImageFactory.INFO_VERY_SMALL;
     /** Decorator ID */
-    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.tools.ui.decorators"
+    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.analysis.tools.ui.decorators"
                     + ".informationdecorator";
 
     /** Class name **/
@@ -71,8 +70,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
                 // If the file do not contain error marker and contain warning
                 // markers then we put an overlay icon on the top right of the
                 // file's icon
-                decoration.addOverlay(ImageDescriptor.createFromFile(
-                                ViolationWarningDecorator.class, ICON), IDecoration.TOP_RIGHT);
+                decoration.addOverlay(ImageFactory.getDescriptor(ICON), IDecoration.TOP_RIGHT);
             } else {
                 // otherwise we remove the overlay if there is no violation
                 // error neither violation warning markers.
