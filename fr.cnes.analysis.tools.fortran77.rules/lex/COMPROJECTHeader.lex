@@ -112,10 +112,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	private void raiseErrors() throws JFlexException {	
         LOGGER.finest("begin method raiseErrors");
 		if(linesType.isEmpty()){
-			String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+			
             final String errorMessage = "Analysis failure : Raising violation failed. Line type unreachable.";
             throw new JFlexException(this.getClass().getName(), parsedFileName,
-        errorMessage, parsedWord, yyline, yycolumn);
+        errorMessage, yytext(), yyline, yycolumn);
 		}
 		if (!linesType.get(0).equals("comment") && !linesType.get(1).equals("comment")){
             LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
@@ -275,8 +275,8 @@ SPACE = [\ \f\t]+
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                }

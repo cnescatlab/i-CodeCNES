@@ -96,10 +96,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	       	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionFinished.getName()+" line :"+ functionFinished.getBeginLine()+" with value : "+functionFinished.getMaxNesting());
       	 	this.computeMetric(functionFinished.getName(), functionFinished.getMaxNesting(), functionFinished.getBeginLine());
 		}catch(EmptyStackException e){
-		    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		    
 		    final String errorMessage = e.getMessage();
 		    throw new JFlexException(this.getClass().getName(), parsedFileName,
-		                    errorMessage, parsedWord, yyline, yycolumn);
+		                    errorMessage, yytext(), yyline, yycolumn);
 		}
 		LOGGER.fine("end method endLocation");
 	}
@@ -110,10 +110,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 	if(this.functionStack.empty()){
 		this.computeMetric("MAIN PROGRAM", mainMaxNesting, 1);
 	}else{
-		String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		
 	    final String errorMessage = "Analysis failure : At least one function is not ending correctly.";
 	    throw new JFlexException(this.getClass().getName(), parsedFileName,
-	                    errorMessage, parsedWord, yyline, yycolumn);
+	                    errorMessage, yytext(), yyline, yycolumn);
 	}
 	this.computeMetric(null, mainMaxNesting, 0);
 	return getCheckResults();
@@ -192,10 +192,10 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 		      										
 		      										    functionStack.peek().removeStarterRepetition();
 		      										}catch(JFlexException e){
-		      										    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+		      										    
 													    final String errorMessage = e.getMessage();
 													    throw new JFlexException(this.getClass().getName(), parsedFileName,
-													                    errorMessage, parsedWord, yyline, yycolumn);
+													                    errorMessage, yytext(), yyline, yycolumn);
 		      										}
 		      									} else {
 		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");

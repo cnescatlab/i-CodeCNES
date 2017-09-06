@@ -40,7 +40,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, FUNCTION, BRACE
+%state COMMENT, NAMING, BRACE
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
@@ -159,9 +159,9 @@ BRACING		 = "expr"	| "let"
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(FUNCTION);}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); yybegin(YYINITIAL);}
 				\n             	{yybegin(YYINITIAL);}  
-			   	.              	{}
+			   	.            	{}
 		}
 
 /************************/
@@ -175,7 +175,7 @@ BRACING		 = "expr"	| "let"
 			    "export"		{yybegin(COMMENT);}
 				{BRACING}		{yybegin(BRACE);}
 				{VAR}			{}
-	      		[^]            	{}
+	      		[^]          	{}
 		}
 		
 /************************/
@@ -189,7 +189,7 @@ BRACING		 = "expr"	| "let"
 				\)					{closeParenthesis();}
 				\,					{parameterFunction();}
     		  	\n | \; | \`   		{checkOperators(); yybegin(YYINITIAL);}
-	      		.              		{}
+	      		[^]            		{}
 		}
 
 
@@ -197,8 +197,8 @@ BRACING		 = "expr"	| "let"
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+									
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
 								}

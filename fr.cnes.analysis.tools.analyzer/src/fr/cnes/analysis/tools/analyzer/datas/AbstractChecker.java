@@ -169,17 +169,4 @@ public abstract class AbstractChecker {
         return inputFile;
     }
 
-    /**
-     * @param str
-     *            to set to ASCII decimal
-     * @return
-     * @return ASCII decimal of <code>str</code>
-     */
-    public static final String toASCII(final String str) {
-        String code = "";
-        for (char character : str.toCharArray()) {
-            code += (int) character;
-        }
-        return code;
-    }
 }

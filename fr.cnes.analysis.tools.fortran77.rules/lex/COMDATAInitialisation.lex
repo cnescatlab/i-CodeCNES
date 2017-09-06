@@ -272,10 +272,10 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 													 
 							}
 						}else{
-							String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+							
 				            final String errorMessage = "Excepted parameter of "+ entList.get(i) +" unreachable.";
 				            throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                            errorMessage, parsedWord, yyline, yycolumn);
+				                            errorMessage, yytext(), yyline, yycolumn);
 						}
 						
 					}
@@ -769,8 +769,8 @@ return getCheckResults();
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+									
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                }

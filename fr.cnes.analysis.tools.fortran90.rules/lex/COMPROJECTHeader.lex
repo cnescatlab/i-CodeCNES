@@ -107,10 +107,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void raiseErrors() throws JFlexException {
 		if(this.linesType.isEmpty()){
-				String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				
         		final String errorMessage = "Analysis failure : Line type unreachable.";
             	throw new JFlexException(this.getClass().getName(), parsedFileName,
-        errorMessage, parsedWord, yyline, yycolumn);
+        errorMessage, yytext(), yyline, yycolumn);
         }
         if (!this.linesType.get(0).equals("comment")
                 && !this.linesType.get(1).equals("comment")) {
@@ -287,8 +287,8 @@ SPACE = [\ \f\t]+
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

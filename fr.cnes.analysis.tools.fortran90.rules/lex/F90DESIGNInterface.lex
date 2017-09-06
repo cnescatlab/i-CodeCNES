@@ -175,8 +175,8 @@ ERROR		 = "allocatable" | "allocate" | "assign" | "backspace" | "block" | "call"
 /* THROW ERROR          */
 /************************/
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

@@ -109,10 +109,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 		        	LOGGER.fine("Setting error line "+errors.get(i)+" for the variable "+variables.get(i)+".");
 					setError(locations.get(i),"The variable " + variables.get(i) + " must be defined as constant.", errors.get(i));
  				}else{
-                    		String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                    		
 				            final String errorMessage = "Error's line of variable's "+ variables.get(i)+" violation unreachable.";
 				            throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                            errorMessage, parsedWord, yyline, yycolumn);
+				                            errorMessage, yytext(), yyline, yycolumn);
  				}
             }		
 		}
@@ -329,8 +329,8 @@ return getCheckResults();
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-				                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+				                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

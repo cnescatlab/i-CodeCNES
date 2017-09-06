@@ -120,19 +120,19 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 <NEW_LINE>		{TYPE}        	{location = yytext(); yybegin(NAMING);}
 <NEW_LINE>		{END_TYPE}		{
 									if(loc.isEmpty()){
-										String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+										
 					                    final String errorMessage = "Analysis failure : Location unreachable.";
 					                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-                                    errorMessage, parsedWord, yyline, yycolumn);
+                                    errorMessage, yytext(), yyline, yycolumn);
 							 	 	}
 									loc.remove(loc.size()-1);
 								}
 <NEW_LINE>		{RETURN}		{
 								 if(loc.isEmpty()){
-								 		String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+								 		
 					                    final String errorMessage = "Analysis failure : Location unreachable.";
 					                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-                                    errorMessage, parsedWord, yyline, yycolumn);
+                                    errorMessage, yytext(), yyline, yycolumn);
 							 	 }
 								 if(returnExist){
 								 	setError(loc.get(loc.size()-1),"There is more than one exit in the function.", yyline+1);
@@ -151,19 +151,19 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 <LINE>			{TYPE}        	{location=yytext(); yybegin(NAMING);}
 <LINE>			{END_TYPE}		{
 									if(loc.isEmpty()){
-										String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+										
 					                    final String errorMessage = "Analysis failure : Location unreachable.";
 					                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-                                    errorMessage, parsedWord, yyline, yycolumn);
+                                    errorMessage, yytext(), yyline, yycolumn);
 							 	 	}
 									loc.remove(loc.size()-1);
 								}
 <LINE>			{RETURN}		{
 								 if(loc.isEmpty()){
-								 		String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+								 		
 					                    final String errorMessage = "Analysis failure : Location unreachable.";
 					                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-                                    errorMessage, parsedWord, yyline, yycolumn);
+                                    errorMessage, yytext(), yyline, yycolumn);
 							 	 }
 								 if(returnExist){ 
 								 	setError(loc.get(loc.size()-1),"There is more than one exit in the function.", yyline+1);
@@ -179,8 +179,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }
