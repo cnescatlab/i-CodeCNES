@@ -33,7 +33,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %public
 %column
 %line
-%ignorecase
+
 
 %function run
 %yylexthrow JFlexException
