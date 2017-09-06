@@ -41,6 +41,7 @@ public class ViolationsView extends ViewPart {
     /** Logger. **/
     public final static Logger LOGGER = Logger.getLogger(ViolationsView.class.getName());
 
+    /** View identifier */
     public static final String VIEW_ID = ViolationsView.class.getName();
 
     public static final String RULE_TREE_VIEWER_TYPE = "RuleTreeViewer";
@@ -344,24 +345,18 @@ public class ViolationsView extends ViewPart {
                                 @Override
                                 public int compare(final CheckResult check1,
                                                 final CheckResult check2) {
-                                    int res = check1.getName().split("\\.")[0]
-                                                    .compareTo(check2.getName().split("\\.")[0]);
+                                    int res = check1.getName().compareTo(check2.getName());
                                     if (res == 0) {
-                                        res = check1.getName().split("\\.")[1].compareTo(
-                                                        check2.getName().split("\\.")[1]);
+                                        res = check1.getFile().getAbsolutePath().compareTo(
+                                                        check2.getFile().getAbsolutePath());
                                         if (res == 0) {
-                                            res = check1.getName().split("\\.")[2].compareTo(
-                                                            check2.getName().split("\\.")[2]);
+                                            res = check1.getLine().compareTo(check2.getLine());
                                             if (res == 0) {
-                                                res = check1.getFile().getAbsolutePath().compareTo(
-                                                                check2.getFile().getAbsolutePath());
+                                                res = check1.getLocation()
+                                                                .compareTo(check2.getLocation());
                                                 if (res == 0) {
-                                                    res = check1.getLine()
-                                                                    .compareTo(check2.getLine());
-                                                    if (res == 0) {
-                                                        res = check1.getLocation().compareTo(
-                                                                        check2.getLocation());
-                                                    }
+                                                    res = check1.getMessage()
+                                                                    .compareTo(check2.getMessage());
                                                 }
                                             }
                                         }
