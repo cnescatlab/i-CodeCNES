@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
@@ -38,12 +38,12 @@ public class EnabledEditingSupport extends EditingSupport {
                     final CheckersComposite pCheckerTableViewer) {
         super(pViewer);
         final String method = "EnabledEditingSupport";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             pViewer, pCheckerTableViewer
         });
         this.viewer = pViewer;
         this.checkerTableViewer = pCheckerTableViewer;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -55,9 +55,9 @@ public class EnabledEditingSupport extends EditingSupport {
     @Override
     protected CellEditor getCellEditor(Object element) {
         final String method = "getCellEditor";
-        UILogger.entering(CLASS, method, element);
+        ICodeLogger.entering(CLASS, method, element);
         final CellEditor editor = new CheckboxCellEditor(null, SWT.CHECK | SWT.READ_ONLY);
-        UILogger.exiting(CLASS, method, editor);
+        ICodeLogger.exiting(CLASS, method, editor);
         return editor;
     }
 
@@ -69,7 +69,7 @@ public class EnabledEditingSupport extends EditingSupport {
     @Override
     protected boolean canEdit(Object element) {
         final String method = "canEdit";
-        UILogger.entering(CLASS, method, element);
+        ICodeLogger.entering(CLASS, method, element);
         return UserPreferencesService.isDefaultConfigurationActive();
     }
 
@@ -81,7 +81,7 @@ public class EnabledEditingSupport extends EditingSupport {
     @Override
     protected Object getValue(Object element) {
         final String method = "getValue";
-        UILogger.entering(CLASS, method, element);
+        ICodeLogger.entering(CLASS, method, element);
         final Object value;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
             value = Boolean.valueOf(((CheckerPreferencesContainer) element).isChecked());
@@ -89,7 +89,7 @@ public class EnabledEditingSupport extends EditingSupport {
             value = Boolean.valueOf(UserPreferencesService
                             .isEnabledChecker(((CheckerPreferencesContainer) element).getId()));
         }
-        UILogger.exiting(CLASS, method, value);
+        ICodeLogger.exiting(CLASS, method, value);
         return value;
     }
 
@@ -102,7 +102,7 @@ public class EnabledEditingSupport extends EditingSupport {
     @Override
     protected void setValue(Object element, Object value) {
         final String method = "setValue";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             element, value
         });
         ((CheckerPreferencesContainer) element).setChecked(((Boolean) value).booleanValue());
@@ -111,7 +111,7 @@ public class EnabledEditingSupport extends EditingSupport {
             this.checkerTableViewer.setAllEnabledChecker(false);
         }
         viewer.refresh();
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 

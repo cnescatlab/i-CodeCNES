@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
@@ -99,7 +99,7 @@ public class CheckersComposite extends Composite {
         super(pParent, style);
         final String method = "CheckerTableViewer";
 
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             pParent, checkers
         });
         this.inputs = checkers;
@@ -126,7 +126,7 @@ public class CheckersComposite extends Composite {
             }
         });
         checkersTableViewer.addFilter(filter);
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -135,7 +135,7 @@ public class CheckersComposite extends Composite {
      */
     private void createViewer(final Composite pParent) {
         final String method = "createViewer";
-        UILogger.entering(CLASS, method, pParent);
+        ICodeLogger.entering(CLASS, method, pParent);
         checkersTableViewer = new TableViewer(pParent,
                         SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
         createColumns(this, checkersTableViewer);
@@ -157,7 +157,7 @@ public class CheckersComposite extends Composite {
         gridData.grabExcessVerticalSpace = true;
         gridData.horizontalAlignment = GridData.FILL;
         checkersTableViewer.getControl().setLayoutData(gridData);
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -169,7 +169,7 @@ public class CheckersComposite extends Composite {
      */
     protected void createColumns(final Composite pParent, final TableViewer pCheckersTableViewer) {
         final String method = "createColumns";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             pParent, pCheckersTableViewer
         });
         enabledColumn = createEnabledViewerColumn(COLUMN_ENABLED_BOUND, COLUMN_ENABLED_INDEX);
@@ -239,7 +239,7 @@ public class CheckersComposite extends Composite {
                     severityImage = infoImage;
                     break;
                 }
-                UILogger.exiting(CLASS, method, severityImage);
+                ICodeLogger.exiting(CLASS, method, severityImage);
                 return severityImage;
 
             }
@@ -260,7 +260,7 @@ public class CheckersComposite extends Composite {
     protected TableViewerColumn createTableViewerColumn(final String title, final int bound,
                     final int colNumber) {
         final String method = "createTableViewerColumn";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             title, Integer.valueOf(bound), Integer.valueOf(colNumber)
         });
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
@@ -270,7 +270,7 @@ public class CheckersComposite extends Composite {
         column.setWidth(bound);
         column.setResizable(true);
         column.setMoveable(true);
-        UILogger.exiting(CLASS, method, viewerColumn);
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
     }
 
@@ -283,7 +283,7 @@ public class CheckersComposite extends Composite {
      */
     protected TableViewerColumn createEnabledViewerColumn(final int bound, final int colNumber) {
         final String method = "createEnabledViewerColumn";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             Integer.valueOf(bound), Integer.valueOf(colNumber)
         });
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
@@ -352,7 +352,7 @@ public class CheckersComposite extends Composite {
         };
         column.addListener(SWT.Selection, enableAllListerner);
         this.refresh();
-        UILogger.exiting(CLASS, method, viewerColumn);
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
 
     }
@@ -362,11 +362,11 @@ public class CheckersComposite extends Composite {
      */
     public void refresh() {
         final String method = "refresh";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         this.checkersTableViewer.getControl().redraw();
         this.enableAllListerner.handleEvent(new Event());
         this.checkersTableViewer.refresh();
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -374,8 +374,8 @@ public class CheckersComposite extends Composite {
      */
     protected Image getInfoImage() {
         final String method = "getInfoImage";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, infoImage);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, infoImage);
         return infoImage;
     }
 
@@ -385,9 +385,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setInfoImage(final Image pInfoImage) {
         final String method = "setInfoImage";
-        UILogger.entering(CLASS, method, pInfoImage);
+        ICodeLogger.entering(CLASS, method, pInfoImage);
         this.infoImage = pInfoImage;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -395,8 +395,8 @@ public class CheckersComposite extends Composite {
      */
     protected Image getWarningImage() {
         final String method = "getWarningImage";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, warningImage);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, warningImage);
         return warningImage;
     }
 
@@ -406,9 +406,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setWarningImage(final Image pWarningImage) {
         final String method = "setWarningImage";
-        UILogger.entering(CLASS, method, pWarningImage);
+        ICodeLogger.entering(CLASS, method, pWarningImage);
         this.warningImage = pWarningImage;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -416,8 +416,8 @@ public class CheckersComposite extends Composite {
      */
     protected Image getErrorImage() {
         final String method = "getErrorImage";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, errorImage);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, errorImage);
         return errorImage;
     }
 
@@ -427,9 +427,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setErrorImage(final Image pErrorImage) {
         final String method = "setErrorImage";
-        UILogger.entering(CLASS, method, pErrorImage);
+        ICodeLogger.entering(CLASS, method, pErrorImage);
         this.errorImage = pErrorImage;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -437,8 +437,8 @@ public class CheckersComposite extends Composite {
      */
     protected Image getEnabledImage() {
         final String method = "getEnabledImage";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, enabledImage);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, enabledImage);
         return enabledImage;
     }
 
@@ -448,9 +448,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setEnabledImage(final Image pEnabledImage) {
         final String method = "setEnabledImage";
-        UILogger.entering(CLASS, method, pEnabledImage);
+        ICodeLogger.entering(CLASS, method, pEnabledImage);
         this.enabledImage = pEnabledImage;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -458,8 +458,8 @@ public class CheckersComposite extends Composite {
      */
     protected Image getDisabledImage() {
         final String method = "getDisabledImage";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, disabledImage);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, disabledImage);
         return disabledImage;
     }
 
@@ -469,9 +469,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setDisabledImage(final Image pDisabledImage) {
         final String method = "setDisabledImage";
-        UILogger.entering(CLASS, method, pDisabledImage);
+        ICodeLogger.entering(CLASS, method, pDisabledImage);
         this.disabledImage = pDisabledImage;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -479,8 +479,8 @@ public class CheckersComposite extends Composite {
      */
     protected TableViewerColumn getEnabledColumn() {
         final String method = "getEnabledColumn";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, enabledColumn);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, enabledColumn);
         return enabledColumn;
     }
 
@@ -490,9 +490,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setEnabledColumn(final TableViewerColumn pEnabledColumn) {
         final String method = "setEnabledColumn";
-        UILogger.entering(CLASS, method, pEnabledColumn);
+        ICodeLogger.entering(CLASS, method, pEnabledColumn);
         this.enabledColumn = pEnabledColumn;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -500,8 +500,8 @@ public class CheckersComposite extends Composite {
      */
     protected boolean isAllEnabledChecked() {
         final String method = "isAllEnabledChecked";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, Boolean.valueOf(allEnabledChecked));
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(allEnabledChecked));
         return allEnabledChecked;
     }
 
@@ -511,9 +511,9 @@ public class CheckersComposite extends Composite {
      */
     protected void setAllEnabledChecked(final boolean pAllEnabledChecked) {
         final String method = "setAllEnabledChecked";
-        UILogger.entering(CLASS, method, Boolean.valueOf(pAllEnabledChecked));
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(pAllEnabledChecked));
         this.allEnabledChecked = pAllEnabledChecked;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -521,8 +521,8 @@ public class CheckersComposite extends Composite {
      */
     public final LanguagePreferencesContainer getLanguage() {
         final String method = "getLanguage";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, language);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, language);
         return language;
     }
 
@@ -532,9 +532,9 @@ public class CheckersComposite extends Composite {
      */
     public final void setLanguage(final LanguagePreferencesContainer pLanguage) {
         final String method = "setLanguage";
-        UILogger.entering(CLASS, method, pLanguage);
+        ICodeLogger.entering(CLASS, method, pLanguage);
         this.language = pLanguage;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -542,8 +542,8 @@ public class CheckersComposite extends Composite {
      */
     public final List<CheckerPreferencesContainer> getInputs() {
         final String method = "getInputs";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, inputs);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, inputs);
         return inputs;
     }
 
@@ -553,9 +553,9 @@ public class CheckersComposite extends Composite {
      */
     public final void setInputs(final List<CheckerPreferencesContainer> pInputs) {
         final String method = "setInputs";
-        UILogger.entering(CLASS, method, pInputs);
+        ICodeLogger.entering(CLASS, method, pInputs);
         this.inputs = pInputs;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -564,11 +564,11 @@ public class CheckersComposite extends Composite {
      */
     public void setAllEnabledChecker(final boolean isEnabled) {
         final String method = "setAllEnabledChecker";
-        UILogger.entering(CLASS, method, Boolean.valueOf(isEnabled));
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(isEnabled));
         if (allEnabledChecked && !isEnabled) {
             allEnabledChecked = false;
             enabledColumn.getColumn().setImage(disabledImage);
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 }

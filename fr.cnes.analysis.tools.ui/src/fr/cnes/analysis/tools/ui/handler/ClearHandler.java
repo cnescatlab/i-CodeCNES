@@ -15,8 +15,8 @@ import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
@@ -38,7 +38,7 @@ public class ClearHandler extends AbstractHandler {
     @Override
     public Object execute(final ExecutionEvent event) {
         final String method = "execute";
-        UILogger.entering(this.getClass().getName(), method, event);
+        ICodeLogger.entering(this.getClass().getName(), method, event);
         try {
 
             // clear the violations view
@@ -53,12 +53,12 @@ public class ClearHandler extends AbstractHandler {
             this.refreshDecorators();
 
         } catch (final EmptyProviderException exception) {
-            UILogger.error(this.getClass().getName(), method, exception);
+            ICodeLogger.error(this.getClass().getName(), method, exception);
             MessageDialog.openError(HandlerUtil.getActiveShell(event), "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        UILogger.exiting(this.getClass().getName(), method, null);
+        ICodeLogger.exiting(this.getClass().getName(), method, null);
         return null;
     }
 
@@ -69,13 +69,13 @@ public class ClearHandler extends AbstractHandler {
      */
     private void refreshDecorators() {
         final String method = "refreshDecorators";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         final IDecoratorManager manager = PlatformUI.getWorkbench().getDecoratorManager();
 
         manager.update("fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator");
         manager.update("fr.cnes.analysis.tools.ui.decorators.violationerrordecorator");
 
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ClearHandler extends AbstractHandler {
      */
     private void clearViolationsView() throws EmptyProviderException {
         final String method = "clearViolationsView";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
 
         final ViolationsView rulesView = (ViolationsView) PlatformUI.getWorkbench()
                         .getActiveWorkbenchWindow().getActivePage()
@@ -95,7 +95,7 @@ public class ClearHandler extends AbstractHandler {
         if (rulesView != null) {
             rulesView.clear();
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -108,14 +108,14 @@ public class ClearHandler extends AbstractHandler {
      */
     private void clearMetricsView() throws EmptyProviderException {
         final String method = "clearMetricsView";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
 
         final MetricsView metricsView = (MetricsView) PlatformUI.getWorkbench()
                         .getActiveWorkbenchWindow().getActivePage().findView(MetricsView.VIEW_ID);
         if (metricsView != null) {
             metricsView.clear();
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -123,7 +123,7 @@ public class ClearHandler extends AbstractHandler {
      */
     private void clearAllMarkers() {
         final String method = "clearAllMarkers";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
 
         final IResource resource = ResourcesPlugin.getWorkspace().getRoot();
         final int depth = IResource.DEPTH_INFINITE;
@@ -135,9 +135,10 @@ public class ClearHandler extends AbstractHandler {
             resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.InformationMarker", true,
                             depth);
         } catch (final CoreException exception) {
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Marker deletion problem", exception.getMessage());
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 }

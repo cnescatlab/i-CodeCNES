@@ -11,7 +11,7 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.ui.PlatformUI;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
 /**
@@ -58,7 +58,7 @@ public class ShowRuleTreeViewerHandler implements IHandler {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         final String method = "execute";
-        UILogger.entering(CLASS, method, event);
+        ICodeLogger.entering(CLASS, method, event);
         final ViolationsView view = (ViolationsView) PlatformUI.getWorkbench()
                         .getActiveWorkbenchWindow().getActivePage()
                         .findView(ViolationsView.VIEW_ID);
@@ -66,7 +66,7 @@ public class ShowRuleTreeViewerHandler implements IHandler {
         if (!view.getTreeViewerType().equals(name)) {
             view.setTreeViewerType(name);
         }
-        UILogger.exiting(CLASS, method, null);
+        ICodeLogger.exiting(CLASS, method, null);
         return null;
     }
 
@@ -78,8 +78,8 @@ public class ShowRuleTreeViewerHandler implements IHandler {
     @Override
     public boolean isEnabled() {
         final String method = "isEnabled";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, Boolean.TRUE);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.TRUE);
         return true;
     }
 
@@ -91,8 +91,8 @@ public class ShowRuleTreeViewerHandler implements IHandler {
     @Override
     public boolean isHandled() {
         final String method = "isHandled";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, Boolean.TRUE);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.TRUE);
         return true;
     }
 

@@ -8,6 +8,7 @@ package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
@@ -21,6 +22,8 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.Viola
  *
  */
 public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnalysisFilter {
+    /** Class name */
+    private static final String CLASS = FileTreeViewerFilter.class.getName();
 
     /** String filtered */
     private String searchString = "";
@@ -45,7 +48,12 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
      * Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
-    public boolean select(Viewer pViewer, Object pParentElement, Object pElement) {
+    public boolean select(final Viewer pViewer, final Object pParentElement,
+                    final Object pElement) {
+        final String method = "select";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pViewer, pParentElement, pElement
+        });
         boolean show = false;
         boolean ruleBeingShown = false;
         /*
@@ -126,6 +134,7 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
         if (pElement instanceof FileRuleDescriptor || pElement instanceof FunctionDescriptor) {
             show = (show || ruleBeingShown);
         }
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(show));
         return show;
 
     }
@@ -137,14 +146,18 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
      *         severity configuration.
      */
     private boolean checkSeverity(final RuleDescriptor rule) {
-        return (rule.getSeverity().equals(UserPreferencesService.PREF_SEVERITY_WARNING_VALUE)
-                        && showWarning)
+        final String method = "checkSeverity";
+        ICodeLogger.entering(CLASS, method);
+        final boolean checked = (rule.getSeverity()
+                        .equals(UserPreferencesService.PREF_SEVERITY_WARNING_VALUE) && showWarning)
                         || (rule.getSeverity()
                                         .equals(UserPreferencesService.PREF_SEVERITY_ERROR_VALUE)
                                         && showError)
                         || (rule.getSeverity()
                                         .equals(UserPreferencesService.PREF_SEVERITY_INFO_VALUE)
                                         && showInfo);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(checked));
+        return checked;
     }
 
     /*
@@ -157,6 +170,8 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
     @Override
     public void update(final String pSearchString, final boolean pShowInfo,
                     final boolean pShowWarning, final boolean pShowError) {
+        final String method = "update";
+        ICodeLogger.entering(CLASS, method);
         this.searchString = pSearchString;
         this.showError = pShowError;
         this.showWarning = pShowWarning;
@@ -164,6 +179,7 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
         filteringRule = false;
         filteringFile = false;
         filteringFunction = false;
+        ICodeLogger.exiting(CLASS, method);
 
     }
 }

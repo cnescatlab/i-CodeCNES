@@ -6,8 +6,6 @@
 package fr.cnes.analysis.tools.ui.view.metrics;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -15,6 +13,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.PlatformUI;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 
 /**
@@ -24,8 +23,8 @@ import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
  * @see org.eclipse.jface.viewers.ITreeContentProvider
  */
 public class MetricContentProvider implements ITreeContentProvider {
-    /** Logger **/
-    private static final Logger LOGGER = Logger.getLogger(MetricContentProvider.class.getName());
+    /** Class name **/
+    private static final String CLASS = MetricContentProvider.class.getName();
 
     /** A value container which has all values of metrics. **/
     private MetricConverter converter;
@@ -36,6 +35,9 @@ public class MetricContentProvider implements ITreeContentProvider {
      * @return the converter
      */
     public MetricConverter getConverter() {
+        final String method = "getConverter";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, converter);
         return this.converter;
     }
 
@@ -46,7 +48,10 @@ public class MetricContentProvider implements ITreeContentProvider {
      *            the converter to set
      */
     public void setConverter(final MetricConverter pConverter) {
+        final String method = "setConverter";
+        ICodeLogger.entering(CLASS, method, pConverter);
         this.converter = pConverter;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -58,7 +63,8 @@ public class MetricContentProvider implements ITreeContentProvider {
      */
     @Override
     public boolean hasChildren(final Object element) {
-        LOGGER.finest("Begin hasChildren method");
+        final String method = "hasChildren";
+        ICodeLogger.entering(CLASS, method, element);
 
         // Every type has a child except for FunctionValue type
         final boolean result;
@@ -73,8 +79,7 @@ public class MetricContentProvider implements ITreeContentProvider {
         } else {
             result = true;
         }
-
-        LOGGER.finest("End hasChildren method");
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(result));
         return result;
     }
 
@@ -87,6 +92,9 @@ public class MetricContentProvider implements ITreeContentProvider {
      */
     @Override
     public Object getParent(final Object element) {
+        final String method = "getParent";
+        ICodeLogger.entering(CLASS, method, element);
+        ICodeLogger.exiting(CLASS, method, null);
         return null;
     }
 
@@ -98,7 +106,10 @@ public class MetricContentProvider implements ITreeContentProvider {
      */
     @Override
     public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-        LOGGER.finest("Begin inputChanged method");
+        final String method = "inputChanged";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            viewer, oldInput, newInput
+        });
 
         try {
             if (newInput instanceof CheckResult[]) {
@@ -113,22 +124,19 @@ public class MetricContentProvider implements ITreeContentProvider {
                                 "inputChanged method of AbstractContentProvider has a "
                                                 + newInput.getClass().getName()
                                                 + " type instead of a Descriptor<?>[] instance");
-                LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                                exception);
+                ICodeLogger.throwing(CLASS, method, exception);
                 MessageDialog.openError(
                                 PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                                 "Internal Error",
                                 "Contact support service : \n" + exception.getMessage());
             }
         } catch (final InterruptedException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.throwing(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
-
-        LOGGER.finest("End inputChanged method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -140,7 +148,11 @@ public class MetricContentProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getElements(final Object inputElement) {
-        return this.converter.getContainer();
+        final String method = "getElements";
+        ICodeLogger.entering(CLASS, method, inputElement);
+        final Object[] elements = this.converter.getContainer();
+        ICodeLogger.exiting(CLASS, method, elements);
+        return elements;
     }
 
     /*
@@ -152,8 +164,8 @@ public class MetricContentProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getChildren(final Object parentElement) {
-        LOGGER.finest("Begin getChildren method");
-
+        final String method = "getChildren";
+        ICodeLogger.entering(CLASS, method, parentElement);
         Object[] values = new FunctionMetricDescriptor[0];
         if (parentElement instanceof FileMetricDescriptor) {
             // The parent element can be a FileValue : we find array of
@@ -177,14 +189,12 @@ public class MetricContentProvider implements ITreeContentProvider {
             final UnknownInstanceException exception = new UnknownInstanceException(
                             "Unknow type in getChildren method of AbstractContentProvider : "
                                             + parentElement.getClass().getName());
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.throwing(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
-
-        LOGGER.finest("End getChildren method");
+        ICodeLogger.exiting(CLASS, method, values);
         return values;
     }
 
@@ -195,8 +205,11 @@ public class MetricContentProvider implements ITreeContentProvider {
      */
     @Override
     public void dispose() {
+        final String method = "dispose";
+        ICodeLogger.entering(CLASS, method);
         if (this.converter != null) {
             this.converter.setContainer(new MetricDescriptor[0]);
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 }

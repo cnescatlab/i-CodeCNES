@@ -15,8 +15,8 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 
 /**
@@ -50,7 +50,7 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
     @Override
     public void decorate(Object resource, final IDecoration decoration) {
         final String method = "decorate";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             resource, decoration
         });
 
@@ -73,7 +73,7 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
         } else if (!manager.getEnabled(ID_VIOLATION_ERROR_DECORATOR)) {
             decoration.addOverlay(null);
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

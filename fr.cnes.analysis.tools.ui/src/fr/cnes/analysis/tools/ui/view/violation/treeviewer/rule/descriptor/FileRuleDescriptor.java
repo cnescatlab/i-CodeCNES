@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+
 /**
  * Class descriptor for rule's violations in a file.
  * 
@@ -17,6 +19,8 @@ import org.eclipse.core.runtime.IPath;
  */
 public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
 
+    /** Class name */
+    private static final String CLASS = FileRuleDescriptor.class.getName();
     /** File's path. **/
     private IPath filePath;
     /** List of violations in the file. **/
@@ -26,7 +30,10 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      * Empty constructor.
      */
     public FileRuleDescriptor() {
+        final String method = "FileRuleDescriptor";
+        ICodeLogger.entering(CLASS, method);
         this.descriptors = new LinkedList<FunctionRuleDescriptor>();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -36,8 +43,11 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the file's path.
      */
     public FileRuleDescriptor(final IPath pFilePath) {
+        final String method = "FileRuleDescriptor";
+        ICodeLogger.entering(CLASS, method, pFilePath);
         this.filePath = pFilePath;
         this.descriptors = new LinkedList<FunctionRuleDescriptor>();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -46,6 +56,9 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return file's path
      */
     public IPath getFilePath() {
+        final String method = "getFilePath";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.filePath);
         return this.filePath;
     }
 
@@ -55,6 +68,9 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return the descriptors
      */
     public List<FunctionRuleDescriptor> getDescriptors() {
+        final String method = "getDescriptors";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.descriptors);
         return this.descriptors;
     }
 
@@ -65,7 +81,10 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the file's path to set
      */
     public void setFilePath(final IPath pFilePath) {
+        final String method = "setFilePath";
+        ICodeLogger.entering(CLASS, method, pFilePath);
         this.filePath = pFilePath;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -75,7 +94,10 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the descriptors to set
      */
     public void setDescriptors(final List<FunctionRuleDescriptor> pDescriptors) {
+        final String method = "setDescriptors";
+        ICodeLogger.entering(CLASS, method, pDescriptors);
         this.descriptors = pDescriptors;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -85,7 +107,11 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getName() {
-        return this.filePath.toFile().getName();
+        final String method = "getName";
+        ICodeLogger.entering(CLASS, method);
+        final String name = this.filePath.toFile().getName();
+        ICodeLogger.exiting(CLASS, method, name);
+        return name;
     }
 
     /*
@@ -95,7 +121,11 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public Integer getValue() {
-        return this.descriptors.size();
+        final String method = "getValue";
+        ICodeLogger.entering(CLASS, method);
+        final Integer value = Integer.valueOf(this.descriptors.size());
+        ICodeLogger.exiting(CLASS, method, value);
+        return value;
     }
 
     /*
@@ -105,6 +135,9 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getSeverity() {
+        final String method = "getSeverity";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, "");
         return "";
     }
 
@@ -115,13 +148,17 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final String method = "equals";
+        ICodeLogger.entering(CLASS, method, object);
+        final boolean isEqual;
         if (object instanceof FileRuleDescriptor) {
             isEqual = this.filePath.equals(((FileRuleDescriptor) object).getFilePath());
         } else {
             isEqual = false;
         }
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isEqual));
         return isEqual;
+
     }
 
     /*
@@ -142,9 +179,12 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public FileRuleDescriptor clone() throws CloneNotSupportedException {
+        final String method = "clone";
+        ICodeLogger.entering(CLASS, method);
         final FileRuleDescriptor clone = (FileRuleDescriptor) super.clone();
         clone.setFilePath(this.filePath);
         clone.setDescriptors(new LinkedList<FunctionRuleDescriptor>(this.descriptors));
+        ICodeLogger.exiting(CLASS, method, clone);
         return clone;
     }
 

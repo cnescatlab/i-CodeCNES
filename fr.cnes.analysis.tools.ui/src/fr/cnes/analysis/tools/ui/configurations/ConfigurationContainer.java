@@ -9,7 +9,7 @@ package fr.cnes.analysis.tools.ui.configurations;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This class is a data structure being used by {@link ConfigurationService}.
@@ -34,13 +34,13 @@ public class ConfigurationContainer {
      */
     public ConfigurationContainer(String pName, String pDescription) {
         final String method = "ConfigurationContainer";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             pName, pDescription
         });
         this.name = pName;
         this.description = pDescription;
         this.checkConfigurations = new ArrayList<>();
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -48,8 +48,8 @@ public class ConfigurationContainer {
      */
     public final String getName() {
         final String method = "getName";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, name);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, name);
         return name;
     }
 
@@ -59,9 +59,9 @@ public class ConfigurationContainer {
      */
     public final void setName(String pName) {
         final String method = "setName";
-        UILogger.entering(CLASS, method, pName);
+        ICodeLogger.entering(CLASS, method, pName);
         this.name = pName;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -69,8 +69,8 @@ public class ConfigurationContainer {
      */
     public final String getDescription() {
         final String method = "getDescription";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, description);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, description);
         return description;
     }
 
@@ -80,9 +80,9 @@ public class ConfigurationContainer {
      */
     public final void setDescription(String pDescription) {
         final String method = "setDescription";
-        UILogger.entering(CLASS, method, pDescription);
+        ICodeLogger.entering(CLASS, method, pDescription);
         this.description = pDescription;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -90,8 +90,8 @@ public class ConfigurationContainer {
      */
     public final List<CheckConfigurationContainer> getCheckConfigurations() {
         final String method = "getCheckConfigurations";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, checkConfigurations);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, checkConfigurations);
         return checkConfigurations;
     }
 
@@ -102,9 +102,9 @@ public class ConfigurationContainer {
     public final void setCheckConfigurations(
                     List<CheckConfigurationContainer> pCheckConfigurations) {
         final String method = "setCheckConfigurations";
-        UILogger.entering(CLASS, method, pCheckConfigurations);
+        ICodeLogger.entering(CLASS, method, pCheckConfigurations);
         this.checkConfigurations = pCheckConfigurations;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

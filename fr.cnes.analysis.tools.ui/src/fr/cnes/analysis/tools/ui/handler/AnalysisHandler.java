@@ -41,12 +41,12 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.decorators.InformationDecorator;
 import fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator;
 import fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.markers.InformationMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
@@ -86,7 +86,7 @@ public class AnalysisHandler extends AbstractHandler {
     @Override
     public Object execute(final ExecutionEvent event) throws ExecutionException {
         final String method = "execute";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         /*
          * 1.Identification the languages to analyze :
          * 
@@ -148,15 +148,15 @@ public class AnalysisHandler extends AbstractHandler {
             // Launching the analysis.
             analysisJob.schedule();
         } catch (EmptySelectionException exception) {
-            UILogger.warning(CLASS, method, exception);
+            ICodeLogger.warning(CLASS, method, exception);
             MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "i-Code CNES - Warning",
                             exception.getMessage());
         } catch (CoreException exception) {
-            UILogger.error(CLASS, method, exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(HandlerUtil.getActiveShell(event), "i-Code CNES - ERROR",
                             exception.getMessage());
         }
-        UILogger.exiting(CLASS, method, null);
+        ICodeLogger.exiting(CLASS, method, null);
         return null;
     }
 
@@ -174,21 +174,21 @@ public class AnalysisHandler extends AbstractHandler {
     private List<File> retrieveSelectedFiles(IStructuredSelection pSelection)
                     throws EmptySelectionException, CoreException {
         final String method = "retrieveSelectedFiles";
-        UILogger.entering(CLASS, method, pSelection);
+        ICodeLogger.entering(CLASS, method, pSelection);
         final List<File> files = new ArrayList<>();
         final Iterator<?> selectionIterator = pSelection.iterator();
         if (!selectionIterator.hasNext()) {
             final EmptySelectionException exception = new EmptySelectionException(
                             "i-Code CNES : Please select file(s) in the Project"
                                             + " Explorer before running an analysis.");
-            UILogger.throwing(CLASS, method, exception);
+            ICodeLogger.throwing(CLASS, method, exception);
             throw exception;
         }
         while (selectionIterator.hasNext()) {
             final IResource selection = (IResource) selectionIterator.next();
             files.addAll(this.findFiles(selection));
         }
-        UILogger.exiting(CLASS, method, files);
+        ICodeLogger.exiting(CLASS, method, files);
         return files;
 
     }
@@ -209,7 +209,7 @@ public class AnalysisHandler extends AbstractHandler {
      */
     private List<File> findFiles(IResource selection) throws CoreException {
         final String method = "findFiles";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         final List<File> files = new ArrayList<>();
         switch (selection.getType()) {
         case IResource.ROOT:
@@ -233,7 +233,7 @@ public class AnalysisHandler extends AbstractHandler {
         default:
             break;
         }
-        UILogger.exiting(CLASS, method, files);
+        ICodeLogger.exiting(CLASS, method, files);
         return files;
     }
 
@@ -245,7 +245,7 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static void updateViolationsView(final List<CheckResult> violations) {
         final String method = "updateCheckResultView";
-        UILogger.entering(CLASS, method, violations);
+        ICodeLogger.entering(CLASS, method, violations);
 
         try {
             // get the page
@@ -264,13 +264,13 @@ public class AnalysisHandler extends AbstractHandler {
             }
 
         } catch (final PartInitException exception) {
-            UILogger.error(CLASS, method, exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -281,7 +281,7 @@ public class AnalysisHandler extends AbstractHandler {
      */
     private static void updateMetricsView(final List<CheckResult> values) {
         final String method = "updateMetricsView";
-        UILogger.entering(CLASS, method, values);
+        ICodeLogger.entering(CLASS, method, values);
 
         try {
             // get the page
@@ -300,18 +300,18 @@ public class AnalysisHandler extends AbstractHandler {
             }
 
         } catch (final PartInitException exception) {
-            UILogger.error(CLASS, method, exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         } catch (final EmptyProviderException exception) {
-            UILogger.error(CLASS, method, exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -323,7 +323,7 @@ public class AnalysisHandler extends AbstractHandler {
      */
     public static void insertMarkers(List<CheckResult> checks) {
         final String method = "insertMarkers";
-        UILogger.entering(CLASS, method, checks);
+        ICodeLogger.entering(CLASS, method, checks);
         final ProgressMonitorDialog pmdialog = new ProgressMonitorDialog(
                         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
         try {
@@ -411,7 +411,7 @@ public class AnalysisHandler extends AbstractHandler {
                             }
                         }
                     } catch (final CoreException exception) {
-                        UILogger.error(CLASS, method, exception);
+                        ICodeLogger.error(CLASS, method, exception);
                         MessageDialog.openError(
                                         PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                                                         .getShell(),
@@ -421,7 +421,7 @@ public class AnalysisHandler extends AbstractHandler {
                 }
             });
         } catch (InvocationTargetException | InterruptedException exception) {
-            UILogger.error(CLASS, method, exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Marker problem", exception.getMessage());
         }
@@ -434,7 +434,7 @@ public class AnalysisHandler extends AbstractHandler {
         manager.update(ViolationErrorDecorator.ID_VIOLATION_ERROR_DECORATOR);
         manager.update(InformationDecorator.ID_INFORMATION_DECORATOR);
 
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -446,11 +446,11 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static String getDefaultMetricUncomputedMessage(String name) {
         final String method = "getDefaultMetricUncomputedMessage";
-        UILogger.entering(CLASS, method, name);
+        ICodeLogger.entering(CLASS, method, name);
         final String message = name
                         + " | Checker value for this function was not computed. Please refer to CNES"
                         + " RNC for more informations.";
-        UILogger.exiting(CLASS, method, message);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
@@ -463,11 +463,11 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static String getDefaultMetricComputedMessage(String name, Float value) {
         final String method = "getDefaultMetricComputedMessage";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             name, value
         });
         final String message = name + " | Value is " + value + ".";
-        UILogger.exiting(CLASS, method, message);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
@@ -482,12 +482,12 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static String getMaximumViolationMessage(String name, Float value, Float limit) {
         final String method = "";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             name, value, limit
         });
         final String message = name + " | Value is " + value + " while it should not exceed "
                         + limit + ".";
-        UILogger.exiting(CLASS, method, message);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
@@ -502,12 +502,12 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static String getMaximumComplianceMessage(String name, Float value, Float limit) {
         final String method = "";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             name, value, limit
         });
         final String message = name + " | Value is " + value + ", below it's maximum limit of "
                         + limit + ".";
-        UILogger.exiting(CLASS, method, message);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
@@ -522,12 +522,12 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static String getMinimumViolationMessage(String name, Float value, Float limit) {
         final String method = "";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             name, value, limit
         });
         final String message = name + " | Value is " + value + " while it should not below " + limit
                         + ".";
-        UILogger.exiting(CLASS, method, message);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
@@ -542,12 +542,12 @@ public class AnalysisHandler extends AbstractHandler {
      */
     protected static String getMinimumComplianceMessage(String name, Float value, Float limit) {
         final String method = "";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             name, value, limit
         });
         final String message = name + " | Value is " + value + " above it's minimum limit of "
                         + limit + ".";
-        UILogger.exiting(CLASS, method, message);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 

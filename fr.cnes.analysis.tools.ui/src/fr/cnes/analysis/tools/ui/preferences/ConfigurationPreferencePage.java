@@ -29,11 +29,11 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckersComposite;
 import fr.cnes.analysis.tools.ui.preferences.checkerstables.MetricsComposite;
 
@@ -57,9 +57,9 @@ public class ConfigurationPreferencePage extends PreferencePage
     private MetricsComposite metricsExpandBarContainer;
 
     @Override
-    public void init(IWorkbench workbench) {
+    public void init(final IWorkbench workbench) {
         final String method = "init";
-        UILogger.entering(this.getClass().getName(), method, workbench);
+        ICodeLogger.entering(this.getClass().getName(), method, workbench);
         // Page description
         setImageDescriptor(ImageFactory.getDescriptor(ImageFactory.ERROR_BIG));
         setDescription("This preference page is dedicated to iCode analysis. On this page,"
@@ -69,7 +69,7 @@ public class ConfigurationPreferencePage extends PreferencePage
         // Associate preference store
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         setPreferenceStore(store);
-        UILogger.exiting(this.getClass().getName(), method);
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
@@ -82,14 +82,14 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     protected Control createContents(Composite parent) {
         final String method = "createContents";
-        UILogger.entering(this.getClass().getName(), method, parent);
+        ICodeLogger.entering(this.getClass().getName(), method, parent);
         final Label info = new Label(parent, SWT.NONE);
         info.setText("Do you wish to choose an existing configuration ?");
         configurationSelection = new Combo(parent, SWT.READ_ONLY);
         configurationSelection.add(UserPreferencesService.PREF_CONFIGURATION_CUSTOMVALUE);
         configurationId = UserPreferencesService.getConfigurationName();
         final List<ConfigurationContainer> configs = ConfigurationService.getConfigurations();
-        for (ConfigurationContainer config : configs) {
+        for (final ConfigurationContainer config : configs) {
             configurationSelection.add(config.getName());
         }
         if (configurationSelection.indexOf(UserPreferencesService.getConfigurationName()) != -1) {
@@ -133,7 +133,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
         final List<CheckerPreferencesContainer> metrics = new ArrayList<>();
         final List<CheckerPreferencesContainer> rules = new ArrayList<>();
-        for (CheckerPreferencesContainer checker : preferences) {
+        for (final CheckerPreferencesContainer checker : preferences) {
             if (checker.isMetric()) {
                 metrics.add(checker);
             } else {
@@ -167,20 +167,20 @@ public class ConfigurationPreferencePage extends PreferencePage
         configurationSelection.addSelectionListener(new SelectionAdapter() {
 
             @Override
-            public void widgetSelected(SelectionEvent e) {
+            public void widgetSelected(final SelectionEvent e) {
                 final String methodName = "widgetSelected";
-                UILogger.entering(this.getClass().getName(), methodName, e);
+                ICodeLogger.entering(this.getClass().getName(), methodName, e);
                 configurationId = configurationSelection
                                 .getItem(configurationSelection.getSelectionIndex());
                 refresh();
-                UILogger.exiting(this.getClass().getName(), methodName);
+                ICodeLogger.exiting(this.getClass().getName(), methodName);
             }
 
         });
         parent.getParent().pack();
         parent.getParent().redraw();
         this.refresh();
-        UILogger.exiting(this.getClass().getName(), method, composite);
+        ICodeLogger.exiting(this.getClass().getName(), method, composite);
         return composite;
     }
 
@@ -192,37 +192,40 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     public void performApply() {
         final String method = "performApply";
-        UILogger.entering(this.getClass().getName(), method);
+        ICodeLogger.entering(this.getClass().getName(), method);
         if (configurationId.equals(UserPreferencesService.PREF_CONFIGURATION_CUSTOMVALUE)) {
             UserPreferencesService.setDefaultConfiguration();
-            for (CheckerPreferencesContainer checker : metricsExpandBarContainer.getInputs()) {
+            for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
+                            .getInputs()) {
                 checker.savePreferences();
             }
-            for (CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
+            for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
                 checker.savePreferences();
             }
         } else {
-            for (CheckerPreferencesContainer checker : metricsExpandBarContainer.getInputs()) {
+            for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
+                            .getInputs()) {
                 checker.setToDefault();
             }
-            for (CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
+            for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
                 checker.setToDefault();
             }
             try {
                 UserPreferencesService.setConfiguration(configurationId);
             } catch (NullContributionException e) {
                 MessageDialog.openError(getShell(), Activator.PLUGIN_ID, e.getMessage());
-                UILogger.error(this.getClass().getName(), method, e);
+                ICodeLogger.error(this.getClass().getName(), method, e);
             }
-            for (CheckerPreferencesContainer checker : metricsExpandBarContainer.getInputs()) {
+            for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
+                            .getInputs()) {
                 checker.update();
             }
-            for (CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
+            for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
                 checker.update();
             }
         }
         this.refresh();
-        UILogger.exiting(this.getClass().getName(), method);
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
@@ -233,19 +236,19 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     public void performDefaults() {
         final String method = "performDefaults";
-        UILogger.entering(this.getClass().getName(), method);
+        ICodeLogger.entering(this.getClass().getName(), method);
 
-        for (CheckerPreferencesContainer checker : metricsExpandBarContainer.getInputs()) {
+        for (final CheckerPreferencesContainer checker : metricsExpandBarContainer.getInputs()) {
             checker.setToDefault();
         }
-        for (CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
+        for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
             checker.setToDefault();
         }
         UserPreferencesService.setDefaultConfiguration();
         configurationSelection.select(configurationSelection
                         .indexOf(UserPreferencesService.getConfigurationName()));
         this.refresh();
-        UILogger.exiting(this.getClass().getName(), method);
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
@@ -256,9 +259,9 @@ public class ConfigurationPreferencePage extends PreferencePage
     @Override
     public boolean performOk() {
         final String method = "performOk";
-        UILogger.entering(this.getClass().getName(), method);
+        ICodeLogger.entering(this.getClass().getName(), method);
         this.performApply();
-        UILogger.exiting(this.getClass().getName(), method);
+        ICodeLogger.exiting(this.getClass().getName(), method);
         return super.performOk();
     }
 
@@ -267,12 +270,12 @@ public class ConfigurationPreferencePage extends PreferencePage
      */
     public void refresh() {
         final String method = "refresh";
-        UILogger.entering(this.getClass().getName(), method);
+        ICodeLogger.entering(this.getClass().getName(), method);
         this.composite.getParent().getParent().redraw();
         this.composite.layout();
         this.composite.redraw();
         metricsExpandBarContainer.refresh();
         rulesExpandBarContainer.refresh();
-        UILogger.exiting(this.getClass().getName(), method);
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 }

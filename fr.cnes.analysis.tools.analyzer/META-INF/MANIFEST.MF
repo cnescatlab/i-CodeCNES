@@ -11,6 +11,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fr.cnes.analysis.tools.analyzer;uses:="org.osgi.framework,org.eclipse.core.runtime.jobs,org.eclipse.core.runtime",
  fr.cnes.analysis.tools.analyzer.datas;uses:="org.eclipse.core.runtime",
  fr.cnes.analysis.tools.analyzer.exception,
+ fr.cnes.analysis.tools.analyzer.logger,
  fr.cnes.analysis.tools.analyzer.services.checkers,
  fr.cnes.analysis.tools.analyzer.services.languages
 Bundle-Vendor: CNES

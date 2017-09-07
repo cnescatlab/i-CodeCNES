@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
@@ -51,9 +51,6 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.Viola
  */
 public class FileTreeViewer extends AbstractAnalysisTreeViewer {
 
-    /** Class name */
-    private static final String CLASS = FileTreeViewer.class.getName();
-
     /**
      * TITLES : Location => File > Function > Rules > Violations Line => Line of
      * the violation ! => Criticity Number of violation.
@@ -66,7 +63,11 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     public static final int[] BOUNDS = new int[] {
         425, 50, 30, 200
     };
+
+    /** Class name */
+    private static final String CLASS = FileTreeViewer.class.getName();
     /**
+     * 
      * Kind of bitmap to know if the sorting should be up or down for each
      * column of the tree
      */
@@ -88,18 +89,18 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     public FileTreeViewer(final Composite parent, final int style) {
         super(parent, style, TITLES, BOUNDS);
         final String method = "FileTreeViewer";
-        UILogger.entering(CLASS, method, new Object[] {
-            parent, style
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            parent, Integer.valueOf(style)
         });
         final ViewerComparator comparator = new FileTreeViewerComparator();
         this.setComparator(comparator);
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     @Override
     protected void createColumns() {
         final String method = "createColumns";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         this.setContentProvider(new FileTreeViewerContentProvider());
         TreeViewerColumn col;
         for (int i = 0; i < super.getTitles().length; i++) {
@@ -108,7 +109,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
             // Add a label provider
             col.setLabelProvider(new FileTreeViewerLabelProvider(i));
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -120,7 +121,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     @Override
     protected void addDoubleClickAction() {
         final String method = "addDoubleClickAction";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         this.addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
@@ -134,7 +135,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                 if (!tViewer.isExpandable(selectedNode)
                                 && selectedNode instanceof ViolationDescriptor) {
                     final IPath path = ((ViolationDescriptor) selectedNode).getFilePath();
-                    final int number = ((ViolationDescriptor) selectedNode).getValue();
+                    final int number = ((ViolationDescriptor) selectedNode).getValue().intValue();
                     // get resource
                     final IFile fileToOpen = ResourcesPlugin.getWorkspace().getRoot()
                                     .getFileForLocation(path);
@@ -145,7 +146,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                 }
             }
         });
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -164,7 +165,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     private TreeViewerColumn createTreeViewerColumn(final String title, final int bound,
                     final int colNumber) {
         final String method = "createTreeViewerColumn";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             title, Integer.valueOf(bound), Integer.valueOf(colNumber)
         });
         final TreeViewerColumn viewerColumn = new TreeViewerColumn(this, SWT.NONE);
@@ -197,7 +198,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
             }
 
         });
-        UILogger.exiting(CLASS, method, viewerColumn);
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
     }
 

@@ -7,6 +7,7 @@ package fr.cnes.analysis.tools.ui.view.metrics;
 
 import org.eclipse.core.runtime.IPath;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
 /**
@@ -15,6 +16,8 @@ import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
  * 
  */
 public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
+    /** Class name */
+    private static final String CLASS = FunctionMetricDescriptor.class.getName();
 
     /** Metric's id, used to find associated preferences. **/
     private String metricId;
@@ -35,10 +38,13 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      * Empty constructor.
      */
     public FunctionMetricDescriptor() {
+        final String method = "FunctionMetricDescriptor";
+        ICodeLogger.entering(CLASS, method);
         this.metricId = "";
         this.location = "";
         this.value = Float.valueOf(0.0f);
         this.line = Integer.valueOf(0);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -57,11 +63,16 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     public FunctionMetricDescriptor(final String pId, final String pLocation, final Float pValue,
                     final IPath pFilePath, final Integer pLine) {
+        final String method = "FunctionMetricDescriptor";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pId, pLocation, pValue, pFilePath, pLine
+        });
         this.metricId = pId;
         this.filePath = pFilePath;
         this.location = pLocation;
         this.value = pValue;
         this.line = pLine;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -70,6 +81,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      * @return line of the metric
      */
     public Integer getLine() {
+        final String method = "getLine";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, line);
         return line;
     }
 
@@ -80,13 +94,19 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            new line
      */
     public void setLine(final Integer pLine) {
+        final String method = "setLine";
+        ICodeLogger.entering(CLASS, method, pLine);
         this.line = pLine;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the path of the file containing the Metric
      */
     public IPath getFilePath() {
+        final String method = "getFilePath";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, filePath);
         return filePath;
     }
 
@@ -97,7 +117,10 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            the new Path to set
      */
     public void setFilePath(final IPath pFilePath) {
+        final String method = "setFilePath";
+        ICodeLogger.entering(CLASS, method, pFilePath);
         this.filePath = pFilePath;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -106,6 +129,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      * @return the id
      */
     public String getMetricId() {
+        final String method = "getMetricId";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.metricId);
         return this.metricId;
     }
 
@@ -115,6 +141,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      * @return the location
      */
     public String getLocation() {
+        final String method = "getLocation";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.location);
         return this.location;
     }
 
@@ -125,6 +154,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getValue() {
+        final String method = "getValue";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.value);
         return this.value;
     }
 
@@ -135,7 +167,10 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            the id to set
      */
     public void setMetricId(final String pId) {
+        final String method = "setMetricId";
+        ICodeLogger.entering(CLASS, method, pId);
         this.metricId = pId;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -145,7 +180,10 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            the location to set
      */
     public void setLocation(final String pLocation) {
+        final String method = "setLocation";
+        ICodeLogger.entering(CLASS, method, pLocation);
         this.location = pLocation;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -155,7 +193,10 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      *            the value to set
      */
     public void setValue(final Float pValue) {
+        final String method = "setValue";
+        ICodeLogger.entering(CLASS, method, pValue);
         this.value = pValue;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -165,6 +206,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getName() {
+        final String method = "getName";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.location);
         return this.location;
     }
 
@@ -175,6 +219,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMean() {
+        final String method = "getMean";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Float.valueOf(Float.NaN));
         return Float.valueOf(Float.NaN);
     }
 
@@ -186,6 +233,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMinimum() {
+        final String method = "getMinimum";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Float.valueOf(Float.NaN));
         return Float.valueOf(Float.NaN);
     }
 
@@ -197,6 +247,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public Float getMaximum() {
+        final String method = "getMaximum";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Float.valueOf(Float.NaN));
         return Float.valueOf(Float.NaN);
     }
 
@@ -208,6 +261,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getMinCause() {
+        final String method = "getMinCause";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, "");
         return "";
     }
 
@@ -219,6 +275,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public String getMaxCause() {
+        final String method = "getMaxCause";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, "");
         return "";
     }
 
@@ -230,6 +289,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public boolean hasRightValue() {
+        final String method = "hasRightValue";
+        ICodeLogger.entering(CLASS, method);
         boolean result = true;
         if (UserPreferencesService.hasMaxValue(this.getMetricId())) {
             result = this.getValue()
@@ -239,7 +300,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
             result = this.getValue()
                             .compareTo(UserPreferencesService.getMinValue(this.getMetricId())) < 0;
         }
-
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(result));
         return result;
     }
 
@@ -250,6 +311,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
+        final String method = "equals";
+        ICodeLogger.entering(CLASS, method, object);
         final boolean isEqual;
         if (object instanceof FunctionMetricDescriptor) {
             isEqual = this.location.equals(((FunctionMetricDescriptor) object).getLocation())
@@ -258,6 +321,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
         } else {
             isEqual = false;
         }
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isEqual));
         return isEqual;
     }
 
@@ -268,7 +332,10 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public int hashCode() {
+        final String method = "hashCode";
+        ICodeLogger.entering(CLASS, method);
         assert false : "hashCode not designed";
+        ICodeLogger.exiting(CLASS, method, this.value);
         return this.value.intValue();
     }
 
@@ -279,10 +346,13 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
      */
     @Override
     public FunctionMetricDescriptor clone() throws CloneNotSupportedException {
+        final String method = "clone";
+        ICodeLogger.entering(CLASS, method);
         final FunctionMetricDescriptor clone = (FunctionMetricDescriptor) super.clone();
         clone.setMetricId(this.metricId);
         clone.setLocation(this.location);
         clone.setValue(this.value);
+        ICodeLogger.exiting(CLASS, method, clone);
         return clone;
     }
 }

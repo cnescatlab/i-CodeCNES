@@ -5,9 +5,11 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import java.util.LinkedList;
 import java.util.List;
+
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
 /**
  * Class for general description of a rule for a
@@ -17,6 +19,8 @@ import java.util.List;
  */
 public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
+    /** Class name */
+    private static final String CLASS = RuleDescriptor.class.getName();
     /** Rule's id. **/
     private String ruleId;
     /** Rule's name. **/
@@ -28,9 +32,13 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      * Empty constructor.
      */
     public RuleDescriptor() {
+        final String method = "RuleDescriptor";
+        ICodeLogger.entering(CLASS, method);
+
         this.ruleId = "";
         this.name = "";
         this.descriptors = new LinkedList<FileRuleDescriptor>();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -42,9 +50,14 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      *            rule's name
      */
     public RuleDescriptor(final String pRuleId, final String pName) {
+        final String method = "RuleDescriptor";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pRuleId, pName
+        });
         this.ruleId = pRuleId;
         this.name = pName;
         this.descriptors = new LinkedList<FileRuleDescriptor>();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -53,6 +66,9 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return rule's id
      */
     public String getRuleId() {
+        final String method = "getRuleId";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.ruleId);
         return this.ruleId;
     }
 
@@ -63,6 +79,9 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getName() {
+        final String method = "getName";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.name);
         return this.name;
     }
 
@@ -72,6 +91,9 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return the descriptors
      */
     public List<FileRuleDescriptor> getDescriptors() {
+        final String method = "getDescriptors";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.descriptors);
         return this.descriptors;
     }
 
@@ -82,7 +104,10 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the id to set
      */
     public void setRuleId(final String pRuleId) {
+        final String method = "setRuleId";
+        ICodeLogger.entering(CLASS, method, pRuleId);
         this.ruleId = pRuleId;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -92,7 +117,10 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the name to set
      */
     public void setName(final String pName) {
+        final String method = "setName";
+        ICodeLogger.entering(CLASS, method, pName);
         this.name = pName;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -102,7 +130,10 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the descriptors to set
      */
     public void setDescriptors(final List<FileRuleDescriptor> pDescriptors) {
+        final String method = "setDescriptors";
+        ICodeLogger.entering(CLASS, method, pDescriptors);
         this.descriptors = pDescriptors;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -112,10 +143,13 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public Integer getValue() {
-        Integer value = 0;
+        final String method = "getValue";
+        ICodeLogger.entering(CLASS, method);
+        Integer value = Integer.valueOf(0);
         for (final FileRuleDescriptor descriptor : this.descriptors) {
-            value = value + descriptor.getValue();
+            value = Integer.valueOf(value.intValue() + descriptor.getValue().intValue());
         }
+        ICodeLogger.exiting(CLASS, method, value);
         return value;
     }
 
@@ -126,7 +160,11 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getSeverity() {
-        return UserPreferencesService.getCheckerSeverity(this.ruleId);
+        final String method = "getSeverity";
+        ICodeLogger.entering(CLASS, method);
+        final String severity = UserPreferencesService.getCheckerSeverity(this.ruleId);
+        ICodeLogger.exiting(CLASS, method, severity);
+        return severity;
     }
 
     /*
@@ -136,12 +174,15 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public boolean equals(final Object object) {
-        boolean isEqual;
+        final String method = "equals";
+        ICodeLogger.entering(CLASS, method, object);
+        final boolean isEqual;
         if (object instanceof RuleDescriptor) {
             isEqual = this.name.equals(((RuleDescriptor) object).getName());
         } else {
             isEqual = false;
         }
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isEqual));
         return isEqual;
     }
 
@@ -163,10 +204,13 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public RuleDescriptor clone() throws CloneNotSupportedException {
+        final String method = "clone";
+        ICodeLogger.entering(CLASS, method);
         final RuleDescriptor clone = (RuleDescriptor) super.clone();
         clone.setRuleId(this.ruleId);
         clone.setName(this.name);
         clone.setDescriptors(new LinkedList<FileRuleDescriptor>(this.descriptors));
+        ICodeLogger.exiting(CLASS, method, clone);
         return clone;
     }
 }

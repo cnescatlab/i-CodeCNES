@@ -15,7 +15,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * AbstractviolationsTreeViewer is an abstract class containing most useful
@@ -23,15 +23,13 @@ import fr.cnes.analysis.tools.ui.logger.UILogger;
  *
  */
 public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
-
+    /** Class name **/
+    private final static String CLASS = AbstractAnalysisTreeViewer.class.getName();
     /** Titles of the columns */
     private String[] titles;
 
     /** Bounds of the TreeViewer */
     private int[] bounds;
-
-    /** Class name **/
-    private final static String CLASS = AbstractAnalysisTreeViewer.class.getName();
 
     /**
      * @param parent
@@ -46,7 +44,8 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     public AbstractAnalysisTreeViewer(Composite parent, int style, String[] pTitles,
                     int[] pBounds) {
         super(parent, style);
-
+        final String method = "AbstractAnalysisTreeViewer";
+        ICodeLogger.entering(CLASS, method);
         this.titles = pTitles;
         this.bounds = pBounds;
         this.createColumns();
@@ -78,8 +77,8 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      */
     protected void openFileInEditor(final IResource res, final int line) {
         final String method = "openFileInEditor";
-        UILogger.entering(CLASS, method, new Object[] {
-            res, line
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            res, Integer.valueOf(line)
         });
         final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getActivePage();
@@ -90,11 +89,11 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
             marker.setAttribute(IMarker.LINE_NUMBER, line);
             IDE.openEditor(page, marker);
         } catch (final CoreException exception) {
-            UILogger.error(CLASS, method, exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Marker problem", exception.getMessage());
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -102,8 +101,8 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      */
     public String[] getTitles() {
         final String method = "getTitles";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, titles);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, titles);
         return titles;
     }
 
@@ -113,10 +112,10 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      */
     public void setTitles(String[] pTitles) {
         final String method = "setTitles";
-        UILogger.entering(CLASS, method, pTitles);
+        ICodeLogger.entering(CLASS, method, pTitles);
 
         this.titles = pTitles;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -124,8 +123,8 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      */
     public int[] getBounds() {
         final String method = "getBounds";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, bounds);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, bounds);
         return bounds;
     }
 
@@ -135,8 +134,8 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      */
     public void setBounds(int[] pBounds) {
         final String method = "setBounds";
-        UILogger.entering(CLASS, method, pBounds);
+        ICodeLogger.entering(CLASS, method, pBounds);
         this.bounds = pBounds;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 }

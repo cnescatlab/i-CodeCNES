@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -27,6 +26,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
@@ -38,9 +38,6 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewe
 
 public class ViolationsView extends ViewPart {
 
-    /** Logger. **/
-    public final static Logger LOGGER = Logger.getLogger(ViolationsView.class.getName());
-
     /** View identifier */
     public static final String VIEW_ID = ViolationsView.class.getName();
 
@@ -50,7 +47,8 @@ public class ViolationsView extends ViewPart {
      * FILE_TREE_VIEWER_TYPE
      */
     public static final String FILE_TREE_VIEWER_TYPE = "FileTreeViewer";
-
+    /** Class name */
+    private static final String CLASS = MetricsView.class.getName();
     /** The string to filter results in the TreeViewer */
     private String searchString = "";
 
@@ -96,6 +94,9 @@ public class ViolationsView extends ViewPart {
      */
     public ViolationsView() {
         super();
+        final String method = "ViolationsView";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -104,6 +105,9 @@ public class ViolationsView extends ViewPart {
      * @return the viewer
      */
     public TreeViewer getViewer() {
+        final String method = "getViewer";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
         return this.viewer;
     }
 
@@ -114,7 +118,10 @@ public class ViolationsView extends ViewPart {
      *            this.descriptors.clone() set
      */
     public void setViewer(final TreeViewer pViewer) {
+        final String method = "setViewer";
+        ICodeLogger.entering(CLASS, method, pViewer);
         this.viewer = pViewer;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -125,7 +132,8 @@ public class ViolationsView extends ViewPart {
      */
     @Override
     public void createPartControl(final Composite pParent) {
-        LOGGER.finest("Begin createPartControl method");
+        final String method = "createPartControl";
+        ICodeLogger.entering(CLASS, method, pParent);
         this.parent = pParent;
         final GridLayout layout = new GridLayout();
 
@@ -211,13 +219,15 @@ public class ViolationsView extends ViewPart {
 
         this.createRuleTreeViewer(pParent);
         layout.numColumns = this.getViewer().getTree().getColumnCount();
-        LOGGER.finest("End createPartControl method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * 
      */
     public void update() {
+        final String method = "update";
+        ICodeLogger.entering(CLASS, method);
         for (final ViewerFilter filter : this.viewer.getFilters()) {
             if (filter instanceof IUpdatableAnalysisFilter) {
                 ((IUpdatableAnalysisFilter) filter).update(searchString, showInfo, showWarning,
@@ -225,22 +235,23 @@ public class ViolationsView extends ViewPart {
             }
         }
         viewer.refresh();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * This method create the viewer, which is a tree table.
      * 
-     * @param parent
+     * @param pParent
      *            the parent composite
      */
-    private void createRuleTreeViewer(final Composite parent) {
-        LOGGER.finest("Begin createViewer method");
-
+    private void createRuleTreeViewer(final Composite pParent) {
+        final String method = "createRuleTreeViewer";
+        ICodeLogger.entering(CLASS, method, pParent);
         // Defining overall style for TreeViewer
         final int scrollStyle = SWT.H_SCROLL | SWT.V_SCROLL;
         final int selecStyle = SWT.MULTI | SWT.FULL_SELECTION;
         final int style = scrollStyle | selecStyle;
-        this.viewer = new RuleTreeViewer(parent, style | SWT.FILL);
+        this.viewer = new RuleTreeViewer(pParent, style | SWT.FILL);
         // Make headers and lines of the tree visible
         final Tree tree = this.viewer.getTree();
         tree.setHeaderVisible(true);
@@ -271,8 +282,7 @@ public class ViolationsView extends ViewPart {
         final RuleViewerFilter ruleFilter = new RuleViewerFilter();
         viewer.addFilter(ruleFilter);
 
-        LOGGER.finest("End createViewer method");
-
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -282,8 +292,8 @@ public class ViolationsView extends ViewPart {
      *            the parent composite
      */
     private void createFileTreeViewer(final Composite pParent) {
-        LOGGER.finest("Begin createViewer method");
-
+        final String method = "createFileTreeViewer";
+        ICodeLogger.entering(CLASS, method, pParent);
         // Defining overall style for TreeViewer
         final int scrollStyle = SWT.H_SCROLL | SWT.V_SCROLL;
         final int selecStyle = SWT.MULTI | SWT.FULL_SELECTION;
@@ -319,8 +329,7 @@ public class ViolationsView extends ViewPart {
         final FileTreeViewerFilter fileFilter = new FileTreeViewerFilter();
         this.viewer.addFilter(fileFilter);
 
-        LOGGER.finest("End createViewer method");
-
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -328,16 +337,10 @@ public class ViolationsView extends ViewPart {
      * 
      * @param violations
      *            the violations to display
-     * @param pDate
-     *            The date of the analysis
-     * @param pAuthor
-     *            The user who ran the analysis
-     * @param pProject
-     *            The project selected while running the analysis
      */
     public void display(final List<CheckResult> violations) {
-        LOGGER.finest("Begin display(Descriptor[]) method");
-
+        final String method = "display";
+        ICodeLogger.entering(CLASS, method, violations);
         synchronized (this) {
             final Set<CheckResult> listInputs = new TreeSet<CheckResult>(
                             new Comparator<CheckResult>() {
@@ -391,8 +394,7 @@ public class ViolationsView extends ViewPart {
             this.getViewer().setInput(listInputs.toArray(new CheckResult[listInputs.size()]));
         }
         this.getViewer().refresh();
-
-        LOGGER.finest("End display(Descriptor[]) method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -402,7 +404,10 @@ public class ViolationsView extends ViewPart {
      */
     @Override
     public void setFocus() {
+        final String method = "setFocus";
+        ICodeLogger.entering(CLASS, method);
         this.viewer.getControl().setFocus();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -413,15 +418,21 @@ public class ViolationsView extends ViewPart {
      *             necessarily used)
      */
     public void clear() throws EmptyProviderException {
+        final String method = "clear";
+        ICodeLogger.entering(CLASS, method);
         this.analysisResults.clear();
         this.getViewer().setInput(new CheckResult[0]);
         this.getViewer().refresh();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the Treeviewer type
      */
     public String getTreeViewerType() {
+        final String method = "getTreeViewerType";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.treeViewerType);
         return this.treeViewerType;
     }
 
@@ -434,6 +445,8 @@ public class ViolationsView extends ViewPart {
      *            Name or identifier of the TreeViewerType requested.
      */
     public void setTreeViewerType(final String name) {
+        final String method = "setTreeViewerType";
+        ICodeLogger.entering(CLASS, method, name);
         if (!this.treeViewerType.equals(name)) {
             // Disposal of the old TreeViewer
             this.viewer.getControl().dispose();
@@ -458,15 +471,30 @@ public class ViolationsView extends ViewPart {
             // Composite.
             this.parent.layout();
         }
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
+    /**
+     * @return analysis results
+     */
     public Set<CheckResult> getAnalysisResults() {
+        final String method = "getAnalysisResults";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, analysisResults);
         return analysisResults;
     }
 
-    public void setAnalysisResults(Set<CheckResult> analysisResults) {
-        this.analysisResults = analysisResults;
+    /**
+     * @param pAnalysisResults
+     *            results to set.
+     * 
+     */
+    public void setAnalysisResults(Set<CheckResult> pAnalysisResults) {
+        final String method = "setAnalysisResults";
+        ICodeLogger.entering(CLASS, method, pAnalysisResults);
+        this.analysisResults = pAnalysisResults;
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This class should be used to reach configurations data contributing to
@@ -63,7 +63,7 @@ public final class ConfigurationService {
      */
     public static List<ConfigurationContainer> getConfigurations() {
         final String method = "getConfigurations";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         final List<ConfigurationContainer> configurations = new ArrayList<>();
         final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CONFIGURATION_EP_ID);
@@ -106,7 +106,7 @@ public final class ConfigurationService {
             configContainer.setCheckConfigurations(checkersConfigurations);
             configurations.add(configContainer);
         }
-        UILogger.exiting(CLASS, method, configurations);
+        ICodeLogger.exiting(CLASS, method, configurations);
         return configurations;
     }
 
@@ -122,7 +122,7 @@ public final class ConfigurationService {
     public static ConfigurationContainer getConfigurations(String configurationName)
                     throws NullContributionException {
         final String method = "getConfigurations";
-        UILogger.entering(CLASS, method, configurationName);
+        ICodeLogger.entering(CLASS, method, configurationName);
         final IConfigurationElement[] configurationsContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CONFIGURATION_EP_ID);
         boolean found = false;
@@ -181,13 +181,13 @@ public final class ConfigurationService {
         }
 
         if (found) {
-            UILogger.exiting(CLASS, method, configContainer);
+            ICodeLogger.exiting(CLASS, method, configContainer);
             return configContainer;
         }
         final NullContributionException exception = new NullContributionException(
                         "Impossible to find " + configurationName + " in " + CONFIGURATION_EP_ID
                                         + " contributors.");
-        UILogger.throwing(CLASS, method, exception);
+        ICodeLogger.throwing(CLASS, method, exception);
         throw exception;
 
     }
