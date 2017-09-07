@@ -5,15 +5,13 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
 
@@ -23,6 +21,7 @@ import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
  * 
  */
 public class MetricLabelProvider extends AbstractLabelProvider {
+
     /** Static values that determines column types. **/
     /** This value is for metric name column. **/
     public static final int METRIC_NAME = 0;
@@ -39,8 +38,10 @@ public class MetricLabelProvider extends AbstractLabelProvider {
     /** This value is for maximum resource cause column. **/
     public static final int MAX_CAUSE = 6;
 
+    /** Class name **/
+    private static final String CLASS = MetricLabelProvider.class.getName();
+
     /** Logger **/
-    private static final Logger LOGGER = Logger.getLogger(MetricLabelProvider.class.getName());
     /** Nan value displaying */
     private static final String NAN_VALUE_DISPLAY = "--";
 
@@ -52,6 +53,10 @@ public class MetricLabelProvider extends AbstractLabelProvider {
      */
     public MetricLabelProvider(final int pType) {
         super(pType);
+        final String method = "MetricLabelProvider";
+        ICodeLogger.entering(CLASS, method, Integer.valueOf(pType));
+
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -63,8 +68,8 @@ public class MetricLabelProvider extends AbstractLabelProvider {
      */
     @Override
     public Color getForeground(final Object element) {
-        LOGGER.finest("Begin getForeground method");
-
+        final String method = "getForeground";
+        ICodeLogger.entering(CLASS, method, element);
         Color color = Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
         if (element instanceof IMetricDescriptor) {
             if (!((IMetricDescriptor) element).hasRightValue()) {
@@ -75,14 +80,13 @@ public class MetricLabelProvider extends AbstractLabelProvider {
                             "getForeground method of MetricLabelProvider class has a "
                                             + element.getClass().getName()
                                             + " element, but it should be a Viewable instance.");
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.throwing(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        LOGGER.finest("End getForeground method");
+        ICodeLogger.exiting(CLASS, method, color);
         return color;
     }
 
@@ -94,8 +98,8 @@ public class MetricLabelProvider extends AbstractLabelProvider {
      */
     @Override
     public String getText(final Object element) {
-        LOGGER.finest("Begin getText method");
-
+        final String method = "getText";
+        ICodeLogger.entering(CLASS, method, element);
         String text = "";
         if (element instanceof IMetricDescriptor) {
             switch (this.getType()) {
@@ -144,8 +148,7 @@ public class MetricLabelProvider extends AbstractLabelProvider {
                 final RuntimeException exception = new ArrayIndexOutOfBoundsException(
                                 "Wrong column value for MetricLabelProvider class : "
                                                 + this.getType());
-                LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                                exception);
+                ICodeLogger.throwing(CLASS, method, exception);
                 MessageDialog.openError(
                                 PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                                 "Internal Error",
@@ -156,14 +159,13 @@ public class MetricLabelProvider extends AbstractLabelProvider {
                             "getText method of MetricLabelProvider class has a "
                                             + element.getClass().getName()
                                             + " element, but it should be a Viewable instance.");
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.throwing(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        LOGGER.finest("End getText method");
+        ICodeLogger.exiting(CLASS, method, text);
         return text;
     }
 }

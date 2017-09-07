@@ -11,8 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -38,6 +36,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider;
@@ -54,8 +53,9 @@ public class MetricsView extends ViewPart {
     public static final String VIEW_ID = MetricsView.class.getName();
     /** Markers */
     public static final List<IMarker> MARKERS = new ArrayList<IMarker>();
-    /** Logger **/
-    private static final Logger LOGGER = Logger.getLogger(MetricsView.class.getName());
+
+    /** Class name */
+    private static final String CLASS = MetricsView.class.getName();
 
     /**
      * This attribute store all the analysis results files.
@@ -77,6 +77,8 @@ public class MetricsView extends ViewPart {
      */
     public MetricsView() {
         super();
+        final String method = "MetricsView";
+        ICodeLogger.entering(CLASS, method);
         analysisResult = new TreeSet<>(new Comparator<CheckResult>() {
 
             @Override
@@ -90,6 +92,7 @@ public class MetricsView extends ViewPart {
                 return res;
             }
         });
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -100,13 +103,12 @@ public class MetricsView extends ViewPart {
      */
     @Override
     public void createPartControl(final Composite parent) {
-        LOGGER.finest("Begin createPartControl method");
-
+        final String method = "createPartControl";
+        ICodeLogger.entering(CLASS, method, parent);
         final GridLayout layout = new GridLayout(this.titles.length, false);
         parent.setLayout(layout);
         this.createViewer(parent);
-
-        LOGGER.finest("End createPartControl method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -116,8 +118,8 @@ public class MetricsView extends ViewPart {
      *            the parent composite
      */
     private void createViewer(final Composite parent) {
-        LOGGER.finest("Begin createViewer method");
-
+        final String method = "createViewer";
+        ICodeLogger.entering(CLASS, method, parent);
         // Defining overall style for TreeViewer
         final int scrollStyle = SWT.H_SCROLL | SWT.V_SCROLL;
         final int selecStyle = SWT.MULTI | SWT.FULL_SELECTION;
@@ -150,15 +152,15 @@ public class MetricsView extends ViewPart {
         gridData.horizontalAlignment = GridData.FILL;
         this.viewer.getTree().setLayoutData(gridData);
 
-        LOGGER.finest("End createViewer method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * Create TreeViewer columns
      */
     protected void createColumns() {
-        LOGGER.finest("Begin createColumns method");
-
+        final String method = "createColumns";
+        ICodeLogger.entering(CLASS, method);
         viewer.setContentProvider(new MetricContentProvider());
         TreeViewerColumn col;
         for (int i = 0; i < this.getTitles().length; i++) {
@@ -169,7 +171,7 @@ public class MetricsView extends ViewPart {
             col.setLabelProvider(new MetricLabelProvider(i));
         }
 
-        LOGGER.finest("End createColumns method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -182,8 +184,10 @@ public class MetricsView extends ViewPart {
      * @return a table viewer's column
      */
     protected TreeViewerColumn createTreeViewerColumn(final String title, final int bound) {
-        LOGGER.finest("Begin createTreeViewerColumn method");
-
+        final String method = "createTreeViewerColumn";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            title, Integer.valueOf(bound)
+        });
         final TreeViewerColumn viewerColumn = new TreeViewerColumn(this.viewer, SWT.NONE);
         final TreeColumn column = viewerColumn.getColumn();
         column.setText(title);
@@ -191,7 +195,7 @@ public class MetricsView extends ViewPart {
         column.setResizable(true);
         column.setMoveable(false);
 
-        LOGGER.finest("End createTreeViewerColumn method");
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
     }
 
@@ -199,8 +203,8 @@ public class MetricsView extends ViewPart {
      * Action to do when a double click over the item is done
      */
     protected void addDoubleClickAction() {
-        LOGGER.finest("begin method addDoubleClickAction");
-
+        final String method = "addDoubleClickAction";
+        ICodeLogger.entering(CLASS, method);
         viewer.addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
@@ -233,7 +237,7 @@ public class MetricsView extends ViewPart {
 
         });
 
-        LOGGER.finest("end method addDoubleClickAction");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -245,7 +249,10 @@ public class MetricsView extends ViewPart {
      *            the line where the file should open
      */
     private void openFileInEditor(final IResource res, final int line) {
-        LOGGER.finest("begin method openFileInEditor");
+        final String method = "openFileInEditor";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            res, Integer.valueOf(line)
+        });
         final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getActivePage();
         try {
@@ -257,12 +264,11 @@ public class MetricsView extends ViewPart {
 
             IDE.openEditor(page, marker);
         } catch (final CoreException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Marker problem", exception.getMessage());
         }
-        LOGGER.finest("end method openFileInEditor");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -276,8 +282,8 @@ public class MetricsView extends ViewPart {
      *             necessarily used)
      */
     public void display(final List<CheckResult> values) throws EmptyProviderException {
-        LOGGER.finest("Begin display method");
-
+        final String method = "display";
+        ICodeLogger.entering(CLASS, method, values);
         synchronized (this) {
             final Set<CheckResult> listInputs = new TreeSet<CheckResult>(
                             new Comparator<CheckResult>() {
@@ -338,7 +344,7 @@ public class MetricsView extends ViewPart {
         }
 
         viewer.refresh();
-        LOGGER.finest("End display method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -349,15 +355,21 @@ public class MetricsView extends ViewPart {
      *             necessarily used)
      */
     public void clear() throws EmptyProviderException {
+        final String method = "clear";
+        ICodeLogger.entering(CLASS, method);
         analysisResult.clear();
         viewer.setInput(new CheckResult[0]);
         viewer.refresh();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the analysisResult
      */
     public Set<CheckResult> getAnalysisResult() {
+        final String method = "getAnalysisResult";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, analysisResult);
         return analysisResult;
     }
 
@@ -367,7 +379,11 @@ public class MetricsView extends ViewPart {
      * @return the bounds
      */
     public int[] getBounds() {
-        return this.bounds.clone();
+        final String method = "getBounds";
+        ICodeLogger.entering(CLASS, method);
+        final int[] clonedBounds = this.bounds.clone();
+        ICodeLogger.exiting(CLASS, method, clonedBounds);
+        return clonedBounds;
     }
 
     /**
@@ -376,7 +392,11 @@ public class MetricsView extends ViewPart {
      * @return the titles
      */
     public String[] getTitles() {
-        return this.titles.clone();
+        final String method = "getTitles";
+        ICodeLogger.entering(CLASS, method);
+        final String[] clonedTitles = this.titles.clone();
+        ICodeLogger.exiting(CLASS, method, clonedTitles);
+        return clonedTitles;
     }
 
     /**
@@ -385,6 +405,9 @@ public class MetricsView extends ViewPart {
      * @return the viewer
      */
     public TreeViewer getViewer() {
+        final String method = "getViewer";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.viewer);
         return this.viewer;
     }
 
@@ -395,12 +418,18 @@ public class MetricsView extends ViewPart {
      *            this.descriptors.clone() set
      */
     public void setViewer(final TreeViewer pViewer) {
+        final String method = "setViewer";
+        ICodeLogger.entering(CLASS, method, pViewer);
         this.viewer = pViewer;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     @Override
     public void setFocus() {
+        final String method = "setFocus";
+        ICodeLogger.entering(CLASS, method);
         this.viewer.getControl().setFocus();
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

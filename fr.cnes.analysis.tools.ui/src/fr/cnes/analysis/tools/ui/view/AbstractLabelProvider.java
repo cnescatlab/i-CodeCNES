@@ -7,8 +7,16 @@ package fr.cnes.analysis.tools.ui.view;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+
+/**
+ * Label provider for columns of viewers
+ *
+ */
 public abstract class AbstractLabelProvider extends ColumnLabelProvider {
 
+    /** Class name */
+    private static final String CLASS = AbstractLabelProvider.class.getName();
     /** An integer to determine which column has to be provide. **/
     private int type;
 
@@ -20,7 +28,10 @@ public abstract class AbstractLabelProvider extends ColumnLabelProvider {
      */
     public AbstractLabelProvider(final int pType) {
         super();
+        final String method = "AbstractLabelProvider";
+        ICodeLogger.entering(CLASS, method, Integer.valueOf(pType));
         this.type = pType;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -29,6 +40,9 @@ public abstract class AbstractLabelProvider extends ColumnLabelProvider {
      * @return the type
      */
     public int getType() {
+        final String method = "getType";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Integer.valueOf(this.type));
         return this.type;
     }
 
@@ -39,6 +53,9 @@ public abstract class AbstractLabelProvider extends ColumnLabelProvider {
      *            the type to set
      */
     public void setType(final int pType) {
+        final String method = "setType";
+        ICodeLogger.entering(CLASS, method, Integer.valueOf(pType));
         this.type = pType;
+        ICodeLogger.exiting(CLASS, method);
     }
 }

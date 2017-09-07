@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.
@@ -61,30 +61,30 @@ public class AnalysisJob extends Job {
                     final List<String> pLanguageIds, final List<String> pExcludedIds) {
         super(pName);
         final String method = "AnalysisJob";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             pName, pInputFiles, pLanguageIds, pExcludedIds
         });
         this.inputFiles = pInputFiles;
         this.languageIds = pLanguageIds;
         this.excludedIds = pExcludedIds;
         this.analyzer = new Analyzer();
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     @Override
     protected IStatus run(IProgressMonitor monitor) {
         final String method = "run";
-        UILogger.entering(this.getClass().getName(), method, monitor);
+        ICodeLogger.entering(this.getClass().getName(), method, monitor);
         IStatus status = Status.OK_STATUS;
         monitor.setTaskName("Analyzing files...");
         try {
             this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {
-            UILogger.warning(CLASS, method, exception.getClass().getName() + " handled in method "
+            ICodeLogger.warning(CLASS, method, exception.getClass().getName() + " handled in method "
                             + method + " changing Job status.");
             status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID, exception.getMessage());
         }
-        UILogger.exiting(this.getClass().getName(), method, monitor);
+        ICodeLogger.exiting(CLASS, method, status);
         return status;
     }
 
@@ -93,8 +93,8 @@ public class AnalysisJob extends Job {
      */
     public List<File> getInputFiles() {
         final String method = "getInputFiles";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, inputFiles);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, inputFiles);
         return inputFiles;
     }
 
@@ -104,9 +104,9 @@ public class AnalysisJob extends Job {
      */
     public void setInputFiles(List<File> pInputFiles) {
         final String method = "setInputFiles";
-        UILogger.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method, pInputFiles);
         this.inputFiles = pInputFiles;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -114,8 +114,8 @@ public class AnalysisJob extends Job {
      */
     public List<CheckResult> getCheckResults() {
         final String method = "getCheckResults";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, checks);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, checks);
         return checks;
     }
 

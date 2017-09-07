@@ -5,7 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.configurations;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This class is a data structure being used by {@link ConfigurationService}.
@@ -46,7 +46,7 @@ public class CheckConfigurationContainer {
                     Boolean pEnabled, Float pMaxValue, Float pMinValue) {
         super();
         final String method = "CheckConfigurationContainer";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             pCheckId, pName, pDescription, pEnabled, pMaxValue, pMinValue
         });
         this.checkId = pCheckId;
@@ -55,7 +55,7 @@ public class CheckConfigurationContainer {
         this.enabled = pEnabled.booleanValue();
         this.maxValue = pMaxValue;
         this.minValue = pMinValue;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -63,8 +63,8 @@ public class CheckConfigurationContainer {
      */
     public final String getCheckId() {
         final String method = "getCheckId";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, checkId);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, checkId);
         return checkId;
     }
 
@@ -74,9 +74,9 @@ public class CheckConfigurationContainer {
      */
     public final void setCheckId(String pCheckId) {
         final String method = "setCheckId";
-        UILogger.entering(CLASS, method, pCheckId);
+        ICodeLogger.entering(CLASS, method, pCheckId);
         this.checkId = pCheckId;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -84,8 +84,8 @@ public class CheckConfigurationContainer {
      */
     public final String getName() {
         final String method = "getName";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, name);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, name);
         return name;
     }
 
@@ -95,9 +95,9 @@ public class CheckConfigurationContainer {
      */
     public final void setName(String pName) {
         final String method = "setName";
-        UILogger.entering(CLASS, method, pName);
+        ICodeLogger.entering(CLASS, method, pName);
         this.name = pName;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -105,8 +105,8 @@ public class CheckConfigurationContainer {
      */
     public final String getDescription() {
         final String method = "getDescription";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, description);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, description);
         return description;
     }
 
@@ -116,9 +116,9 @@ public class CheckConfigurationContainer {
      */
     public final void setDescription(String pDescription) {
         final String method = "setDescription";
-        UILogger.entering(CLASS, method, pDescription);
+        ICodeLogger.entering(CLASS, method, pDescription);
         this.description = pDescription;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -126,8 +126,8 @@ public class CheckConfigurationContainer {
      */
     public final boolean isEnabled() {
         final String method = "isEnabled";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, Boolean.valueOf(enabled));
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(enabled));
         return enabled;
     }
 
@@ -137,9 +137,9 @@ public class CheckConfigurationContainer {
      */
     public final void setEnabled(boolean pEnabled) {
         final String method = "setEnabled";
-        UILogger.entering(CLASS, method, Boolean.valueOf(pEnabled));
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(pEnabled));
         this.enabled = pEnabled;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -147,8 +147,8 @@ public class CheckConfigurationContainer {
      */
     public final Float getMaxValue() {
         final String method = "getMaxValue";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, maxValue);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, maxValue);
         return maxValue;
     }
 
@@ -158,9 +158,9 @@ public class CheckConfigurationContainer {
      */
     public final void setMaxValue(Float pMaxValue) {
         final String method = "setMaxValue";
-        UILogger.entering(CLASS, method, pMaxValue);
+        ICodeLogger.entering(CLASS, method, pMaxValue);
         this.maxValue = pMaxValue;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -168,8 +168,8 @@ public class CheckConfigurationContainer {
      */
     public final Float getMinValue() {
         final String method = "getMinValue";
-        UILogger.entering(CLASS, method);
-        UILogger.exiting(CLASS, method, minValue);
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, minValue);
         return minValue;
     }
 
@@ -179,9 +179,9 @@ public class CheckConfigurationContainer {
      */
     public final void setMinValue(Float pMinValue) {
         final String method = "setMinValue";
-        UILogger.entering(CLASS, method, pMinValue);
+        ICodeLogger.entering(CLASS, method, pMinValue);
         this.minValue = pMinValue;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

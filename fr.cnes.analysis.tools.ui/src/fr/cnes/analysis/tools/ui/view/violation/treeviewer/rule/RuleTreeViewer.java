@@ -5,8 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
 
-import java.util.logging.Logger;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -25,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
@@ -37,20 +36,25 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleD
  */
 public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
 
-    /** Logger. **/
-    public static final Logger LOGGER = Logger.getLogger(RuleTreeViewer.class.getName());
+    /** Class name */
+    private static final String CLASS = RuleTreeViewer.class.getName();
 
     /** Titles of the columns */
-    private static final String[] TITLES = new String[] { " ! ", "Rule", "Line",
-            "Number of violations", "Message" };
+    private static final String[] TITLES = new String[] {
+        " ! ", "Rule", "Line", "Number of violations", "Message"
+    };
 
     /** Bounds of the TreeViewer */
-    private static final int[] BOUNDS = new int[] { 50, 200, 50, 50, 200 };
+    private static final int[] BOUNDS = new int[] {
+        50, 200, 50, 50, 200
+    };
     /**
      * Kind of bitmap to know if the sorting should be up or down for each
      * column of the tree
      */
-    private boolean[] columnSortUp = new boolean[] { true, true, false, true, true };
+    private boolean[] columnSortUp = new boolean[] {
+        true, true, false, true, true
+    };
 
     /** Index selected to sort the columns, by default 1 */
     private int indexSort = 1;
@@ -65,18 +69,23 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
      * @param style
      *            The SWT style
      */
-    public RuleTreeViewer(Composite parent, int style) {
+    public RuleTreeViewer(final Composite parent, final int style) {
         super(parent, style, TITLES, BOUNDS);
+        final String method = "RuleTreeViewer";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            parent, Integer.valueOf(style)
+        });
         final ViewerComparator comparator = new RuleTreeViewerComparator();
         this.setComparator(comparator);
-
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * This method creates all columns of the tree table viewer.
      */
     protected void createColumns() {
-        LOGGER.finest("Begin createColumns method");
+        final String method = "createColumns";
+        ICodeLogger.entering(CLASS, method);
 
         this.setContentProvider(new RuleTreeViewerContentProvider());
         TreeViewerColumn col;
@@ -87,7 +96,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
             col.setLabelProvider(new RuleTreeViewerLabelProvider(i));
         }
 
-        LOGGER.finest("End createColumns method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -104,6 +113,8 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
      */
     private TreeViewerColumn createTreeViewerColumn(final String title, final int bound,
                     final int colNumber) {
+        final String method = "createTreeViewerColumn";
+        ICodeLogger.entering(CLASS, method);
         final TreeViewerColumn viewerColumn = new TreeViewerColumn(this, SWT.NONE);
         final TreeColumn column = viewerColumn.getColumn();
         column.setText(title);
@@ -128,7 +139,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
             }
 
         });
-
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
     }
 
@@ -136,7 +147,8 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
      * Action to do when a double click over the item is done
      */
     protected void addDoubleClickAction() {
-        LOGGER.finest("begin method addDoubleClickAction");
+        final String method = "addDoubleClickAction";
+        ICodeLogger.entering(CLASS, method);
         this.addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
@@ -152,7 +164,8 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
                 if (!tViewer.isExpandable(selectedNode)
                                 && selectedNode instanceof FunctionRuleDescriptor) {
                     final IPath path = ((FunctionRuleDescriptor) selectedNode).getFilePath();
-                    final int number = ((FunctionRuleDescriptor) selectedNode).getValue();
+                    final int number = ((FunctionRuleDescriptor) selectedNode).getValue()
+                                    .intValue();
                     // get resource
                     final IFile fileToOpen = ResourcesPlugin.getWorkspace().getRoot()
                                     .getFileForLocation(path);
@@ -163,13 +176,16 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
                 }
             }
         });
-        LOGGER.finest("end method addDoubleClickAction");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the columnSortUp
      */
     public boolean[] getColumnSortUp() {
+        final String method = "getColumnSortUp";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, columnSortUp);
         return columnSortUp;
     }
 
@@ -178,7 +194,10 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
      *            the columnSortUp to set
      */
     public void setColumnSortUp(boolean[] columnSortUp) {
+        final String method = "setColumnSortUp";
+        ICodeLogger.entering(CLASS, method, columnSortUp);
         this.columnSortUp = columnSortUp;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -210,7 +229,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = rule1.getName().compareToIgnoreCase(rule2.getName());
                     break;
                 case 3:
-                    rc = rule1.getValue() - rule2.getValue();
+                    rc = rule1.getValue().intValue() - rule2.getValue().intValue();
                     break;
                 default:
                     rc = 0;
@@ -224,7 +243,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = file1.getName().compareToIgnoreCase(file2.getName());
                     break;
                 case 3:
-                    rc = file1.getValue() - file2.getValue();
+                    rc = file1.getValue().intValue() - file2.getValue().intValue();
                     break;
                 default:
                     rc = 0;
@@ -239,7 +258,7 @@ public class RuleTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = function1.getLocation().compareToIgnoreCase(function2.getLocation());
                     break;
                 case 2:
-                    rc = function1.getValue() - function2.getValue();
+                    rc = function1.getValue().intValue() - function2.getValue().intValue();
                     break;
                 case 4:
                     rc = function1.getName().compareToIgnoreCase(function2.getName());

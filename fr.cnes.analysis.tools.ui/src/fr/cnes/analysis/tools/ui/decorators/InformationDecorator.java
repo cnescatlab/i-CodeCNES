@@ -13,8 +13,8 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.logger.UILogger;
 import fr.cnes.analysis.tools.ui.markers.InformationMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
@@ -51,7 +51,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
     @Override
     public void decorate(Object resource, final IDecoration decoration) {
         final String method = "decorate";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             resource, decoration
         });
 
@@ -83,7 +83,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
                 }
             }
         }
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

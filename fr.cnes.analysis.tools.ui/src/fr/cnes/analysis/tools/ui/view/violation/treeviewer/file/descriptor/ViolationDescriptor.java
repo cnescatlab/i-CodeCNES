@@ -7,6 +7,8 @@ package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
 import org.eclipse.core.runtime.IPath;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+
 /**
  * Descriptor for a violation that is intended to be shown.</br>
  * This descriptor would return the violation message {@link #name} and the line
@@ -23,6 +25,8 @@ import org.eclipse.core.runtime.IPath;
  * @since 2.0
  */
 public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
+    /** Class name **/
+    private static final String CLASS = ViolationDescriptor.class.getName();
     /** Rule's id. **/
     private String ruleId;
     /** Violation's message. **/
@@ -51,21 +55,29 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     public ViolationDescriptor(final String pRuleId, final String pLocation, final String pMessage,
                     final Integer pLine, final IPath pFilePath) {
         super();
+        final String method = "ViolationDescriptor";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pRuleId, pLocation, pMessage, pLocation, pLine, pFilePath
+        });
         this.ruleId = pRuleId;
         this.message = pMessage;
         this.location = pLocation;
         this.line = pLine;
         this.filePath = pFilePath;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * Empty constructor
      */
     public ViolationDescriptor() {
+        final String method = "ViolationDescriptor";
+        ICodeLogger.entering(CLASS, method);
         this.ruleId = "";
         this.message = "";
         this.location = "";
         this.line = Integer.valueOf(-1);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -76,6 +88,9 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public String getName() {
+        final String method = "getName";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, message);
         return this.message;
     }
 
@@ -87,6 +102,9 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public Integer getValue() {
+        final String method = "getValue";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, line);
         return this.line;
     }
 
@@ -94,6 +112,9 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      * @return the ruleId
      */
     public String getRuleId() {
+        final String method = "getRuleId";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, ruleId);
         return ruleId;
     }
 
@@ -102,13 +123,19 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      *            the ruleId to set
      */
     public void setRuleId(final String pRuleId) {
+        final String method = "setRuleId";
+        ICodeLogger.entering(CLASS, method, pRuleId);
         this.ruleId = pRuleId;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the location
      */
     public String getLocation() {
+        final String method = "getLocation";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, location);
         return location;
     }
 
@@ -117,13 +144,19 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      *            the location to set
      */
     public void setLocation(final String pLocation) {
+        final String method = "setLocation";
+        ICodeLogger.entering(CLASS, method, pLocation);
         this.location = pLocation;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the filePath
      */
     public IPath getFilePath() {
+        final String method = "getFilePath";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, filePath);
         return filePath;
     }
 
@@ -132,7 +165,10 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      *            the filePath to set
      */
     public void setFilePath(final IPath pFilePath) {
+        final String method = "setFilePath";
+        ICodeLogger.entering(CLASS, method, pFilePath);
         this.filePath = pFilePath;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -140,7 +176,10 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      *            the name to set
      */
     public void setName(final String pName) {
+        final String method = "setName";
+        ICodeLogger.entering(CLASS, method, pName);
         this.message = pName;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -148,7 +187,10 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      *            the value to set
      */
     public void setLine(final Integer pLine) {
+        final String method = "setLine";
+        ICodeLogger.entering(CLASS, method, pLine);
         this.line = pLine;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -158,6 +200,8 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      */
     @Override
     public ViolationDescriptor clone() throws CloneNotSupportedException {
+        final String method = "clone";
+        ICodeLogger.entering(CLASS, method);
         final ViolationDescriptor clone = (ViolationDescriptor) super.clone();
         clone.setRuleId(this.ruleId);
         clone.setName(this.message);
@@ -165,6 +209,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
         clone.setFilePath(this.filePath);
         clone.setLocation(this.location);
         clone.setLine(this.line);
+        ICodeLogger.exiting(CLASS, method, clone);
         return clone;
     }
 
@@ -172,6 +217,9 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      * @return Violation message.
      */
     public String getMessage() {
+        final String method = "getMessage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
@@ -179,8 +227,11 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
      * @param pMessage
      *            Violation message to set.
      */
-    public void setMessage(String pMessage) {
+    public void setMessage(final String pMessage) {
+        final String method = "setMessage";
+        ICodeLogger.entering(CLASS, method, pMessage);
         this.message = pMessage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

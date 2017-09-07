@@ -6,7 +6,7 @@ package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 
 /**
@@ -28,10 +28,10 @@ public class CheckersFilter extends ViewerFilter {
      */
     public void setSearchText(final String str) {
         final String method = "setSearchText";
-        UILogger.entering(CLASS, method, str);
+        ICodeLogger.entering(CLASS, method, str);
         // ensure that the value can be used for matching
         this.searchString = "(?i:.*" + str + ".*)";
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -44,7 +44,7 @@ public class CheckersFilter extends ViewerFilter {
     @Override
     public boolean select(final Viewer viewer, final Object parentElement, final Object element) {
         final String method = "select";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             viewer, parentElement, element
         });
         boolean select = false;
@@ -58,7 +58,7 @@ public class CheckersFilter extends ViewerFilter {
             }
         }
 
-        UILogger.exiting(CLASS, method, Boolean.valueOf(select));
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(select));
 
         return select;
     }

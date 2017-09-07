@@ -14,13 +14,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
@@ -49,9 +49,6 @@ import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 public class Analyzer {
     /** Analyzer plugin ID */
     public static final String ANALYZER_PLUGIN_ID = "fr.cnes.analysis.tools.analyzer";
-
-    /** Logger */
-    private static final Logger LOGGER = Logger.getLogger(Analyzer.class.getName());
 
     /** Number of thread to run the analysis */
     private static final int THREAD_NB = Runtime.getRuntime().availableProcessors();
@@ -89,7 +86,7 @@ public class Analyzer {
     public List<CheckResult> check(final List<File> pInputFiles, final List<String> pLanguageIds,
                     final List<String> pExcludedCheckIds) throws IOException, JFlexException {
         final String methodName = "check";
-        LOGGER.entering(this.getClass().getName(), methodName);
+        ICodeLogger.entering(this.getClass().getName(), methodName);
 
         List<String> languageIds = pLanguageIds;
         if (languageIds == null) {
@@ -140,9 +137,11 @@ public class Analyzer {
             }
         } catch (NullContributionException | InterruptedException | CoreException e) {
 
-            LOGGER.throwing(this.getClass().getName(), methodName, e);
+            ICodeLogger.error(this.getClass().getName(), methodName, e);
         } catch (ExecutionException exception) {
+            ICodeLogger.error(this.getClass().getName(), methodName, exception);
             if (exception.getCause() instanceof JFlexException) {
+                ICodeLogger.throwing(this.getClass().getName(), methodName, exception.getCause());
                 throw (JFlexException) exception.getCause();
             }
         }
@@ -155,7 +154,7 @@ public class Analyzer {
      *            to retrieve the extension
      * @return The extension name of the file
      */
-    private String getFileExtension(String pFileName) {
+    private String getFileExtension(final String pFileName) {
         String extension = null;
 
         final int i = pFileName.lastIndexOf('.');

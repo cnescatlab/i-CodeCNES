@@ -6,8 +6,6 @@
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -15,6 +13,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.PlatformUI;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
@@ -31,10 +30,8 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.Viola
  * @see org.eclipse.jface.viewers.ITreeContentProvider
  */
 public class FileTreeViewerContentProvider implements ITreeContentProvider {
-    /** Logger **/
-    private static final Logger LOGGER = Logger
-                    .getLogger(FileTreeViewerContentProvider.class.getName());
-
+    /** Class name */
+    private static final String CLASS = FileTreeViewerContentProvider.class.getName();
     /** The original inputs. **/
     private ViolationToFileTreeViewerConverter converter;
 
@@ -43,7 +40,10 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     public FileTreeViewerContentProvider() {
         super();
+        final String method = "FileTreeViewerContentProvider";
+        ICodeLogger.entering(CLASS, method);
         this.converter = new ViolationToFileTreeViewerConverter();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -52,6 +52,9 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      * @return the converter
      */
     public ViolationToFileTreeViewerConverter getConverter() {
+        final String method = "ViolationToFileTreeViewerConverter";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.converter);
         return this.converter;
     }
 
@@ -62,7 +65,10 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      *            the converter to set
      */
     public void setConverter(final ViolationToFileTreeViewerConverter pConverter) {
+        final String method = "setConverter";
+        ICodeLogger.entering(CLASS, method, pConverter);
         this.converter = pConverter;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -73,7 +79,10 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     @Override
     public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-        LOGGER.finest("Begin inputChanged method");
+        final String method = "inputChanged";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            viewer, oldInput, newInput
+        });
 
         try {
             if (newInput instanceof CheckResult[]) {
@@ -88,22 +97,20 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
                                 "inputChanged method of AbstractContentProvider has a "
                                                 + newInput.getClass().getName()
                                                 + " type instead of a Descriptor<?>[] instance");
-                LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                                exception);
+                ICodeLogger.error(CLASS, method, exception);
                 MessageDialog.openError(
                                 PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                                 "Internal Error",
                                 "Contact support service : \n" + exception.getMessage());
             }
         } catch (final InterruptedException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        LOGGER.finest("End inputChanged method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -115,11 +122,11 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getElements(final Object inputElement) {
-        LOGGER.finest("Begin getElements method");
+        final String method = "getElements";
+        ICodeLogger.entering(CLASS, method);
 
         final Object[] elements = this.converter.getContainer();
-
-        LOGGER.finest("End getElements method");
+        ICodeLogger.exiting(CLASS, method, elements);
         return elements;
     }
 
@@ -130,13 +137,12 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     @Override
     public void dispose() {
-        LOGGER.finest("Begin dispose method");
-
+        final String method = "dispose";
+        ICodeLogger.entering(CLASS, method);
         if (this.converter != null) {
             this.converter.setContainer(new FileRuleDescriptor[0]);
         }
-
-        LOGGER.finest("End dispose method");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -148,7 +154,11 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     @Override
     public boolean hasChildren(final Object element) {
-        return !(element instanceof ViolationDescriptor);
+        final String method = "hasChildren";
+        ICodeLogger.entering(CLASS, method, element);
+        final boolean hasChildren = !(element instanceof ViolationDescriptor);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(hasChildren));
+        return hasChildren;
     }
 
     /*
@@ -160,6 +170,9 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     @Override
     public Object getParent(final Object element) {
+        final String method = "getParent";
+        ICodeLogger.entering(CLASS, method, element);
+        ICodeLogger.exiting(CLASS, method, null);
         return null;
     }
 
@@ -172,8 +185,8 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getChildren(final Object parentElement) {
-        LOGGER.finest("Begin getChildren method");
-
+        final String method = "getChildren";
+        ICodeLogger.entering(CLASS, method, parentElement);
         Object[] values = null;
         if (parentElement instanceof FileRuleDescriptor) {
 
@@ -199,14 +212,13 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
             final UnknownInstanceException exception = new UnknownInstanceException(
                             "Unknow type in getChildren method of AbstractContentProvider : "
                                             + parentElement.getClass().getName());
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
 
-        LOGGER.finest("End getChildren method");
+        ICodeLogger.exiting(CLASS, method, values);
         return values;
     }
 }

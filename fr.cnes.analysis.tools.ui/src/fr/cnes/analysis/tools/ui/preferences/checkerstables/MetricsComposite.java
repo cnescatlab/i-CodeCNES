@@ -13,7 +13,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
@@ -78,10 +78,10 @@ public class MetricsComposite extends CheckersComposite {
                     final List<CheckerPreferencesContainer> checkers, final int style) {
         super(parent, checkers, style);
         final String method = "MetricsComposite";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             parent, checkers, Integer.valueOf(style)
         });
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -95,7 +95,7 @@ public class MetricsComposite extends CheckersComposite {
     @Override
     protected void createColumns(final Composite parent, final TableViewer pCheckersTableViewer) {
         final String method = "createColumns";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             parent, pCheckersTableViewer
         });
 
@@ -218,7 +218,7 @@ public class MetricsComposite extends CheckersComposite {
             }
 
         });
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 

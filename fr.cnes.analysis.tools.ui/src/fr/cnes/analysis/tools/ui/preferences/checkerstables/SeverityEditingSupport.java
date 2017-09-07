@@ -10,7 +10,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 
-import fr.cnes.analysis.tools.ui.logger.UILogger;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
@@ -32,9 +32,9 @@ public class SeverityEditingSupport extends EditingSupport {
     public SeverityEditingSupport(final TableViewer pViewer) {
         super(pViewer);
         final String method = "";
-        UILogger.entering(CLASS, method, pViewer);
+        ICodeLogger.entering(CLASS, method, pViewer);
         this.viewer = pViewer;
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -46,14 +46,14 @@ public class SeverityEditingSupport extends EditingSupport {
     @Override
     protected CellEditor getCellEditor(final Object element) {
         final String method = "";
-        UILogger.entering(CLASS, method, element);
+        ICodeLogger.entering(CLASS, method, element);
         final int options = 3;
         final String[] severity = new String[options];
         severity[0] = UserPreferencesService.PREF_SEVERITY_INFO_VALUE;
         severity[1] = UserPreferencesService.PREF_SEVERITY_WARNING_VALUE;
         severity[2] = UserPreferencesService.PREF_SEVERITY_ERROR_VALUE;
         final ComboBoxCellEditor cellEditor = new ComboBoxCellEditor(viewer.getTable(), severity);
-        UILogger.exiting(CLASS, method, cellEditor);
+        ICodeLogger.exiting(CLASS, method, cellEditor);
         return cellEditor;
     }
 
@@ -65,9 +65,9 @@ public class SeverityEditingSupport extends EditingSupport {
     @Override
     protected boolean canEdit(final Object element) {
         final String method = "";
-        UILogger.entering(CLASS, method, element);
+        ICodeLogger.entering(CLASS, method, element);
         final boolean canEdit = UserPreferencesService.isDefaultConfigurationActive();
-        UILogger.exiting(CLASS, method, Boolean.valueOf(canEdit));
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(canEdit));
         return canEdit;
     }
 
@@ -79,7 +79,7 @@ public class SeverityEditingSupport extends EditingSupport {
     @Override
     protected Object getValue(final Object element) {
         final String method = "";
-        UILogger.entering(CLASS, method, element);
+        ICodeLogger.entering(CLASS, method, element);
         final Integer severityCode;
         final String severity;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
@@ -100,7 +100,7 @@ public class SeverityEditingSupport extends EditingSupport {
             severityCode = Integer.valueOf(0);
             break;
         }
-        UILogger.exiting(CLASS, method, severity);
+        ICodeLogger.exiting(CLASS, method, severity);
         return severityCode;
     }
 
@@ -113,7 +113,7 @@ public class SeverityEditingSupport extends EditingSupport {
     @Override
     protected void setValue(final Object element, final Object value) {
         final String method = "";
-        UILogger.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             element, value
         });
         final int severityCode = ((Integer) value).intValue();
@@ -132,7 +132,7 @@ public class SeverityEditingSupport extends EditingSupport {
         }
         ((CheckerPreferencesContainer) element).setSeverity(severity);
         viewer.refresh();
-        UILogger.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

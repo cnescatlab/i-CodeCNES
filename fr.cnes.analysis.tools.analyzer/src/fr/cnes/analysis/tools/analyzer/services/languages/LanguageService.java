@@ -8,12 +8,12 @@ package fr.cnes.analysis.tools.analyzer.services.languages;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This service must be used to access data from the extension point
@@ -43,8 +43,6 @@ public final class LanguageService {
     /** Language extension point's file extension element's attribute name */
     public static final String LANGUAGE_EP_EL_FILEEXTENSION_ATT_NAME = "name";
 
-    /** The logger **/
-    private static final Logger LOGGER = Logger.getLogger(LanguageService.class.getName());
     /** Class name **/
     private static final String CLASS = LanguageService.class.getName();
 
@@ -60,7 +58,7 @@ public final class LanguageService {
      */
     public static List<LanguageContainer> getLanguages() {
         final String method = "getLanguages";
-        LOGGER.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         final List<LanguageContainer> languages = new ArrayList<>();
         final IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
@@ -81,7 +79,7 @@ public final class LanguageService {
                             language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME),
                             fileExtensions));
         }
-        LOGGER.exiting(CLASS, method, languages);
+        ICodeLogger.exiting(CLASS, method, languages);
         return languages;
 
     }
@@ -94,7 +92,7 @@ public final class LanguageService {
      */
     public static boolean isLanguageIdContributor(String languageId) {
         final String method = "isLanguageIdContributor";
-        LOGGER.entering(CLASS, method, languageId);
+        ICodeLogger.entering(CLASS, method, languageId);
         boolean isLanguageIdContributor = false;
         final IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
@@ -104,7 +102,7 @@ public final class LanguageService {
                 isLanguageIdContributor = true;
             }
         }
-        LOGGER.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
         return isLanguageIdContributor;
     }
 
@@ -120,7 +118,7 @@ public final class LanguageService {
     public static LanguageContainer getLanguage(String languageId)
                     throws NullContributionException {
         final String method = "getLanguage";
-        LOGGER.entering(CLASS, method, languageId);
+        ICodeLogger.entering(CLASS, method, languageId);
         final IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
         for (IConfigurationElement language : languagesContributors) {
@@ -137,7 +135,7 @@ public final class LanguageService {
                         fileExtensions.add(fileExtension);
                     }
                 }
-                LOGGER.exiting(CLASS, method);
+                ICodeLogger.exiting(CLASS, method);
                 return new LanguageContainer(
                                 language.getAttribute(
                                                 LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID),
@@ -148,7 +146,7 @@ public final class LanguageService {
         }
         final NullContributionException exception = new NullContributionException(
                         "Impossible to find " + languageId + " in analyzer contributors.");
-        LOGGER.throwing(CLASS, method, exception);
+        ICodeLogger.throwing(CLASS, method, exception);
         throw exception;
     }
 
@@ -160,7 +158,7 @@ public final class LanguageService {
      */
     public static List<LanguageContainer> getLanguages(List<String> languagesIds) {
         final String method = "getLanguages";
-        LOGGER.entering(CLASS, method, languagesIds);
+        ICodeLogger.entering(CLASS, method, languagesIds);
         final List<LanguageContainer> languages = new ArrayList<>();
         final IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
@@ -182,7 +180,7 @@ public final class LanguageService {
                                 LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_NAME, fileExtensions));
             }
         }
-        LOGGER.exiting(CLASS, method, languages);
+        ICodeLogger.exiting(CLASS, method, languages);
         return languages;
     }
 
@@ -192,14 +190,14 @@ public final class LanguageService {
      */
     public static List<String> getLanguagesIds() {
         final String method = "getLanguagesIds";
-        LOGGER.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         final List<String> languagesIds = new ArrayList<>();
         final IConfigurationElement[] languagesContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(LanguageService.LANGUAGE_EP_ID);
         for (IConfigurationElement language : languagesContributors) {
             languagesIds.add(language.getAttribute(LanguageService.LANGUAGE_EP_EL_LANGUAGE_ATT_ID));
         }
-        LOGGER.exiting(CLASS, method, languagesIds);
+        ICodeLogger.exiting(CLASS, method, languagesIds);
         return languagesIds;
     }
 

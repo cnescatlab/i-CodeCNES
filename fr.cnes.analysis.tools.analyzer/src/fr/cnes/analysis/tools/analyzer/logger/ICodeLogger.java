@@ -1,17 +1,32 @@
-package fr.cnes.analysis.tools.ui.logger;
+package fr.cnes.analysis.tools.analyzer.logger;
 
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 
-import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.analysis.tools.analyzer.Activator;
 
 /**
- * i-Code CNES UI logger.
+ * <h1>i-Code CNES Logger</h1>
+ * 
+ * <p>
+ * This logger is using {@link ILog} plugin's logger to log actions. It was
+ * designed to both handles java event and i-Code Analyzer event as automaton
+ * transition.
+ * </p>
+ * 
+ * <p>
+ * To use this Logger, be advised that the {@link #pluginId} is defined for the
+ * plug-in {@link Activator#PLUGIN_ID}. To raise events from your own plugin
+ * extend this class and redefine both {@link #getLogger()} &
+ * {@link #getPluginId()} method.
+ * </p>
+ * 
  * 
  * @since 3.0
  */
-public final class UILogger {
+public final class ICodeLogger {
 
     /** Line separator for system executing the log */
     private static final String BLANK = System.getProperty("line.separator");
@@ -20,15 +35,25 @@ public final class UILogger {
 
     /** Exit message header */
     private static final String MSG_EXITING = "[EXITING] ";
+    /** ERROR message header */
+    private static final String MSG_ERROR = "[ERROR] ";
+    /** WARNING message header */
+    private static final String MSG_WARNING = "[WARNING] ";
+    /** INFO message header */
+    private static final String MSG_INFO = "[INFO] ";
     /**
      * Plugin's eclipse defined LOGGER.
      */
-    private static ILog logger = Activator.getDefault().getLog();
+    private static ILog logger = getLogger();
+    /**
+     * Plug-in's identifier.
+     */
+    private static String pluginId = getPluginId();
 
     /**
      * No constructor for final classes.
      */
-    private UILogger() {
+    private ICodeLogger() {
         // No constructor for this util class.
     }
 
@@ -42,9 +67,10 @@ public final class UILogger {
      * @param exception
      *            exception thrown
      */
-    public static void throwing(String className, String methodName, Throwable exception) {
-        logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-                        localizedMessageln(className, methodName), exception));
+    public static void throwing(final String className, final String methodName,
+                    final Throwable exception) {
+        logger.log(new Status(IStatus.ERROR, pluginId,
+                        MSG_ERROR + BLANK + localizedMessageln(className, methodName), exception));
     }
 
     /**
@@ -57,9 +83,10 @@ public final class UILogger {
      * @param message
      *            related to the warning.
      */
-    public static void warning(String className, String methodName, String message) {
-        logger.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID,
-                        localizedMessageln(className, methodName) + "Message:" + message));
+    public static void warning(final String className, final String methodName,
+                    final String message) {
+        logger.log(new Status(IStatus.WARNING, pluginId, MSG_WARNING + BLANK
+                        + localizedMessageln(className, methodName) + "Message:" + message));
     }
 
     /**
@@ -72,9 +99,11 @@ public final class UILogger {
      * @param exception
      *            exception thrown
      */
-    public static void warning(String className, String methodName, Throwable exception) {
-        logger.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID,
-                        localizedMessageln(className, methodName), exception));
+    public static void warning(final String className, final String methodName,
+                    final Throwable exception) {
+        logger.log(new Status(IStatus.WARNING, pluginId,
+                        MSG_WARNING + BLANK + localizedMessageln(className, methodName),
+                        exception));
     }
 
     /**
@@ -87,9 +116,10 @@ public final class UILogger {
      * @param exception
      *            exception thrown
      */
-    public static void error(String className, String methodName, Throwable exception) {
-        logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-                        localizedMessageln(className, methodName), exception));
+    public static void error(final String className, final String methodName,
+                    final Throwable exception) {
+        logger.log(new Status(IStatus.ERROR, pluginId,
+                        MSG_ERROR + BLANK + localizedMessageln(className, methodName), exception));
     }
 
     /**
@@ -100,9 +130,9 @@ public final class UILogger {
      * @param methodName
      *            method entered.
      */
-    public static void entering(String className, String methodName) {
-        logger.log(new Status(IStatus.INFO, Activator.PLUGIN_ID,
-                        enteringMessageln(className, methodName)));
+    public static void entering(final String className, final String methodName) {
+        logger.log(new Status(IStatus.INFO, pluginId,
+                        MSG_INFO + enteringMessageln(className, methodName)));
     }
 
     /**
@@ -115,12 +145,13 @@ public final class UILogger {
      * @param params
      *            parameters
      */
-    public static void entering(String className, String methodName, Object[] params) {
+    public static void entering(final String className, final String methodName,
+                    final Object[] params) {
         String enteringMessage = enteringMessageln(className, methodName) + "Params:";
         for (final Object param : params) {
             enteringMessage += BLANK + "-" + objectToLogString(param);
         }
-        logger.log(new Status(IStatus.INFO, Activator.PLUGIN_ID, enteringMessage));
+        logger.log(new Status(IStatus.INFO, pluginId, MSG_INFO + enteringMessage));
     }
 
     /**
@@ -133,10 +164,11 @@ public final class UILogger {
      * @param param
      *            parameter
      */
-    public static void entering(String className, String methodName, Object param) {
+    public static void entering(final String className, final String methodName,
+                    final Object param) {
         final String enteringMessage = enteringMessageln(className, methodName) + "Param:"
                         + objectToLogString(param);
-        logger.log(new Status(IStatus.INFO, Activator.PLUGIN_ID, enteringMessage));
+        logger.log(new Status(IStatus.INFO, pluginId, MSG_INFO + enteringMessage));
     }
 
     /**
@@ -147,9 +179,9 @@ public final class UILogger {
      * @param methodName
      *            method left
      */
-    public static void exiting(String className, String methodName) {
-        logger.log(new Status(IStatus.INFO, Activator.PLUGIN_ID,
-                        exitingMessageln(className, className)));
+    public static void exiting(final String className, final String methodName) {
+        logger.log(new Status(IStatus.INFO, pluginId,
+                        MSG_INFO + exitingMessageln(className, className)));
     }
 
     /**
@@ -162,9 +194,10 @@ public final class UILogger {
      * @param returned
      *            Object returned.
      */
-    public static void exiting(String className, String methodName, Object returned) {
-        logger.log(new Status(IStatus.INFO, Activator.PLUGIN_ID,
-                        exitingMessageln(className, methodName) + "Returns: "
+    public static void exiting(final String className, final String methodName,
+                    final Object returned) {
+        logger.log(new Status(IStatus.INFO, pluginId,
+                        MSG_INFO + exitingMessageln(className, methodName) + "Returns: "
                                         + objectToLogString(returned)));
     }
 
@@ -176,7 +209,7 @@ public final class UILogger {
      * @return message containing information on method and classname entered
      *         for the log file with line return.
      */
-    private static String localizedMessageln(String className, String methodName) {
+    private static String localizedMessageln(final String className, final String methodName) {
         return "Class: " + className + BLANK + "Method: " + methodName + BLANK;
 
     }
@@ -188,7 +221,7 @@ public final class UILogger {
      *            method name
      * @return message containing information on the method entered
      */
-    private static String enteringMessageln(String className, String methodName) {
+    private static String enteringMessageln(final String className, final String methodName) {
         return MSG_ENTERING + BLANK + localizedMessageln(className, methodName);
     }
 
@@ -199,7 +232,7 @@ public final class UILogger {
      *            method name
      * @return message containing information on the method entered
      */
-    private static String exitingMessageln(String className, String methodName) {
+    private static String exitingMessageln(final String className, final String methodName) {
         return MSG_EXITING + BLANK + localizedMessageln(className, methodName);
     }
 
@@ -208,12 +241,26 @@ public final class UILogger {
      *            to turn into string
      * @return object in a String
      */
-    private static String objectToLogString(Object object) {
+    private static String objectToLogString(final Object object) {
         String str = "";
         if (object != null) {
             str = object.getClass().getName() + "." + object.toString();
         }
         return str;
+    }
+
+    /**
+     * @return plugin logger.
+     */
+    public static ILog getLogger() {
+        return Platform.getLog(Activator.getContext().getBundle());
+    }
+
+    /**
+     * @return plugin identifier.
+     */
+    public static String getPluginId() {
+        return Activator.PLUGIN_ID;
     }
 
 }

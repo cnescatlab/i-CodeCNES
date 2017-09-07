@@ -8,7 +8,6 @@ package fr.cnes.analysis.tools.analyzer.services.checkers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -17,6 +16,7 @@ import org.eclipse.core.runtime.Platform;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageContainer;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 
@@ -49,8 +49,6 @@ public final class CheckerService {
     /** Check's element isMetric attribute key */
     public static final String CHECKER_EP_ELEMENT_CHECK_ATT_ISMETRIC = "isMetric";
 
-    /** The logger **/
-    private static final Logger LOGGER = Logger.getLogger(CheckerService.class.getName());
     /** Class name **/
     private static final String CLASS = CheckerService.class.getName();
 
@@ -73,7 +71,7 @@ public final class CheckerService {
     public static List<CheckerContainer> getCheckers()
                     throws NullContributionException, CoreException {
         final String method = "getCheckers";
-        LOGGER.entering(CLASS, method);
+        ICodeLogger.entering(CLASS, method);
         final List<CheckerContainer> checkers = new ArrayList<>();
         final IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CHECKER_EP_ID);
@@ -109,7 +107,7 @@ public final class CheckerService {
             // 1.7 Add the checkers to all checkers.
             checkers.add(checker);
         }
-        LOGGER.exiting(CLASS, method, checkers);
+        ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
 
@@ -135,7 +133,7 @@ public final class CheckerService {
     public static List<CheckerContainer> getCheckers(String languageId)
                     throws NullContributionException, CoreException {
         final String method = "getCheckers";
-        LOGGER.entering(CLASS, method, languageId);
+        ICodeLogger.entering(CLASS, method, languageId);
         final List<CheckerContainer> checkers = new ArrayList<>();
         final IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CHECKER_EP_ID);
@@ -174,7 +172,7 @@ public final class CheckerService {
                 checkers.add(checker);
             }
         }
-        LOGGER.exiting(CLASS, method, checkers);
+        ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
 
@@ -185,7 +183,7 @@ public final class CheckerService {
      */
     public static List<String> getCheckersIds(String languageId) {
         final String method = "getCheckersIds";
-        LOGGER.entering(CLASS, method, languageId);
+        ICodeLogger.entering(CLASS, method, languageId);
         final List<String> checkers = new ArrayList<>();
         final IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CHECKER_EP_ID);
@@ -196,7 +194,7 @@ public final class CheckerService {
                                 .getAttribute(CheckerService.CHECKER_EP_ELEMENT_CHECK_ATT_ID));
             }
         }
-        LOGGER.exiting(CLASS, method, checkers);
+        ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
 
@@ -222,7 +220,7 @@ public final class CheckerService {
     public static List<CheckerContainer> getCheckers(List<String> checkersIds)
                     throws NullContributionException, CoreException {
         final String method = "getCheckers";
-        LOGGER.entering(CLASS, method, checkersIds);
+        ICodeLogger.entering(CLASS, method, checkersIds);
         final List<CheckerContainer> checkers = new ArrayList<>();
         final IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CHECKER_EP_ID);
@@ -261,7 +259,7 @@ public final class CheckerService {
                 checkers.add(checker);
             }
         }
-        LOGGER.exiting(CLASS, method, checkers);
+        ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
 
@@ -285,7 +283,7 @@ public final class CheckerService {
     public static List<CheckerContainer> getCheckers(List<String> languagesIds,
                     List<String> excludedIds) throws NullContributionException, CoreException {
         final String method = "getCheckers";
-        LOGGER.entering(CLASS, method, new Object[] {
+        ICodeLogger.entering(CLASS, method, new Object[] {
             languagesIds, excludedIds
         });
         final List<CheckerContainer> checkers = new ArrayList<>();
@@ -325,7 +323,7 @@ public final class CheckerService {
                 checkers.add(checker);
             }
         }
-        LOGGER.exiting(CLASS, method, checkers);
+        ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
 
     }
@@ -338,7 +336,7 @@ public final class CheckerService {
      */
     public static boolean isCheckerIdContributor(String checkerId) {
         final String method = "isCheckerIdContributor";
-        LOGGER.entering(CLASS, method, checkerId);
+        ICodeLogger.entering(CLASS, method, checkerId);
         boolean isCheckerIdContributor = false;
         final IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CHECKER_EP_ID);
@@ -347,7 +345,7 @@ public final class CheckerService {
                 isCheckerIdContributor = true;
             }
         }
-        LOGGER.exiting(CLASS, method);
+        ICodeLogger.exiting(CLASS, method);
         return isCheckerIdContributor;
     }
 
@@ -368,7 +366,7 @@ public final class CheckerService {
     public static CheckerContainer getChecker(String checkerId)
                     throws NullContributionException, CoreException {
         final String method = "getChecker";
-        LOGGER.entering(CLASS, checkerId);
+        ICodeLogger.entering(CLASS, checkerId);
         final IConfigurationElement[] checkerContributors = Platform.getExtensionRegistry()
                         .getConfigurationElementsFor(CHECKER_EP_ID);
         boolean found = false;
@@ -420,12 +418,12 @@ public final class CheckerService {
             checkerContributorsCounter++;
         }
         if (found) {
-            LOGGER.exiting(CLASS, method, cherckerFound);
+            ICodeLogger.exiting(CLASS, method, cherckerFound);
             return cherckerFound;
         }
         final NullContributionException exception = new NullContributionException(
                         "Impossible to find " + checkerId + " checker id in contributors.");
-        LOGGER.throwing(CLASS, method, exception);
+        ICodeLogger.throwing(CLASS, method, exception);
         throw exception;
     }
 

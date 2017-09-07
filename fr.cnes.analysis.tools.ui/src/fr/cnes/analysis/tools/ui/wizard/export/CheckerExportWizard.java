@@ -5,7 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export;
 
-import fr.cnes.analysis.tools.export.Export;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -13,6 +12,9 @@ import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.analysis.tools.export.Export;
 
 /**
  * This Wizard contains and handle the different Wizard Page to export analysis
@@ -38,6 +40,8 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
  */
 public class CheckerExportWizard extends Wizard implements IExportWizard, INewWizard {
 
+    /** Class name */
+    private static final String CLASS = CheckerExportWizard.class.getName();
     /** The main page containing the radio to choose the export's format. */
     private CheckerExportWizardPage mainPage;
     /** The class that will be used to export the file **/
@@ -55,6 +59,10 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
      */
     @Override
     public void init(IWorkbench pWorkbench, IStructuredSelection pSelection) {
+        final String method = "init";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pWorkbench, pSelection
+        });
         this.selection = pSelection;
         this.exporter = new Export();
         /*
@@ -63,6 +71,8 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
          * also because we willn't use all pages that we've added to the Wizard.
          */
         this.setForcePreviousAndNextButtons(true);
+
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -73,9 +83,13 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
      */
     @Override
     public boolean performFinish() {
+        final String method = "performFinish";
+        ICodeLogger.entering(CLASS, method);
         final IFile file = ((WizardNewFileCreationPage) this.getContainer().getCurrentPage())
-                .createNewFile();
-        return (file != null);
+                        .createNewFile();
+        final boolean performFinish = (file != null);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(performFinish));
+        return performFinish;
 
     }
 
@@ -86,12 +100,15 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
      */
     @Override
     public void addPages() {
+        final String method = "addPages";
+        ICodeLogger.entering(CLASS, method);
         mainPage = new CheckerExportWizardPage(selection, exporter);
         if (exporter.getAvailableFormats().size() > 0) {
             fileCreationPage = new CheckerFileCreationExportWizardPage(selection, "unknown");
         }
         this.addPage(mainPage);
         this.addPage(fileCreationPage);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -101,7 +118,11 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
      */
     @Override
     public boolean canFinish() {
-        return this.getContainer().getCurrentPage().isPageComplete();
+        final String method = "canFinish";
+        ICodeLogger.entering(CLASS, method);
+        final boolean canFinish = this.getContainer().getCurrentPage().isPageComplete();
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(canFinish));
+        return canFinish;
     }
 
 }
