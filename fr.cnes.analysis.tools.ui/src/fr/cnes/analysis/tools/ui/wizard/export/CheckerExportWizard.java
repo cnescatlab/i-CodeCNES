@@ -14,7 +14,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.Export;
+import fr.cnes.analysis.tools.export.ExportService;
 
 /**
  * This Wizard contains and handle the different Wizard Page to export analysis
@@ -24,13 +24,13 @@ import fr.cnes.analysis.tools.export.Export;
  * 
  * <p>
  * Available formats are defined by the
- * {@link fr.cnes.analysis.tools.export.Export} service using
- * {@link Export#getAvailableFormats()}.
+ * {@link fr.cnes.analysis.tools.export.ExportService} service using
+ * {@link ExportService#getAvailableFormats()}.
  * </p>
  * 
  * <p>
  * To add a new format to export, it's necessary to contribute to the
- * {@link Export} service.
+ * {@link ExportService} service.
  * </p>
  * 
  * @version 3.0
@@ -49,7 +49,7 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
     /** The selection of elements to build the NewFileWizardPage classes */
     private IStructuredSelection selection;
     /** Exporter service */
-    private Export exporter;
+    private ExportService exporter;
 
     /*
      * (non-Javadoc)
@@ -64,7 +64,7 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
             pWorkbench, pSelection
         });
         this.selection = pSelection;
-        this.exporter = new Export();
+        this.exporter = new ExportService();
         /*
          * We force previous and next buttons as we don't use the default order
          * of page selection that is the one in which each page were added and

@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.export.IExport;
+import fr.cnes.analysis.tools.export.IExporter;
 
 /**
  * This class is an attribute of the {@code ExtensionPoint} implementing
- * {@link IExport} interface of the plugin <i>fr.cnes.analysis.tools.export</i>.
+ * {@link IExporter} interface of the plugin <i>fr.cnes.analysis.tools.export</i>.
  * <p>
  * This class is also exported in the <i>fr.cnes.analysis.tools.export.csv</i>
  * plugin and could be used as a service from any third.
@@ -28,7 +28,7 @@ import fr.cnes.analysis.tools.export.IExport;
  * 
  * @since 3.0
  */
-public class ExportCsv implements IExport {
+public class ExporterCsv implements IExporter {
 
     /** Field separator */
     private static final String SEPARATOR = ",";
@@ -37,7 +37,7 @@ public class ExportCsv implements IExport {
      * Default constructor. Required to execute a class from the contributed
      * extension point.
      */
-    public ExportCsv() {
+    public ExporterCsv() {
     }
 
     /*

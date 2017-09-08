@@ -33,9 +33,9 @@ import org.osgi.framework.FrameworkUtil;
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
-import fr.cnes.analysis.tools.export.IExport;
-import fr.cnes.analysis.tools.export.csv.ExportCsv;
-import fr.cnes.analysis.tools.export.xml.ExportXml;
+import fr.cnes.analysis.tools.export.IExporter;
+import fr.cnes.analysis.tools.export.csv.ExporterCsv;
+import fr.cnes.analysis.tools.export.xml.ExporterXml;
 
 /**
  * This is the application to launch icode with a line command. It can be launch
@@ -151,7 +151,7 @@ public class ICodeApplication implements IApplication {
     private String pluginId = FrameworkUtil.getBundle(getClass()).getSymbolicName();
 
     // The current exporter to use.
-    private IExport exporter;
+    private IExporter exporter;
 
     @Override
     public Object start(IApplicationContext context) throws Exception {
@@ -497,23 +497,23 @@ public class ICodeApplication implements IApplication {
 
     }
 
-    private IExport getExporter() {
-        IExport result = null;
+    private IExporter getExporter() {
+        IExporter result = null;
         if (outputFormat == ARG_OUTPUT_FORMAT_XML) {
-            result = new ExportXml();
-            configureXMLExporter(result, ExportXml.PARAM_AUTHOR, () -> getAuthor());
-            configureXMLExporter(result, ExportXml.PARAM_PROJECT_NAME, () -> getProjectName());
-            configureXMLExporter(result, ExportXml.PARAM_PROJECT_VERSION,
+            result = new ExporterXml();
+            configureXMLExporter(result, ExporterXml.PARAM_AUTHOR, () -> getAuthor());
+            configureXMLExporter(result, ExporterXml.PARAM_PROJECT_NAME, () -> getProjectName());
+            configureXMLExporter(result, ExporterXml.PARAM_PROJECT_VERSION,
                             () -> getProjectVersion());
-            configureXMLExporter(result, ExportXml.PARAM_CONFIGURATION_ID, () -> getConfigID());
+            configureXMLExporter(result, ExporterXml.PARAM_CONFIGURATION_ID, () -> getConfigID());
         } else {
-            result = new ExportCsv();
+            result = new ExporterCsv();
         }
 
         return result;
     }
 
-    private void configureXMLExporter(IExport exporter, String propertyName,
+    private void configureXMLExporter(IExporter exporter, String propertyName,
                     Supplier<String> supplier) {
         String value = supplier.get();
         if (value != null)
