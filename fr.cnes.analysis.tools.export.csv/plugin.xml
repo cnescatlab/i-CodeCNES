@@ -4,7 +4,7 @@
    <extension
          point="fr.cnes.analysis.tools.export">
       <exportFormat
-            ExportClass="fr.cnes.analysis.tools.export.csv.ExportCsv"
+            ExportClass="fr.cnes.analysis.tools.export.csv.ExporterCsv"
             formatExtension="csv"
             formatName="CSV">
       </exportFormat>

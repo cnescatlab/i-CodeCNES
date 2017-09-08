@@ -22,11 +22,11 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.export.IExport;
+import fr.cnes.analysis.tools.export.IExporter;
 
 /**
  * This class is an attribute of the {@code ExtensionPoint} implementing
- * {@link IExport} interface of the plug-in
+ * {@link IExporter} interface of the plug-in
  * <i>fr.cnes.analysis.tools.export</i>.
  * <p>
  * This class is also exported in the <i>fr.cnes.analysis.tools.export.csv</i>
@@ -39,7 +39,7 @@ import fr.cnes.analysis.tools.export.IExport;
  * 
  * @since 3.0
  */
-public class ExportXml implements IExport {
+public class ExporterXml implements IExporter {
 
     /** Identifier of the attribute <i>AnalysisProjectName</i>. */
     public static final String ATTRIBUTE_ANALYSISPROJECTNAME = "analysisProjectName";
@@ -64,7 +64,7 @@ public class ExportXml implements IExport {
      * Default constructor. Required to execute a class from the contributed
      * extension point.
      */
-    public ExportXml() {
+    public ExporterXml() {
         this.parameters = new TreeMap<>();
         this.parameters.put(PARAM_PROJECT_NAME, "Unknown");
         this.parameters.put(PARAM_AUTHOR, "i-Code CNES Analyzer");

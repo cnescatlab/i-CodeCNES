@@ -23,7 +23,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.Export;
+import fr.cnes.analysis.tools.export.ExportService;
 import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
 import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * 
  * <p>
  * On {@link #getInitialContents()} this class realize an export using
- * {@link fr.cnes.analysis.tools.export.Export} service.
+ * {@link fr.cnes.analysis.tools.export.ExportService} service.
  * </p>
  * 
  * @since 3.0
@@ -45,7 +45,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
     /** Class name */
     private static final String CLASS = CheckerFileCreationExportWizardPage.class.getName();
     /** Export service used */
-    private Export exporter;
+    private ExportService exporter;
     /** Export format requested by the user */
     private String requestedFormat;
     /** Parameters requested by the export plugin */
@@ -66,7 +66,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
         ICodeLogger.entering(CLASS, method, new Object[] {
             selection, pRequestedFormat
         });
-        exporter = new Export();
+        exporter = new ExportService();
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Rules export (" + pRequestedFormat + ")");
         this.setDescription("Description : Create a result export file in " + pRequestedFormat
@@ -115,7 +115,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             final File temp;
             temp = File.createTempFile("export",
                             "." + exporter.getAvailableFormats().get(this.requestedFormat));
-            final Export export = new Export();
+            final ExportService export = new ExportService();
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                             .getActivePage();

@@ -30,13 +30,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.Export;
+import fr.cnes.analysis.tools.export.ExportService;
 import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
 
 /**
  * This class is the main page of the {@link CheckerExportWizard}. It's
  * responsible of suggesting available formats for export to the user using
- * {@link Export#getAvailableFormats()} and indicating the chosen format to the
+ * {@link ExportService#getAvailableFormats()} and indicating the chosen format to the
  * next page {@link CheckerFileCreationExportWizardPage}.
  * 
  * @version 3.0
@@ -52,7 +52,7 @@ public class CheckerExportWizardPage extends WizardPage {
     /**
      * Exporter service in charge of the analysis
      */
-    private Export exporter;
+    private ExportService exporter;
 
     /**
      * Buttons list of all buttons offering available format for exportation.
@@ -75,7 +75,7 @@ public class CheckerExportWizardPage extends WizardPage {
      * @param pExporter
      *            service.
      */
-    public CheckerExportWizardPage(final IStructuredSelection pSelection, final Export pExporter) {
+    public CheckerExportWizardPage(final IStructuredSelection pSelection, final ExportService pExporter) {
         super("RuleExportWizardPage");
         final String method = "CheckerExportWizardPage";
         ICodeLogger.entering(CLASS, method, new Object[] {
