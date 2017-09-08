@@ -3,5 +3,6 @@ jdk:
   - oraclejdk8
 install: true
 script : 
-  - mvn install
+  - mvn install -DskipTests
+  - mvn verify
 sudo: false
