@@ -131,7 +131,7 @@ public class ExporterXml implements IExporter {
             // get
             // the filename.
             // -- <xsd:attribute name="language" type="xsd:string" />
-            final String language = this.getFileExtension(checkResult.getFile().getAbsolutePath());
+            final String language = checkResult.getLangageId();
             final String fileName = checkResult.getFile().toString();
             // The analysisFile element is being added only and only if it's not
             // already in the XML document.
