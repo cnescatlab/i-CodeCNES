@@ -7,7 +7,6 @@ package fr.cnes.analysis.tools.ui.view.metrics;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -16,6 +15,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * Job used to converter inputs from analysis to valuable inputs for the
@@ -23,9 +23,10 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
  * 
  */
 public class MetricConverter extends Job {
-    /** Logger. **/
-    public static final Logger LOGGER = Logger.getLogger(MetricConverter.class.getName());
+    /** Class name **/
+    private static final String CLASS = MetricConverter.class.getName();
 
+    /** Job message */
     private static final String CONVERT_JOB_MESSAGE = "Converting results...";
 
     /** The original inputs. **/
@@ -38,8 +39,11 @@ public class MetricConverter extends Job {
      */
     public MetricConverter() {
         super(CONVERT_JOB_MESSAGE);
+        final String method = "MetricConverter";
+        ICodeLogger.entering(CLASS, method);
         this.inputs = new CheckResult[0];
         this.container = new MetricDescriptor[0];
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -51,8 +55,11 @@ public class MetricConverter extends Job {
      */
     public MetricConverter(final CheckResult[] checkResults) {
         super(CONVERT_JOB_MESSAGE);
+        final String method = "MetricConverter";
+        ICodeLogger.entering(CLASS, method, checkResults);
         this.inputs = checkResults.clone();
         this.container = new MetricDescriptor[0];
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -61,7 +68,11 @@ public class MetricConverter extends Job {
      * @return the inputs
      */
     public CheckResult[] getInputs() {
-        return this.inputs.clone();
+        final String method = "CheckResult";
+        ICodeLogger.entering(CLASS, method);
+        final CheckResult[] clonedInputs = this.inputs.clone();
+        ICodeLogger.exiting(CLASS, method, clonedInputs);
+        return clonedInputs;
     }
 
     /**
@@ -70,7 +81,11 @@ public class MetricConverter extends Job {
      * @return the container
      */
     public MetricDescriptor[] getContainer() {
-        return this.container.clone();
+        final String method = "MetricDescriptor";
+        ICodeLogger.entering(CLASS, method);
+        final MetricDescriptor[] clonedContainer = this.container.clone();
+        ICodeLogger.exiting(CLASS, method, clonedContainer);
+        return clonedContainer;
     }
 
     /**
@@ -80,7 +95,10 @@ public class MetricConverter extends Job {
      *            the inputs to set
      */
     public void setInputs(final CheckResult[] pInputs) {
+        final String method = "setInputs";
+        ICodeLogger.entering(CLASS, method, pInputs);
         this.inputs = pInputs.clone();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -90,7 +108,10 @@ public class MetricConverter extends Job {
      *            the container to set
      */
     public void setContainer(final MetricDescriptor[] pContainer) {
+        final String method = "setContainer";
+        ICodeLogger.entering(CLASS, method, pContainer);
         this.container = pContainer.clone();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -101,8 +122,8 @@ public class MetricConverter extends Job {
      */
     @Override
     public IStatus run(final IProgressMonitor monitor) {
-        LOGGER.finest("Begin run method");
-
+        final String method = "run";
+        ICodeLogger.entering(CLASS, method, monitor);
         // Instantiate return variable
         final IStatus status = Status.OK_STATUS;
         final int totalWork = this.inputs.length;
@@ -188,8 +209,7 @@ public class MetricConverter extends Job {
             }
         }
         this.container = descriptors.toArray(new MetricDescriptor[descriptors.size()]);
-
-        LOGGER.finest("End run method");
+        ICodeLogger.exiting(CLASS, method, status);
         return status;
     }
 

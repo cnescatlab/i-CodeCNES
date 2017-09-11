@@ -189,7 +189,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 <INQ_EXIST>  	\n             	{
 									if(endLine) {
 										if(files.isEmpty()){
-											throw new JFlexException(this.getClass().getName(), parsedFileName, "Analyzer failed to reach last file inquired.", yytext(), yyline, yycolumn);
+											
+				                    		final String errorMessage = "Analysis failure : Last file inquired unreachable.";
+					                    	throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                    errorMessage, yytext(), yyline, yycolumn);
 										}
 										files.remove(files.size()-1);
 										yybegin(NEW_LINE);
@@ -224,8 +227,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

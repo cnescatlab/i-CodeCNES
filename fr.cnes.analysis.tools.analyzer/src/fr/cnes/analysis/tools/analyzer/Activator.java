@@ -14,6 +14,9 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator implements BundleActivator {
 
+    /** Plug-in ID */
+    public static final String PLUGIN_ID = "fr.cnes.analysis.tools.analyzer";
+
     /**
      * Bundle context
      */
@@ -22,7 +25,7 @@ public class Activator implements BundleActivator {
     /**
      * @return bundle context
      */
-    static BundleContext getContext() {
+    public static BundleContext getContext() {
         return context;
     }
 

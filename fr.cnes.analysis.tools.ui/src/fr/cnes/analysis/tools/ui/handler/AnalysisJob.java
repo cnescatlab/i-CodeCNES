@@ -8,7 +8,6 @@ package fr.cnes.analysis.tools.ui.handler;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -18,6 +17,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.
@@ -25,12 +25,10 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
  * @since 3.0
  */
 public class AnalysisJob extends Job {
-    /**
-     * Logger
-     */
-    private static final Logger LOGGER = Logger.getLogger(AnalysisJob.class.getName());
-    /** Logger's method identifier */
-    private static String METHOD = "";
+
+    /** Class name */
+    private static final String CLASS = AnalysisJob.class.getName();
+
     /** {@link Analyzer} service to run the analysis */
     private Analyzer analyzer;
     /** List of files to analyze. */
@@ -59,29 +57,34 @@ public class AnalysisJob extends Job {
      * @param pExcludedIds
      *            to exclude from analysis
      */
-    public AnalysisJob(String pName, List<File> pInputFiles, List<String> pLanguageIds,
-                    List<String> pExcludedIds) {
+    public AnalysisJob(final String pName, final List<File> pInputFiles,
+                    final List<String> pLanguageIds, final List<String> pExcludedIds) {
         super(pName);
+        final String method = "AnalysisJob";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pName, pInputFiles, pLanguageIds, pExcludedIds
+        });
         this.inputFiles = pInputFiles;
         this.languageIds = pLanguageIds;
         this.excludedIds = pExcludedIds;
         this.analyzer = new Analyzer();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     @Override
     protected IStatus run(IProgressMonitor monitor) {
-        METHOD = "run";
-        LOGGER.entering(this.getClass().getName(), METHOD, monitor);
+        final String method = "run";
+        ICodeLogger.entering(this.getClass().getName(), method, monitor);
         IStatus status = Status.OK_STATUS;
         monitor.setTaskName("Analyzing files...");
         try {
             this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
         } catch (IOException | JFlexException exception) {
-            LOGGER.info(exception.getClass() + " handled in method " + METHOD
-                            + " changing Job status.");
+            ICodeLogger.warning(CLASS, method, exception.getClass().getName() + " handled in method "
+                            + method + " changing Job status.");
             status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID, exception.getMessage());
         }
-        LOGGER.exiting(this.getClass().getName(), METHOD, monitor);
+        ICodeLogger.exiting(CLASS, method, status);
         return status;
     }
 
@@ -89,6 +92,9 @@ public class AnalysisJob extends Job {
      * @return files to analyzed
      */
     public List<File> getInputFiles() {
+        final String method = "getInputFiles";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, inputFiles);
         return inputFiles;
     }
 
@@ -97,13 +103,19 @@ public class AnalysisJob extends Job {
      *            to analyze
      */
     public void setInputFiles(List<File> pInputFiles) {
+        final String method = "setInputFiles";
+        ICodeLogger.entering(CLASS, method, pInputFiles);
         this.inputFiles = pInputFiles;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return checkerResults results from the analysis.
      */
     public List<CheckResult> getCheckResults() {
+        final String method = "getCheckResults";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, checks);
         return checks;
     }
 

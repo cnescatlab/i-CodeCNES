@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -28,18 +29,20 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerMetricTableViewer;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerTableViewer;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckersComposite;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.MetricsComposite;
 
 /**
  * i-Code CNES Preferences page.
  */
 public class ConfigurationPreferencePage extends PreferencePage
                 implements IWorkbenchPreferencePage {
+
     /** Composite containing the configuration preference page */
     private Composite composite;
     /** List of {@link CheckerPreferencesContainer} displayed on the page */
@@ -49,12 +52,14 @@ public class ConfigurationPreferencePage extends PreferencePage
     /** Combo box to set the configuration */
     private Combo configurationSelection;
     /** Table viewer containing the rules */
-    private CheckerTableViewer checkersTable;
+    private CheckersComposite rulesExpandBarContainer;
     /** Table viewer containing the metrics */
-    private CheckerMetricTableViewer checkersMetricTable;
+    private MetricsComposite metricsExpandBarContainer;
 
     @Override
-    public void init(IWorkbench workbench) {
+    public void init(final IWorkbench workbench) {
+        final String method = "init";
+        ICodeLogger.entering(this.getClass().getName(), method, workbench);
         // Page description
         setImageDescriptor(ImageFactory.getDescriptor(ImageFactory.ERROR_BIG));
         setDescription("This preference page is dedicated to iCode analysis. On this page,"
@@ -64,6 +69,7 @@ public class ConfigurationPreferencePage extends PreferencePage
         // Associate preference store
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         setPreferenceStore(store);
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
@@ -75,13 +81,15 @@ public class ConfigurationPreferencePage extends PreferencePage
      */
     @Override
     protected Control createContents(Composite parent) {
+        final String method = "createContents";
+        ICodeLogger.entering(this.getClass().getName(), method, parent);
         final Label info = new Label(parent, SWT.NONE);
         info.setText("Do you wish to choose an existing configuration ?");
         configurationSelection = new Combo(parent, SWT.READ_ONLY);
         configurationSelection.add(UserPreferencesService.PREF_CONFIGURATION_CUSTOMVALUE);
         configurationId = UserPreferencesService.getConfigurationName();
         final List<ConfigurationContainer> configs = ConfigurationService.getConfigurations();
-        for (ConfigurationContainer config : configs) {
+        for (final ConfigurationContainer config : configs) {
             configurationSelection.add(config.getName());
         }
         if (configurationSelection.indexOf(UserPreferencesService.getConfigurationName()) != -1) {
@@ -110,8 +118,7 @@ public class ConfigurationPreferencePage extends PreferencePage
                 }
             });
         } catch (NullContributionException | CoreException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            MessageDialog.openError(getShell(), Activator.PLUGIN_ID, e.getMessage());
         }
         final ExpandBar expandBar = new ExpandBar(composite, SWT.V_SCROLL);
         expandBar.setToolTipText("Choose rules and languages that should be enabled.");
@@ -126,7 +133,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
         final List<CheckerPreferencesContainer> metrics = new ArrayList<>();
         final List<CheckerPreferencesContainer> rules = new ArrayList<>();
-        for (CheckerPreferencesContainer checker : preferences) {
+        for (final CheckerPreferencesContainer checker : preferences) {
             if (checker.isMetric()) {
                 metrics.add(checker);
             } else {
@@ -135,24 +142,21 @@ public class ConfigurationPreferencePage extends PreferencePage
         }
 
         // Expand item for Rules :
-        final Composite checkersExpandBarContainer = new Composite(expandBar, SWT.EMBEDDED);
-        checkersExpandBarContainer.setLayout(layout);
+        rulesExpandBarContainer = new CheckersComposite(expandBar, rules, SWT.EMBEDDED);
+        rulesExpandBarContainer.setLayout(layout);
 
         final ExpandItem ruleExpandItem = new ExpandItem(expandBar, SWT.NONE, 0);
         ruleExpandItem.setText("Rules");
         ruleExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
-        checkersTable = new CheckerTableViewer(checkersExpandBarContainer, rules);
-        ruleExpandItem.setHeight(
-                        checkersExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-        ruleExpandItem.setControl(checkersExpandBarContainer);
+        ruleExpandItem.setHeight(rulesExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+        ruleExpandItem.setControl(rulesExpandBarContainer);
         // We build the expandItem Metrics;
-        final Composite metricsExpandBarContainer = new Composite(expandBar, SWT.EMBEDDED);
+        metricsExpandBarContainer = new MetricsComposite(expandBar, metrics, SWT.EMBEDDED);
         metricsExpandBarContainer.setLayout(layout);
 
         final ExpandItem metricExpandItem = new ExpandItem(expandBar, SWT.NONE, 0);
         metricExpandItem.setText("Metric");
         metricExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
-        checkersMetricTable = new CheckerMetricTableViewer(metricsExpandBarContainer, metrics);
         metricExpandItem.setHeight(
                         metricsExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
         metricExpandItem.setControl(metricsExpandBarContainer);
@@ -163,16 +167,20 @@ public class ConfigurationPreferencePage extends PreferencePage
         configurationSelection.addSelectionListener(new SelectionAdapter() {
 
             @Override
-            public void widgetSelected(SelectionEvent e) {
+            public void widgetSelected(final SelectionEvent e) {
+                final String methodName = "widgetSelected";
+                ICodeLogger.entering(this.getClass().getName(), methodName, e);
                 configurationId = configurationSelection
                                 .getItem(configurationSelection.getSelectionIndex());
                 refresh();
+                ICodeLogger.exiting(this.getClass().getName(), methodName);
             }
 
         });
         parent.getParent().pack();
         parent.getParent().redraw();
         this.refresh();
+        ICodeLogger.exiting(this.getClass().getName(), method, composite);
         return composite;
     }
 
@@ -183,35 +191,41 @@ public class ConfigurationPreferencePage extends PreferencePage
      */
     @Override
     public void performApply() {
+        final String method = "performApply";
+        ICodeLogger.entering(this.getClass().getName(), method);
         if (configurationId.equals(UserPreferencesService.PREF_CONFIGURATION_CUSTOMVALUE)) {
             UserPreferencesService.setDefaultConfiguration();
-            for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+            for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
+                            .getInputs()) {
                 checker.savePreferences();
             }
-            for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+            for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
                 checker.savePreferences();
             }
         } else {
-            for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+            for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
+                            .getInputs()) {
                 checker.setToDefault();
             }
-            for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+            for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
                 checker.setToDefault();
             }
             try {
                 UserPreferencesService.setConfiguration(configurationId);
             } catch (NullContributionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                MessageDialog.openError(getShell(), Activator.PLUGIN_ID, e.getMessage());
+                ICodeLogger.error(this.getClass().getName(), method, e);
             }
-            for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+            for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
+                            .getInputs()) {
                 checker.update();
             }
-            for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+            for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
                 checker.update();
             }
         }
         this.refresh();
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
@@ -221,17 +235,20 @@ public class ConfigurationPreferencePage extends PreferencePage
      */
     @Override
     public void performDefaults() {
+        final String method = "performDefaults";
+        ICodeLogger.entering(this.getClass().getName(), method);
 
-        for (CheckerPreferencesContainer checker : checkersMetricTable.getInputs()) {
+        for (final CheckerPreferencesContainer checker : metricsExpandBarContainer.getInputs()) {
             checker.setToDefault();
         }
-        for (CheckerPreferencesContainer checker : checkersTable.getInputs()) {
+        for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
             checker.setToDefault();
         }
         UserPreferencesService.setDefaultConfiguration();
         configurationSelection.select(configurationSelection
                         .indexOf(UserPreferencesService.getConfigurationName()));
         this.refresh();
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
@@ -241,7 +258,10 @@ public class ConfigurationPreferencePage extends PreferencePage
      */
     @Override
     public boolean performOk() {
+        final String method = "performOk";
+        ICodeLogger.entering(this.getClass().getName(), method);
         this.performApply();
+        ICodeLogger.exiting(this.getClass().getName(), method);
         return super.performOk();
     }
 
@@ -249,10 +269,13 @@ public class ConfigurationPreferencePage extends PreferencePage
      * Redraw every elements of the view.
      */
     public void refresh() {
+        final String method = "refresh";
+        ICodeLogger.entering(this.getClass().getName(), method);
         this.composite.getParent().getParent().redraw();
         this.composite.layout();
         this.composite.redraw();
-        checkersMetricTable.refresh();
-        checkersTable.refresh();
+        metricsExpandBarContainer.refresh();
+        rulesExpandBarContainer.refresh();
+        ICodeLogger.exiting(this.getClass().getName(), method);
     }
 }

@@ -4,7 +4,7 @@
    <extension
          point="fr.cnes.analysis.tools.export">
       <exportFormat
-            ExportClass="fr.cnes.analysis.tools.export.xml.ExportXml"
+            ExportClass="fr.cnes.analysis.tools.export.xml.ExporterXml"
             formatExtension="xml"
             formatName="XML">
       </exportFormat>

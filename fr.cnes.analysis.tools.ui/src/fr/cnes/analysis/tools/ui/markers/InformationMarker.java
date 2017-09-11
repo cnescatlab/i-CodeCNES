@@ -24,6 +24,8 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+
 /**
  * ViolationErrorMarker This class implements the creation of marker and the
  * listing of theses ones. This class is useful for the use of markers and also
@@ -36,6 +38,8 @@ public final class InformationMarker {
 
     /** ID of the annotation */
     public static final String ANNOTATION = "fr.cnes.analysis.tools.ui.Information";
+    /** Class name */
+    private static final String CLASS = InformationMarker.class.getName();
 
     /**
      * Default constructor removal to avoid instantiation.
@@ -60,8 +64,12 @@ public final class InformationMarker {
      * @throws CoreException
      *             when marker couldn't be created.
      */
-    public static IMarker createMarker(IResource res, Integer line, String description,
-                    String message) throws CoreException {
+    public static IMarker createMarker(final IResource res, final Integer line,
+                    final String description, final String message) throws CoreException {
+        final String method = "createMarker";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            res, line, description, message
+        });
         IMarker marker = null;
         // note: you use the id that is defined in your plugin.xml
         marker = res.createMarker(MARKER);
@@ -69,6 +77,7 @@ public final class InformationMarker {
         marker.setAttribute(IMarker.LINE_NUMBER, line);
         marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_LOW);
         marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+        ICodeLogger.exiting(CLASS, method, marker);
         return marker;
     }
 
@@ -79,13 +88,16 @@ public final class InformationMarker {
      *            resource to find marker on.
      * @return list of a resources markers
      */
-    public static List<IMarker> findMarkers(IResource resource) {
+    public static List<IMarker> findMarkers(final IResource resource) {
+        final String method = "findMarkers";
+        ICodeLogger.entering(CLASS, method, resource);
         List<IMarker> markers;
         try {
             markers = Arrays.asList(resource.findMarkers(MARKER, true, IResource.DEPTH_ZERO));
         } catch (@SuppressWarnings("unused") CoreException e) {
             markers = new ArrayList<IMarker>();
         }
+        ICodeLogger.exiting(CLASS, method, markers);
         return markers;
     }
 
@@ -98,13 +110,16 @@ public final class InformationMarker {
      * @return list of markers that are linked to the resource or any
      *         sub-resource or resource
      */
-    public static List<IMarker> findAllMarkers(IResource resource) {
+    public static List<IMarker> findAllMarkers(final IResource resource) {
+        final String method = "findAllMarkers";
+        ICodeLogger.entering(CLASS, method, resource);
         List<IMarker> markers;
         try {
             markers = Arrays.asList(resource.findMarkers(MARKER, true, IResource.DEPTH_INFINITE));
         } catch (@SuppressWarnings("unused") CoreException e) {
             markers = new ArrayList<IMarker>();
         }
+        ICodeLogger.exiting(CLASS, method, markers);
         return markers;
     }
 
@@ -114,12 +129,15 @@ public final class InformationMarker {
      * @return the selection of the package explorer
      */
     public static TreeSelection getTreeSelection() {
+        final String method = "getTreeSelection";
+        ICodeLogger.entering(CLASS, method);
         TreeSelection toReturn = null;
         final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getSelectionService().getSelection();
         if (selection instanceof TreeSelection) {
             toReturn = (TreeSelection) selection;
         }
+        ICodeLogger.exiting(CLASS, method, toReturn);
         return toReturn;
     }
 
@@ -129,12 +147,15 @@ public final class InformationMarker {
      * @return selection of the package explorer
      */
     public static TextSelection getTextSelection() {
+        final String method = "getTextSelection";
+        ICodeLogger.entering(CLASS, method);
         TextSelection toReturn = null;
         final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getSelectionService().getSelection();
         if (selection instanceof TextSelection) {
             toReturn = (TextSelection) selection;
         }
+        ICodeLogger.exiting(CLASS, method, toReturn);
         return toReturn;
     }
 
@@ -146,7 +167,12 @@ public final class InformationMarker {
      * @param editor
      *            document editor to add annotation on.
      */
-    public static void addAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor) {
+    public static void addAnnotation(final IMarker marker, final ITextSelection selection,
+                    final ITextEditor editor) {
+        final String method = "addAnnotation";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            marker, selection, editor
+        });
         // The DocumentProvider enables to get the document currently loaded in
         // the editor
         final IDocumentProvider idp = editor.getDocumentProvider();
@@ -167,5 +193,6 @@ public final class InformationMarker {
         iamf.connect(document);
         iamf.addAnnotation(ma, new Position(selection.getOffset(), selection.getLength()));
         iamf.disconnect(document);
+        ICodeLogger.exiting(CLASS, method);
     }
 }

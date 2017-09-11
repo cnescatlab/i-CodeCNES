@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
@@ -34,7 +35,7 @@ import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
  * This viewer can show {@link CheckerPreferencesContainer} in a Table,
  * editable.
  */
-public class CheckerTableViewer {
+public class CheckersComposite extends Composite {
     /** Enable or disable checkers column's index. */
     private static final int COLUMN_ENABLED_INDEX = 0;
     /** Enable or disable checkers column's bound. */
@@ -58,6 +59,9 @@ public class CheckerTableViewer {
     /** Checker's severity column's bound. */
     private static final int COLUMN_SEVERITY_BOUND = 80;
 
+    /** Class name **/
+    private static final String CLASS = CheckersComposite.class.getName();
+
     /** Image of information severity level */
     private Image infoImage;
     /** Image of warning severity level */
@@ -73,9 +77,7 @@ public class CheckerTableViewer {
     /** All checkers are enabled */
     private boolean allEnabledChecked;
 
-    /** Parent composite containing the Tableviewer */
-    private Composite parent;
-    /** The tableviewer */
+    /** The TableViewer */
     private TableViewer checkersTableViewer;
     /** Language preference container */
     private LanguagePreferencesContainer language;
@@ -89,43 +91,54 @@ public class CheckerTableViewer {
      *            Composite containing the Table Viewer.
      * @param checkers
      *            Table viewer's inputs.
+     * @param style
+     *            SWT Composite style.
      */
-    public CheckerTableViewer(Composite pParent, List<CheckerPreferencesContainer> checkers) {
+    public CheckersComposite(final Composite pParent,
+                    final List<CheckerPreferencesContainer> checkers, final int style) {
+        super(pParent, style);
+        final String method = "CheckerTableViewer";
+
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pParent, checkers
+        });
         this.inputs = checkers;
-        parent = pParent;
         infoImage = ImageFactory.getImage(ImageFactory.INFO_SMALL);
         warningImage = ImageFactory.getImage(ImageFactory.WARNING_SMALL);
         errorImage = ImageFactory.getImage(ImageFactory.ERROR_SMALL);
         enabledImage = ImageFactory.getImage(ImageFactory.ENABLED);
         disabledImage = ImageFactory.getImage(ImageFactory.DISABLED);
         final GridLayout layout = new GridLayout(2, false);
-        parent.setLayout(layout);
-        final Label searchLabel = new Label(parent, SWT.NONE);
+        this.setLayout(layout);
+        final Label searchLabel = new Label(this, SWT.NONE);
         searchLabel.setText("Search: ");
-        final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+        final Text searchText = new Text(this, SWT.BORDER | SWT.SEARCH);
         searchText.setLayoutData(
                         new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 
-        createViewer(parent);
+        this.createViewer(this);
         final CheckersFilter filter = new CheckersFilter();
         searchText.addModifyListener(new ModifyListener() {
             @Override
-            public void modifyText(ModifyEvent e) {
+            public void modifyText(final ModifyEvent e) {
                 filter.setSearchText(searchText.getText());
                 checkersTableViewer.refresh();
             }
         });
         checkersTableViewer.addFilter(filter);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @param pParent
      *            Composite containing the Table Viewer
      */
-    private void createViewer(Composite pParent) {
+    private void createViewer(final Composite pParent) {
+        final String method = "createViewer";
+        ICodeLogger.entering(CLASS, method, pParent);
         checkersTableViewer = new TableViewer(pParent,
                         SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-        createColumns(pParent, checkersTableViewer);
+        createColumns(this, checkersTableViewer);
         final Table table = checkersTableViewer.getTable();
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
@@ -144,6 +157,7 @@ public class CheckerTableViewer {
         gridData.grabExcessVerticalSpace = true;
         gridData.horizontalAlignment = GridData.FILL;
         checkersTableViewer.getControl().setLayoutData(gridData);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -153,19 +167,22 @@ public class CheckerTableViewer {
      *            TableViewer containing the columns.
      * 
      */
-    protected void createColumns(Composite pParent, TableViewer pCheckersTableViewer) {
-
+    protected void createColumns(final Composite pParent, final TableViewer pCheckersTableViewer) {
+        final String method = "createColumns";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pParent, pCheckersTableViewer
+        });
         enabledColumn = createEnabledViewerColumn(COLUMN_ENABLED_BOUND, COLUMN_ENABLED_INDEX);
         enabledColumn.setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
         enabledColumn.setLabelProvider(new ColumnLabelProvider() {
 
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 return null;
             }
 
             @Override
-            public Image getImage(Object element) {
+            public Image getImage(final Object element) {
                 final Image image;
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
@@ -181,7 +198,7 @@ public class CheckerTableViewer {
                         COLUMN_CHECKER_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 return checker.getName();
             }
@@ -190,7 +207,7 @@ public class CheckerTableViewer {
                         COLUMN_LANGUAGE_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 return checker.getLanguageName();
             }
@@ -202,12 +219,12 @@ public class CheckerTableViewer {
         col.setLabelProvider(new ColumnLabelProvider() {
 
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 return ((CheckerPreferencesContainer) element).getSeverity();
             }
 
             @Override
-            public Image getImage(Object element) {
+            public Image getImage(final Object element) {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 final Image severityImage;
                 switch (checker.getSeverity()) {
@@ -222,7 +239,7 @@ public class CheckerTableViewer {
                     severityImage = infoImage;
                     break;
                 }
-
+                ICodeLogger.exiting(CLASS, method, severityImage);
                 return severityImage;
 
             }
@@ -240,8 +257,12 @@ public class CheckerTableViewer {
      *            Column's index.
      * @return {@link TableViewerColumn} created.
      */
-    protected TableViewerColumn createTableViewerColumn(String title, int bound,
+    protected TableViewerColumn createTableViewerColumn(final String title, final int bound,
                     final int colNumber) {
+        final String method = "createTableViewerColumn";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            title, Integer.valueOf(bound), Integer.valueOf(colNumber)
+        });
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
                         SWT.NONE);
         final TableColumn column = viewerColumn.getColumn();
@@ -249,6 +270,7 @@ public class CheckerTableViewer {
         column.setWidth(bound);
         column.setResizable(true);
         column.setMoveable(true);
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
     }
 
@@ -259,7 +281,11 @@ public class CheckerTableViewer {
      *            Column's index.
      * @return A column with an Image to set checker enabled or disabled.
      */
-    protected TableViewerColumn createEnabledViewerColumn(int bound, final int colNumber) {
+    protected TableViewerColumn createEnabledViewerColumn(final int bound, final int colNumber) {
+        final String method = "createEnabledViewerColumn";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            Integer.valueOf(bound), Integer.valueOf(colNumber)
+        });
         final TableViewerColumn viewerColumn = new TableViewerColumn(this.checkersTableViewer,
                         SWT.CENTER);
         final TableColumn column = viewerColumn.getColumn();
@@ -271,7 +297,7 @@ public class CheckerTableViewer {
         enableAllListerner = new Listener() {
 
             @Override
-            public void handleEvent(Event event) {
+            public void handleEvent(final Event event) {
                 /*
                  * If the event is a selection one, then we have to set inputs
                  * to get all of them checked or unchecked.
@@ -280,13 +306,13 @@ public class CheckerTableViewer {
                     if (UserPreferencesService.isDefaultConfigurationActive()) {
                         if (!allEnabledChecked) {
                             column.setImage(ImageFactory.getImage(ImageFactory.ENABLED));
-                            for (CheckerPreferencesContainer checker : inputs) {
+                            for (final CheckerPreferencesContainer checker : inputs) {
                                 checker.setChecked(true);
                             }
                             allEnabledChecked = true;
                         } else {
                             column.setImage(ImageFactory.getImage(ImageFactory.DISABLED));
-                            for (CheckerPreferencesContainer checker : inputs) {
+                            for (final CheckerPreferencesContainer checker : inputs) {
                                 checker.setChecked(false);
                             }
                             allEnabledChecked = false;
@@ -313,20 +339,20 @@ public class CheckerTableViewer {
             }
 
             private boolean isAllEnabled() {
-                int i = 0;
+                int inputCounter = 0;
                 boolean allEnabled = true;
-                while (i < inputs.size() && allEnabled) {
-                    if (!inputs.get(i).isChecked()) {
+                while (inputCounter < inputs.size() && allEnabled) {
+                    if (!inputs.get(inputCounter).isChecked()) {
                         allEnabled = false;
                     }
-                    i++;
+                    inputCounter++;
                 }
                 return allEnabled;
             }
         };
         column.addListener(SWT.Selection, enableAllListerner);
         this.refresh();
-
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
 
     }
@@ -335,15 +361,21 @@ public class CheckerTableViewer {
      * Refresh the TableViewer and it's components.
      */
     public void refresh() {
+        final String method = "refresh";
+        ICodeLogger.entering(CLASS, method);
         this.checkersTableViewer.getControl().redraw();
         this.enableAllListerner.handleEvent(new Event());
         this.checkersTableViewer.refresh();
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the infoImage
      */
     protected Image getInfoImage() {
+        final String method = "getInfoImage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, infoImage);
         return infoImage;
     }
 
@@ -351,14 +383,20 @@ public class CheckerTableViewer {
      * @param pInfoImage
      *            the infoImage to set
      */
-    protected void setInfoImage(Image pInfoImage) {
+    protected void setInfoImage(final Image pInfoImage) {
+        final String method = "setInfoImage";
+        ICodeLogger.entering(CLASS, method, pInfoImage);
         this.infoImage = pInfoImage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the warningImage
      */
     protected Image getWarningImage() {
+        final String method = "getWarningImage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, warningImage);
         return warningImage;
     }
 
@@ -366,14 +404,20 @@ public class CheckerTableViewer {
      * @param pWarningImage
      *            the warningImage to set
      */
-    protected void setWarningImage(Image pWarningImage) {
+    protected void setWarningImage(final Image pWarningImage) {
+        final String method = "setWarningImage";
+        ICodeLogger.entering(CLASS, method, pWarningImage);
         this.warningImage = pWarningImage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the errorImage
      */
     protected Image getErrorImage() {
+        final String method = "getErrorImage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, errorImage);
         return errorImage;
     }
 
@@ -381,14 +425,20 @@ public class CheckerTableViewer {
      * @param pErrorImage
      *            the errorImage to set
      */
-    protected void setErrorImage(Image pErrorImage) {
+    protected void setErrorImage(final Image pErrorImage) {
+        final String method = "setErrorImage";
+        ICodeLogger.entering(CLASS, method, pErrorImage);
         this.errorImage = pErrorImage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the enabledImage
      */
     protected Image getEnabledImage() {
+        final String method = "getEnabledImage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, enabledImage);
         return enabledImage;
     }
 
@@ -396,14 +446,20 @@ public class CheckerTableViewer {
      * @param pEnabledImage
      *            the enabledImage to set
      */
-    protected void setEnabledImage(Image pEnabledImage) {
+    protected void setEnabledImage(final Image pEnabledImage) {
+        final String method = "setEnabledImage";
+        ICodeLogger.entering(CLASS, method, pEnabledImage);
         this.enabledImage = pEnabledImage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the disabledImage
      */
     protected Image getDisabledImage() {
+        final String method = "getDisabledImage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, disabledImage);
         return disabledImage;
     }
 
@@ -411,14 +467,20 @@ public class CheckerTableViewer {
      * @param pDisabledImage
      *            the disabledImage to set
      */
-    protected void setDisabledImage(Image pDisabledImage) {
+    protected void setDisabledImage(final Image pDisabledImage) {
+        final String method = "setDisabledImage";
+        ICodeLogger.entering(CLASS, method, pDisabledImage);
         this.disabledImage = pDisabledImage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the enabledColumn
      */
     protected TableViewerColumn getEnabledColumn() {
+        final String method = "getEnabledColumn";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, enabledColumn);
         return enabledColumn;
     }
 
@@ -426,14 +488,20 @@ public class CheckerTableViewer {
      * @param pEnabledColumn
      *            the enabledColumn to set
      */
-    protected void setEnabledColumn(TableViewerColumn pEnabledColumn) {
+    protected void setEnabledColumn(final TableViewerColumn pEnabledColumn) {
+        final String method = "setEnabledColumn";
+        ICodeLogger.entering(CLASS, method, pEnabledColumn);
         this.enabledColumn = pEnabledColumn;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the allEnabledChecked
      */
     protected boolean isAllEnabledChecked() {
+        final String method = "isAllEnabledChecked";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(allEnabledChecked));
         return allEnabledChecked;
     }
 
@@ -441,14 +509,20 @@ public class CheckerTableViewer {
      * @param pAllEnabledChecked
      *            the allEnabledChecked to set
      */
-    protected void setAllEnabledChecked(boolean pAllEnabledChecked) {
+    protected void setAllEnabledChecked(final boolean pAllEnabledChecked) {
+        final String method = "setAllEnabledChecked";
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(pAllEnabledChecked));
         this.allEnabledChecked = pAllEnabledChecked;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the language
      */
     public final LanguagePreferencesContainer getLanguage() {
+        final String method = "getLanguage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, language);
         return language;
     }
 
@@ -456,14 +530,20 @@ public class CheckerTableViewer {
      * @param pLanguage
      *            the language to set
      */
-    public final void setLanguage(LanguagePreferencesContainer pLanguage) {
+    public final void setLanguage(final LanguagePreferencesContainer pLanguage) {
+        final String method = "setLanguage";
+        ICodeLogger.entering(CLASS, method, pLanguage);
         this.language = pLanguage;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the inputs
      */
     public final List<CheckerPreferencesContainer> getInputs() {
+        final String method = "getInputs";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, inputs);
         return inputs;
     }
 
@@ -471,18 +551,24 @@ public class CheckerTableViewer {
      * @param pInputs
      *            the inputs to set
      */
-    public final void setInputs(List<CheckerPreferencesContainer> pInputs) {
+    public final void setInputs(final List<CheckerPreferencesContainer> pInputs) {
+        final String method = "setInputs";
+        ICodeLogger.entering(CLASS, method, pInputs);
         this.inputs = pInputs;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @param isEnabled
      *            Set enabled or disabled all checker of the TableViewer.
      */
-    public void setAllEnabledChecker(boolean isEnabled) {
+    public void setAllEnabledChecker(final boolean isEnabled) {
+        final String method = "setAllEnabledChecker";
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(isEnabled));
         if (allEnabledChecked && !isEnabled) {
             allEnabledChecked = false;
             enabledColumn.getColumn().setImage(disabledImage);
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 }

@@ -7,12 +7,16 @@ package fr.cnes.analysis.tools.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.Activator;
 
 /**
  * Container for Checker preferences used by {@link UserPreferencesService}
  */
 public class CheckerPreferencesContainer {
+
+    /** Class name */
+    private static final String CLASS = CheckerPreferencesContainer.class.getName();
 
     /** Checker's identifier */
     private String id;
@@ -49,8 +53,14 @@ public class CheckerPreferencesContainer {
      * @param pIsMetric
      *            Checker is a metric
      */
-    public CheckerPreferencesContainer(String pLanguageId, String pLanguageName, String pId,
-                    String pName, boolean pChecked, String pSeverity, boolean pIsMetric) {
+    public CheckerPreferencesContainer(final String pLanguageId, final String pLanguageName,
+                    final String pId, final String pName, final boolean pChecked,
+                    final String pSeverity, final boolean pIsMetric) {
+        final String method = "CheckerPreferencesContainer";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pLanguageId, pLanguageName, pId, pName, Boolean.valueOf(pChecked), pSeverity,
+            Boolean.valueOf(pIsMetric)
+        });
         this.languageId = pLanguageId;
         this.languageName = pLanguageName;
         this.id = pId;
@@ -60,6 +70,7 @@ public class CheckerPreferencesContainer {
         this.minValue = Float.valueOf(Float.NaN);
         this.maxValue = Float.valueOf(Float.NaN);
         this.isMetric = pIsMetric;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -82,9 +93,15 @@ public class CheckerPreferencesContainer {
      * @param pIsMetric
      *            Checker is a metric
      */
-    public CheckerPreferencesContainer(String pLanguageId, String pLanguageName, String pId,
-                    String pName, boolean pChecked, String pSeverity, Float pMinValue,
-                    Float pMaxValue, boolean pIsMetric) {
+    public CheckerPreferencesContainer(final String pLanguageId, final String pLanguageName,
+                    final String pId, final String pName, final boolean pChecked,
+                    final String pSeverity, final Float pMinValue, final Float pMaxValue,
+                    final boolean pIsMetric) {
+        final String method = "CheckerPreferencesContainer";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pLanguageId, pLanguageName, pId, pName, Boolean.valueOf(pChecked), pSeverity, pMinValue,
+            pMaxValue, Boolean.valueOf(pIsMetric)
+        });
         this.languageId = pLanguageId;
         this.languageName = pLanguageName;
         this.id = pId;
@@ -94,6 +111,7 @@ public class CheckerPreferencesContainer {
         this.minValue = pMinValue;
         this.maxValue = pMaxValue;
         this.isMetric = pIsMetric;
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -101,6 +119,9 @@ public class CheckerPreferencesContainer {
      * @return the id
      */
     public final String getId() {
+        final String method = "getId";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, id);
         return id;
     }
 
@@ -108,14 +129,20 @@ public class CheckerPreferencesContainer {
      * @param pId
      *            the id to set
      */
-    public final void setId(String pId) {
+    public final void setId(final String pId) {
+        final String method = "setId";
+        ICodeLogger.entering(CLASS, method, pId);
         this.id = pId;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the name
      */
     public final String getName() {
+        final String method = "getName";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, name);
         return name;
     }
 
@@ -123,14 +150,20 @@ public class CheckerPreferencesContainer {
      * @param pName
      *            the name to set
      */
-    public final void setName(String pName) {
+    public final void setName(final String pName) {
+        final String method = "setName";
+        ICodeLogger.entering(CLASS, method, pName);
         this.name = pName;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the checked
      */
     public final boolean isChecked() {
+        final String method = "isChecked";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(checked));
         return checked;
     }
 
@@ -138,14 +171,20 @@ public class CheckerPreferencesContainer {
      * @param pChecked
      *            the checked to set
      */
-    public final void setChecked(boolean pChecked) {
+    public final void setChecked(final boolean pChecked) {
+        final String method = "setChecked";
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(pChecked));
         this.checked = pChecked;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the severity
      */
     public final String getSeverity() {
+        final String method = "getSeverity";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, severity);
         return severity;
     }
 
@@ -153,14 +192,20 @@ public class CheckerPreferencesContainer {
      * @param pSeverity
      *            the severity to set
      */
-    public final void setSeverity(String pSeverity) {
+    public final void setSeverity(final String pSeverity) {
+        final String method = "setSeverity";
+        ICodeLogger.entering(CLASS, method, pSeverity);
         this.severity = pSeverity;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the maxValue
      */
     public final Float getMaxValue() {
+        final String method = "getMaxValue";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, maxValue);
         return maxValue;
     }
 
@@ -168,14 +213,20 @@ public class CheckerPreferencesContainer {
      * @param pMaxValue
      *            the maxValue to set
      */
-    public final void setMaxValue(float pMaxValue) {
+    public final void setMaxValue(final float pMaxValue) {
+        final String method = "setMaxValue";
+        ICodeLogger.entering(CLASS, method);
         this.maxValue = Float.valueOf(pMaxValue);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the minValue
      */
     public final Float getMinValue() {
+        final String method = "getMinValue";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, minValue);
         return minValue;
     }
 
@@ -183,14 +234,19 @@ public class CheckerPreferencesContainer {
      * @param pMinValue
      *            the minValue to set
      */
-    public final void setMinValue(float pMinValue) {
+    public final void setMinValue(final float pMinValue) {
+        final String method = "setMinValue";
+        ICodeLogger.entering(CLASS, method, Float.valueOf(pMinValue));
         this.minValue = Float.valueOf(pMinValue);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @param languageId
      */
     public void savePreferences() {
+        final String method = "savePreferences";
+        ICodeLogger.entering(CLASS, method);
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setValue(this.getId(), checked);
         store.setValue(this.getId() + UserPreferencesService.PREF_SEVERITY_KEY, this.severity);
@@ -202,12 +258,15 @@ public class CheckerPreferencesContainer {
             store.setValue(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY,
                             this.minValue.floatValue());
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * Set preferences to default.
      */
     public void setToDefault() {
+        final String method = "setToDefault";
+        ICodeLogger.entering(CLASS, method);
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         this.checked = store.getDefaultBoolean(this.getId());
         store.setToDefault(this.getId());
@@ -225,12 +284,15 @@ public class CheckerPreferencesContainer {
                             this.getId() + UserPreferencesService.PREF_MAX_VALUE_KEY));
             store.setToDefault(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY);
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * Update preferences store with current values of attributes.
      */
     public void update() {
+        final String method = "update";
+        ICodeLogger.entering(CLASS, method);
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         if (!store.contains(this.getId())) {
             this.checked = true;
@@ -252,12 +314,16 @@ public class CheckerPreferencesContainer {
             this.minValue = Float.valueOf(store
                             .getFloat(this.getId() + UserPreferencesService.PREF_MIN_VALUE_KEY));
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the isMetric
      */
     public final boolean isMetric() {
+        final String method = "isMetric";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isMetric));
         return isMetric;
     }
 
@@ -265,30 +331,42 @@ public class CheckerPreferencesContainer {
      * @param pIsMetric
      *            the isMetric to set
      */
-    public final void setMetric(boolean pIsMetric) {
+    public final void setMetric(final boolean pIsMetric) {
+        final String method = "setMetric";
+        ICodeLogger.entering(CLASS, method, Boolean.valueOf(pIsMetric));
         this.isMetric = pIsMetric;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @param pMaxValue
      *            the maxValue to set
      */
-    public final void setMaxValue(Float pMaxValue) {
+    public final void setMaxValue(final Float pMaxValue) {
+        final String method = "setMaxValue";
+        ICodeLogger.entering(CLASS, method, pMaxValue);
         this.maxValue = pMaxValue;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @param pMinValue
      *            the minValue to set
      */
-    public final void setMinValue(Float pMinValue) {
+    public final void setMinValue(final Float pMinValue) {
+        final String method = "setMinValue";
+        ICodeLogger.entering(CLASS, method, pMinValue);
         this.minValue = pMinValue;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the languageId
      */
     public final String getLanguageId() {
+        final String method = "getLanguageId";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, languageId);
         return languageId;
     }
 
@@ -296,22 +374,31 @@ public class CheckerPreferencesContainer {
      * @param pLanguageId
      *            the languageId to set
      */
-    public final void setLanguageId(String pLanguageId) {
+    public final void setLanguageId(final String pLanguageId) {
+        final String method = "setLanguageId";
+        ICodeLogger.entering(CLASS, method, pLanguageId);
         this.languageId = pLanguageId;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @param pLanguageName
      *            the languageName to set
      */
-    public final void setLanguageName(String pLanguageName) {
+    public final void setLanguageName(final String pLanguageName) {
+        final String method = "setLanguageName";
+        ICodeLogger.entering(CLASS, method, pLanguageName);
         this.languageName = pLanguageName;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the languageName
      */
     public final String getLanguageName() {
+        final String method = "getLanguageName";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, languageName);
         return languageName;
     }
 
