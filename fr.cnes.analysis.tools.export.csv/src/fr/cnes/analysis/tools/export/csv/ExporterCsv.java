@@ -16,7 +16,8 @@ import fr.cnes.analysis.tools.export.IExporter;
 
 /**
  * This class is an attribute of the {@code ExtensionPoint} implementing
- * {@link IExporter} interface of the plugin <i>fr.cnes.analysis.tools.export</i>.
+ * {@link IExporter} interface of the plugin
+ * <i>fr.cnes.analysis.tools.export</i>.
  * <p>
  * This class is also exported in the <i>fr.cnes.analysis.tools.export.csv</i>
  * plugin and could be used as a service from any third.
@@ -31,7 +32,9 @@ import fr.cnes.analysis.tools.export.IExporter;
 public class ExporterCsv implements IExporter {
 
     /** Field separator */
-    private static final String SEPARATOR = ",";
+    private static final String SEPARATOR = "\t";
+    /** Field separator */
+    private static final String BLANK = "\n";
 
     /**
      * Default constructor. Required to execute a class from the contributed
@@ -50,19 +53,34 @@ public class ExporterCsv implements IExporter {
     public void export(List<CheckResult> checkResults, File outputFile,
                     Map<String, String> parameters) throws IOException {
         try (final FileWriter writer = new FileWriter(outputFile)) {
-            writer.write("Rule, File, Location, Line, Value\n");
+            writer.write("Rule" + SEPARATOR + "File" + SEPARATOR + "Location" + SEPARATOR + "Line"
+                            + SEPARATOR + "Message" + SEPARATOR + "Language" + SEPARATOR
+                            + "Value\n");
             for (final CheckResult checkResult : checkResults) {
-                if (checkResult.getValue() != null) {
-                    writer.write(checkResult.getName() + SEPARATOR
-                                    + checkResult.getFile().getAbsolutePath() + SEPARATOR
-                                    + checkResult.getLocation() + SEPARATOR
-                                    + checkResult.getLine().toString() + SEPARATOR
-                                    + checkResult.getValue() + "\n");
-                } else {
-                    writer.write(checkResult.getName() + SEPARATOR
-                                    + checkResult.getFile().getAbsolutePath() + SEPARATOR
-                                    + checkResult.getLocation() + SEPARATOR
-                                    + checkResult.getLine().toString() + ", -- \n");
+                if (checkResult.getLocation() != null || checkResult.getValue() != null) {
+                    if (checkResult.getLocation() == null) {
+                        writer.write(checkResult.getName() + SEPARATOR
+                                        + checkResult.getFile().getAbsolutePath() + SEPARATOR + ""
+                                        + SEPARATOR + checkResult.getLine().toString() + SEPARATOR
+                                        + checkResult.getLangageId() + SEPARATOR + "" + SEPARATOR
+                                        + checkResult.getValue() + BLANK);
+                    } else if (checkResult.getValue() != null) {
+                        writer.write(checkResult.getName() + SEPARATOR
+                                        + checkResult.getFile().getAbsolutePath() + SEPARATOR + ""
+                                        + SEPARATOR + checkResult.getLine().toString() + SEPARATOR
+                                        + checkResult.getLangageId() + SEPARATOR + "" + SEPARATOR
+                                        + checkResult.getValue() + BLANK);
+                    } else {
+                        writer.write(checkResult.getName() + SEPARATOR
+                                        + checkResult.getFile().getAbsolutePath() + SEPARATOR
+                                        + checkResult.getLocation() + SEPARATOR
+                                        + checkResult.getLine().toString() + SEPARATOR
+                                        + checkResult.getLangageId() + SEPARATOR
+                                        + checkResult.getMessage().toString()
+                                                        .replaceAll(SEPARATOR, "")
+                                                        .replaceAll(BLANK, "")
+                                        + SEPARATOR + "" + BLANK);
+                    }
                 }
             }
         }
