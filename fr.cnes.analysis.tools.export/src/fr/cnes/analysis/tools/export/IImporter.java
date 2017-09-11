@@ -13,11 +13,11 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 /**
  * This interface must be implemented by any class of {@code ImportClass}
  * attribute of the contributor of the {@code ExtensionPoint}
- * {@value Export#EXPORT_EXTENSIONPOINT_ID}.
+ * {@value ExportService#EXPORT_EXTENSIONPOINT_ID}.
  *
  * @since 3.0
  */
-public interface IImport {
+public interface IImporter {
 
     /**
      * @param inputFile

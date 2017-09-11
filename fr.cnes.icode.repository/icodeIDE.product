@@ -10,6 +10,7 @@
       <programArgs>-consoleLog
       </programArgs>
       <vmArgs>-Xmx1024M
+-Declipse.log.level=WARNING
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

@@ -710,7 +710,7 @@
               adaptable="true"
               class="fr.cnes.analysis.tools.ui.decorators.InformationDecorator"
               icon="icons/logo-i-code-bleue-8x8.png"
-              id="fr.cnes.analysis.tools.ui.informationdecorator"
+              id="fr.cnes.analysis.tools.ui.decorators.informationdecorator"
               label="i-Code CNES - Information"
               lightweight="true"
               location="TOP_RIGHT"

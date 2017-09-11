@@ -33,9 +33,9 @@ import org.osgi.framework.FrameworkUtil;
 import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
-import fr.cnes.analysis.tools.export.IExport;
-import fr.cnes.analysis.tools.export.csv.ExportCsv;
-import fr.cnes.analysis.tools.export.xml.ExportXml;
+import fr.cnes.analysis.tools.export.IExporter;
+import fr.cnes.analysis.tools.export.csv.ExporterCsv;
+import fr.cnes.analysis.tools.export.xml.ExporterXml;
 
 /**
  * This is the application to launch icode with a line command. It can be launch
@@ -98,13 +98,15 @@ public class ICodeApplication implements IApplication {
     /** The optional configuration ID (for XML output) */
     public static final String ARG_CONFIG_ID = "-configID"; //$NON-NLS-1$
 
-    private List<String> availableArgs = Arrays.asList(new String[] { ARG_HELP, ARG_VERBOSE,
-            ARG_OUTPUT_FORMAT, ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT, ARG_PROJECT_VERSION,
-            ARG_CONFIG_ID, ARG_HTML_OUTPUT_FILE, ARG_HTML });
+    private List<String> availableArgs = Arrays.asList(new String[] {
+        ARG_HELP, ARG_VERBOSE, ARG_OUTPUT_FORMAT, ARG_OUTPUT_FILE, ARG_AUTHOR, ARG_PROJECT,
+        ARG_PROJECT_VERSION, ARG_CONFIG_ID, ARG_HTML_OUTPUT_FILE, ARG_HTML
+    });
 
     // List args that are used alone (no parameters)
-    private List<String> singleArgs = Arrays
-                    .asList(new String[] { ARG_HELP, ARG_VERBOSE, ARG_HTML });
+    private List<String> singleArgs = Arrays.asList(new String[] {
+        ARG_HELP, ARG_VERBOSE, ARG_HTML
+    });
 
     /** output format to be used by default is XML */
     private String outputFormat = ARG_OUTPUT_FORMAT_XML;
@@ -149,7 +151,7 @@ public class ICodeApplication implements IApplication {
     private String pluginId = FrameworkUtil.getBundle(getClass()).getSymbolicName();
 
     // The current exporter to use.
-    private IExport exporter;
+    private IExporter exporter;
 
     @Override
     public Object start(IApplicationContext context) throws Exception {
@@ -212,8 +214,8 @@ public class ICodeApplication implements IApplication {
         if (verbose) {
             info("  -> Filenames :" + filenames);
             for (File f : files)
-                System.out.println("\t\t\tReal file : " + f.getAbsolutePath() + (f.exists() ? ""
-                                : " -> Warning : does not exists"));
+                System.out.println("\t\t\tReal file : " + f.getAbsolutePath()
+                                + (f.exists() ? "" : " -> Warning : does not exists"));
         }
 
         // -------------------------------------
@@ -495,23 +497,23 @@ public class ICodeApplication implements IApplication {
 
     }
 
-    private IExport getExporter() {
-        IExport result = null;
+    private IExporter getExporter() {
+        IExporter result = null;
         if (outputFormat == ARG_OUTPUT_FORMAT_XML) {
-            result = new ExportXml();
-            configureXMLExporter(result, ExportXml.PARAM_AUTHOR, () -> getAuthor());
-            configureXMLExporter(result, ExportXml.PARAM_PROJECT_NAME, () -> getProjectName());
-            configureXMLExporter(result, ExportXml.PARAM_PROJECT_VERSION,
+            result = new ExporterXml();
+            configureXMLExporter(result, ExporterXml.PARAM_AUTHOR, () -> getAuthor());
+            configureXMLExporter(result, ExporterXml.PARAM_PROJECT_NAME, () -> getProjectName());
+            configureXMLExporter(result, ExporterXml.PARAM_PROJECT_VERSION,
                             () -> getProjectVersion());
-            configureXMLExporter(result, ExportXml.PARAM_CONFIGURATION_ID, () -> getConfigID());
+            configureXMLExporter(result, ExporterXml.PARAM_CONFIGURATION_ID, () -> getConfigID());
         } else {
-            result = new ExportCsv();
+            result = new ExporterCsv();
         }
 
         return result;
     }
 
-    private void configureXMLExporter(IExport exporter, String propertyName,
+    private void configureXMLExporter(IExporter exporter, String propertyName,
                     Supplier<String> supplier) {
         String value = supplier.get();
         if (value != null)
@@ -519,6 +521,11 @@ public class ICodeApplication implements IApplication {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.equinox.app.IApplication#stop()
+     */
     @Override
     public void stop() {
         // TODO Auto-generated method stub

@@ -46,7 +46,9 @@ public class TestAnalysisHandlerUIUtils {
     public final static String ACCES_FAIL = "Erreur d'exécution (NonAccessibleResourceException).";
 
     /** Name for retrieve method with a file. **/
-    public final static String[] FILE_EXTENSION = { "f" };
+    public final static String[] FILE_EXTENSION = {
+        "f"
+    };
     /** Name of the file to test. **/
     public final static String NAME = "test";
 
@@ -234,10 +236,9 @@ public class TestAnalysisHandlerUIUtils {
      * private IPlatformUIProvider getPlatformUIProviderForTest() { return new
      * MetricAnalysisHandler.IPlatformUIProvider() {
      * 
-     * @Override public IWorkbench getWorkbench() { // TODO Auto-generated
-     * method stub return mockedWorkbench; } }; } /** Assert that
-     * retrievedSelected (with root) returns an error when a project is not
-     * accessible.
+     * @Override public IWorkbench getWorkbench() { method stub return
+     * mockedWorkbench; } }; } /** Assert that retrievedSelected (with root)
+     * returns an error when a project is not accessible.
      * 
      * @throws NonAccessibleResourceException when a project is not accessible
      */

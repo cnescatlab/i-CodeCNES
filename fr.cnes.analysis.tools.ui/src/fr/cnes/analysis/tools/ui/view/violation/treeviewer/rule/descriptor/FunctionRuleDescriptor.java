@@ -5,8 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import org.eclipse.core.runtime.IPath;
+
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
 /**
  * Descriptor for rule's violations in a function.
@@ -15,6 +17,8 @@ import org.eclipse.core.runtime.IPath;
  */
 public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
+    /** Class name */
+    private static final String CLASS = FunctionRuleDescriptor.class.getName();
     /** Function containing the violation. **/
     private String location;
     /** Violation's message */
@@ -30,10 +34,13 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      * Empty constructor.
      */
     public FunctionRuleDescriptor() {
+        final String method = "FunctionRuleDescriptor";
+        ICodeLogger.entering(CLASS, method);
         this.ruleId = "";
         this.location = "";
         this.message = "";
-        this.value = -1;
+        this.value = Integer.valueOf(-1);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -51,12 +58,17 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            violation's line
      */
     public FunctionRuleDescriptor(final String pRuleId, final IPath pFilePath,
-            final String pLocation, final String pMessage, final Integer pValue) {
+                    final String pLocation, final String pMessage, final Integer pValue) {
+        final String method = "";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pRuleId, pFilePath, pLocation, pMessage, pValue
+        });
         this.ruleId = pRuleId;
         this.filePath = pFilePath;
         this.location = pLocation;
         this.message = pMessage;
         this.value = pValue;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -65,6 +77,9 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return the location
      */
     public String getLocation() {
+        final String method = "getLocation";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.location);
         return this.location;
     }
 
@@ -75,6 +90,9 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public Integer getValue() {
+        final String method = "getValue";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.value);
         return this.value;
     }
 
@@ -84,6 +102,9 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return the file's path
      */
     public IPath getFilePath() {
+        final String method = "getFilePath";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.filePath);
         return this.filePath;
     }
 
@@ -93,6 +114,9 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      * @return the id
      */
     public String getRuleId() {
+        final String method = "getRuleId";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.ruleId);
         return this.ruleId;
     }
 
@@ -103,7 +127,10 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the location to set
      */
     public void setLocation(final String pLocation) {
+        final String method = "setLocation";
+        ICodeLogger.entering(CLASS, method, pLocation);
         this.location = pLocation;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -113,7 +140,10 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            line's violation
      */
     public void setValue(final Integer pValue) {
+        final String method = "setValue";
+        ICodeLogger.entering(CLASS, method, pValue);
         this.value = pValue;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -123,7 +153,10 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the file's path to set
      */
     public void setFilePath(final IPath pFilePath) {
+        final String method = "setFilePath";
+        ICodeLogger.entering(CLASS, method, pFilePath);
         this.filePath = pFilePath;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -133,7 +166,10 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      *            the id to set
      */
     public void setRuleId(final String pRuleId) {
+        final String method = "setRuleId";
+        ICodeLogger.entering(CLASS, method, pRuleId);
         this.ruleId = pRuleId;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -143,6 +179,9 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getName() {
+        final String method = "getName";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.location);
         return this.location;
     }
 
@@ -153,7 +192,11 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public String getSeverity() {
-        return UserPreferencesService.getCheckerSeverity(this.getRuleId());
+        final String method = "getSeverity";
+        ICodeLogger.entering(CLASS, method);
+        final String severity = UserPreferencesService.getCheckerSeverity(this.getRuleId());
+        ICodeLogger.exiting(CLASS, method, severity);
+        return severity;
     }
 
     /*
@@ -163,26 +206,35 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
      */
     @Override
     public FunctionRuleDescriptor clone() throws CloneNotSupportedException {
+        final String method = "clone";
+        ICodeLogger.entering(CLASS, method);
         final FunctionRuleDescriptor clone = (FunctionRuleDescriptor) super.clone();
         clone.setRuleId(this.ruleId);
         clone.setFilePath(this.filePath);
         clone.setLocation(this.location);
         clone.setMessage(this.message);
         clone.setValue(this.value);
+        ICodeLogger.exiting(CLASS, method, clone);
         return clone;
     }
 
     /**
-     * @return
+     * @return function rule message
      */
     public String getMessage() {
+        final String method = "getMessage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, message);
         return message;
     }
 
     /**
      * @param message
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
+        final String method = "setMessage";
+        ICodeLogger.entering(CLASS, method, message);
         this.message = message;
+        ICodeLogger.exiting(CLASS, method);
     }
 }

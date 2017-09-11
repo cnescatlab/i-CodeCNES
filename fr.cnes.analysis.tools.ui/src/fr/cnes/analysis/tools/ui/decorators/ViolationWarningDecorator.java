@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
@@ -39,6 +40,8 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
      */
     public static final String ID = "fr.cnes.analysis.tools.ui.decorators."
                     + "violationwarningdecorator";
+    /** Class name **/
+    private static final String CLASS = ViolationWarningDecorator.class.getName();
 
     /*
      * (non-Javadoc)
@@ -49,6 +52,10 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
      */
     @Override
     public void decorate(final Object resource, final IDecoration decoration) {
+        final String method = "decorate";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            resource, decoration
+        });
 
         if (resource instanceof IResource) {
             // We add a ViolationWarningDecorator only if there is a warning in
@@ -74,6 +81,7 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
                 }
             }
         }
+        ICodeLogger.exiting(CLASS, method);
 
     }
 }

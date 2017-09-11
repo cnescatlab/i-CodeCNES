@@ -11,6 +11,8 @@ package fr.cnes.analysis.tools.analyzer.exception;
  * 
  */
 public class JFlexException extends Exception {
+    /** Line separator for system executing the log */
+    private static final String BLANK = System.getProperty("line.separator");
 
     /**
      * Serial Version UID.
@@ -34,6 +36,16 @@ public class JFlexException extends Exception {
      */
     public JFlexException() {
         super();
+    }
+
+    /**
+     * Constructor with original exception.
+     * 
+     * @param exception
+     *            the original exception.
+     */
+    public JFlexException(final Exception exception) {
+        super(exception);
     }
 
     /**
@@ -77,23 +89,14 @@ public class JFlexException extends Exception {
      */
     private static String errorMessage(String pRuleName, String pFileName, String pMessage,
                     String pLastScan, int pLine, int pColumn) {
-        final String message = "i-Code CNES analysis encountered a problem.\n\n" + pMessage + "\n"
-                        + "CheckerId : " + pRuleName + "\n" + "File : " + pFileName + "\n" + "Line:"
-                        + pLine + "\n" + "Column:" + pColumn + "\n"
+        final String message = "i-Code CNES analysis encountered a problem." + BLANK + BLANK
+                        + pMessage + BLANK + "CheckerId: " + pRuleName + BLANK + "File: "
+                        + pFileName + BLANK + "Line:" + pLine + BLANK + "Column:" + pColumn + BLANK
 
-                        + "Last word scanned :" + pLastScan + "\n"
-                        + "You can report this issue on : https://github.com/dupuisa/i-CodeCNES/issues/";
+                        + "Last word scanned : [" + pLastScan + "] [" + toDecimalCode(pLastScan)
+                        + "]" + BLANK
+                        + "Please report this issue on : https://github.com/dupuisa/i-CodeCNES/issues/";
         return message;
-    }
-
-    /**
-     * Constructor with original exception.
-     * 
-     * @param exception
-     *            the original exception.
-     */
-    public JFlexException(final Exception exception) {
-        super(exception);
     }
 
     /**
@@ -136,5 +139,19 @@ public class JFlexException extends Exception {
      */
     public final String getRuleName() {
         return ruleName;
+    }
+
+    /**
+     * @param str
+     *            to set to ASCII decimal
+     * @return
+     * @return ASCII decimal of <code>str</code>
+     */
+    public static final String toDecimalCode(final String str) {
+        String code = "";
+        for (char character : str.toCharArray()) {
+            code += (int) character + " ";
+        }
+        return code;
     }
 }

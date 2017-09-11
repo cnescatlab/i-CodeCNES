@@ -12,6 +12,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
@@ -19,11 +20,13 @@ import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
  * Editing support for Enabled cells.
  */
 public class EnabledEditingSupport extends EditingSupport {
+    /** Class name **/
+    private static final String CLASS = EnabledEditingSupport.class.getName();
 
     /** Column viewer containing the cell */
     private final ColumnViewer viewer;
     /** TableViewer containing the column */
-    private CheckerTableViewer checkerTableViewer;
+    private final CheckersComposite checkerTableViewer;
 
     /**
      * @param pViewer
@@ -31,10 +34,16 @@ public class EnabledEditingSupport extends EditingSupport {
      * @param pCheckerTableViewer
      *            TableViewer containing the column
      */
-    public EnabledEditingSupport(TableViewer pViewer, CheckerTableViewer pCheckerTableViewer) {
+    public EnabledEditingSupport(final TableViewer pViewer,
+                    final CheckersComposite pCheckerTableViewer) {
         super(pViewer);
+        final String method = "EnabledEditingSupport";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pViewer, pCheckerTableViewer
+        });
         this.viewer = pViewer;
         this.checkerTableViewer = pCheckerTableViewer;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -45,7 +54,11 @@ public class EnabledEditingSupport extends EditingSupport {
      */
     @Override
     protected CellEditor getCellEditor(Object element) {
-        return new CheckboxCellEditor(null, SWT.CHECK | SWT.READ_ONLY);
+        final String method = "getCellEditor";
+        ICodeLogger.entering(CLASS, method, element);
+        final CellEditor editor = new CheckboxCellEditor(null, SWT.CHECK | SWT.READ_ONLY);
+        ICodeLogger.exiting(CLASS, method, editor);
+        return editor;
     }
 
     /*
@@ -55,6 +68,8 @@ public class EnabledEditingSupport extends EditingSupport {
      */
     @Override
     protected boolean canEdit(Object element) {
+        final String method = "canEdit";
+        ICodeLogger.entering(CLASS, method, element);
         return UserPreferencesService.isDefaultConfigurationActive();
     }
 
@@ -65,6 +80,8 @@ public class EnabledEditingSupport extends EditingSupport {
      */
     @Override
     protected Object getValue(Object element) {
+        final String method = "getValue";
+        ICodeLogger.entering(CLASS, method, element);
         final Object value;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
             value = Boolean.valueOf(((CheckerPreferencesContainer) element).isChecked());
@@ -72,6 +89,7 @@ public class EnabledEditingSupport extends EditingSupport {
             value = Boolean.valueOf(UserPreferencesService
                             .isEnabledChecker(((CheckerPreferencesContainer) element).getId()));
         }
+        ICodeLogger.exiting(CLASS, method, value);
         return value;
     }
 
@@ -83,12 +101,17 @@ public class EnabledEditingSupport extends EditingSupport {
      */
     @Override
     protected void setValue(Object element, Object value) {
+        final String method = "setValue";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            element, value
+        });
         ((CheckerPreferencesContainer) element).setChecked(((Boolean) value).booleanValue());
 
         if (!((Boolean) value).booleanValue()) {
             this.checkerTableViewer.setAllEnabledChecker(false);
         }
         viewer.refresh();
+        ICodeLogger.exiting(CLASS, method);
 
     }
 

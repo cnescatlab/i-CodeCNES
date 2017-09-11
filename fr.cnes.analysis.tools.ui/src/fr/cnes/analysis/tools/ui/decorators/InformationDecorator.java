@@ -9,11 +9,11 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.markers.InformationMarker;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
@@ -37,8 +37,11 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
      */
     public static final String ICON = ImageFactory.INFO_VERY_SMALL;
     /** Decorator ID */
-    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.tools.ui.decorators"
+    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.analysis.tools.ui.decorators"
                     + ".informationdecorator";
+
+    /** Class name **/
+    private static final String CLASS = InformationDecorator.class.getName();
 
     /**
      * An Violation Error icon is being put on the top-right of the icon's file
@@ -47,6 +50,10 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
      */
     @Override
     public void decorate(Object resource, final IDecoration decoration) {
+        final String method = "decorate";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            resource, decoration
+        });
 
         if (resource instanceof IResource) {
             // We add a Information decorator only if there is a information in
@@ -63,8 +70,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
                 // If the file do not contain error marker and contain warning
                 // markers then we put an overlay icon on the top right of the
                 // file's icon
-                decoration.addOverlay(ImageDescriptor.createFromFile(
-                                ViolationWarningDecorator.class, ICON), IDecoration.TOP_RIGHT);
+                decoration.addOverlay(ImageFactory.getDescriptor(ICON), IDecoration.TOP_RIGHT);
             } else {
                 // otherwise we remove the overlay if there is no violation
                 // error neither violation warning markers.
@@ -77,6 +83,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
                 }
             }
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

@@ -13,17 +13,18 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 
 /**
- * This {@link CheckerTableViewer} is implemented to show and edit configuration
+ * This {@link CheckersComposite} is implemented to show and edit configuration
  * of i-Code Checker which are set as metrics.
  * 
  * @version 3.0
  * @since 3.0
  */
-public class CheckerMetricTableViewer extends CheckerTableViewer {
+public class MetricsComposite extends CheckersComposite {
     /** Enable or disable checkers column's index. */
     private static final int COLUMN_ENABLED_INDEX = 0;
     /** Enable or disable checkers column's bound. */
@@ -62,14 +63,25 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
     /** Float NaN display. */
     private static final String FLOAT_NAN_DISPLAY = "-";
 
+    /** Class name **/
+    private static final String CLASS = MetricsComposite.class.getName();
+
     /**
      * @param parent
      *            composite containing the table.
      * @param checkers
      *            to show and configure in the table.
+     * @param style
+     *            SWT style
      */
-    public CheckerMetricTableViewer(Composite parent, List<CheckerPreferencesContainer> checkers) {
-        super(parent, checkers);
+    public MetricsComposite(final Composite parent,
+                    final List<CheckerPreferencesContainer> checkers, final int style) {
+        super(parent, checkers, style);
+        final String method = "MetricsComposite";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            parent, checkers, Integer.valueOf(style)
+        });
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -81,18 +93,22 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
      * org.eclipse.jface.viewers.TableViewer)
      */
     @Override
-    protected void createColumns(Composite parent, TableViewer pCheckersTableViewer) {
+    protected void createColumns(final Composite parent, final TableViewer pCheckersTableViewer) {
+        final String method = "createColumns";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            parent, pCheckersTableViewer
+        });
 
         setEnabledColumn(createEnabledViewerColumn(COLUMN_ENABLED_BOUND, COLUMN_ENABLED_INDEX));
         getEnabledColumn().setEditingSupport(new EnabledEditingSupport(pCheckersTableViewer, this));
         getEnabledColumn().setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 return null;
             }
 
             @Override
-            public Image getImage(Object element) {
+            public Image getImage(final Object element) {
                 final Image image;
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (checker.isChecked()) {
@@ -107,7 +123,7 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
                         COLUMN_CHECKER_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 return checker.getName();
             }
@@ -116,7 +132,7 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
                         COLUMN_LANGUAGE_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 return checker.getLanguageName();
             }
@@ -127,7 +143,7 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
         col.setEditingSupport(new MinValueEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 String floatValue = FLOAT_NAN_DISPLAY;
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (UserPreferencesService.isDefaultConfigurationActive()) {
@@ -152,7 +168,7 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
         col.setEditingSupport(new MaxValueEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 String floatValue = FLOAT_NAN_DISPLAY;
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 if (UserPreferencesService.isDefaultConfigurationActive()) {
@@ -176,12 +192,12 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
         col.setEditingSupport(new SeverityEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public String getText(final Object element) {
                 return ((CheckerPreferencesContainer) element).getSeverity();
             }
 
             @Override
-            public Image getImage(Object element) {
+            public Image getImage(final Object element) {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 final Image severityImage;
                 switch (checker.getSeverity()) {
@@ -202,6 +218,7 @@ public class CheckerMetricTableViewer extends CheckerTableViewer {
             }
 
         });
+        ICodeLogger.exiting(CLASS, method);
 
     }
 

@@ -5,9 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -18,16 +15,16 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+
 /**
  * AbstractviolationsTreeViewer is an abstract class containing most useful
  * method to create a TreeViewer showing result of a static analysis.
  *
  */
 public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
-
-    public final static Logger LOGGER = Logger
-                    .getLogger(AbstractAnalysisTreeViewer.class.getName());
-
+    /** Class name **/
+    private final static String CLASS = AbstractAnalysisTreeViewer.class.getName();
     /** Titles of the columns */
     private String[] titles;
 
@@ -47,7 +44,8 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     public AbstractAnalysisTreeViewer(Composite parent, int style, String[] pTitles,
                     int[] pBounds) {
         super(parent, style);
-
+        final String method = "AbstractAnalysisTreeViewer";
+        ICodeLogger.entering(CLASS, method);
         this.titles = pTitles;
         this.bounds = pBounds;
         this.createColumns();
@@ -78,7 +76,10 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            the line on which the file has to be opened
      */
     protected void openFileInEditor(final IResource res, final int line) {
-        LOGGER.finest("begin method openFileInEditor");
+        final String method = "openFileInEditor";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            res, Integer.valueOf(line)
+        });
         final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getActivePage();
         try {
@@ -88,18 +89,20 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
             marker.setAttribute(IMarker.LINE_NUMBER, line);
             IDE.openEditor(page, marker);
         } catch (final CoreException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Marker problem", exception.getMessage());
         }
-        LOGGER.finest("end method openFileInEditor");
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the titles
      */
     public String[] getTitles() {
+        final String method = "getTitles";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, titles);
         return titles;
     }
 
@@ -108,13 +111,20 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            the titles to set
      */
     public void setTitles(String[] pTitles) {
+        final String method = "setTitles";
+        ICodeLogger.entering(CLASS, method, pTitles);
+
         this.titles = pTitles;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
      * @return the bounds
      */
     public int[] getBounds() {
+        final String method = "getBounds";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, bounds);
         return bounds;
     }
 
@@ -123,6 +133,9 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
      *            the bounds to set
      */
     public void setBounds(int[] pBounds) {
+        final String method = "setBounds";
+        ICodeLogger.entering(CLASS, method, pBounds);
         this.bounds = pBounds;
+        ICodeLogger.exiting(CLASS, method);
     }
 }

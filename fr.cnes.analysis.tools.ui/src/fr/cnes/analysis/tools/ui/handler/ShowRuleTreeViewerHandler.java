@@ -11,6 +11,7 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
 /**
@@ -21,6 +22,9 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * @since 2.0
  */
 public class ShowRuleTreeViewerHandler implements IHandler {
+
+    /** Class name */
+    private static final String CLASS = ShowRuleTreeViewerHandler.class.getName();
 
     /*
      * (non-Javadoc)
@@ -53,6 +57,8 @@ public class ShowRuleTreeViewerHandler implements IHandler {
      */
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
+        final String method = "execute";
+        ICodeLogger.entering(CLASS, method, event);
         final ViolationsView view = (ViolationsView) PlatformUI.getWorkbench()
                         .getActiveWorkbenchWindow().getActivePage()
                         .findView(ViolationsView.VIEW_ID);
@@ -60,6 +66,7 @@ public class ShowRuleTreeViewerHandler implements IHandler {
         if (!view.getTreeViewerType().equals(name)) {
             view.setTreeViewerType(name);
         }
+        ICodeLogger.exiting(CLASS, method, null);
         return null;
     }
 
@@ -70,6 +77,9 @@ public class ShowRuleTreeViewerHandler implements IHandler {
      */
     @Override
     public boolean isEnabled() {
+        final String method = "isEnabled";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.TRUE);
         return true;
     }
 
@@ -80,6 +90,9 @@ public class ShowRuleTreeViewerHandler implements IHandler {
      */
     @Override
     public boolean isHandled() {
+        final String method = "isHandled";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, Boolean.TRUE);
         return true;
     }
 

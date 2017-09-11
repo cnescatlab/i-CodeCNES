@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 
@@ -38,6 +39,8 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
     /** Decorator ID */
     public static final String ID_VIOLATION_ERROR_DECORATOR = "fr.cnes.tools.ui."
                     + "decorators.violationerrordecorator";
+    /** Class name **/
+    private static final String CLASS = ViolationErrorDecorator.class.getName();
 
     /**
      * An Violation Error icon is being put on the top-right of the icon's file
@@ -46,6 +49,10 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
      */
     @Override
     public void decorate(Object resource, final IDecoration decoration) {
+        final String method = "decorate";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            resource, decoration
+        });
 
         /*
          * We call the decorator manager to be able to know if the Violation
@@ -66,6 +73,7 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
         } else if (!manager.getEnabled(ID_VIOLATION_ERROR_DECORATOR)) {
             decoration.addOverlay(null);
         }
+        ICodeLogger.exiting(CLASS, method);
     }
 
 }

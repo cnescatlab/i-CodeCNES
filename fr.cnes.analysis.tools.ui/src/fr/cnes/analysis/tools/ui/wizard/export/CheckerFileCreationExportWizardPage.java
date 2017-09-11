@@ -12,19 +12,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.export.Export;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.analysis.tools.export.ExportService;
 import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
 import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
@@ -37,18 +36,16 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * 
  * <p>
  * On {@link #getInitialContents()} this class realize an export using
- * {@link fr.cnes.analysis.tools.export.Export} service.
+ * {@link fr.cnes.analysis.tools.export.ExportService} service.
  * </p>
  * 
  * @since 3.0
  */
 public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPage {
-    /** The logger **/
-    public static final Logger LOGGER = Logger
-                    .getLogger(CheckerFileCreationExportWizardPage.class.getName());
-
+    /** Class name */
+    private static final String CLASS = CheckerFileCreationExportWizardPage.class.getName();
     /** Export service used */
-    private Export exporter;
+    private ExportService exporter;
     /** Export format requested by the user */
     private String requestedFormat;
     /** Parameters requested by the export plugin */
@@ -63,9 +60,13 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      *            the format requested by the user (can be default one also).
      */
     public CheckerFileCreationExportWizardPage(final IStructuredSelection selection,
-                    String pRequestedFormat) {
+                    final String pRequestedFormat) {
         super("RuleCreationFileExportWizardPage", selection);
-        exporter = new Export();
+        final String method = "CheckerFileCreationExportWizardPage";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            selection, pRequestedFormat
+        });
+        exporter = new ExportService();
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Rules export (" + pRequestedFormat + ")");
         this.setDescription("Description : Create a result export file in " + pRequestedFormat
@@ -87,11 +88,14 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      *            to export.
      */
     public void updateFormat(String pRequestedFormat) {
+        final String method = "updateFormat";
+        ICodeLogger.entering(CLASS, method, pRequestedFormat);
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Analysis results export (" + pRequestedFormat + ")");
         this.setDescription("Description : Create a result export file in " + pRequestedFormat
                         + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -102,7 +106,8 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      */
     @Override
     public InputStream getInitialContents() {
-        LOGGER.finest("Begin getInitialContents method");
+        final String method = "getInitialContents";
+        ICodeLogger.entering(CLASS, method);
 
         InputStream stream = null;
         try {
@@ -110,7 +115,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             final File temp;
             temp = File.createTempFile("export",
                             "." + exporter.getAvailableFormats().get(this.requestedFormat));
-            final Export export = new Export();
+            final ExportService export = new ExportService();
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                             .getActivePage();
@@ -133,32 +138,14 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             export.export(checkResults, temp, parameters);
 
             stream = new FileInputStream(temp);
-        } catch (final IOException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
-        } catch (final PartInitException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
-        } catch (NoContributorMatchingException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
-            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
-        } catch (NoExtensionIndicatedException exception) {
-            LOGGER.log(Level.FINER, exception.getClass() + " : " + exception.getMessage(),
-                            exception);
+        } catch (final IOException | CoreException | NoContributorMatchingException
+                        | NoExtensionIndicatedException exception) {
+            ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "Internal Error",
                             "Contact support service : \n" + exception.getMessage());
         }
-        LOGGER.finest("End getInitialContents method");
+        ICodeLogger.exiting(CLASS, method, stream);
         return stream;
     }
 
@@ -169,6 +156,9 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      */
     @Override
     public IWizardPage getNextPage() {
+        final String method = "getNextPage";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, null);
         return null;
     }
 
@@ -179,7 +169,11 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      */
     @Override
     public IWizardPage getPreviousPage() {
-        return this.getWizard().getPage("RuleExportWizardPage");
+        final String method = "getPreviousPage";
+        ICodeLogger.entering(CLASS, method);
+        final IWizardPage previousPage = this.getWizard().getPage("RuleExportWizardPage");
+        ICodeLogger.exiting(CLASS, method, previousPage);
+        return previousPage;
     }
 
     /*
@@ -189,7 +183,11 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      */
     @Override
     public boolean isPageComplete() {
-        return this.validatePage();
+        final String method = "isPageComplete";
+        ICodeLogger.entering(CLASS, method);
+        final boolean isPageComplete = this.validatePage();
+        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isPageComplete));
+        return isPageComplete;
     }
 
     /**
@@ -200,6 +198,9 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      *            the new parameter to set.
      */
     public void updateParameters(Map<String, String> params) {
+        final String method = "updateParameters";
+        ICodeLogger.entering(CLASS, method, params);
         this.parameters = params;
+        ICodeLogger.exiting(CLASS, method, params);
     }
 }

@@ -272,8 +272,10 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 													 
 							}
 						}else{
-							String errorMessage = "Class"+this.getClass().getName()+"\nExcepted parameter of "+ entList.get(i) +" not reachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+yyline+" column:"+yycolumn;
-							throw new JFlexException(new Exception(errorMessage));
+							
+				            final String errorMessage = "Excepted parameter of "+ entList.get(i) +" unreachable.";
+				            throw new JFlexException(this.getClass().getName(), parsedFileName,
+				                            errorMessage, yytext(), yyline, yycolumn);
 						}
 						
 					}
@@ -767,8 +769,8 @@ return getCheckResults();
 /* ERROR STATE	        */
 /************************/
 				[^]            {
-									String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+									
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                }

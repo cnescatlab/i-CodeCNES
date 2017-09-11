@@ -111,8 +111,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				closeWhileLoop();
 			identifiers.remove(idLength);
 		}else{
-			String errorMessage = "Class"+this.getClass().getName()+"\nLoop's identifier unreachable while parsing <" + yytext() + ">\nFile :"+ this.parsedFileName+"\nat line:"+(yyline+1)+" column:"+yycolumn;
-            throw new JFlexException(new Exception(errorMessage));
+            
+            final String errorMessage = "Analysis failure : Loop's identifier unreachable.";
+            throw new JFlexException(this.getClass().getName(), parsedFileName,
+                            errorMessage, yytext(), yyline, yycolumn);
 		}
         LOGGER.finest("end method closeCondition");
 	}
@@ -409,8 +411,8 @@ WHILE	  = "while"
 <LINE>      	.              	{}
 
 				[^]            {
-                                    String parsedWord = "Word ["+yytext()+"], code  [" + toASCII(yytext()) + "]";
+                                    
 				                    final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
 				                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-				                                    errorMessage, parsedWord, yyline, yycolumn);
+				                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

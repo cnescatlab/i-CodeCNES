@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 /**
  * This class must be extended by any Rule analyzer or Metric computer
@@ -34,6 +35,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
  * </p>
  */
 public abstract class AbstractChecker {
+
+    /** Class name */
+    private static final String CLASS = AbstractChecker.class.getName();
     /** Analyzed file. */
     private File inputFile;
 
@@ -68,6 +72,10 @@ public abstract class AbstractChecker {
      */
     protected void setError(final String pLocation, final String pMessage, final int pLine)
                     throws JFlexException {
+        final String method = "setError";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pLocation, pMessage, Integer.valueOf(pLine)
+        });
         final CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                         this.getContribution().getAttribute("id"),
                         this.getContribution().getAttribute("languageId"));
@@ -76,6 +84,7 @@ public abstract class AbstractChecker {
         checkResult.setMessage(pMessage);
         checkResult.setFile(inputFile);
         this.checkResults.add(checkResult);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -94,6 +103,10 @@ public abstract class AbstractChecker {
      */
     protected void computeMetric(final String pLocation, final float pValue, final int pLine)
                     throws JFlexException {
+        final String method = "computeMetric";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            pLocation, Float.valueOf(pValue), Integer.valueOf(pLine)
+        });
         final CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                         this.getContribution().getAttribute("id"),
                         this.getContribution().getAttribute("languageId"));
@@ -102,6 +115,7 @@ public abstract class AbstractChecker {
         checkResult.setValue(Float.valueOf(pValue));
         checkResult.setFile(this.inputFile);
         this.checkResults.add(checkResult);
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -114,12 +128,15 @@ public abstract class AbstractChecker {
      *             exception thrown when a file is not found
      */
     public void setInputFile(final File pInputFile) throws FileNotFoundException {
+        final String method = "setInputFile";
+        ICodeLogger.entering(CLASS, method, pInputFile);
         this.checkResults = new LinkedList<CheckResult>();
         final CheckResult checkResult = new CheckResult(this.getContribution().getAttribute("name"),
                         this.getContribution().getAttribute("id"),
                         this.getContribution().getAttribute("languageId"));
         checkResult.setFile(pInputFile);
         this.inputFile = pInputFile;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -128,6 +145,9 @@ public abstract class AbstractChecker {
      * @return the contribution
      */
     public IConfigurationElement getContribution() {
+        final String method = "getContribution";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.contribution);
         return this.contribution;
     }
 
@@ -138,7 +158,10 @@ public abstract class AbstractChecker {
      *            the new contribution
      */
     public void setContribution(final IConfigurationElement pContribution) {
+        final String method = "setContribution";
+        ICodeLogger.entering(CLASS, method, pContribution);
         this.contribution = pContribution;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -147,6 +170,9 @@ public abstract class AbstractChecker {
      * @return the {@link CheckResult}s
      */
     public List<CheckResult> getCheckResults() {
+        final String method = "getCheckResults";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, this.checkResults);
         return this.checkResults;
     }
 
@@ -157,7 +183,10 @@ public abstract class AbstractChecker {
      *            the {@link CheckResult}s to set
      */
     public void setCheckResults(final List<CheckResult> pCheckResults) {
+        final String method = "setCheckResults";
+        ICodeLogger.entering(CLASS, method, pCheckResults);
         this.checkResults = pCheckResults;
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /**
@@ -166,20 +195,10 @@ public abstract class AbstractChecker {
      * @return the analyzed file.
      */
     public File getInputFile() {
+        final String method = "getInputFile";
+        ICodeLogger.entering(CLASS, method);
+        ICodeLogger.exiting(CLASS, method, inputFile);
         return inputFile;
     }
 
-    /**
-     * @param str
-     *            to set to ASCII decimal
-     * @return
-     * @return ASCII decimal of <code>str</code>
-     */
-    public static final String toASCII(final String str) {
-        String code = "";
-        for (char character : str.toCharArray()) {
-            code += (int) character;
-        }
-        return code;
-    }
 }

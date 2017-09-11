@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
+import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
@@ -54,16 +55,25 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
      * TITLES : Location => File > Function > Rules > Violations Line => Line of
      * the violation ! => Criticity Number of violation.
      */
-    public static final String[] TITLES = new String[] { "Location", "Line", "!",
-            "Number of violations" };
+    public static final String[] TITLES = new String[] {
+        "Location", "Line", "!", "Number of violations"
+    };
 
     /** Bounds of the TreeViewer */
-    public static final int[] BOUNDS = new int[] { 425, 50, 30, 200 };
+    public static final int[] BOUNDS = new int[] {
+        425, 50, 30, 200
+    };
+
+    /** Class name */
+    private static final String CLASS = FileTreeViewer.class.getName();
     /**
+     * 
      * Kind of bitmap to know if the sorting should be up or down for each
      * column of the tree
      */
-    private transient boolean[] columnSortUp = new boolean[] { true, true, false, true, true };
+    private transient boolean[] columnSortUp = new boolean[] {
+        true, true, false, true, true
+    };
 
     /** Index selected to sort the columns, by default 1 */
     private transient int indexSort = 1;
@@ -76,14 +86,21 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
      * @param style
      *            The SWT style
      */
-    public FileTreeViewer(Composite parent, int style) {
+    public FileTreeViewer(final Composite parent, final int style) {
         super(parent, style, TITLES, BOUNDS);
+        final String method = "FileTreeViewer";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            parent, Integer.valueOf(style)
+        });
         final ViewerComparator comparator = new FileTreeViewerComparator();
         this.setComparator(comparator);
+        ICodeLogger.exiting(CLASS, method);
     }
 
     @Override
     protected void createColumns() {
+        final String method = "createColumns";
+        ICodeLogger.entering(CLASS, method);
         this.setContentProvider(new FileTreeViewerContentProvider());
         TreeViewerColumn col;
         for (int i = 0; i < super.getTitles().length; i++) {
@@ -92,7 +109,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
             // Add a label provider
             col.setLabelProvider(new FileTreeViewerLabelProvider(i));
         }
-
+        ICodeLogger.exiting(CLASS, method);
     }
 
     /*
@@ -103,7 +120,8 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
      */
     @Override
     protected void addDoubleClickAction() {
-        LOGGER.finest("begin method addDoubleClickAction");
+        final String method = "addDoubleClickAction";
+        ICodeLogger.entering(CLASS, method);
         this.addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
@@ -117,7 +135,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                 if (!tViewer.isExpandable(selectedNode)
                                 && selectedNode instanceof ViolationDescriptor) {
                     final IPath path = ((ViolationDescriptor) selectedNode).getFilePath();
-                    final int number = ((ViolationDescriptor) selectedNode).getValue();
+                    final int number = ((ViolationDescriptor) selectedNode).getValue().intValue();
                     // get resource
                     final IFile fileToOpen = ResourcesPlugin.getWorkspace().getRoot()
                                     .getFileForLocation(path);
@@ -128,7 +146,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                 }
             }
         });
-        LOGGER.finest("end method addDoubleClickAction");
+        ICodeLogger.exiting(CLASS, method);
 
     }
 
@@ -146,6 +164,10 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
      */
     private TreeViewerColumn createTreeViewerColumn(final String title, final int bound,
                     final int colNumber) {
+        final String method = "createTreeViewerColumn";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+            title, Integer.valueOf(bound), Integer.valueOf(colNumber)
+        });
         final TreeViewerColumn viewerColumn = new TreeViewerColumn(this, SWT.NONE);
         final TreeColumn column = viewerColumn.getColumn();
         column.setText(title);
@@ -176,7 +198,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
             }
 
         });
-
+        ICodeLogger.exiting(CLASS, method, viewerColumn);
         return viewerColumn;
     }
 
@@ -209,10 +231,11 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = rule1.getName().compareToIgnoreCase(rule2.getName());
                     break;
                 case 3:
-                    rc = rule1.getValue() - rule2.getValue();
+                    rc = rule1.getValue().intValue() - rule2.getValue().intValue();
                     break;
                 default:
                     rc = 0;
+                    break;
                 }
             } else if (e1 instanceof FileRuleDescriptor && e2 instanceof FileRuleDescriptor) {
                 final FileRuleDescriptor file1 = (FileRuleDescriptor) e1;
@@ -223,10 +246,11 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = file1.getName().compareToIgnoreCase(file2.getName());
                     break;
                 case 3:
-                    rc = file1.getValue() - file2.getValue();
+                    rc = file1.getValue().intValue() - file2.getValue().intValue();
                     break;
                 default:
                     rc = 0;
+                    break;
                 }
             } else if (e1 instanceof FunctionDescriptor && e2 instanceof FunctionDescriptor) {
 
@@ -238,10 +262,11 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = function1.getName().compareToIgnoreCase(function2.getName());
                     break;
                 case 3:
-                    rc = function1.getValue() - function2.getValue();
+                    rc = function1.getValue().intValue() - function2.getValue().intValue();
                     break;
                 default:
                     rc = 0;
+                    break;
                 }
             } else if (e1 instanceof ViolationDescriptor && e2 instanceof ViolationDescriptor) {
                 final ViolationDescriptor violation1 = (ViolationDescriptor) e1;
@@ -252,10 +277,11 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                     rc = violation1.getLocation().compareToIgnoreCase(violation2.getLocation());
                     break;
                 case 1:
-                    rc = violation1.getValue() - violation2.getValue();
+                    rc = violation1.getValue().intValue() - violation2.getValue().intValue();
                     break;
                 default:
                     rc = 0;
+                    break;
                 }
 
             }
