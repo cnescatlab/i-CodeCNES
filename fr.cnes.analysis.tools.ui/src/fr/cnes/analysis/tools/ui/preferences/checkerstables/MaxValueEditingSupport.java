@@ -102,6 +102,7 @@ public class MaxValueEditingSupport extends EditingSupport {
         } catch (@SuppressWarnings("unused") NullPointerException | NumberFormatException e) {
             ((CheckerPreferencesContainer) element).setMaxValue(Float.NaN);
         }
+        this.getViewer().refresh();
         ICodeLogger.exiting(CLASS, method);
 
     }
