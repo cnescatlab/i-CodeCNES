@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Cnes Icode IDE" uid="icodeIDE.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="2.0.0" useFeatures="true" includeLaunchers="true">
+<product name="Cnes Icode IDE" uid="icodeIDE.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="3.0.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -53,10 +53,10 @@
    </plugins>
 
    <features>
-      <feature id="fr.cnes.icode.feature.ui" version="2.0.0.qualifier"/>
-      <feature id="fr.cnes.icode.feature.fortran77" version="2.0.0.qualifier"/>
-      <feature id="fr.cnes.icode.feature.fortran90" version="2.0.0.qualifier"/>
-      <feature id="fr.cnes.icode.feature.shell" version="2.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.ui" version="3.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.fortran77" version="3.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.fortran90" version="3.0.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.shell" version="3.0.0.qualifier"/>
       <feature id="org.eclipse.photran"/>
       <feature id="org.eclipse.platform" version="4.7.0.v20170612-1255"/>
       <feature id="org.eclipse.cdt"/>

@@ -2,7 +2,7 @@
 <feature
       id="fr.cnes.icode.feature.shell"
       label="iCode CNES Shell"
-      version="2.0.0.qualifier"
+      version="3.0.0.qualifier"
       provider-name="CNES">
 
    <description url="http://www.example.com/description">
@@ -105,8 +105,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import feature="fr.cnes.icode.feature.core" version="2.0.0"/>
+      <import plugin="fr.cnes.analysis.tools.analyzer" version="3.0.0" match="greaterOrEqual"/>
+      <import feature="fr.cnes.icode.feature.core" version="3.0.0"/>
    </requires>
 
    <plugin

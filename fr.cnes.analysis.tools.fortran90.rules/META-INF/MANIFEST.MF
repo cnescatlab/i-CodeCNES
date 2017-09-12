@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: i-Code CNES F90 Rules
 Bundle-SymbolicName: fr.cnes.analysis.tools.fortran90.rules;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 3.0.0.qualifier
 Bundle-Activator: fr.cnes.analysis.tools.fortran90.rules.Activator
 Require-Bundle: org.eclipse.core.runtime,
  fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0"
