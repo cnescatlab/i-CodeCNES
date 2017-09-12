@@ -62,6 +62,7 @@ public class MinValueEditingSupport extends EditingSupport {
         ICodeLogger.entering(CLASS, method, element);
         final boolean canEdit = UserPreferencesService.isDefaultConfigurationActive()
                         && ((CheckerPreferencesContainer) element).isMetric();
+        this.getViewer().refresh();
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(canEdit));
         return canEdit;
     }
