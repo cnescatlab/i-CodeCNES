@@ -102,6 +102,7 @@ public class MinValueEditingSupport extends EditingSupport {
         } catch (@SuppressWarnings("unused") NullPointerException | NumberFormatException e) {
             ((CheckerPreferencesContainer) element).setMinValue(Float.NaN);
         }
+        this.getViewer().refresh();
         ICodeLogger.exiting(CLASS, method);
 
     }
