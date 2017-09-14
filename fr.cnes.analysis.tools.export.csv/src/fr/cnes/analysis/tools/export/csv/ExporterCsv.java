@@ -54,8 +54,8 @@ public class ExporterCsv implements IExporter {
                     Map<String, String> parameters) throws IOException {
         try (final FileWriter writer = new FileWriter(outputFile)) {
             writer.write("Rule" + SEPARATOR + "File" + SEPARATOR + "Location" + SEPARATOR + "Line"
-                            + SEPARATOR + "Message" + SEPARATOR + "Language" + SEPARATOR
-                            + "Value\n");
+                            + SEPARATOR + "Language" + SEPARATOR + "Message" + SEPARATOR + "Value"
+                            + BLANK);
             for (final CheckResult checkResult : checkResults) {
                 if (checkResult.getLocation() != null || checkResult.getValue() != null) {
                     if (checkResult.getLocation() == null) {
