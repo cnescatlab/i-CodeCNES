@@ -621,36 +621,40 @@
     </extension>
     <extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
         id="violationerror" name="Violation Error">
-    <specification annotationType="fr.cnes.analysis.tools.ui.ViolationError"
-            label="i-Code CNES Violation Error"
-            icon="icons/logo-i-code-rouge-16x16.png"
-            overviewRulerPreferenceKey="clruler"
-            overviewRulerPreferenceValue="true"
-            colorPreferenceKey="clcolor"
-            colorPreferenceValue="255,128,128"
-            textPreferenceKey="cltext"
-            textPreferenceValue="true"
-            verticalRulerPreferenceKey="clvertical"
-            verticalRulerPreferenceValue="true"
-            textStylePreferenceKey="clstyle"
-            textStylePreferenceValue="BOX">
+    <specification
+          annotationType="fr.cnes.analysis.tools.ui.ViolationError"
+          colorPreferenceKey="fr.cnes.analysis.tools.ui.ViolationError.color"
+          colorPreferenceValue="255,85,89"
+          contributesToHeader="false"
+          icon="icons/logo-i-code-rouge-16x16.png"
+          includeOnPreferencePage="true"
+          label="i-Code CNES Violation Error"
+          overviewRulerPreferenceKey="clruler"
+          overviewRulerPreferenceValue="true"
+          textPreferenceKey="cltext"
+          textStylePreferenceKey="clstyle"
+          textStylePreferenceValue="BOX"
+          verticalRulerPreferenceKey="clvertical"
+          verticalRulerPreferenceValue="true">
     </specification>
     </extension>
     <extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
         id="violationwarning" name="Violation Warning">
-    <specification annotationType="fr.cnes.analysis.tools.ui.ViolationWarning"
-            label="i-Code CNES Violation Warning"
-            icon="icons/logo-i-code-orange-16x16.png"
-            overviewRulerPreferenceKey="clruler"
-            overviewRulerPreferenceValue="true"
-            colorPreferenceKey="clcolor"
-            colorPreferenceValue="255,128,64"
-            textPreferenceKey="cltext"
-            textPreferenceValue="true"
-            verticalRulerPreferenceKey="clvertical"
-            verticalRulerPreferenceValue="true"
-            textStylePreferenceKey="clstyle"
-            textStylePreferenceValue="BOX">
+    <specification
+          annotationType="fr.cnes.analysis.tools.ui.ViolationWarning"
+          colorPreferenceKey="fr.cnes.analysis.tools.ui.ViolationWarning.color"
+          colorPreferenceValue="255,204,136"
+          contributesToHeader="false"
+          icon="icons/logo-i-code-orange-16x16.png"
+          includeOnPreferencePage="true"
+          label="i-Code CNES Violation Warning"
+          overviewRulerPreferenceKey="clruler"
+          overviewRulerPreferenceValue="true"
+          textPreferenceKey="cltext"
+          textStylePreferenceKey="clstyle"
+          textStylePreferenceValue="BOX"
+          verticalRulerPreferenceKey="clvertical"
+          verticalRulerPreferenceValue="true">
     </specification>
     </extension>
     <extension point="org.eclipse.ui.editors.annotationTypes">
