@@ -18,6 +18,7 @@ import fr.cnes.analysis.tools.analyzer.Analyzer;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.analysis.tools.ui.Activator;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.
@@ -75,14 +76,39 @@ public class AnalysisJob extends Job {
     protected IStatus run(IProgressMonitor monitor) {
         final String method = "run";
         ICodeLogger.entering(this.getClass().getName(), method, monitor);
-        IStatus status = Status.OK_STATUS;
+        IStatus status = this.verifyInputs();
         monitor.setTaskName("Analyzing files...");
-        try {
-            this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
-        } catch (IOException | JFlexException exception) {
-            ICodeLogger.warning(CLASS, method, exception.getClass().getName() + " handled in method "
-                            + method + " changing Job status.");
-            status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID, exception.getMessage());
+        if (status.isOK()) {
+            try {
+                this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
+            } catch (IOException | JFlexException exception) {
+                ICodeLogger.warning(CLASS, method, exception.getClass().getName()
+                                + " handled in method " + method + " changing Job status.");
+                status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID,
+                                exception.getMessage());
+            }
+        }
+        ICodeLogger.exiting(CLASS, method, status);
+        return status;
+    }
+
+    /**
+     * @return whether or not files to analyzer can be reachde in the file
+     *         system.
+     */
+    private IStatus verifyInputs() {
+        final String method = "verifyInputs";
+        ICodeLogger.entering(this.getClass().getName(), method);
+        int counter = 0;
+        IStatus status = Status.OK_STATUS;
+        while (this.inputFiles.size() > counter && status.isOK()) {
+            if (!inputFiles.get(counter).exists()) {
+                ICodeLogger.warning(CLASS, method,
+                                "File unreachable : " + inputFiles.get(counter).getAbsolutePath());
+                status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+                                "File unreachable : " + inputFiles.get(counter).getAbsolutePath());
+            }
+            counter++;
         }
         ICodeLogger.exiting(CLASS, method, status);
         return status;
