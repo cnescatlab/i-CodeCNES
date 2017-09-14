@@ -131,6 +131,8 @@ public class AnalysisHandler extends AbstractHandler {
                                 AnalysisHandler.updateMetricsView(resultsMetric);
                                 AnalysisHandler.insertMarkers(results);
                             } else {
+                                ICodeLogger.error(CLASS, method,
+                                                analysisJob.getResult().getMessage());
                                 MessageDialog.openError(
                                                 PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                                                                 .getShell(),
@@ -147,6 +149,7 @@ public class AnalysisHandler extends AbstractHandler {
 
             // Launching the analysis.
             analysisJob.schedule();
+
         } catch (EmptySelectionException exception) {
             ICodeLogger.warning(CLASS, method, exception);
             MessageDialog.openWarning(HandlerUtil.getActiveShell(event), "i-Code CNES - Warning",

@@ -123,6 +123,23 @@ public final class ICodeLogger {
     }
 
     /**
+     * Logging error handling with {@link IStatus#ERROR} level
+     * 
+     * @param className
+     *            class throwing the exception
+     * @param methodName
+     *            method throwing the exception
+     * @param message
+     *            error message
+     */
+    public static void error(final String className, final String methodName,
+                    final String message) {
+        logger.log(new Status(IStatus.ERROR, pluginId,
+                        MSG_ERROR + BLANK + localizedMessageln(className, methodName) + BLANK
+                                        + "Message:" + message));
+    }
+
+    /**
      * Logging method entering.
      * 
      * @param className
