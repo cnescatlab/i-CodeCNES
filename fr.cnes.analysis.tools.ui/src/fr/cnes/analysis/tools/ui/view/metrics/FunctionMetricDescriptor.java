@@ -293,12 +293,12 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
         ICodeLogger.entering(CLASS, method);
         boolean result = true;
         if (UserPreferencesService.hasMaxValue(this.getMetricId())) {
-            result = this.getValue()
-                            .compareTo(UserPreferencesService.getMaxValue(this.getMetricId())) > 0;
+            final Float exceptedValue = UserPreferencesService.getMaxValue(this.getMetricId());
+            result = this.getValue().compareTo(exceptedValue) < 0 || exceptedValue.isNaN();
         }
-        if (UserPreferencesService.hasMinValue(this.getMetricId())) {
-            result = this.getValue()
-                            .compareTo(UserPreferencesService.getMinValue(this.getMetricId())) < 0;
+        if (UserPreferencesService.hasMinValue(this.getMetricId()) && result) {
+            final Float exceptedValue = UserPreferencesService.getMinValue(this.getMetricId());
+            result = this.getValue().compareTo(exceptedValue) > 0 || exceptedValue.isNaN();
         }
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(result));
         return result;

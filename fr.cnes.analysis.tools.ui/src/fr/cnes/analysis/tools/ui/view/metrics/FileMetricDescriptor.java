@@ -261,8 +261,10 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
         final String method = "hasRightValue";
         ICodeLogger.entering(CLASS, method);
         boolean result = true;
-        for (final FunctionMetricDescriptor descriptor : this.descriptors) {
-            result = result && descriptor.hasRightValue();
+        int counter = 0;
+        while (result && this.descriptors.size() > counter) {
+            result = this.descriptors.get(counter).hasRightValue();
+            counter++;
         }
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(result));
         return result;
