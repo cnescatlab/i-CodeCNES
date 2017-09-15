@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/fr.cnes.icode.feature.core_3.0.0.qualifier.jar" id="fr.cnes.icode.feature.core" version="3.0.0.qualifier">
+      <category name="fr.cnes.icode"/>
+   </feature>
+   <feature url="features/fr.cnes.icode.feature.fortran77_3.0.0.qualifier.jar" id="fr.cnes.icode.feature.fortran77" version="3.0.0.qualifier">
+      <category name="fr.cnes.icode"/>
+   </feature>
+   <feature url="features/fr.cnes.icode.feature.fortran90_3.0.0.qualifier.jar" id="fr.cnes.icode.feature.fortran90" version="3.0.0.qualifier">
+      <category name="fr.cnes.icode"/>
+   </feature>
+   <feature url="features/fr.cnes.icode.feature.shell_3.0.0.qualifier.jar" id="fr.cnes.icode.feature.shell" version="3.0.0.qualifier">
+      <category name="fr.cnes.icode"/>
+   </feature>
+   <feature url="features/fr.cnes.icode.feature.ui_3.0.0.qualifier.jar" id="fr.cnes.icode.feature.ui" version="3.0.0.qualifier">
+      <category name="fr.cnes.icode"/>
+   </feature>
+   <category-def name="fr.cnes.icode" label="iCode CNES"/>
+</site>

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: i-Code CNES SH Metrics
+Bundle-SymbolicName: fr.cnes.analysis.tools.shell.metrics;singleton:=true
+Bundle-Version: 3.0.0.qualifier
+Bundle-Activator: fr.cnes.analysis.tools.shell.metrics.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: CNES
