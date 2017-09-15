@@ -1,39 +1,43 @@
 <img src="https://github.com/dupuisa/i-CodeCNES/blob/master/img/logo-i-code-cnes.png" width="300"/>
 
+[![Build Status](https://travis-ci.org/dupuisa/i-CodeCNES.svg?branch=master)](https://travis-ci.org/dupuisa/i-CodeCNES)
+
 i-Code CNES is a static code analysis tool to help developpers write code compliant with CNES coding rules.
 
 By now it is a plug-in eclipse, but it could be/will be modified into a standalone application.
 
 Source code is not available yet, but will be sooner as possible.
 
-Release 2.0.0
+Release 3.0.0
 =============
-Release 2.0.0 is composed of 4 features :
-* i-Code CNES Core
-* i-Code CNES Fortran 77 - check rules and metrics for Fortran 77
-* i-Code CNES Fortran 90 - check rules and metrics for Fortran 90
-* i-Code CNES Shell - check rules for Shell
 
-Bug fixes :
-* Fix generation warnings
-* Fix violation location
-* Fix F77.MET.Nesting regarding the keyword "Function" 
+## New features
+* Command line for Windows, MacOS & Linux #64 
+* Standalone version i-Code CNES IDE #1 
+* New Extension Points  
+  * To add languages #32   
+  * To add checkers #23   
+  * To add configurations   
+  * To add exports #19 #26 
+* API  
+  * To run analysis #16   
+  * To export analysis #19  #26   
+  * To reach configurations & preferences 
+* Shells metrics (*SH.MET.LineOfCode*, *SH.MET.RatioComment*, *SH.MET.Nesting*, *SH.MET.ComplexitySimplified*) #30 
+* Automated build #1
 
-Note :
-* Add xml export
-* Simplify menu bar
-* Open the file on double-clic on a metric value.
-* Add filters on violations view
-* Add sorters on violations view
-* Preference pages refactoring
-* Add logs on few violations
+## Bug fixes & enhancements
+* Analysis performances improvements  #14 
+* User Interface preference page improvements  #36 
+* Improvements of analysis failure notifications #50 
+* XML and CSV export improvements #69  #19 
 
-Release 1.0.0
-=============
-Release 1.0.0 is composed of 3 features :
-* i-Code CNES Core
-* i-Code CNES Fortran 77 - checks rules and metrics for Fortran 77
-* i-Code CNES Fortran 90 - checks rules and metrics for Fortran 90
+*Minor fixes and other enhancements : [milestone 3.0.0](https://github.com/dupuisa/i-CodeCNES/milestone/1).*
+
+Previous Releases
+=================
+* [Release 2.0.0](https://github.com/dupuisa/i-CodeCNES/releases/tag/v2.0.0)
+* [Release 1.0.0](https://github.com/dupuisa/i-CodeCNES/releases/tag/v1.0.0)
 
 
 Feedback and Support
