@@ -1,0 +1,12 @@
+# this gitignore is applied to all projects
+
+# Ignore build directories (eclipse bin and maven target)
+bin/
+target/
+*/target/**
+
+# Ignore code generation directories 
+*/src-gen/fr/
+
+#Ignore checkstyle configuration
+*.checkstyle

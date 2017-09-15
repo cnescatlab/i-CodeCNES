@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="shell.rules"
+         name="Shell Rules"
+         point="fr.cnes.analysis.tools.analyzer.checks">
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
+            id="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
+            name="COM.DATA.LoopCondition" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMDATANotUsed"
+            id="fr.cnes.analysis.tools.shell.rules.COMDATANotUsed"
+            name="COM.DATA.NotUsed" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check  
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
+            name="COM.FLOW.Abort" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.shell.rules.COMDESIGNActiveWait"
+            id="fr.cnes.analysis.tools.shell.rules.COMDESIGNActiveWait"
+            name="COM.DESIGN.ActiveWait" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWBooleanExpression"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWBooleanExpression"
+            name="COM.FLOW.BooleanExpression" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWCaseSwitch"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWCaseSwitch"
+            name="COM.FLOW.CaseSwitch" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWExitLoop"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWExitLoop"
+            name="COM.FLOW.ExitLoop" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWFileExistence"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWFileExistence"
+            name="COM.FLOW.FileExistence" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment"
+            id="fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment"
+            name="COM.INST.CodeComment" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMINSTLine"
+            id="fr.cnes.analysis.tools.shell.rules.COMINSTLine"
+            name="COM.INST.Line" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
+            id="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
+            name="COM.PRES.Header" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHDATAIFS"
+            id="fr.cnes.analysis.tools.shell.rules.SHDATAIFS"
+            name="SH.DATA.IFS" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHDATAInteger"
+            id="fr.cnes.analysis.tools.shell.rules.SHDATAInteger"
+            name="SH.DATA.Integer" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHDESIGNBash"
+            id="fr.cnes.analysis.tools.shell.rules.SHDESIGNBash"
+            name="SH.DESIGN.Bash" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHDESIGNOptions"
+            id="fr.cnes.analysis.tools.shell.rules.SHDESIGNOptions"
+            name="SH.DESIGN.Options" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHERRHelp"
+            id="fr.cnes.analysis.tools.shell.rules.SHERRHelp"
+            name="SH.ERR.Help" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHERRNoPipe"
+            id="fr.cnes.analysis.tools.shell.rules.SHERRNoPipe"
+            name="SH.ERR.NoPipe" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHERRString"
+            id="fr.cnes.analysis.tools.shell.rules.SHERRNoString"
+            name="SH.ERR.String" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckArguments"
+            id="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckArguments"
+            name="SH.FLOW.CheckArguments" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckUser"
+            id="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckUser"
+            name="SH.FLOW.CheckUser" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTBasename"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTBasename"
+            name="SH.INST.Basename" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTFind"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTFind"
+            name="SH.INST.Find" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTGetOpts"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTGetOpts"
+            name="SH.INST.GetOpts" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTInterpreter"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTInterpreter"
+            name="SH.INST.Interpreter" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTKeywords"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTKeywords"
+            name="SH.INST.Keywords" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTLogical"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTLogical"
+            name="SH.INST.Logical" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTPOSIX"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTPOSIX"
+            name="SH.INST.POSIX" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTSetShift"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTSetShift"
+            name="SH.INST.SetShift" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHINSTVariables"
+            id="fr.cnes.analysis.tools.shell.rules.SHINSTVariables"
+            name="SH.INST.Variables" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHIORedirect"
+            id="fr.cnes.analysis.tools.shell.rules.SHIORedirect"
+            name="SH.IO.Redirect" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHMETLimitAWK"
+            id="fr.cnes.analysis.tools.shell.rules.SHMETLimitAWK"
+            name="SH.MET.LimitAWK" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHMETLimitSed"
+            id="fr.cnes.analysis.tools.shell.rules.SHMETLimitSed"
+            name="SH.MET.LimitSed" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHMETPipeLine"
+            id="fr.cnes.analysis.tools.shell.rules.SHMETPipeLine"
+            name="SH.MET.PipeLine" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+   </extension>
+
+</plugin>

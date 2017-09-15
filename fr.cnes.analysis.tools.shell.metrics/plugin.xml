@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!DOCTYPE project>
+<plugin>
+   <extension
+         id="id4"
+         name="name"
+         point="fr.cnes.analysis.tools.analyzer.checks">
+  	  <check
+           class="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+           id="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+           isMetric="true"
+           languageId="fr.cnes.analysis.tools.languages.shell"
+           name="SH.MET.ComplexitySimplified">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+            id="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.shell"
+            name="SH.MET.Nesting">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+            id="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.shell"
+            name="SH.MET.LineOfCode">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+            id="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.shell"
+            name="SH.MET.RatioComment">
+      </check>
+   </extension>
+</plugin>
