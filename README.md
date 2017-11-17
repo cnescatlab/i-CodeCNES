@@ -1,6 +1,6 @@
-<img src="https://github.com/dupuisa/i-CodeCNES/blob/master/img/logo-i-code-cnes.png" width="300"/>
+<img src="https://github.com/lequal/i-CodeCNES/blob/master/img/logo-i-code-cnes.png" width="300"/>
 
-[![Build Status](https://travis-ci.org/dupuisa/i-CodeCNES.svg?branch=master)](https://travis-ci.org/dupuisa/i-CodeCNES)
+[![Build Status](https://travis-ci.org/lequal/i-CodeCNES.svg?branch=master)](https://travis-ci.org/lequal/i-CodeCNES)
 
 i-Code CNES is a static code analysis tool to help developpers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
 
@@ -29,19 +29,19 @@ Release 3.0.0
 * Improvements of analysis failure notifications #50 
 * XML and CSV export improvements #69  #19 
 
-*Minor fixes and other enhancements : [milestone 3.0.0](https://github.com/dupuisa/i-CodeCNES/milestone/1).*
+*Minor fixes and other enhancements : [milestone 3.0.0](https://github.com/lequal/i-CodeCNES/milestone/1).*
 
 Previous Releases
 =================
-* [Release 2.0.0](https://github.com/dupuisa/i-CodeCNES/releases/tag/v2.0.0)
-* [Release 1.0.0](https://github.com/dupuisa/i-CodeCNES/releases/tag/v1.0.0)
+* [Release 2.0.0](https://github.com/lequal/i-CodeCNES/releases/tag/v2.0.0)
+* [Release 1.0.0](https://github.com/lequal/i-CodeCNES/releases/tag/v1.0.0)
 
 
 Feedback and Support
 ====================
 Contact : L-lequal@cnes.fr
 
-Bugs and Feature requests: https://github.com/dupuisa/i-CodeCNES/issues 
+Bugs and Feature requests: https://github.com/lequal/i-CodeCNES/issues 
 
 Licensing
 =========
