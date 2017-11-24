@@ -14,13 +14,14 @@ location "http://download.eclipse.org/releases/oxygen" {
 	org.eclipse.ui.navigator.resources
 }
 
- // Ajout du delta pack
+ // Delta pack
 location "http://download.eclipse.org/eclipse/updates/4.7" {
 	org.eclipse.equinox.sdk.feature.group
 }
 
-location "http://download.eclipse.org/tools/orbit/R-builds/R20170516192513/repository" {
-	org.mockito [1.8.4,1.9.5)
+// mettre à jour suivant la target platform d'eclipse : http://download.eclipse.org/tools/orbit/downloads/
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/" {
+	org.mockito [1.9.5,2.0.0)
 	org.hamcrest [1.1.0,2.0.0)
 }
 
