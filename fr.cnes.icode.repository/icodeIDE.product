@@ -58,7 +58,7 @@
       <feature id="fr.cnes.icode.feature.fortran90" version="3.0.0.qualifier"/>
       <feature id="fr.cnes.icode.feature.shell" version="3.0.0.qualifier"/>
       <feature id="org.eclipse.photran"/>
-      <feature id="org.eclipse.platform" version="4.7.0.v20170612-1255"/>
+      <feature id="org.eclipse.platform"/>
       <feature id="org.eclipse.cdt"/>
       <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
       <feature id="org.eclipse.help"/>
