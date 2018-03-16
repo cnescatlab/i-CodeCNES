@@ -40,7 +40,7 @@ public final class ICodeLogger {
     /** WARNING message header */
     private static final String MSG_WARNING = "[WARNING] ";
     /** INFO message header */
-    private static final String MSG_INFO = "[INFO] ";
+    private static final String MSG_INFO = "[OK] ";
     /**
      * Plugin's eclipse defined LOGGER.
      */
@@ -125,6 +125,7 @@ public final class ICodeLogger {
     /**
      * Logging error handling with {@link IStatus#ERROR} level
      * 
+     * 
      * @param className
      *            class throwing the exception
      * @param methodName
@@ -142,18 +143,22 @@ public final class ICodeLogger {
     /**
      * Logging method entering.
      * 
+     * @since 3.0.1 : Logging has been disabled to improve performances.
+     * 
      * @param className
      *            class containing the method
      * @param methodName
      *            method entered.
      */
     public static void entering(final String className, final String methodName) {
-        logger.log(new Status(IStatus.INFO, pluginId,
-                        MSG_INFO + enteringMessageln(className, methodName)));
+        //logger.log(new Status(IStatus.OK, pluginId,
+        //                MSG_INFO + enteringMessageln(className, methodName)));
     }
 
     /**
      * Logging method entering with details of the several parameters.
+     * 
+     * Logging has been disabled to improve performances.
      * 
      * @param className
      *            class containing the method
@@ -164,15 +169,17 @@ public final class ICodeLogger {
      */
     public static void entering(final String className, final String methodName,
                     final Object[] params) {
-        String enteringMessage = enteringMessageln(className, methodName) + "Params:";
-        for (final Object param : params) {
-            enteringMessage += BLANK + "-" + objectToLogString(param);
-        }
-        logger.log(new Status(IStatus.INFO, pluginId, MSG_INFO + enteringMessage));
+        //String enteringMessage = enteringMessageln(className, methodName) + "Params:";
+        //for (final Object param : params) {
+        //    enteringMessage += BLANK + "-" + objectToLogString(param);
+        //}
+        //logger.log(new Status(IStatus.OK, pluginId, MSG_INFO + enteringMessage));
     }
 
     /**
      * Logging method entering with detail of only one parameter.
+     * 
+     * @since 3.0.1 : Logging has been disabled to improve performances.
      * 
      * @param className
      *            class containing the method
@@ -183,13 +190,15 @@ public final class ICodeLogger {
      */
     public static void entering(final String className, final String methodName,
                     final Object param) {
-        final String enteringMessage = enteringMessageln(className, methodName) + "Param:"
-                        + objectToLogString(param);
-        logger.log(new Status(IStatus.INFO, pluginId, MSG_INFO + enteringMessage));
+        //final String enteringMessage = enteringMessageln(className, methodName) + "Param:"
+        //                + objectToLogString(param);
+        //logger.log(new Status(IStatus.OK, pluginId, MSG_INFO + enteringMessage));
     }
 
     /**
      * Logging void method exiting
+     * 
+     * @since 3.0.1 : Logging has been disabled to improve performances.
      * 
      * @param className
      *            containing the method
@@ -197,12 +206,14 @@ public final class ICodeLogger {
      *            method left
      */
     public static void exiting(final String className, final String methodName) {
-        logger.log(new Status(IStatus.INFO, pluginId,
-                        MSG_INFO + exitingMessageln(className, className)));
+        //logger.log(new Status(IStatus.OK, pluginId,
+        //                MSG_INFO + exitingMessageln(className, className)));
     }
 
     /**
      * Logging a function exiting with it's returned parameter
+     * 
+     * @since 3.0.1 : Logging has been disabled to improve performances.
      * 
      * @param className
      *            class containing the method
@@ -213,9 +224,9 @@ public final class ICodeLogger {
      */
     public static void exiting(final String className, final String methodName,
                     final Object returned) {
-        logger.log(new Status(IStatus.INFO, pluginId,
-                        MSG_INFO + exitingMessageln(className, methodName) + "Returns: "
-                                        + objectToLogString(returned)));
+        //logger.log(new Status(IStatus.OK, pluginId,
+        //                MSG_INFO + exitingMessageln(className, methodName) + "Returns: "
+        //                                + objectToLogString(returned)));
     }
 
     /**
