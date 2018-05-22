@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>fr.cnes.icode</groupId>
 		<artifactId>fr.cnes.icode.parent</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>fr.cnes.analysis.tools.fortran90.rules</artifactId>	

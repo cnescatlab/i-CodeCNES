@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests for i-Code CNES UI
 Bundle-SymbolicName: fr.cnes.analysis.tools.ui.test
-Bundle-Version: 3.0.0.qualifier
+Bundle-Version: 3.0.1.qualifier
 Bundle-Vendor: CNES
 Fragment-Host: fr.cnes.analysis.tools.ui;bundle-version="2.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
