@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="Cnes ICode" sequenceNumber="1511518084">
+<target name="Cnes ICode" sequenceNumber="1526988272">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.platform.feature.group" version="4.7.1.v20171009-0410"/>
-      <unit id="org.eclipse.equinox.executable.feature.group" version="3.7.1.v20170928-1359"/>
+      <unit id="org.eclipse.platform.feature.group" version="4.7.3.v20180330-0640"/>
+      <unit id="org.eclipse.equinox.executable.feature.group" version="3.7.2.v20171108-1834"/>
       <unit id="org.junit" version="4.12.0.v201504281640"/>
-      <unit id="org.eclipse.photran.feature.group" version="9.1.3.201708300154"/>
+      <unit id="org.eclipse.photran.feature.group" version="9.1.4.201802282052"/>
       <unit id="org.eclipse.ui.navigator.resources" version="3.6.1.v20170823-1443"/>
       <repository location="http://download.eclipse.org/releases/oxygen"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.13.1.v20170928-1405"/>
+      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.13.4.v20180322-2228"/>
       <repository location="http://download.eclipse.org/eclipse/updates/4.7"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
