@@ -2,7 +2,7 @@
 <feature
       id="fr.cnes.icode.feature.fortran77"
       label="iCode CNES Fortran77"
-      version="3.0.0.qualifier"
+      version="3.0.1.qualifier"
       provider-name="CNES">
 
    <copyright url="http://www.example.com/copyright">
@@ -210,8 +210,8 @@ litigation.
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer" version="3.0.0" match="greaterOrEqual"/>
-      <import feature="fr.cnes.icode.feature.core" version="3.0.0"/>
+      <import plugin="fr.cnes.analysis.tools.analyzer" version="3.0.1" match="greaterOrEqual"/>
+      <import feature="fr.cnes.icode.feature.core" version="3.0.1"/>
    </requires>
 
    <plugin
