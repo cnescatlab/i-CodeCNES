@@ -2,8 +2,13 @@
 
 [![Build Status](https://travis-ci.org/lequal/i-CodeCNES.svg?branch=master)](https://travis-ci.org/lequal/i-CodeCNES)
 
-i-Code CNES is a static code analysis tool to help developpers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
+i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
 
+All the informations on CNES standards coverage, and rules availabilities and limitations can be read in the [User manual]( i-CodeCNES/documentation/i-Code CNES - User Manual - EN.pdf ). 
+
+Release 3.0.1
+=============
+* Fix of Eclipse's plug-in performances #101
 
 Release 3.0.0
 =============
