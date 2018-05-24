@@ -4,7 +4,7 @@
 
 i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
 
-All the informations on CNES standards coverage, and rules availabilities and limitations can be read in the [User manual]( i-CodeCNES/documentation/i-Code CNES - User Manual - EN.pdf ). 
+All the informations on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/lequal/i-CodeCNES/tree/master/documentation). 
 
 Release 3.0.1
 =============
