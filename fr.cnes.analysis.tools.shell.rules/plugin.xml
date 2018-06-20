@@ -6,6 +6,11 @@
          name="Shell Rules"
          point="fr.cnes.analysis.tools.analyzer.checks">
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMDATAInitialisation"
+            id="fr.cnes.analysis.tools.shell.rules.COMDATAInitialisation"
+            name="COM.DATA.Initialisation" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>   
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
             id="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
             name="COM.DATA.LoopCondition" languageId="fr.cnes.analysis.tools.languages.shell">
