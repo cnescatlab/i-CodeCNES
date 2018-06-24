@@ -20,12 +20,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 %%
 
@@ -40,12 +43,22 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, WRITE, STRING, FORLOOP, READ
+%state COMMENT, NAMING, WRITE, STRING, FORLOOP, READ, BEGINFUNC
 
 COMMENT_WORD = \#
-FUNC         = "function"
-SPACE		 = [\ \r\t\f]
-VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
+FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FUNCTION    	= "function"
+FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
+NAME	     	= [a-zA-Z\_][a-zA-Z0-9\_]*
+SPACE			= [\ \r\t\f\space]
+SHELL_VAR		= ([0-9]+|[\-\@\?\#\!\_\*\$])
+EXPANDED_VAR	= [\$][\{](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\:\%\=\+\?\/\!\-\,\^\#\*\@]|([\[](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\/\:\%\=\+\?\!\$\-\,\^\#\*\@\[\]\{\}])+[\]]))+[\}]
+VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
+
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+
+
 FILEEXIST	 = \[{SPACE}+{OPTION}{SPACE}+(\")?(\{)?\$(\{)?{VAR}(\})?(\")?
 OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 				   "p" | "r" | "s" | "u" | "w" | "x" | "O" | "G" | "L" |
@@ -53,7 +66,44 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 				   
 																
 %{
-	String location = "MAIN PROGRAM";
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+    /* ERROR_ON_VARIABLE: constant for variable error message */
+    private static final String ERROR_ON_VARIABLE = " -> Error with the variable named ";
+    /* LOCAL_VAR_SAME_NAME: constant for local variable message */
+    private static final String LOCAL_VAR_SAME_NAME = ". There is a local variable with the same name.";
+    /* FUNCT_SAME_NAME: constant for function name message */
+    private static final String FUNCT_SAME_NAME = ". There is a function with the same name.";
+
+	private Stack<Function> functionStack = new Stack<>();
+	
+    /* location: the current function name, or main program, that is the initial value */
+    private String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+
+	/* parsedFileName: name of the current file */
+	private String parsedFileName;
+
+	
+    /* functions: the list of function names in the code analyzed so far */
+    private List<String> functions = new ArrayList<String>();
+    /* localVariables: the list of local variables in the code analyzed so far */
+    private List<String> localVariables = new ArrayList<String>();
+    /* globalVariables: the list of global variables in the code analyzed so far */
+    private List<String> globalVariables = new ArrayList<String>();
+    /* currentLocals: the list of local variables in the current function */
+    private List<String> currentLocals = new ArrayList<String>();
+    /* extraGlobals: the list of the local variables of an encapsulating function */
+    private List<String> extraGlobals = new ArrayList<String>();
+    
+    /* currentOpening: the opening type of the current function */
+    private String currentOpening = "";
+    /* nbOpenings: the nuber of times the current opening has been used in the function number */ 
+    private int nbOpenings = 0;
+    /* doneOpenings: a list containing the "done" type family of openings */
+    private final List<String> doneOpenings = new ArrayList<String>(Arrays.asList("select", "for", "while", "until"));
+
 	List<String> variables = new ArrayList<String>();
 
     public COMDATAInitialisation() {
@@ -70,9 +120,28 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
+		this.parsedFileName = file.toString();
 		this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
-		
+	
+	private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}
+
+	
 %}
 
 %eofval{
@@ -102,9 +171,15 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = location + yytext(); yybegin(YYINITIAL);}
-				\n             	{yybegin(YYINITIAL);}  
-			   	.              	{}
+				{VAR}			{
+									location = yytext();
+									functionLine = yyline+1;
+									yybegin(BEGINFUNC);
+								}
+				\n             	{
+									yybegin(YYINITIAL);
+								}  
+			   	.			    {}
 		}
 
 /************************/
@@ -113,8 +188,31 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD}  	{yybegin(COMMENT);}
-				{FUNC}        		{location = yytext(); yybegin(NAMING);}
-			    /** variables initialisation **/
+				{FUNCTION}        	{yybegin(NAMING);}
+				{FUNCT}				{
+										functionLine = yyline+1;
+										location = yytext().substring(0,yytext().length()-2).trim();
+									 	yybegin(BEGINFUNC);
+								 	}
+	      		{FUNCSTART}			{
+		      							if(!functionStack.empty()){
+		      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+		      									functionStack.peek().addStarterRepetition();
+		      								}
+		      							} 		      							
+		      						}
+	      		{FUNCEND}			{
+		      							if(!functionStack.empty()){
+		      								if(functionStack.peek().isFinisher(yytext())){
+		      									if(functionStack.peek().getStarterRepetition()>0) {
+	      										    functionStack.peek().removeStarterRepetition();
+		      									} else {
+		      										endLocation();
+		      									}
+		      								}
+										}
+		      						}							
+				/** variables initialisation **/
 			    {VAR}{SPACE}*\=		{String var = yytext().substring(0,yytext().length()-1).trim();
 			    					 variables.add(var);}
 			    /** Varible use found **/ 
@@ -172,6 +270,26 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 				{VAR}			{variables.add(yytext()); }
 				\n | \;        	{yybegin(YYINITIAL);}  
 			   	.              	{}
+		}
+
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {}
 		}
 
 
