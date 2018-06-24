@@ -68,14 +68,9 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 %{
 	/* MAINPROGRAM: constant for main program localisation */
     private static final String MAINPROGRAM = "MAIN PROGRAM";
-    /* ERROR_ON_VARIABLE: constant for variable error message */
-    private static final String ERROR_ON_VARIABLE = " -> Error with the variable named ";
-    /* LOCAL_VAR_SAME_NAME: constant for local variable message */
-    private static final String LOCAL_VAR_SAME_NAME = ". There is a local variable with the same name.";
-    /* FUNCT_SAME_NAME: constant for function name message */
-    private static final String FUNCT_SAME_NAME = ". There is a function with the same name.";
 
-	private Stack<Function> functionStack = new Stack<>();
+	/* FunctionWithVariables is used here with only initialized variables in locals and glabals */
+	private Stack<FunctionWithVariables> functionStack = new Stack<>();
 	
     /* location: the current function name, or main program, that is the initial value */
     private String location = MAINPROGRAM;
@@ -85,26 +80,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 	/* parsedFileName: name of the current file */
 	private String parsedFileName;
 
-	
-    /* functions: the list of function names in the code analyzed so far */
-    private List<String> functions = new ArrayList<String>();
-    /* localVariables: the list of local variables in the code analyzed so far */
-    private List<String> localVariables = new ArrayList<String>();
-    /* globalVariables: the list of global variables in the code analyzed so far */
-    private List<String> globalVariables = new ArrayList<String>();
-    /* currentLocals: the list of local variables in the current function */
-    private List<String> currentLocals = new ArrayList<String>();
-    /* extraGlobals: the list of the local variables of an encapsulating function */
-    private List<String> extraGlobals = new ArrayList<String>();
-    
-    /* currentOpening: the opening type of the current function */
-    private String currentOpening = "";
-    /* nbOpenings: the nuber of times the current opening has been used in the function number */ 
-    private int nbOpenings = 0;
-    /* doneOpenings: a list containing the "done" type family of openings */
-    private final List<String> doneOpenings = new ArrayList<String>(Arrays.asList("select", "for", "while", "until"));
-
-	List<String> variables = new ArrayList<String>();
+	List<String> globalVariables = new ArrayList<String>();
 
     public COMDATAInitialisation() {
     	/** Initialize list with system variables **/
@@ -114,7 +90,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
     								"MACHTYPE", "OLDPWD", "OSTYPE", "PATH", "PIPESTATUS", "PPID", "PROMPT_COMMAND", 
     								"PS1", "PS2", "PS3", "PS4", "PWD", "REPLY", "SECONDS", "SHELLOPTS", "SHLVL", "TMOUT", 
     								"UID" };
-		variables.addAll(Arrays.asList(systemVariables));
+		globalVariables.addAll(Arrays.asList(systemVariables));
     }
 	
 	@Override
@@ -141,6 +117,52 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 		}
 	}
 
+	/** 
+     * checkVariable: checks for violations on the current variable name (var). 
+	 * Called from YYINITIAL and STRING.
+     */
+    private void checkVariable(final String var) throws JFlexException {
+		boolean found = false;
+        if(!functionStack.empty()){
+			/* we are in a function */
+		    if (functionStack.peek().getLocalVariables().contains(var))
+				found = true;
+			if (functionStack.peek().getGlobalVariables().contains(var))
+				found = true;
+        } 
+        if(!found && !globalVariables.contains(var)) {
+            setError(location,"The variable $" + var + " is used before being initialized." , yyline+1);
+        }
+    }    
+
+	/** 
+     * addVariable: adds the current variable name (var) to the list of variables : glabals if 
+     * in main, locals if in funtion. 
+	 * Called from YYINITIAL, WRITE, FORLOOP and READ.
+     */
+    private void addVariable(final String var) throws JFlexException {
+        if(!functionStack.empty()){
+			/* we are in a function */
+		    functionStack.peek().getLocalVariables().add(var);
+        } else {
+			/* we are in main */
+            globalVariables.add(var);		
+		}
+    }    
+	
+	/** 
+     * setGlobals: adds the current globals to the globals of pFunction.
+	 * If there is a higher level function, its locals are also added.
+     * Called from BEGINFUNC.
+     */
+	private void setGlobals(FunctionWithVariables pFunction) throws JFlexException {
+        if(!functionStack.empty()){
+			/* we are in a function: add the locals of the current function as globals of the new function */
+		    pFunction.getGlobalVariables().addAll(functionStack.peek().getLocalVariables());
+        } 
+		/* in all cases add the current globals */
+        pFunction.getGlobalVariables().addAll(globalVariables);		
+    }    
 	
 %}
 
@@ -214,15 +236,15 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 		      						}							
 				/** variables initialisation **/
 			    {VAR}{SPACE}*\=		{String var = yytext().substring(0,yytext().length()-1).trim();
-			    					 variables.add(var);}
+			    					 addVariable(var);}
 			    /** Varible use found **/ 
 			    \${VAR}				{String var = yytext().substring(1);
-			    					 if(!variables.contains(var)) setError(location,"The variable $" + var + " is used before being initialized." , yyline+1);}
+			    					 checkVariable(var);}
 			    "tee" | \>\>		{yybegin(WRITE);}
 			    "for"				{yybegin(FORLOOP);}
 			    "read"				{yybegin(READ);}
 			    {FILEEXIST}			{String var = yytext().replaceAll("\"", "").replaceAll("\\{", "").replaceAll("\\}", "").split("\\$")[1];
-			                         variables.add(var);}
+			                         addVariable(var);}
 			    {VAR}				{}
 			    \"					{yybegin(STRING);}
 			 	.              		{}
@@ -235,7 +257,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 		{
 				\-{VAR}			{}
 				\$(\{)?{VAR}	{String var = yytext().substring(1).replace("{",""); 
-								 variables.add(var);}
+								 addVariable(var);}
 				\n | \;        	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -245,7 +267,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 /************************/
 <FORLOOP>   	
 		{
-				{VAR}			{variables.add(yytext()); yybegin(YYINITIAL);}
+				{VAR}			{addVariable(yytext()); yybegin(YYINITIAL);}
 				\n | \;        	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -257,7 +279,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 		{
 				\\\$			{}
 				\$(\{)?{VAR}	{String var = yytext().substring(1).replace("{",""); 
-			    			     if(!variables.contains(var)) setError(location,"The variable $" + var + " is used before being initialized." , yyline+1);}
+			    			     checkVariable(var);}
 				\n | \; | \"   	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -267,7 +289,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 /************************/
 <READ>   	
 		{
-				{VAR}			{variables.add(yytext()); }
+				{VAR}			{addVariable(yytext()); }
 				\n | \;        	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -284,8 +306,9 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 		{
 				\(\)			{}
 				{FUNCSTART}		{
-									Function function;
-									function = new Function(location, functionLine, yytext());
+									FunctionWithVariables function;
+									function = new FunctionWithVariables(location, functionLine, yytext());
+									setGlobals(function);
 									functionStack.push(function);
 								 	yybegin(YYINITIAL);
 							 	}
