@@ -66,6 +66,11 @@
             name="COM.PRES.Header" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
+            id="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
+            name="COM.PRES.LengthLine" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHDATAIFS"
             id="fr.cnes.analysis.tools.shell.rules.SHDATAIFS"
             name="SH.DATA.IFS" languageId="fr.cnes.analysis.tools.languages.shell">
