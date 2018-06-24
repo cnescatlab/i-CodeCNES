@@ -18,12 +18,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.util.List;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 %%
 
@@ -39,19 +42,32 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING
+%state COMMENT, NAMING, BEGINFUNC
 
-FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
-SPACE		 = [\ \r\t\f]
-VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
+FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FUNCTION    	= "function"
+FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE			= [\ \r\t\f\space]
+NAME	     	= [a-zA-Z\_][a-zA-Z0-9\_]*
+SHELL_VAR		= ([0-9]+|[\-\@\?\#\!\_\*\$])
+EXPANDED_VAR	= [\$][\{](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\:\%\=\+\?\/\!\-\,\^\#\*\@]|([\[](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\/\:\%\=\+\?\!\$\-\,\^\#\*\@\[\]\{\}])+[\]]))+[\}]
+VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
 
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 
 																
 %{
-	String location = "MAIN PROGRAM";
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+	
+	String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+
     private String parsedFileName;
 	int length = 0;
+	private Stack<Function> functionStack = new Stack<>();
 
     public COMPRESLengthLine() {
     	
@@ -70,7 +86,23 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 			setError(location,"There are more than 100 characters in this line.", yyline+1);
 		length = 0;
 	}
-			
+	
+	private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}			
 %}
 
 %eofval{
@@ -91,7 +123,10 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); length+=yytext().length(); yybegin(YYINITIAL);}
+				{VAR}			{location = yytext(); 
+								 length+=yytext().length(); 
+								 functionLine = yyline+1;
+								 yybegin(BEGINFUNC);}
 				\n             	{checkLine(); yybegin(YYINITIAL);}  
 			   	.              	{length+=yytext().length();}
 		}
@@ -102,11 +137,57 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 <YYINITIAL>
 		{
 				{FUNCTION}     	{length+=yytext().length(); yybegin(NAMING);}
-				{FUNCT}			{length+=yytext().length(); location = yytext().substring(0,yytext().length()-2).trim(); }
+				{FUNCT}			{length+=yytext().length(); 
+								 functionLine = yyline+1;
+								 location = yytext().substring(0,yytext().length()-2).trim(); 
+								 yybegin(BEGINFUNC);
+								}
+	      		{FUNCSTART}		{
+		      						if(!functionStack.empty()){
+		      							if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+		      								functionStack.peek().addStarterRepetition();
+		      							}
+		      						} 
+									length+=yytext().length();
+		      					}
+	      		{FUNCEND}		{
+		      						if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+		      							}
+									}
+									length+=yytext().length();
+		      					}							
 			    \n				{checkLine();}
 	      		.              	{length+=yytext().length();}
 		}
 
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{length+=yytext().length();}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+									length+=yytext().length();
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {length+=yytext().length();}
+		}
+
+		
 
 /************************/
 /* ERROR STATE	        */
