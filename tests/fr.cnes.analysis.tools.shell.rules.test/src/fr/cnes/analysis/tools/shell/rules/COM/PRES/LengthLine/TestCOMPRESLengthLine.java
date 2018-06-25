@@ -35,8 +35,8 @@ public class TestCOMPRESLengthLine {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 9, 45, 47 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "affiche_resultat", "affiche_resultat" };
+	public final static int[] LINES = { 9, 18, 48, 55, 57, 75};
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "ma_fonction_affine", "affiche_resultat", "test_length", "affiche_resultat", "MAIN PROGRAM"};
 	public final AbstractChecker rule = new COMPRESLengthLine();
 
 	/**
