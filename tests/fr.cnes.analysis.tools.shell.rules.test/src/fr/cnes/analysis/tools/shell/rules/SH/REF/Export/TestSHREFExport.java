@@ -35,8 +35,8 @@ public class TestSHREFExport {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 18 };
-	public final static String[] LOCATIONS = { "verifie_seuil_shell" };
+	public final static int[] LINES = { 18, 27, 30 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "testFunction","MAIN PROGRAM" };
 	public final AbstractChecker rule = new SHREFExport();
 
 	/**
