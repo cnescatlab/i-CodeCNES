@@ -6,7 +6,7 @@ echo "------------------------------------------"
 
 code_erreur_nbargs=-128
 
-# Dénition de la variable qui contiendra le code retour (en particulier pour les cas d'erreur avec valeurs negatives)
+# DÃ©nition de la variable qui contiendra le code retour (en particulier pour les cas d'erreur avec valeurs negatives) - function test
 r_ma_fonction_affine=
 
 # ------------------------------------------------------------------------------------
@@ -14,12 +14,13 @@ r_ma_fonction_affine=
 # ------------------------------------------------------------------------------------
 ma_fonction_affine () 
 { 
-   if [ $# -ne 3 ]
+ 
+       printf "This is a long line in the ma_fonction_affine function to test the line length maximum"
+
+ if [ $# -ne 3 ]
    then
    r_ma_fonction_affine=$code_erreur_nbargs
    else 
-
-#      printf "interface appel fonction ok : p1=%s p2=%s p3=%s\n" $1 $2 $3
 
       # calcul : y = ax + b
      let y=$1*$2+$3 
@@ -36,18 +37,25 @@ affiche_resultat ()
 {
    if [ $# -ne 2 ]
    then
-      printf "Erreur grave dans affiche_resultat : nombre d'arguments incorrects\n"
+      printf "Erreur grave dans affiche_resultat : nombre d'arguments incorrects"
    else 
       p1=$1
       p2=$2
       if [ $p2 -ge 0 ]
       then
-         printf "execution de 'ma_fonction_affine' avec chaine de calcul : %s resultat = %s \n" $p1 $2
+         printf "execution de 'ma_fonction_affine' avec chaine de calcul : %s resultat = %s " $p1 $2
          else
-         printf "erreur d'execution de 'ma_fonction_affine' avec chaine de calcul : %s code retour = %s\n" $p1 $p2
-         printf "   ===>Erreur grave dans ma_fonction_affine : nombre d'arguments incorrects<===\n"
+         printf "erreur d'execution de 'ma_fonction_affine' avec chaine de calcul : %s code retour = %s" $p1 $p2
+         printf "   ===>Erreur grave dans ma_fonction_affine : nombre d'arguments incorrects<==="
       fi
   fi
+  
+  function test_length ()
+  {
+  	printf "this too is a very very very very very very very very very very long line to test the length limit pb anti-n\n"
+  }
+  printf "this too is a very very very very long line to test the length limit while out of the included function pb anti-n\n"
+  
 }
 
 a_trouver=$(($RANDOM % 100))
@@ -64,6 +72,6 @@ do
         fi
      read i
 done
-echo "bravo, le nombre etait en effet $a_trouver"
+echo "bravo, le nombre etait en effet $a_trouver, vous avez gagne !!!!! Merci de relancer si vous voulez rejouer"
 
 
