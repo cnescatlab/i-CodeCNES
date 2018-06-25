@@ -42,8 +42,9 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, BEGINFUNC
+%state COMMENT, NAMING, BEGINFUNC, STRING_DOUBLE, STRING_SIMPLE
 
+COMMENT_WORD = \#
 FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 FUNCTION    	= "function"
 FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
@@ -55,6 +56,11 @@ VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
 
 FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+
+STRING_D		= \"
+IGNORE_STRING_D = [\\][\"]
+STRING_S	 	= \'
+IGNORE_STRING_S = [\\][\']
 
 																
 %{
@@ -116,7 +122,15 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 
 /************************/
 
-		
+/************************/
+/* COMMENT STATE	    */
+/************************/
+<COMMENT>   	
+		{
+				\n             	{checkLine(); yybegin(YYINITIAL);}  
+			   	.              	{length+=yytext().length();}
+		}
+				
 		
 /************************/
 /* NAMING STATE	    	*/
@@ -136,6 +150,15 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 /************************/
 <YYINITIAL>
 		{
+			  	{COMMENT_WORD}  {length+=yytext().length();yybegin(COMMENT);}
+				{STRING_D}		{   
+									length+=yytext().length();
+									yybegin(STRING_DOUBLE);
+								}
+				{STRING_S}		{
+									length+=yytext().length();
+									yybegin(STRING_SIMPLE);
+								}
 				{FUNCTION}     	{length+=yytext().length(); yybegin(NAMING);}
 				{FUNCT}			{length+=yytext().length(); 
 								 functionLine = yyline+1;
@@ -187,7 +210,34 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 			   	[^]|{SPACE}  {length+=yytext().length();}
 		}
 
-		
+/*
+ * The string states are designed to avoid problems due to patterns found in strings.
+ */ 
+/************************/
+/* STRING_SIMPLE STATE	    */
+/************************/
+<STRING_SIMPLE>   	
+		{
+				{IGNORE_STRING_S}	{length+=yytext().length();}
+				{STRING_S}    		{
+										length+=yytext().length();
+										yybegin(YYINITIAL);
+									}  
+		  	 	[^]|{SPACE}  		{length+=yytext().length();}
+		}
+
+/************************/
+/* STRING_DOUBLE STATE	    */
+/************************/
+<STRING_DOUBLE>   	
+		{
+				{IGNORE_STRING_D}	{length+=yytext().length();}
+				{STRING_D}    		{
+										length+=yytext().length();
+										yybegin(YYINITIAL);
+									}  
+		  	 	[^]|{SPACE}  		{length+=yytext().length();}
+		}
 
 /************************/
 /* ERROR STATE	        */
