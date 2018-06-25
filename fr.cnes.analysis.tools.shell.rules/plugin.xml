@@ -6,6 +6,11 @@
          name="Shell Rules"
          point="fr.cnes.analysis.tools.analyzer.checks">
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMDATAInitialisation"
+            id="fr.cnes.analysis.tools.shell.rules.COMDATAInitialisation"
+            name="COM.DATA.Initialisation" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>   
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
             id="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
             name="COM.DATA.LoopCondition" languageId="fr.cnes.analysis.tools.languages.shell">
@@ -59,6 +64,11 @@
       		class="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
             id="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
             name="COM.PRES.Header" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
+            id="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
+            name="COM.PRES.LengthLine" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHDATAIFS"
@@ -170,6 +180,12 @@
             id="fr.cnes.analysis.tools.shell.rules.SHMETPipeLine"
             name="SH.MET.PipeLine" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHREFExport"
+            id="fr.cnes.analysis.tools.shell.rules.SHREFExport"
+            name="SH.Ref.Export" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+
    </extension>
 
 </plugin>

@@ -35,8 +35,8 @@ public class TestCOMDATAInitialisation {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 9 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM" };
+	public final static int[] LINES = { 9, 15, 20, 25, 27, 32, 37 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "function1", "MAIN PROGRAM", "function2", "function2", "function3", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMDATAInitialisation();
 
 	/**
