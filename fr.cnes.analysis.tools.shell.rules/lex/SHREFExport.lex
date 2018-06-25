@@ -63,7 +63,7 @@ IGNORE_STRING_D = [\\][\"]
 STRING_S	 	= \'
 IGNORE_STRING_S = [\\][\']
 
-EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{VAR}
+EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{FNAME}
 																
 %{
 	/* MAINPROGRAM: constant for main program localisation */
