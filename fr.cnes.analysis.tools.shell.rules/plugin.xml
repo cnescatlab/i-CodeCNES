@@ -180,6 +180,12 @@
             id="fr.cnes.analysis.tools.shell.rules.SHMETPipeLine"
             name="SH.MET.PipeLine" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHREFExport"
+            id="fr.cnes.analysis.tools.shell.rules.SHREFExport"
+            name="SH.Ref.Export" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+
    </extension>
 
 </plugin>
