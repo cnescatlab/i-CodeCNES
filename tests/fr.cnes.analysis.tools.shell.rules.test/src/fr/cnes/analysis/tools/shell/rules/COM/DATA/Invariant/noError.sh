@@ -29,3 +29,16 @@ fonction2 ()
 {
   typeset -r pos=3
 }
+
+
+function fonction3 ()
+{
+  position3=5
+  local position4=10
+  
+  function fonction4 ()
+  {
+	position3+=$position4
+  }
+  position4=5
+}
