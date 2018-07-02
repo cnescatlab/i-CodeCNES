@@ -42,3 +42,5 @@ function fonction3 ()
   }
   position4=5
 }
+
+awk 'BEGIN { FS = " "; StartType = 0; StartEnum = 0; typeName=""; }'

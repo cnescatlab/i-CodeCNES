@@ -44,7 +44,7 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, INVARIANT, AVOID, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
+%state COMMENT, NAMING, INVARIANT, AVOID, BEGINFUNC, AWK, AWK_STRING, STRING_SIMPLE, STRING_DOUBLE
 
 COMMENT_WORD = \#
 FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
@@ -76,12 +76,15 @@ IGNORE		 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | "typeset" | "declare" | "--"[a-z
 FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 
+AWK			 = "awk"
+COMMAND_END	 = [\n;]
+
 STRING_D		= \"
 IGNORE_STRING_D = [\\][\"]
 STRING_S	 	= \'
 IGNORE_STRING_S = [\\][\']
 
-CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" | "awk" | 
+CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 			   "basename" | "bash" | "bc" | "bg" | "break" | "builtin" | "bzip2" | 
 			   "cal" | "case" | "cd" | "cfdisk" | "chgrp" | "chmod" | "chown" | 
 			   "chroot" | "chkconfig" | "cksum" | "clear" | "cmp" | "comm" | "command" | 
@@ -357,6 +360,7 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" | "awk
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD}  	{yybegin(COMMENT);}
+				{AWK}				{yybegin(AWK);}
 				{FUNCTION}			{yybegin(NAMING);}
 				{FUNCT}				{location = yytext().substring(0,yytext().length()-2).trim();
 									 yybegin(BEGINFUNC);}
@@ -464,7 +468,29 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" | "awk
 				{STRING_D}    		{yybegin(YYINITIAL);}  
 		  	 	[^]|{SPACE}  		{}
 		}
+/*
+ * The AWK states are designed to ignore awk commands
+ */ 
+/************************/
+/* AWK STATE	    */
+/************************/
+<AWK>   	
+		{
+				{STRING_S}    		{yybegin(AWK_STRING);}  
+				{COMMAND_END}  		{yybegin(YYINITIAL);}
+				.					{}
+		}
 
+/************************/
+/* AWK_STRING STATE	    */
+/************************/
+<AWK_STRING>   	
+		{
+				{IGNORE_STRING_S}	{}
+				{STRING_S}    		{yybegin(AWK);}  
+		  	 	[^]|{SPACE}  		{}
+		}
+	
 
 /************************/
 /* ERROR STATE	        */
