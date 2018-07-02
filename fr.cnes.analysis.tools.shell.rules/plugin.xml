@@ -11,6 +11,11 @@
             name="COM.DATA.Initialisation" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>   
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMDATAInvariant"
+            id="fr.cnes.analysis.tools.shell.rules.COMDATAInvariant"
+            name="COM.DATA.Invariant" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>   
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
             id="fr.cnes.analysis.tools.shell.rules.COMDATALoopCondition"
             name="COM.DATA.LoopCondition" languageId="fr.cnes.analysis.tools.languages.shell">
