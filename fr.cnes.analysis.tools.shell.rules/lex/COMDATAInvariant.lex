@@ -44,11 +44,13 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, INVARIANT, AVOID, BEGINFUNC, AWK, AWK_STRING, STRING_SIMPLE, STRING_DOUBLE
+%state COMMENT, NAMING, INVARIANT, AVOID, BEGINFUNC, AWK, AWK_STRING, STRING_SIMPLE, STRING_DOUBLE, FOR
 
 COMMENT_WORD = \#
 FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 FUNCTION    	= "function"
+FOR				= "for"
+DONE			= "done"
 FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
 NAME	     	= [a-zA-Z\_][a-zA-Z0-9\_]*
 SPACE			= [\ \r\t\f\space]*
@@ -361,6 +363,7 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 		{
 			  	{COMMENT_WORD}  	{yybegin(COMMENT);}
 				{AWK}				{yybegin(AWK);}
+				{FOR}{SPACE}*\(\(	{yybegin(FOR);}
 				{FUNCTION}			{yybegin(NAMING);}
 				{FUNCT}				{location = yytext().substring(0,yytext().length()-2).trim();
 									 yybegin(BEGINFUNC);}
@@ -491,6 +494,14 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 		  	 	[^]|{SPACE}  		{}
 		}
 	
+/************************/
+/* FOR STATE	    */
+/************************/
+<FOR>   	
+		{
+				{DONE}    		{yybegin(YYINITIAL);}  
+				.				{}
+		}
 
 /************************/
 /* ERROR STATE	        */

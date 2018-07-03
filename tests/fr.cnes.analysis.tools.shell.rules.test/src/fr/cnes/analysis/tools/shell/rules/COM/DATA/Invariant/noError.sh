@@ -44,3 +44,6 @@ function fonction3 ()
 }
 
 awk 'BEGIN { FS = " "; StartType = 0; StartEnum = 0; typeName=""; }'
+
+for (( PREPAR_UNE_SEUL_FOIS=0;$PREPAR_UNE_SEUL_FOIS<3;PREPAR_UNE_SEUL_FOIS++)) ; do echo "prepare" ; done
+
