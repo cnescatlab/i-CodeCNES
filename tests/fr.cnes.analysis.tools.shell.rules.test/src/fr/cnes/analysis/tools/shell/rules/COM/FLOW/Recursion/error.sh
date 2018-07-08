@@ -24,18 +24,29 @@ function recursive_indirecte1()
 }
 function recursive_indirecte2()
 {
+	recursive_indirecte4()
+	{
+		recursive_indirecte1
+	}	
 	read num
 	if [ $num -eq 1 ]
     then
 		echo "Bingo!"
 	else 
-		recursive_indirecte3
+		if [$num -eq 2]
+		then
+			recursive_indirecte3
+		else
+			recursive_indirecte4
+		fi
 	fi 
+	
 }
 function recursive_indirecte3()
 {
 	echo "Try again"
 	recursive_indirecte1
+	recursive_indirecte2
 }
 
 recursive_directe
