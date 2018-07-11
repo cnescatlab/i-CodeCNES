@@ -26,3 +26,5 @@ fonction2 ()
 {
   typeset pos=3
 }
+
+position2=5;

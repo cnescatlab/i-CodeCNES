@@ -35,8 +35,8 @@ public class TestCOMFLOWRecursion {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 16, 38 };
-	public final static String[] LOCATIONS = { "recursive_directe", "recursive_indirecte3" };
+	public final static int[] LINES = { 16, 40, 48, 49 };
+	public final static String[] LOCATIONS = { "recursive_directe", "recursive_indirecte2" , "recursive_indirecte3" , "recursive_indirecte3" };
 	public final AbstractChecker rule = new COMFLOWRecursion();
 
 	/**
