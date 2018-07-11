@@ -35,9 +35,8 @@ public class TestCOMDATAInvariant {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 9, 14, 21, 13, 27, 8, 9 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "fonction", "MAIN PROGRAM", "fonction2",
-			"MAIN PROGRAM", "MAIN PROGRAM" };
+	public final static int[] LINES = { 9, 14, 21, 27, 13, 8, 9, 30};
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "fonction", "fonction2", "MAIN PROGRAM", "MAIN PROGRAM" , "MAIN PROGRAM", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMDATAInvariant();
 
 	/**

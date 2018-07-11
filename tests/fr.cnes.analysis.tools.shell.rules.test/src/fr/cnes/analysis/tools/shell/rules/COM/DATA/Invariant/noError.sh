@@ -29,3 +29,21 @@ fonction2 ()
 {
   typeset -r pos=3
 }
+
+
+function fonction3 ()
+{
+  position3=5
+  local position4=10
+  
+  function fonction4 ()
+  {
+	position3+=$position4
+  }
+  position4=5
+}
+
+awk 'BEGIN { FS = " "; StartType = 0; StartEnum = 0; typeName=""; }'
+
+for (( PREPAR_UNE_SEUL_FOIS=0;$PREPAR_UNE_SEUL_FOIS<3;PREPAR_UNE_SEUL_FOIS++)) ; do echo "prepare" ; done
+
