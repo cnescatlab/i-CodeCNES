@@ -39,7 +39,7 @@
 							<id>icodeIDE.product</id>
 							<rootFolder>icodeIDE</rootFolder>
 						</product>
-							<product>
+						<product>
 							<id>icode.product</id>
 							<rootFolder>icode</rootFolder>
 							<attachId>icode</attachId>

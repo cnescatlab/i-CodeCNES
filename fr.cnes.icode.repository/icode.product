@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Cnes Icode Command Line product" uid="icode.product" id="fr.cnes.icode.application.product" application="fr.cnes.icode.application.application" version="3.0.1" useFeatures="true" includeLaunchers="true">
+<product name="i-Code CNES Command Line product" uid="icode.product" id="fr.cnes.icode.application.product" application="fr.cnes.icode.application.application" version="3.0.1" useFeatures="true" includeLaunchers="true">
+
 
    <configIni use="default">
    </configIni>
@@ -18,15 +19,18 @@
 
    <windowImages/>
 
+
    <launcher name="icode">
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
       <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
    </vm>
+
 
    <plugins>
       <plugin id="fr.cnes.analysis.tools.analyzer"/>
