@@ -56,6 +56,16 @@
 								<id>org.mockito</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.apache.commons.cli</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.apache.commons.io</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
 						</extraRequirements>
 					</dependency-resolution>
 					<target>
@@ -66,7 +76,6 @@
 						</artifact>
 					</target>
 					<environments>
-
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>

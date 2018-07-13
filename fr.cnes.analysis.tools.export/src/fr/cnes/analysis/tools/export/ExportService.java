@@ -49,11 +49,24 @@ public class ExportService implements IExportService {
     public void export(List<CheckResult> checkResults, File outputFile,
                     Map<String, String> parameters) throws NoContributorMatchingException,
                     NoExtensionIndicatedException, IOException, CoreException {
+        export(checkResults, outputFile, parameters,
+                        ExportUtils.getExtensionFromFilePath(outputFile.getAbsolutePath()));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see fr.cnes.analysis.tools.export.IExportService#export(java.util.List,
+     * java.io.File, java.util.Map, java.lang.String)
+     */
+    @Override
+    public void export(List<CheckResult> pCheckResults, File pOutputFile,
+                    Map<String, String> pParameters, String pFormat) throws NoContributorMatchingException,
+                    NoExtensionIndicatedException, IOException, CoreException {
         final String method = "export";
         ICodeLogger.entering(CLASS, method);
-        final IExporter exporter = getExportClass(
-                        ExportUtils.getExtensionFromFilePath(outputFile.getAbsolutePath()));
-        exporter.export(checkResults, outputFile, parameters);
+        final IExporter exporter = getExportClass(pFormat);
+        exporter.export(pCheckResults, pOutputFile, pParameters);
         ICodeLogger.exiting(CLASS, method);
     }
 
