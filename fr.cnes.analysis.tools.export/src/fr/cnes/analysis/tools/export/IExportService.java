@@ -82,4 +82,32 @@ public interface IExportService {
      */
     public Map<String, String> getParameters(String formatExtension)
                     throws NoContributorMatchingException, CoreException;
+
+    /**
+     * This function export each {@link CheckResult} of {@code checkResults}
+     * parameter into the {@link File} parameter.
+     * 
+     * @param pCheckResults
+     *            to export.
+     * @param pOutputFile
+     *            to use for the export.
+     * @param pParameters
+     *            parameter required by the export plugin.
+     * @param pFormat
+     * 			  define the format of the results file.
+     * @throws NoContributorMatchingException
+     *             when a format can not be handled by the @link
+     *             {@link ExportService} service.
+     * @throws NoExtensionIndicatedException
+     *             when the {@code outputFile} has no extension indicated.
+     * @throws IOException
+     *             when the export failed due to a {@link java.io.File}
+     *             exception.
+     * @throws CoreException
+     *             when failing to create executable from contributor of
+     *             {@link #EXPORT_EXTENSIONPOINT_ID}'s attribute
+     *             {@link #EXPORT_EXTENSIONPOINT_ATTRIBUTE_EXPORTCLASS}.
+     */
+	void export(List<CheckResult> pCheckResults, File pOutputFile, Map<String, String> pParameters, String pFormat)
+			throws NoContributorMatchingException, NoExtensionIndicatedException, IOException, CoreException;
 }

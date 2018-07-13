@@ -19,9 +19,11 @@ location "http://download.eclipse.org/eclipse/updates/4.7" {
 	org.eclipse.equinox.sdk.feature.group
 }
 
-// mettre à jour suivant la target platform d'eclipse : http://download.eclipse.org/tools/orbit/downloads/
+// mettre a jour suivant la target platform d'eclipse : http://download.eclipse.org/tools/orbit/downloads/
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/" {
 	org.mockito [1.9.5,2.0.0)
 	org.hamcrest [1.1.0,2.0.0)
+	org.apache.commons.cli [1.2.0,1.5.0)
+	org.apache.commons.io [2.0.1,2.6.0)
 }
 
