@@ -15,12 +15,12 @@
    </extension>
    <extension
          id="product"
-         name="Icode command line product"
+         name="i-Code command line product"
          point="org.eclipse.core.runtime.products">
       <product
             application="fr.cnes.icode.application.application"
-            description="The product to run icode using a commande line "
-            name="Cnes Icode Command Line product">
+            description="The product to run i-Code using a commande line "
+            name="i-Code CNES Command Line product">
       </product>
    </extension>
 
