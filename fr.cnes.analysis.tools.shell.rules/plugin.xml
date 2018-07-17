@@ -36,6 +36,11 @@
             name="COM.DESIGN.ActiveWait" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
+            name="COM.FLOW.Abort" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMFLOWBooleanExpression"
             id="fr.cnes.analysis.tools.shell.rules.COMFLOWBooleanExpression"
             name="COM.FLOW.BooleanExpression" languageId="fr.cnes.analysis.tools.languages.shell">
