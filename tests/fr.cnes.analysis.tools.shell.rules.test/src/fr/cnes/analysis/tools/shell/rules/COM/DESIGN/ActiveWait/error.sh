@@ -15,7 +15,11 @@ do
    fi
    i=$(($i+1))
 done
+function readNum ()
+{
+   echo "Insert one number"
+   read x
+   echo "You insert: $x"
+}
 
-echo "Insert one number"
-read x
-echo "You insert: $x"
+sleep 1024
