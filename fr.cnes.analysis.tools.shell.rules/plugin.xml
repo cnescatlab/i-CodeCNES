@@ -25,11 +25,6 @@
             id="fr.cnes.analysis.tools.shell.rules.COMDATANotUsed"
             name="COM.DATA.NotUsed" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
-      <check  
-      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
-            id="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
-            name="COM.FLOW.Abort" languageId="fr.cnes.analysis.tools.languages.shell">
-      </check>
       <check
             class="fr.cnes.analysis.tools.shell.rules.COMDESIGNActiveWait"
             id="fr.cnes.analysis.tools.shell.rules.COMDESIGNActiveWait"

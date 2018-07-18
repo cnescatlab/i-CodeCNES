@@ -35,8 +35,8 @@ public class TestCOMDESIGNActiveWait {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 9, 20 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM" };
+	public final static int[] LINES = { 9, 21, 25 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "readNum", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMDESIGNActiveWait();
 
 	/**
