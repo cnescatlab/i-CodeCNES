@@ -18,13 +18,25 @@ esac
 
 caseFunction ()
 {
-    while read SELECT2;do
-            case $SELECT2 in
-              "a") print "A selected";;
-              "b") print "B selected";;
-            esac
-            break 2
-    done;;
+  print "1) sub menu"
+  print "2) nothing"
+
+  while true; do
+    read SELECT
+    case $SELECT in
+      1)    print "a) option a"
+            print "b) option b"
+            while read SELECT2;do
+              case $SELECT2 in
+                "a") print "A selected";;
+                "b") print "B selected";;
+              esac
+              break 2
+            done;;
+      2) print "2 selected";;
+    esac
+    break
+  done
 }
 
 # --- Extraction des valeurs des parametres
