@@ -42,7 +42,7 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, CONDITIONAL, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
+%state COMMENT, NAMING, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
 
 COMMENT_WORD = \#
 FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
@@ -168,22 +168,14 @@ ESAC		 = "esac"
 		      					}
  				{STRING_D}		{yybegin(STRING_DOUBLE);}
 				{STRING_S}		{yybegin(STRING_SIMPLE);}
-			    {CASE}			{defaultExpr=false; yybegin(CONDITIONAL);}
+			    {CASE}			{defaultExpr=false;}
+				\*\)			{defaultExpr=true;}
+				{ESAC}			{if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); 
+								 defaultExpr=false;}
 			    {VAR}			{} /* Clause to match with words that contains "kill" */
 			 	[^]            	{}
 		}
 		
-/************************/
-/* CONDITIONAL STATE    */
-/************************/
-<CONDITIONAL>   	
-		{
-				\*\)			{defaultExpr=true;}
-				{ESAC}			{if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); yybegin(YYINITIAL);}
-				{VAR}			{}
-				[^]         	{}  
-		}
-
 /************************/
 /* BEGINFUNC STATE	    */
 /************************/

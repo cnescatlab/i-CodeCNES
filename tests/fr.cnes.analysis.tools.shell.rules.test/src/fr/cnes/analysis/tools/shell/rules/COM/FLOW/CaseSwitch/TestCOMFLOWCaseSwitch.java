@@ -35,8 +35,8 @@ public class TestCOMFLOWCaseSwitch {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 17, 25, 40 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "caseFunction", "MAIN PROGRAM" };
+	public final static int[] LINES = { 17, 33, 37, 52 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "caseFunction", "caseFunction", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMFLOWCaseSwitch();
 
 	/**
