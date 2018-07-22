@@ -37,8 +37,8 @@ public class TestCOMPRESIndent {
 	public final static String NO_ERROR_FILE = "noError.sh";
 	public final static int[] LINES = { 18, 26, 45, 49, 59, 60, 64, 70, 78, 79 };
 	public final static String[] LOCATIONS = { "ma_fonction_affine", "ma_fonction_affine", "affiche_resultat",
-			"affiche_resultat", "affiche_resultat", "affiche_resultat", "affiche_resultat", "affiche_resultat",
-			"affiche_resultat", "affiche_resultat" };
+			"affiche_resultat", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+			"MAIN PROGRAM", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMPRESIndent();
 
 	/**
