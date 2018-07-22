@@ -61,6 +61,11 @@
             name="COM.FLOW.Recursion" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMINSTBoolNegation"
+            id="fr.cnes.analysis.tools.shell.rules.COMINSTBoolNegation"
+            name="COM.INST.BoolNegation" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment"
             id="fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment"
             name="COM.INST.CodeComment" languageId="fr.cnes.analysis.tools.languages.shell">
