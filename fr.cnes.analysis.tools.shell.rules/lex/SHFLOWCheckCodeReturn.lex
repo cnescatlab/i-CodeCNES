@@ -45,7 +45,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 COMMENT_WORD = \#
 SPACE		 = [\ \r\t\f]
 FUNCTION	 = "function"
-FUNC		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {VAR}{SPACE}*\(\)
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 STRING		 = \'[^\']*\' | \"[^\"]*\"
 
@@ -161,7 +161,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 		{
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
 				{FUNCTION}     	{location = yytext(); yybegin(NAMING);}
-				{FUNC}			{location = yytext().substring(0,yytext().length()-2).trim(); functions.put(location, false);}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); functions.put(location, false);}
 			    {STRING}		{}
 			    {VAR}			{Boolean found = functions.get(yytext());
 			    				 if(found!=null) {

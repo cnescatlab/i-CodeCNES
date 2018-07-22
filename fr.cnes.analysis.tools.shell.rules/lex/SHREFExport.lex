@@ -136,7 +136,7 @@ EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{FNAME}
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); 
+				{FNAME}			{location = yytext(); 
 								 functionLine = yyline+1;
 								 yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  

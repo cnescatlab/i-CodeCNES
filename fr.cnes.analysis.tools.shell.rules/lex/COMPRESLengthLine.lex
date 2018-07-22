@@ -137,7 +137,7 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); 
+				{FNAME}			{location = yytext(); 
 								 length+=yytext().length(); 
 								 functionLine = yyline+1;
 								 yybegin(BEGINFUNC);}

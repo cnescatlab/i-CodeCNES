@@ -131,7 +131,7 @@ ACTWAIT      = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
 /************************/
 <NAMING>    
         {
-                {VAR}           {location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
+                {FNAME}           {location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
                 \n              {yybegin(YYINITIAL);}  
                 .               {}
         }

@@ -44,8 +44,9 @@ import java.util.logging.Logger;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
-SPACE		 = [\ \r\t\f]
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE		 = [\ \r\t\f\space]
 PARAMETER   =  [\$](([1-9][0-9]*)|[\*])
 VAR			 = ([a-zA-Z][a-zA-Z0-9\_\-]*)|([\$]([\-\@\?\#\!\_\0]|([a-zA-Z]*)|[\{][a-zA-Z]*[\}]))
 GETOPT		 = "getopt"
@@ -122,7 +123,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{
+				{FNAME}			{
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : VAR \""+yytext()+"\" )");
 									location = yytext();
 									functionContainGetOpt=false;
@@ -197,7 +198,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> YYINITIAL (Transition : VAR \""+yytext()+"\" )");
 									yybegin(STRING);
 								}
-				{FUNCT}			{}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim();}
 			    {GETOPT}		{
 			    					foundGetOpt=true;
 			    					functionContainGetOpt=true;

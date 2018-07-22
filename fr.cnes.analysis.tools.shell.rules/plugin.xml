@@ -112,7 +112,7 @@
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHERRString"
-            id="fr.cnes.analysis.tools.shell.rules.SHERRNoString"
+            id="fr.cnes.analysis.tools.shell.rules.SHERRString"
             name="SH.ERR.String" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 

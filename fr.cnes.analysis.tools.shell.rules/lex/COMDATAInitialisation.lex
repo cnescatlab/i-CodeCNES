@@ -193,7 +193,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{
+				{FNAME}			{
 									location = yytext();
 									functionLine = yyline+1;
 									yybegin(BEGINFUNC);
