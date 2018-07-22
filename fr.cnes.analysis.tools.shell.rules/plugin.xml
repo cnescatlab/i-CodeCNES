@@ -131,6 +131,11 @@
             name="SH.FLOW.CheckArguments" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckCodeReturn"
+            id="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckCodeReturn"
+            name="SH.FLOW.CheckCodeReturn" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckUser"
             id="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckUser"
             name="SH.FLOW.CheckUser" languageId="fr.cnes.analysis.tools.languages.shell">
