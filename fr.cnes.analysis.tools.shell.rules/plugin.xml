@@ -76,6 +76,11 @@
             name="COM.PRES.Header" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMPRESIndent"
+            id="fr.cnes.analysis.tools.shell.rules.COMPRESIndent"
+            name="COM.PRES.Indent" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
             id="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
             name="COM.PRES.LengthLine" languageId="fr.cnes.analysis.tools.languages.shell">
