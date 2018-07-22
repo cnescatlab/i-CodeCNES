@@ -63,8 +63,8 @@ VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
 OPTCHAR		 = \# | \! | % | \* | @ | \^ | \' | , | \/ | : | = | \+ | \?
 EXTENDEDVAR	 = \$\{ {OPTCHAR}* {VAR} {OPTCHAR}* {VAR}? (\[)? {OPTCHAR}* (\])? \}
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 STRING_D		= \"
 IGNORE_STRING_D = [\\][\"]

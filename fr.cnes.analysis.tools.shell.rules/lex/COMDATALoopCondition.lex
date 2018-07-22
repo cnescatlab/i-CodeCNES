@@ -61,8 +61,8 @@ WHILE		 = "while" | "until"
 FOR			 = "for"
 DONE		 = "done"
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 																
 %{
@@ -199,6 +199,20 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 											}
 										} 
 									}
+			    {VAR}\=				{String var = yytext().substring(0, yytext().length()-1); checkVariable(var);}
+			    {DONE}				{
+										int index = conditions.size() - 1; 
+										if (index >= 0) {conditions.remove(index);}
+												if(!functionStack.empty()){
+											if(functionStack.peek().isFinisher(yytext())){
+												if(functionStack.peek().getStarterRepetition()>0) {
+													functionStack.peek().removeStarterRepetition();
+												} else {
+													endLocation();
+												}
+											}
+										}
+									}
 	      		{FUNCEND}			{
 										if(!functionStack.empty()){
 											if(functionStack.peek().isFinisher(yytext())){
@@ -210,8 +224,6 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 											}
 										}
 									}
-			    {VAR}\=				{String var = yytext().substring(0, yytext().length()-1); checkVariable(var);}
-			    {DONE}				{int index = conditions.size() - 1; if (index >= 0) {conditions.remove(index);}}
 			    {VAR}				{}
 			 	[^]             	{}
 		}
@@ -254,6 +266,18 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
 <BEGINFUNC>
 		{
 				\(\)			{}
+			    {WHILE}			{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+									yybegin(WHILE);
+								}
+			    {FOR}			{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+									yybegin(FOR);
+								}
 				{FUNCSTART}		{
 									Function function;
 									function = new Function(location, functionLine, yytext());

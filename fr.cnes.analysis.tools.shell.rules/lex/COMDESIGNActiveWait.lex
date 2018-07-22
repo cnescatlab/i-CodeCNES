@@ -51,16 +51,16 @@ FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE		 = [\ \r\t\f\space]
 VAR          = [a-zA-Z][a-zA-Z0-9\_]*
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 STRING_D		= \"
 IGNORE_STRING_D = [\\][\"]
 STRING_S	 	= \'
 IGNORE_STRING_S = [\\][\']
 
-ACTWAIT      = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
-               "read" | "sleep" | "wait"
+ACTWAIT_WHILE   = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}* 
+ACTWAIT		    = "read" | "sleep" | "wait"
                                                                 
 %{
 	/* MAINPROGRAM: constant for main program localisation */
@@ -131,7 +131,7 @@ ACTWAIT      = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
 /************************/
 <NAMING>    
         {
-                {FNAME}           {location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
+                {FNAME}         {location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
                 \n              {yybegin(YYINITIAL);}  
                 .               {}
         }
@@ -142,11 +142,22 @@ ACTWAIT      = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
 <YYINITIAL>
         {
                 {COMMENT_WORD}  {yybegin(COMMENT);}
-				{FUNCTION}     	{yybegin(NAMING);}
+				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{STRING_S}		{yybegin(STRING_SIMPLE);}
+ 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{functionLine = yyline+1;
 								 location = yytext().substring(0,yytext().length()-2).trim();
 								 yybegin(BEGINFUNC);}
-				{FUNCSTART}		{
+				{ACTWAIT}       {setError(location,"There is an active wait in this point.", yyline+1); }
+				{ACTWAIT_WHILE} {
+									setError(location,"There is an active wait in this point.", yyline+1); 
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									}
+								}
+ 				{FUNCSTART}		{
 									if(!functionStack.empty()){
 										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
 											functionStack.peek().addStarterRepetition();
@@ -164,9 +175,6 @@ ACTWAIT      = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
 										}
 									}
 		      					}
-                {ACTWAIT}       {setError(location,"There is an active wait in this point.", yyline+1); }
- 				{STRING_D}		{yybegin(STRING_DOUBLE);}
-				{STRING_S}		{yybegin(STRING_SIMPLE);}
                 {VAR}           {} /* Clause to match with words */
                 [^]             {}
         }
@@ -182,6 +190,13 @@ ACTWAIT      = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}*    |
 <BEGINFUNC>
 		{
 				\(\)			{}
+				{ACTWAIT_WHILE} {
+									setError(location,"There is an active wait in this point.", yyline+1); 
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+								}
 				{FUNCSTART}		{
 									Function function;
 									function = new Function(location, functionLine, yytext());
