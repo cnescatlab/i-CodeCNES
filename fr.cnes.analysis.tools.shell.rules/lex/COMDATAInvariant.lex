@@ -75,8 +75,8 @@ OPER		 =  "++" | "--"
 
 IGNORE		 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | "typeset" | "declare" | "--"[a-zA-Z\-]*"="
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 AWK			 = "awk"
 COMMAND_END	 = [\n;]
@@ -363,7 +363,14 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 		{
 			  	{COMMENT_WORD}  	{yybegin(COMMENT);}
 				{AWK}				{yybegin(AWK);}
-				{FOR}{SPACE}*\(\(	{yybegin(FOR);}
+				{FOR}{SPACE}*\(\(	{
+									 if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									 } 
+									 yybegin(FOR);
+									}
 				{FUNCTION}			{yybegin(NAMING);}
 				{FUNCT}				{location = yytext().substring(0,yytext().length()-2).trim();
 									 yybegin(BEGINFUNC);}
@@ -439,6 +446,13 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 <BEGINFUNC>
 		{
 				\(\)			{}
+				{FOR}{SPACE}*\(\(	{
+										FunctionInvariant function;
+										function = new FunctionInvariant(location, functionLine, yytext());
+										setGlobals(function);
+										functionStack.push(function);
+										yybegin(FOR);
+									}
 				{FUNCSTART}		{
 									FunctionInvariant function;
 									function = new FunctionInvariant(location, functionLine, yytext());
@@ -499,7 +513,18 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 /************************/
 <FOR>   	
 		{
-				{DONE}    		{yybegin(YYINITIAL);}  
+				{DONE}    		{
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+									yybegin(YYINITIAL);
+								}  
 				.				{}
 		}
 

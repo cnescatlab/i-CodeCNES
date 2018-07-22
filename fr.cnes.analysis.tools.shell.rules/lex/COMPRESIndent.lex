@@ -375,6 +375,23 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 <BEGINFUNC>
 		{
 				\(\)			{}
+			    {BEGIN}			{
+									inTabs=false;
+									checkIndentation();
+									indentationRequired=true;
+									desiredPos.add(currentPos+1);
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+									yybegin(CONSUME_LINE);
+								}
+			    \{				{
+									inTabs=false; 
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+									yybegin(CONSUME_LINE);
+								}
 				{FUNCSTART}		{
 									Function function;
 									function = new Function(location, functionLine, yytext());

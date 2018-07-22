@@ -51,8 +51,8 @@ FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE		 = [\ \r\t\f\space]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 STRING_D		= \"
 IGNORE_STRING_D = [\\][\"]
@@ -144,10 +144,20 @@ ESAC		 = "esac"
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
+ 				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{STRING_S}		{yybegin(STRING_SIMPLE);}
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{functionLine = yyline+1;
 								 location = yytext().substring(0,yytext().length()-2).trim();
 								 yybegin(BEGINFUNC);}
+			    {CASE}			{
+									defaultExpr=false;
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 									
+								}
 				{FUNCSTART}		{
 									if(!functionStack.empty()){
 										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
@@ -155,6 +165,19 @@ ESAC		 = "esac"
 										}
 									} 
 		      					}
+				{ESAC}			{
+									if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); 
+									defaultExpr=false;
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}									
+								}
 	      		{FUNCEND}		{
 									if(!functionStack.empty()){
 		      							if(functionStack.peek().isFinisher(yytext())){
@@ -166,12 +189,7 @@ ESAC		 = "esac"
 										}
 									}
 		      					}
- 				{STRING_D}		{yybegin(STRING_DOUBLE);}
-				{STRING_S}		{yybegin(STRING_SIMPLE);}
-			    {CASE}			{defaultExpr=false;}
 				\*\)			{defaultExpr=true;}
-				{ESAC}			{if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); 
-								 defaultExpr=false;}
 			    {VAR}			{} /* Clause to match with words that contains "kill" */
 			 	[^]            	{}
 		}
@@ -187,6 +205,13 @@ ESAC		 = "esac"
 <BEGINFUNC>
 		{
 				\(\)			{}
+			    {CASE}			{
+									defaultExpr=false;
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);									
+								}
 				{FUNCSTART}		{
 									Function function;
 									function = new Function(location, functionLine, yytext());

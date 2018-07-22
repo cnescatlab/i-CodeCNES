@@ -51,8 +51,8 @@ FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE			= [\ \r\t\f\space]
 VAR		     = (\$)?[a-zA-Z][a-zA-Z0-9\_]*
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 STRING_D		= \"
 IGNORE_STRING_D = [\\][\"]
