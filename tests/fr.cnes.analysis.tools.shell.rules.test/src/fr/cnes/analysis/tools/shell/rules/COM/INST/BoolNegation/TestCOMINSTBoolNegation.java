@@ -37,7 +37,7 @@ public class TestCOMINSTBoolNegation {
 	public final static String NO_ERROR_FILE = "noError.sh";
 	public final static int[] LINES = { 9, 13, 17, 22, 27, 33, 40, 46 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
-			"MAIN PROGRAM", "test1", "test", "test" };
+			"MAIN PROGRAM", "test1", "test", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMINSTBoolNegation();
 
 	/**
