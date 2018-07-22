@@ -49,7 +49,7 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 STRING		 = \'[^\']*\' | \"[^\"]*\"
 IGNORE		 = "EOF" [^]* "EOF"
 
@@ -181,7 +181,7 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(BEGINFUNC);}
+				{FNAME}			{location = yytext(); yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
