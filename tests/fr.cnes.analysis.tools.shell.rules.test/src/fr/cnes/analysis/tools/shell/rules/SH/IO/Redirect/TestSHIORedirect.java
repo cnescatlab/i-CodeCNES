@@ -64,8 +64,6 @@ public class TestSHIORedirect {
 			// We verify that there is the right number of errors
 
 			final int nb_CheckResults = list.size();
-			for (CheckResult v : list)
-				System.out.println(v.getLine());
 			assertEquals("Wrong number of CheckResults : ", LINES.length, nb_CheckResults);
 
 			// We verify that the error detected is the right one. There is
