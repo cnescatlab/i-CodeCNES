@@ -145,7 +145,7 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); 
+				{FNAME}			{location = yytext(); 
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : VAR \""+yytext()+"\" )");
 									yybegin(YYINITIAL);}
 				\n             	{

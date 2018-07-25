@@ -6,6 +6,8 @@ echo "------------------------------------------"
 
 echo "Printing Numbers 1 through 10 (but not 3)."
 
+function testFunction ()
+{
 LIMIT=1
 a=0
 
@@ -25,6 +27,7 @@ do
    LIMIT=$(($LIMIT+1))
  fi
 done
+}
 
 # Imbric loops to verify variables changes
 b=0
@@ -35,7 +38,7 @@ while [ $b -le "$LIMIT1" ]
 do
  b=$(($b+1))
  echo "Iteration $b "
- while [ $c -le "$LIMIT2" ]
+ until [ $c -le "$LIMIT2" ]
  do
    c=$(($c+1))
    LIMIT2=$(($LIMIT2-1))

@@ -20,12 +20,15 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 %%
 
@@ -40,19 +43,31 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, CHECKRET, FINLINE, COMMENTARGS, PIPELINE
+%state COMMENT, NAMING, CHECKRET, FINLINE, COMMENTARGS, PIPELINE, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
 
 COMMENT_WORD = \#
 SPACE		 = [\ \r\t\f]
 FUNCTION	 = "function"
-FUNC		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {VAR}{SPACE}*\(\)
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
-STRING		 = \'[^\']*\' | \"[^\"]*\"
 
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
+
+STRING_D		= \"
+IGNORE_STRING_D = [\\][\"]
+STRING_S	 	= \'
+IGNORE_STRING_S = [\\][\']
 
 																
 %{
-	private String location = "MAIN PROGRAM";
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+	
+	String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+
     private String parsedFileName;
 	/** Map with each function name and if contains a return or not **/
 	private Map<String,Boolean> functions = new HashMap<String,Boolean>();
@@ -64,6 +79,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	private int linesError = 1;
 	/** Last function called **/
 	private String functionCall = "";
+
+	private Stack<Function> functionStack = new Stack<>();
 
     public SHFLOWCheckCodeReturn() {
     	/** The command 'cd' must be checked as the functions **/
@@ -117,7 +134,23 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
-	
+
+	private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}	
 
 %}
 
@@ -149,7 +182,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); functions.put(location, false); yybegin(YYINITIAL);}
+				{VAR}			{location = yytext(); functions.put(location, false); yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -160,9 +193,10 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
-				{FUNCTION}     	{location = yytext(); yybegin(NAMING);}
-				{FUNC}			{location = yytext().substring(0,yytext().length()-2).trim(); functions.put(location, false);}
-			    {STRING}		{}
+ 				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{STRING_S}		{yybegin(STRING_SIMPLE);}
+				{FUNCTION}     	{yybegin(NAMING);}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); functions.put(location, false); yybegin(BEGINFUNC);}
 			    {VAR}			{Boolean found = functions.get(yytext());
 			    				 if(found!=null) {
 			    				 		functionCalled=true;
@@ -173,6 +207,24 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 			    				} else {
 			    					functionCalled=false;
 			    				}} 
+				{FUNCSTART}		{ 
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 
+		      					}						
+	      		{FUNCEND}		{ 
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+		      					}								
 			 	[^]            	{}
 		}
 		
@@ -237,6 +289,48 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 			   	.              	{}
 		}
 
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {}
+		}
+
+/*
+ * The string states are designed to avoid problems due to patterns found in strings.
+ */ 
+/************************/
+/* STRING_SIMPLE STATE	    */
+/************************/
+<STRING_SIMPLE>   	
+		{
+				{IGNORE_STRING_S}	{}
+				{STRING_S}    		{yybegin(YYINITIAL);}  
+		  	 	[^]|{SPACE}  		{}
+		}
+
+/************************/
+/* STRING_DOUBLE STATE	    */
+/************************/
+<STRING_DOUBLE>   	
+		{
+				{IGNORE_STRING_D}	{}
+				{STRING_D}    		{yybegin(YYINITIAL);}  
+		  	 	[^]|{SPACE}  		{}
+		}		
 
 /************************/
 /* ERROR STATE	        */

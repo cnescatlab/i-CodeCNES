@@ -25,15 +25,15 @@
             id="fr.cnes.analysis.tools.shell.rules.COMDATANotUsed"
             name="COM.DATA.NotUsed" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
-      <check  
-      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
-            id="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
-            name="COM.FLOW.Abort" languageId="fr.cnes.analysis.tools.languages.shell">
-      </check>
       <check
             class="fr.cnes.analysis.tools.shell.rules.COMDESIGNActiveWait"
             id="fr.cnes.analysis.tools.shell.rules.COMDESIGNActiveWait"
             name="COM.DESIGN.ActiveWait" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWAbort"
+            name="COM.FLOW.Abort" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMFLOWBooleanExpression"
@@ -61,6 +61,11 @@
             name="COM.FLOW.Recursion" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMINSTBoolNegation"
+            id="fr.cnes.analysis.tools.shell.rules.COMINSTBoolNegation"
+            name="COM.INST.BoolNegation" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment"
             id="fr.cnes.analysis.tools.shell.rules.COMINSTCodeComment"
             name="COM.INST.CodeComment" languageId="fr.cnes.analysis.tools.languages.shell">
@@ -74,6 +79,11 @@
       		class="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
             id="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
             name="COM.PRES.Header" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMPRESIndent"
+            id="fr.cnes.analysis.tools.shell.rules.COMPRESIndent"
+            name="COM.PRES.Indent" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMPRESLengthLine"
@@ -112,13 +122,18 @@
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHERRString"
-            id="fr.cnes.analysis.tools.shell.rules.SHERRNoString"
+            id="fr.cnes.analysis.tools.shell.rules.SHERRString"
             name="SH.ERR.String" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckArguments"
             id="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckArguments"
             name="SH.FLOW.CheckArguments" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckCodeReturn"
+            id="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckCodeReturn"
+            name="SH.FLOW.CheckCodeReturn" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
       		class="fr.cnes.analysis.tools.shell.rules.SHFLOWCheckUser"
