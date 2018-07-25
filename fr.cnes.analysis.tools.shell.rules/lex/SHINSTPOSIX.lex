@@ -52,8 +52,9 @@ import java.util.regex.Matcher;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
-SPACE		 = [\ \r\t\f]
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE		 = [\ \r\t\f\space]
 VAR			 = ([a-zA-Z][a-zA-Z0-9\_\-]*)|([\$]([\-\@\?\#\!\_\*]|([a-zA-Z0-9]*)|[\{][a-zA-Z0-9]*[\}]))
 ECHO		 = "echo"
 END_ECHO	 = [\;]|[\|]|[\>]|([\&][\&])
@@ -168,7 +169,7 @@ VAR_ERROR   = ([\$]{ERROR}) | ([\$][\{]{ERROR}[\}])
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(YYINITIAL);}
+				{FNAME}			{location = yytext(); yybegin(YYINITIAL);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}

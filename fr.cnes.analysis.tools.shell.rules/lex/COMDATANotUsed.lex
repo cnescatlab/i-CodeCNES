@@ -44,8 +44,9 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
-SPACE		 = [\ \r\t\f]
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE		 = [\ \r\t\f\space]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
 																
@@ -123,7 +124,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(YYINITIAL);}
+				{FNAME}			{location = yytext(); yybegin(YYINITIAL);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}

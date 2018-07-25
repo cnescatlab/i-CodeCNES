@@ -55,8 +55,10 @@ SHELL_VAR		= ([0-9]+|[\-\@\?\#\!\_\*\$])
 EXPANDED_VAR	= [\$][\{](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\:\%\=\+\?\/\!\-\,\^\#\*\@]|([\[](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\/\:\%\=\+\?\!\$\-\,\^\#\*\@\[\]\{\}])+[\]]))+[\}]
 VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FOR				= "for"
+
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 
 FILEEXIST	 = \[{SPACE}+{OPTION}{SPACE}+(\")?(\{)?\$(\{)?{VAR}(\})?(\")?
@@ -193,7 +195,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{
+				{FNAME}			{
 									location = yytext();
 									functionLine = yyline+1;
 									yybegin(BEGINFUNC);
@@ -216,6 +218,14 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 										location = yytext().substring(0,yytext().length()-2).trim();
 									 	yybegin(BEGINFUNC);
 								 	}
+				{FOR}				{
+		      							if(!functionStack.empty()){
+		      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+		      									functionStack.peek().addStarterRepetition();
+		      								}
+		      							} 		      												
+										yybegin(FORLOOP);
+									}
 	      		{FUNCSTART}			{
 		      							if(!functionStack.empty()){
 		      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
@@ -241,7 +251,6 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 			    \${VAR}				{String var = yytext().substring(1);
 			    					 checkVariable(var);}
 			    "tee" | \>\>		{yybegin(WRITE);}
-			    "for"				{yybegin(FORLOOP);}
 			    "read"				{yybegin(READ);}
 			    {FILEEXIST}			{String var = yytext().replaceAll("\"", "").replaceAll("\\{", "").replaceAll("\\}", "").split("\\$")[1];
 			                         addVariable(var);}
@@ -305,6 +314,13 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 <BEGINFUNC>
 		{
 				\(\)			{}
+				{FOR}			{
+									FunctionWithVariables function;
+									function = new FunctionWithVariables(location, functionLine, yytext());
+									setGlobals(function);
+									functionStack.push(function);
+									yybegin(FORLOOP);
+								}
 				{FUNCSTART}		{
 									FunctionWithVariables function;
 									function = new FunctionWithVariables(location, functionLine, yytext());

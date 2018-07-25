@@ -36,8 +36,8 @@ public class TestSHFLOWCheckCodeReturn {
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
 	public final static int[] LINES = { 29, 32, 34, 35, 40, 44, 46 };
-	public final static String[] LOCATIONS = { "factorial", "factorial", "factorial", "factorial",
-			"nettoyer_repertoire", "nettoyer_repertoire", "nettoyer_repertoire" };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+			"nettoyer_repertoire", "MAIN PROGRAM", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new SHFLOWCheckCodeReturn();
 
 	/**

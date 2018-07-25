@@ -49,7 +49,7 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 STRING		 = \'[^\']*\' | \"[^\"]*\"
 IGNORE		 = "EOF" [^]* "EOF"
 
@@ -63,8 +63,8 @@ VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))
 OPTCHAR		 = \# | \! | % | \* | @ | \^ | \' | , | \/ | : | = | \+ | \?
 EXTENDEDVAR	 = \$\{ {OPTCHAR}* {VAR} {OPTCHAR}* {VAR}? (\[)? {OPTCHAR}* (\])? \}
 
-FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "select" | "for" | "while" | "until"
-FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "done"
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 STRING_D		= \"
 IGNORE_STRING_D = [\\][\"]
@@ -181,7 +181,7 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(BEGINFUNC);}
+				{FNAME}			{location = yytext(); yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
