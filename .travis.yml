@@ -6,3 +6,6 @@ script :
   - mvn install -DskipTests
   - mvn verify
 sudo: false
+addons:
+  sonarcloud:
+    organization: "lequal"
