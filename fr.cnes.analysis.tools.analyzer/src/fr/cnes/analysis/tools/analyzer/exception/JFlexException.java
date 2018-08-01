@@ -93,9 +93,9 @@ public class JFlexException extends Exception {
                         + pMessage + BLANK + "CheckerId: " + pRuleName + BLANK + "File: "
                         + pFileName + BLANK + "Line:" + pLine + BLANK + "Column:" + pColumn + BLANK
 
-                        + "Last word scanned : [" + pLastScan + "] [" + toDecimalCode(pLastScan)
+                        + "Last word scanned: [" + pLastScan + "] [" + toDecimalCode(pLastScan)
                         + "]" + BLANK
-                        + "Please report this issue on : https://github.com/dupuisa/i-CodeCNES/issues/";
+                        + "Please report this issue on : https://github.com/lequal/i-CodeCNES/issues/";
         return message;
     }
 
