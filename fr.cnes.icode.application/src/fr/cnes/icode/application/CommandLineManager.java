@@ -80,6 +80,14 @@ public class CommandLineManager {
      * Option short name for results format.
      */
     public static final String EXPORT_FORMAT = "f";
+    /**
+     * Option short name for export parameters.
+     */
+    public static final String EXPORT_PARAMETERS = "p";
+    /**
+     * Option short name for export parameters.
+     */
+    public static final String LIST_EXPORT_PARAMETERS = "q";
 
     /**
      * Default construct which initialize and set options.
@@ -107,6 +115,8 @@ public class CommandLineManager {
         		"Display all available languages.");
         options.addOption(RULES, "rules", false, 
         		"Display all available rules.");
+        options.addOption(LIST_EXPORT_PARAMETERS, "list-export-parameters", true, 
+        		"Display all available parameters for the given export.");
         
         options.addOption(OUTPUT, "output", true, 
         		"Set the name for result file. Results are displayed in standard output by default.");
@@ -116,6 +126,8 @@ public class CommandLineManager {
         		"Comma separated list of languages checked during analysis. All by default.");
         options.addOption(EXPORT_FORMAT, "export-format", true, 
         		"Set the format for result file. Default format is XML.");
+        options.addOption(EXPORT_PARAMETERS, "export-parameters", true, 
+        		"Comma separated list of parameters for the export. Format is: key1=value1,key2=value2,key3=value3. Default values depend on the chosen export plugin.");
     }
 
     /**
@@ -162,7 +174,8 @@ public class CommandLineManager {
 			if(option.getOpt().equals(HELP) 
 					|| option.getOpt().equals(EXPORTERS) 
 					|| option.getOpt().equals(LANGUAGES) 
-					|| option.getOpt().equals(RULES)) {
+					|| option.getOpt().equals(RULES) 
+					|| option.getOpt().equals(LIST_EXPORT_PARAMETERS)) {
 				standaloneOptions++;
 			} else {
 				analysisOptions++;
