@@ -150,36 +150,59 @@ public class ICodeApplication implements IApplication {
 	 */
 	@Override
 	public Object start(IApplicationContext pContext) throws Exception {
-		
-		// Retrieve arguments from eclipse context.
-		final String [] args = (String[]) pContext.getArguments().get(IApplicationContext.APPLICATION_ARGS);
-		// Parse the command line arguments.
-		cli.parse(args);
 
-		// Get list of filenames.
-		final List<String> arguments = cli.getArgs();
-		final String[] filenames = arguments.toArray(new String[arguments.size()]);
+		try {
+			// Retrieve arguments from eclipse context.
+			final String [] args = (String[]) pContext.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+			// Parse the command line arguments.
+			cli.parse(args);
+	
+			// Get list of filenames.
+			final List<String> arguments = cli.getArgs();
+			final String[] filenames = arguments.toArray(new String[arguments.size()]);
+			
+			// Get list of files to analyze.
+			final List<File> sources = getFiles(filenames);
+			
+			// Export parameters.
+			Map<String, String> exporterParameters;
+			
+			// Handle options.
+			if(cli.hasOption(CommandLineManager.EXPORTERS)) {
+				// display all available exporters
+				displayList(new ArrayList<>(exportService.getAvailableFormats().values()), 
+						"List of available exporters for analysis:");
+			} else if(cli.hasOption(CommandLineManager.LANGUAGES)) {
+				// display all available languages
+				displayList(languages.keySet(), 
+						"List of available languages for analysis:");
+			} else if(cli.hasOption(CommandLineManager.RULES)) {
+				// display all available checks by language
+				for(final LanguageContainer language : LanguageService.getLanguages()) {
+					displayList(CheckerService.getCheckersIds(language.getId()), 
+							String.format("List of available rules for %s [%s]:", language.getName(), language.getId()));
+				}
+			} else if(cli.hasOption(CommandLineManager.LIST_EXPORT_PARAMETERS)) {
+				// Get format as value of the option.
+				exportFormat = cli.getOptionValue(CommandLineManager.LIST_EXPORT_PARAMETERS);
+				
+				if(exportService.getAvailableFormats().containsValue(exportFormat)) {				
+					// Get default parameters for the chosen export.
+					exporterParameters = exportService.getParameters(exportFormat);
+					
+					// Security in the case of a null return.
+					if(exporterParameters==null) {
+						exporterParameters = new HashMap<>();
+					}
 		
-		// Get list of files to analyze.
-		final List<File> sources = getFiles(filenames);
-		
-		// Handle options.
-		if(cli.hasOption(CommandLineManager.EXPORTERS)) {
-			// display all available exporters
-			displayList(new ArrayList<>(exportService.getAvailableFormats().values()), 
-					"List of available exporters for analysis:");
-		} else if(cli.hasOption(CommandLineManager.LANGUAGES)) {
-			// display all available languages
-			displayList(languages.keySet(), 
-					"List of available languages for analysis:");
-		} else if(cli.hasOption(CommandLineManager.RULES)) {
-			// display all available checks by language
-			for(final LanguageContainer language : LanguageService.getLanguages()) {
-				displayList(CheckerService.getCheckersIds(language.getId()), 
-						String.format("List of available rules for %s [%s]:", language.getName(), language.getId()));
-			}
-		} else {
-			try {
+					// display all available languages
+					displayList(exporterParameters.keySet(), 
+							String.format("List of available parameters for %s export:", exportFormat));
+				} else {
+					String message = String.format("Exporting in format '%s' is not available in i-Code.", exportFormat);
+					throw new BadArgumentValueException(message);
+				}
+			} else {
 				// Get list of languages id to check.
 				if(cli.hasOption(CommandLineManager.CHECKED_LANGUAGES)) {
 					checkedLanguages = Arrays.asList(cli.getOptionValue(CommandLineManager.CHECKED_LANGUAGES).split(","));
@@ -231,8 +254,36 @@ public class ICodeApplication implements IApplication {
 				
 				// Run the analysis.
 				final List<CheckResult> checkResults = analyzer.check(sources, checkedLanguages, excludedRules);
+				// Get default parameters for the chosen export.
+				exporterParameters = exportService.getParameters(exportFormat);
+				
+				// Add user parameters if there are some.
+				if(cli.hasOption(CommandLineManager.EXPORT_PARAMETERS)) {
+					// Split all pairs of key=value.
+					final String[] params = cli.getOptionValue(CommandLineManager.EXPORT_PARAMETERS).split(",");
+					
+					// For each key=value.
+					for(final String param : params) {
+						// Split key from the value.
+						final String[] values = param.split("=");
+						// There should be 2 parts (key and value).
+						if(values.length==2) {
+							// If the key exist in map of default parameters we add the parameter to it.
+							if(exporterParameters.containsKey(values[0])) {
+								exporterParameters.put(values[0], values[1]);
+							} else {
+								String message = String.format("Export parameter '%s' is not a valid parameter for %s export.",
+										values[0], exportFormat);
+								throw new BadArgumentValueException(message);
+							}
+						} else {
+							String message = String.format("Export parameter '%s' is malformed.", param);
+							throw new BadArgumentValueException(message);
+						}
+					}
+				}
+				
 				// Export results to a file.
-				final Map<String, String> exporterParameters = exportService.getParameters(exportFormat);
 				exportService.export(checkResults, outputFile, exporterParameters, exportFormat);
 				
 				// Display data to standard output if no file is asked by the user.
@@ -244,9 +295,9 @@ public class ICodeApplication implements IApplication {
 					   }
 					}
 				}
-			} catch(BadArgumentValueException e) {
-				LOGGER.severe(e.getMessage());
 			}
+		} catch(BadArgumentValueException e) {
+			LOGGER.severe(e.getMessage());
 		}
 		
 		return EXIT_OK;
