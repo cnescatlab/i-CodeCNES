@@ -53,6 +53,11 @@ SPACETAB	 = {SPACE}|{TAB}
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 CONTINUEDLINE = \\ {SPACETAB}* \n
 
+CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
+
+CASE		 = "case"
+ESAC		 = "esac"
+
 BEGIN		 = "if"		| "case"	| "for"		| "while"	| "until"
 CONT		 = "do"		| "then"
 END			 = "done"	| "fi"		| "esac"
@@ -87,6 +92,13 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 	Boolean indentationRequired = false;
 	/* checkEnd is true when in CONSUME_LINE we are after a ";", requiring that ENDs should be taken into account */
 	Boolean checkEnd=false;
+	
+	/* firstInCase is true when the case statement is the first one of a case structure */
+	Boolean firstInCase = false;
+	
+	/* decrementAtEnd is true when the body of the function is incremented, eg. when body is an if */
+	/* with no { and is incremented compared to the function line */
+	Boolean decrementAtEnd = false;
 
 	private Stack<Function> functionStack = new Stack<>();
 
@@ -121,7 +133,7 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 						indentationRequired = false; /* continue at same position */ 
 					} else { /* indentationRequired == false */
 						/* we are not at the beginning of a new indentation. The indentation should be the same as the last line  */
-						setError(location,"This line is not indented in comparison with the last one.", yyline+1);
+						setError(location,"This line should not be indented in comparison with the last one.", yyline+1);
 					}
 				} else { /* currentPos == value */
 					/* The indentation is what was expected */
@@ -158,7 +170,7 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 		if (index >= 0) {
 			int value = desiredPos.get(index);
 			if (currentPos != value) 
-				setError(location,"This line is not indented in comparison with the last one.", yyline+1);
+				setError(location,"This line is not aligned with its corresponding structure.", yyline+1);
 		}
 	}
 
@@ -171,6 +183,10 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 			} else {
 				/* we are in the main program: change location to main */
 				location = MAINPROGRAM;
+			}
+			if (decrementAtEnd) {
+				if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+				decrementAtEnd = false;
 			}
 		}catch(EmptyStackException e){
         		final String errorMessage = e.getMessage();
@@ -223,6 +239,23 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 		{
 				;				{checkEnd=true;}
 			    {COMMENT_WORD} 	{checkEnd=false; yybegin(COMMENT);}
+				{IGNORE_STRING_D}	{}
+ 				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{IGNORE_STRING_S}	{}
+				{STRING_S}		{yybegin(STRING_SIMPLE);}
+				{ESAC}			{
+									if(checkEnd && desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+									firstInCase = false;
+								}
 				{END}			{
 									if(checkEnd && desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
 									if(!functionStack.empty()){
@@ -258,7 +291,9 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD} 	{inTabs=false; yybegin(COMMENT);}
- 				{STRING_D}		{yybegin(STRING_DOUBLE);}
+ 				{IGNORE_STRING_D}	{}
+				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{IGNORE_STRING_S}	{}
 				{STRING_S}		{yybegin(STRING_SIMPLE);}
 				{FUNCTION}     	{
 									inTabs=false; 
@@ -275,6 +310,20 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 									desiredPos.add(currentPos+1);
 									yybegin(BEGINFUNC);
 								}
+				{CASE}			{
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 								 
+									inTabs=false;
+									checkIndentation();
+									indentationRequired=true;
+									desiredPos.add(currentPos+1);
+									/* Next case statement will be the first */
+									firstInCase = true;
+									yybegin(CONSUME_LINE);
+								}
 			    {BEGIN}			{
 									if(!functionStack.empty()){
 										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
@@ -286,14 +335,21 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 									indentationRequired=true;
 									desiredPos.add(currentPos+1);
 									yybegin(CONSUME_LINE);
-								}
+								}							
 			    {CONT} | {ELSE}	{
 									inTabs=false;
 									checkIndentationElse();
 									indentationRequired=true;
 									yybegin(CONSUME_LINE);
 								}
-			    {END}			{
+			    {ESAC}			{
+									inTabs=false;
+									if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+									/* Another one to compensate for the added indentation of the previous case statement */
+									if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+									indentationRequired=false;
+									checkIndentation();
+									firstInCase = false;
 									if(!functionStack.empty()){
 										if(functionStack.peek().isFinisher(yytext())){
 											if(functionStack.peek().getStarterRepetition()>0) {
@@ -303,10 +359,23 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 											}
 										}
 									}
+									yybegin(CONSUME_LINE);
+								}
+				{END}			{
 									inTabs=false;
-									if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+									if(desiredPos.size()>=1) {
+										desiredPos.remove(desiredPos.size()-1);}
 									indentationRequired=false;
 									checkIndentation();
+									if(!functionStack.empty()){
+										if(functionStack.peek().isFinisher(yytext())){
+											if(functionStack.peek().getStarterRepetition()>0) {
+												functionStack.peek().removeStarterRepetition();
+											} else {
+												endLocation();
+											}
+										}
+									}
 									yybegin(CONSUME_LINE);
 								}
 				{TAB}			{pos=currentPos; currentPos+=yytext().length(); 
@@ -315,7 +384,7 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 									 inTabs=true; 
 									 setError(location,"Tabulations are not allowed.", yyline+1);
 								}}
-			    {SPACE}			{if(currentPos==0) {inTabs=true;}; currentPos+=yytext().length();}
+			    {SPACE}+		{if(currentPos==0) {inTabs=true;}; currentPos+=yytext().length();}
 				{VAR}			{inTabs=false; checkIndentation(); yybegin(CONSUME_LINE);}
 				{IGNORETEXT}	{}
 			    \{				{
@@ -328,6 +397,9 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 									yybegin(CONSUME_LINE);
 								}
 			    \}				{
+									inTabs=false; 
+									if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+									checkIndentationNoChange();
 									if(!functionStack.empty()){
 		      							if(functionStack.peek().isFinisher(yytext())){
 		      								if(functionStack.peek().getStarterRepetition()>0) {
@@ -337,17 +409,15 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 		      								}
 										}
 									}								
-									inTabs=false; 
-									if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
-									checkIndentationNoChange();
 									yybegin(CONSUME_LINE);
 								}
-				{FUNCSTART}		{ /* for the remaining beginnings not in START */
+				{FUNCSTART}		{ /* for the remaining beginnings not in BEGIN */
 									if(!functionStack.empty()){
 										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
 											functionStack.peek().addStarterRepetition();
 										}
 									} 
+									yybegin(CONSUME_LINE);
 		      					}						
 	      		{FUNCEND}		{ /* for the remaining endings not in END */
 									if(!functionStack.empty()){
@@ -361,6 +431,19 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 									}
 		      					}								
 			    \n				{inTabs=false; currentPos=0;}
+				{CASE_STMT}		{
+									inTabs=false;
+									if (!firstInCase) {
+										if(desiredPos.size()>=1) {desiredPos.remove(desiredPos.size()-1);}
+										checkIndentationNoChange();
+									} else {
+										firstInCase = false;
+										checkIndentation();
+									}
+									indentationRequired=true;
+									desiredPos.add(currentPos+1); 
+									yybegin(CONSUME_LINE);
+								}
 	      		.              	{inTabs=false; checkIndentation(); yybegin(CONSUME_LINE);}
 		}
 
@@ -375,6 +458,10 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 <BEGINFUNC>
 		{
 				\(\)			{}
+				"\n"{SPACE}*	{
+									currentPos = currentPos+yytext().length() -1;
+									decrementAtEnd = true;
+								}
 			    {BEGIN}			{
 									inTabs=false;
 									checkIndentation();
@@ -410,7 +497,7 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 <STRING_SIMPLE>   	
 		{
 				{IGNORE_STRING_S}	{}
-				{STRING_S}    		{yybegin(YYINITIAL);}  
+				{STRING_S}    		{yybegin(CONSUME_LINE);}  
 		  	 	[^]|{SPACE}  		{}
 		}
 
@@ -420,11 +507,9 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 <STRING_DOUBLE>   	
 		{
 				{IGNORE_STRING_D}	{}
-				{STRING_D}    		{yybegin(YYINITIAL);}  
+				{STRING_D}    		{yybegin(CONSUME_LINE);}  
 		  	 	[^]|{SPACE}  		{}
 		}		
-
-		
 
 /************************/
 /* ERROR STATE	        */
