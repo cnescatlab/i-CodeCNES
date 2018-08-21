@@ -215,6 +215,11 @@
             id="fr.cnes.analysis.tools.shell.rules.SHREFExport"
             name="SH.Ref.Export" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHSYNCSignals"
+            id="fr.cnes.analysis.tools.shell.rules.SHSYNCSignals"
+            name="SH.SYNC.Signals" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
 
    </extension>
 
