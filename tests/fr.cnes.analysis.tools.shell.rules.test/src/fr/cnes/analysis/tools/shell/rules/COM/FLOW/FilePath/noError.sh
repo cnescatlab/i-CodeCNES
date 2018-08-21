@@ -4,7 +4,7 @@ echo "COM.FLOW.FilePath"
 echo "Fichier OK de test"
 echo "------------------------------------------"
 
-if [ -f $fichier_texte ] || [ -f $fichier_texte_new ]; then
-   rm -f $fichier_texte
-   rm -f $fichier_texte_new
+if [[ -n $REP_FICH_CONF ]]; then
+    echo "Le répertoire contenant le fichier de configuration est :
+    $REP_FICH_CONF"
 fi

@@ -39,21 +39,56 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, INITIALISATION
+%state COMMENT, NAMING, FILE, STRING
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
 FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
-SPACE		 = [\ \r\t\f\space]
-VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
+SPACE		 = [\ \r\t\f]
+NAME	     = ([a-zA-Z\_][a-zA-Z0-9\_]*)
+SHELL_VAR	 = ([0-9]+|[\-\@\?\#\!\_\*\$])
+EXPANDED_VAR = [\!]?{NAME}([\:]|(([\%]?[\%])|([\#]?[\#]))|([\:]?[\=\+\?\-]))({NAME}|[\[]{NAME}[\]])|([\#]{NAME})
+VAR 		 = ({NAME}|([\$][\{]({NAME}|{SHELL_VAR}|{EXPANDED_VAR})[\}])|([\$]({NAME}|{SHELL_VAR}))) 
 
-POSERROR	 = {VAR}\=	| \>	| "cat"		| "rm"		| "more"
-FILEEXT		 = \.[a-zA-Z][^\.]{0,5}
+STRING		 = [\"]|[\']
+ESCAPE		 = [\\]
+FILE_SEPARATOR = [\/]|[\\]
+
+FILECHAR	 =	[a-zA-Z0-9\_\.\?\!\^\+\*\-\%\ยง]
+FILEWORD	 = (([\.]?{FILE_SEPARATOR})|([\~]))?(({FILECHAR}+|{VAR}){FILE_SEPARATOR}?)+
+FILESTRING	= (([\"]{SPACE}*{FILEWORD}{SPACE}*[\"])|([\']{SPACE}*{FILEWORD}{SPACE}*[\'])|{FILEWORD})+
+
+FILEEXIST	 = "test" (\!)? {SPACE}+ {OPTION}{SPACE}+{FILESTRING}+ | \[ {SPACE}* (\!)? {SPACE}+ {OPTION}{SPACE}+{FILESTRING}+ {SPACE}+ \]
+
+OPTION	 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
+				   "p" | "r" | "s" | "u" | "w" | "x" | "O" | "G" | "L" |
+				   "N" | "S")
+
+COMMAND_END  = [\n] | [\;] | [\|] | [\`]		
+COMMAND_NAME = "cat" | "tee" | "more" | "less" | "head" | "wc" | "sh" | "rm"
+GREP_COMMAND = "grep"{SPACE}+(([\-][AB]{SPACE}+[0-9]+{SPACE}+)?|([\-]?[\-][a-zC-Z]+{SPACE}+)?)*([\-][\e]{SPACE}+)?[\^]?(([\"]([^\"]|([\\][\"]))*[\"])|([\']([^\']|([\\][\']))*[\'])|({FNAME}+|{VAR})+)
+BASE_COMMAND = {COMMAND_NAME}{SPACE}+([\-]?[\-]({VAR}|{FNAME})+([\=]({VAR}|{FNAME})+)?{SPACE}*)*{SPACE}*
+ASSIGN 		 = {VAR}\={SPACE}*([\-]?[\-]({VAR}|{FNAME})+([\=]({VAR}|{FNAME})+)?{SPACE}*)*{SPACE}*
+FILE_COMMAND = {GREP_COMMAND} | {BASE_COMMAND} | {ASSIGN}
+
+OPERATOR_RIGHT  = [\>]|[\>][\&]|[\&][\>]|[\>][\>]|[\>][\>][\>]
+OPERATOR_LEFT	= [\<]|[\<][\&]|[\&][\<]|[\<][\<]|[\<][\<][\<]
+OPERATOR_RL		= [\<][\>]
+RIGHT_FILE_REDIRECT = ({OPERATOR_RIGHT}|{OPERATOR_RL}){SPACE}*{FILESTRING}
+LEFT_FILE_REDIRECT	= {FILESTRING}{SPACE}*({OPERATOR_LEFT}|{OPERATOR_RL})
+REDIRECT_IGNORE		= ([0-2]({OPERATOR_LEFT}|{OPERATOR_RL})) | (({OPERATOR_RIGHT}|{OPERATOR_RL})[0-2])
+
+STRING_ESCAPED = [\\]{STRING}
+IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 																
 %{
 	String location = "MAIN PROGRAM";
     private String parsedFileName;
+
+	private String stringBeginner = ""; 
+	private boolean	escapeNext = false;
+
 
     public COMFLOWFilePath() {
     }
@@ -105,23 +140,75 @@ FILEEXT		 = \.[a-zA-Z][^\.]{0,5}
 /************************/
 <YYINITIAL>
 		{
-			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
+			  	{COMMENT_WORD} 	{if (!escapeNext) {yybegin(COMMENT);}}
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim();}
-			    {POSERROR}		{yybegin(INITIALISATION);}
-			    {VAR}			{} /* Clause to match with words */
-			 	[^]            	{}
+				{IGNORE}		{}
+			    {FILEEXIST}		{								    							
+			    					int index = yytext().indexOf('-');
+									String subfile = yytext().substring(index);
+									String name = subfile.replaceAll("\"", "").replaceAll("\\{", "").replaceAll("\\}", "").replaceAll("]", "").split(" ")[1];
+    								setError(location,"It is forbidden to use a file name such as " + name + " directly.", yyline+1);
+								}
+			    {LEFT_FILE_REDIRECT}|{RIGHT_FILE_REDIRECT}	
+								{								    							
+								    String name = yytext().replaceAll("([\\s]|[\\>]|[\\\"]|[\\']|[\\<]|[\\&]|[\\{]|[\\}])+","");
+    								setError(location,"It is forbidden to use a file name such as " + name + " directly.", yyline+1);
+								}
+			 	{FILE_COMMAND}	{yybegin(FILE);}
+				{STRING}		{
+									stringBeginner=yytext();
+									yybegin(STRING);
+								}									
+				[^]            	{}
 		}
 		
 /************************/
-/* INITIALISATION STATE	*/
+/*  FILE STATE      	*/
 /************************/
-<INITIALISATION>   	
+<FILE>
 		{
-				{FILEEXT}		{setError(location,"It is not allowed to specify the file with this name. Use a variable instead.", yyline+1); yybegin(YYINITIAL);}
-				\n  | \;       	{yybegin(YYINITIAL);}  
-			   	.              	{}
+				{FILESTRING}+	{
+							    	String name = yytext().replaceAll("([\\\"]|[\\']|[\\{]|[\\}]|[\\[]|[\\]])+","");
+   							 		setError(location,"It is forbidden to use a file name such as " + name + " directly.", yyline+1);
+    								escapeNext=false;
+    								yybegin(YYINITIAL);
+    							}
+				{COMMAND_END}	{escapeNext=false; yybegin(YYINITIAL);}
+				{LEFT_FILE_REDIRECT}|{RIGHT_FILE_REDIRECT}	
+								{	
+									String name = yytext().replaceAll("([\\s]|[\\>]|[\\\"]|[\\']|[\\<]|[\\&]|[\\{]|[\\}])+","");
+    								setError(location,"It is forbidden to use a file name such as " + name + " directly.", yyline+1);
+	    							escapeNext=false;
+	    							yybegin(YYINITIAL);
+	    						}
+				.				{}
 		}
+
+/************************/
+/*  STRING STATE      	*/
+/************************/
+<STRING>
+		{
+				{ESCAPE}	{
+								if(!escapeNext)
+								{
+									escapeNext=true;
+								} else
+								{
+								 	escapeNext=false;
+								}
+							}
+				{STRING}	{
+								if(!escapeNext && yytext().equals(stringBeginner))
+								{
+									yybegin(YYINITIAL);
+								}
+								escapeNext=false;
+							}
+				{COMMENT_WORD}	{escapeNext=false;}
+				[^]          	{escapeNext=false;}																		
+		}		
 
 
 /************************/

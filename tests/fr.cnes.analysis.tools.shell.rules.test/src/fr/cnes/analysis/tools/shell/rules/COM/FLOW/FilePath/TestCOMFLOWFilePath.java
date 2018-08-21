@@ -35,8 +35,10 @@ public class TestCOMFLOWFilePath {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 7, 8 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM" };
+	public final static int[] LINES = { 7, 8, 9, 11, 13, 15, 17, 18, 18, 20, 22, 23, 26, 28, 28};
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+											   "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+											   "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM"};
 	public final AbstractChecker rule = new COMFLOWFilePath();
 
 	/**
