@@ -51,6 +51,8 @@ FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE		 = [\ \r\t\f\space]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
+IGNORE		 = \$\{[^\}"\n"]*\} | \$\([^\)"\n"]*\)
+
 FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
@@ -150,6 +152,7 @@ OPER		 = \&\&	  |  \|\|   | \-"o"	 |  \-"a"
 				{STRING_S}		{yybegin(STRING_SIMPLE);}
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); yybegin(BEGINFUNC);}
+				{IGNORE}		{}
 				{NOT}			{bracket=0; brace=0; parenth=0; yybegin(LOGICAL);}
 				{FUNCSTART}		{ 
 									if(!functionStack.empty()){
