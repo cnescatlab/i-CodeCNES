@@ -56,6 +56,11 @@
             name="COM.FLOW.FileExistence" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMFLOWFilePath"
+            id="fr.cnes.analysis.tools.shell.rules.COMFLOWFilePath"
+            name="COM.FLOW.FilePath" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMFLOWRecursion"
             id="fr.cnes.analysis.tools.shell.rules.COMFLOWRecursion"
             name="COM.FLOW.Recursion" languageId="fr.cnes.analysis.tools.languages.shell">
@@ -209,6 +214,11 @@
       		class="fr.cnes.analysis.tools.shell.rules.SHREFExport"
             id="fr.cnes.analysis.tools.shell.rules.SHREFExport"
             name="SH.Ref.Export" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
+      		class="fr.cnes.analysis.tools.shell.rules.SHSYNCSignals"
+            id="fr.cnes.analysis.tools.shell.rules.SHSYNCSignals"
+            name="SH.SYNC.Signals" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
 
    </extension>
