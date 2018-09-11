@@ -46,3 +46,22 @@ fi
 
 date +%d_%m_%y | sed -e 's,_, ,g' | awk '{print $1,$2,$3+2000}' | read jj mm aaaa
 retour=$?
+
+cd -- "$idir" || { echo >&2 can not cd to "$idir"; exit 1; }
+
+funcname () 
+{
+    echo "hello"
+}
+
+export –f funcName
+
+cd -- "$idir"
+case $? in
+  0) echo -n "0";;
+  *) echo -n "cd error";;
+esac
+
+right_now=$(date +"%x %r %Z")
+# limitation: $() commands are not tested
+files=$(ls)
