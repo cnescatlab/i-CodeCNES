@@ -81,6 +81,11 @@
             name="COM.INST.Line" languageId="fr.cnes.analysis.tools.languages.shell">
       </check>
       <check 
+      		class="fr.cnes.analysis.tools.shell.rules.COMNAMEHomonymy"
+            id="fr.cnes.analysis.tools.shell.rules.COMNAMEHomonymy"
+            name="COM.NAME.Homonymy" languageId="fr.cnes.analysis.tools.languages.shell">
+      </check>
+      <check 
       		class="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
             id="fr.cnes.analysis.tools.shell.rules.COMPRESHeader"
             name="COM.PRES.Header" languageId="fr.cnes.analysis.tools.languages.shell">
