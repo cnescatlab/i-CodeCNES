@@ -43,13 +43,16 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, CHECKRET, FINLINE, COMMENTARGS, PIPELINE, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
+%state COMMENT, NAMING, CHECKRET, FINLINE, COMMENTARGS, PIPELINE, CONSUMECOMMAND, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
 
 COMMENT_WORD = \#
 SPACE		 = [\ \r\t\f]
 FUNCTION	 = "function"
 FUNCT		 = {VAR}{SPACE}*\(\)
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
+
+PIPEIGNORE 	 = "||"
+PIPE	     = \|
 
 FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
@@ -154,10 +157,13 @@ IGNORE_STRING_S = [\\][\']
 
 %}
 
-%eofval{
-    if(!verified && functionCalled) addViolation();
-	return getCheckResults();
-%eofval}
+/* ------------------------------------------------------------------------------------------------- */
+/* The eofval function has been removed to treat EOF differently when found in different states      */
+/* This is due to the fact that the violation is raised when at least one of the following lines     */
+/* has been parsed. According to what is parsed, the violation needs to be raised on a previous line */
+/* or not.																							 */
+/* The eofval function MUST NOT be used in combination with EOF recognition in states (exclusive). 	 */
+/* ------------------------------------------------------------------------------------------------- */
 
 
 %%          
@@ -174,6 +180,7 @@ IGNORE_STRING_S = [\\][\']
 <COMMENT>   	
 		{
 				\n             	{yybegin(YYINITIAL);}  
+				<<EOF>>			{return getCheckResults();}
 			   	.              	{}
 		}
 		
@@ -184,6 +191,7 @@ IGNORE_STRING_S = [\\][\']
 		{
 				{VAR}			{location = yytext(); functions.put(location, false); yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  
+				<<EOF>>			{return getCheckResults();}
 			   	.              	{}
 		}
 
@@ -192,9 +200,11 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <YYINITIAL>
 		{
+				{PIPEIGNORE}	{pipeline = false;}
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
  				{STRING_D}		{yybegin(STRING_DOUBLE);}
 				{STRING_S}		{yybegin(STRING_SIMPLE);}
+				{PIPE}			{pipeline = true;}				
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); functions.put(location, false); yybegin(BEGINFUNC);}
 			    {VAR}			{Boolean found = functions.get(yytext());
@@ -206,6 +216,7 @@ IGNORE_STRING_S = [\\][\']
 			    				 		yybegin(FINLINE);
 			    				} else {
 			    					functionCalled=false;
+									yybegin(CONSUMECOMMAND);
 			    				}} 
 				{FUNCSTART}		{ 
 									if(!functionStack.empty()){
@@ -224,7 +235,8 @@ IGNORE_STRING_S = [\\][\']
 		      								}
 										}
 									}
-		      					}								
+		      					}
+				<<EOF>>			{return getCheckResults();}
 			 	[^]            	{}
 		}
 		
@@ -233,8 +245,14 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <FINLINE>   	
 		{
-				\|				{pipeline = true; yybegin(PIPELINE);}
+				{PIPEIGNORE}	{pipeline = false; yybegin(YYINITIAL);}
+				{PIPE}			{pipeline = true; yybegin(PIPELINE);}
 				\n				{yybegin(CHECKRET);}
+				<<EOF>>			{   
+									linesError=0;
+									if(!verified && functionCalled) addViolation();
+									return getCheckResults();
+								}
 			   	.              	{}
 		}
 
@@ -248,11 +266,34 @@ IGNORE_STRING_S = [\\][\']
 			    				 		functionCalled=true;
 			    				 		verified=false;
 			    				 		linesError=1;
-			    				 		functionCall+=", " + yytext();
+										if (functionCall.length() != 0) functionCall+=", ";
+			    				 		functionCall+=yytext();
 			    				}} 
 				\n				{yybegin(CHECKRET);}
+				<<EOF>>			{    
+									linesError=0;
+									if(!verified && functionCalled) addViolation();
+									return getCheckResults();
+								}				
 			   	.              	{}
 		}
+
+/************************/
+/* CONSUMECOMMAND STATE	*/
+/************************/
+<CONSUMECOMMAND>   	
+		{
+				{PIPEIGNORE}	{pipeline = false; yybegin(YYINITIAL);}
+				{PIPE}			{pipeline = true; yybegin(PIPELINE);}
+				\n | ";"		{yybegin(YYINITIAL);}
+				<<EOF>>			{    
+									linesError=0;
+									if(!verified && functionCalled) addViolation();
+									return getCheckResults();
+								}
+			   	.              	{}
+		}
+
 		
 		
 /************************/
@@ -260,7 +301,7 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <CHECKRET>   	
 		{
-				\#				{yybegin(COMMENTARGS);}
+				{COMMENT_WORD}	{yybegin(COMMENTARGS);}
 				{VAR}			{Boolean found = functions.get(yytext());
 			    				 if(found!=null) {
 			    				 		addViolation();
@@ -274,9 +315,15 @@ IGNORE_STRING_S = [\\][\']
 			    				}} 
 				\$\?			{verified=true;}
 				{SPACE}			{}
-				\n				{if(!verified) addViolation();
+				\n				{
+								 if(!verified) addViolation();
 								 functionCalled = false;
+								 functionCall="";
 								 yybegin(YYINITIAL);}
+				<<EOF>>			{
+									if(!verified && functionCalled) addViolation();
+									return getCheckResults();
+								}
 			   	.              	{}
 		}
 		
@@ -286,6 +333,11 @@ IGNORE_STRING_S = [\\][\']
 <COMMENTARGS>   	
 		{
 				\n				{linesError++; yybegin(CHECKRET);}
+				<<EOF>>			{    
+									linesError=0;
+									if(!verified && functionCalled) addViolation();
+									return getCheckResults();
+								}
 			   	.              	{}
 		}
 
@@ -306,6 +358,7 @@ IGNORE_STRING_S = [\\][\']
 									functionStack.push(function);
 								 	yybegin(YYINITIAL);
 							 	}
+				<<EOF>>			{return getCheckResults();}
 			   	[^]|{SPACE}  {}
 		}
 
@@ -319,6 +372,7 @@ IGNORE_STRING_S = [\\][\']
 		{
 				{IGNORE_STRING_S}	{}
 				{STRING_S}    		{yybegin(YYINITIAL);}  
+				<<EOF>>				{return getCheckResults();}
 		  	 	[^]|{SPACE}  		{}
 		}
 
@@ -329,6 +383,7 @@ IGNORE_STRING_S = [\\][\']
 		{
 				{IGNORE_STRING_D}	{}
 				{STRING_D}    		{yybegin(YYINITIAL);}  
+				<<EOF>>				{return getCheckResults();}
 		  	 	[^]|{SPACE}  		{}
 		}		
 
