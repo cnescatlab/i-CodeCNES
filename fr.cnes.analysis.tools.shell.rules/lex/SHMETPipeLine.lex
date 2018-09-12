@@ -49,6 +49,8 @@ SPACE		 = [\ \r\t\f]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 PIPELINE	 = \|{SPACE}	| \|\n		| \|\&
 
+CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
+
 																
 %{
 	String location = "MAIN PROGRAM";
@@ -147,6 +149,7 @@ PIPELINE	 = \|{SPACE}	| \|\n		| \|\&
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); if(type.equals("empty")) type="line";}
 			    \|\|			{}	/** OR logique **/
+				{CASE_STMT}		{}  /* a case statement can contain multiple choices with | -> ignore */
 			    {PIPELINE}		{type="pipeline";
 			    				 if(yytext().contains("\n")) {linesType.add(type); type="empty";} }
 				{SPACE}			{}
