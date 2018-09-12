@@ -46,7 +46,9 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {FNAME}{SPACETAB}*[\(]{SPACETAB}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+
 SPACE		 = [\ \r\f]
 TAB			 = [\t]
 SPACETAB	 = {SPACE}|{TAB}
