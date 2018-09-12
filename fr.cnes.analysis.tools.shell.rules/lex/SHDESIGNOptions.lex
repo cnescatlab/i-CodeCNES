@@ -44,7 +44,7 @@ COMMENT_WORD = \#
 FUNCTION     = "function"
 FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
-SPACE		 = [\ \r\t\f\space]
+SPACE		 = [\ \r\t\f]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
 GETOPTS		 = "getopts"
