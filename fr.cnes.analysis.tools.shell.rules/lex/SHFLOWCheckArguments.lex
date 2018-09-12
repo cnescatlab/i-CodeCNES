@@ -52,7 +52,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 COMP		 = "-eq"	| "-ne"		| "-gt"		| "-ge"		|
 			   "-lt"	| "-le"		| \<		| \<\=		|
 			   \>		| \>\=
-ARGS		 = "if"{SPACE}+\[{SPACE}+\$\#{SPACE}+{COMP}
+ARGS		 = "if"{SPACE}+\[{SPACE}+{NUMBER_PARAMS}{SPACE}+{COMP}
+NUMBER_PARAMS = \$\# | \$\{\#\}
 																
 %{
 	String location = "MAIN PROGRAM";
