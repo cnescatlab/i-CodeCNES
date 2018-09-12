@@ -48,7 +48,8 @@ import fr.cnes.analysis.tools.shell.metrics.Function;
 COMMENT_WORD = \#
 SPACE		 = [\ \r\t\f]
 FUNCTION	 = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 
 PIPEIGNORE 	 = "||"
