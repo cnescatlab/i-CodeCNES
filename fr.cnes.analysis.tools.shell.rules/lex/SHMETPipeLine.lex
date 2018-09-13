@@ -19,12 +19,15 @@ import java.io.FileReader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 %%
 
@@ -40,7 +43,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, AVOID
+%state COMMENT, NAMING, AVOID, CONSUME_LINE, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
@@ -53,9 +56,26 @@ PIPELINE	 = \|{SPACE}	| \|\n		| \|\&
 
 CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
 
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
+
+STRING_D		= \"
+IGNORE_STRING_D = [\\][\"]
+STRING_S	 	= \'
+IGNORE_STRING_S = [\\][\']
+
 																
 %{
-	String location = "MAIN PROGRAM";
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+
+	private Stack<Function> functionStack = new Stack<>();
+	
+    /* location: the current function name, or main program, that is the initial value */
+    private String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+
     private String parsedFileName;
 	int bracket = 0;
 	String type = "";
@@ -73,22 +93,7 @@ CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
-	
-	/**
-	  * Check if the last not empty line is a comment or not
-	  * @throws JFlexException 
-	  */
-	private void checkPipelinesComments(int max) throws JFlexException {
-		int index = 1;
-		while(index <= max) {
-			String current = linesType.get(index);
-			if(current.equals("pipeline")){
-			 checkPrecedent(index, index+1);
-			}
-			index++;
-		}
-	}
-	
+		
 	/**
 	 * Check the line before to the current line
 	 * @param index
@@ -103,12 +108,26 @@ CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
 		}
 	}
 
+		private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}
 			
 %}
 
 %eofval{
-	int index = linesType.size()-1; 
-	checkPipelinesComments(index);
 	return getCheckResults();
 %eofval}
 
@@ -137,7 +156,7 @@ CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(YYINITIAL);}
+				{FNAME}			{location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
 				\n             	{linesType.add("line"); type="empty"; yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -148,18 +167,112 @@ CASE_STMT	 = [^"\n""("" ""\r""\f""#"][^"\n""("]*\)
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
+				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{STRING_S}		{yybegin(STRING_SIMPLE);}
 				{FUNCTION}     	{yybegin(NAMING);}
-				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); if(type.equals("empty")) type="line";}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); 
+								 if(type.equals("empty")) type="line";
+								 functionLine = yyline+1;
+								 yybegin(BEGINFUNC);
+								}
+	      		{FUNCSTART}		{
+		      						if(!functionStack.empty()){
+		      							if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+		      								functionStack.peek().addStarterRepetition();
+		      							}
+		      						} 		      							
+		      					}
+	      		{FUNCEND}		{
+		      						if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+		      							}
+									}
+		      					}							
 			    \|\|			{}	/** OR logique **/
 				{CASE_STMT}		{}  /* a case statement can contain multiple choices with | -> ignore */
 			    {PIPELINE}		{type="pipeline";
-			    				 if(yytext().contains("\n")) {linesType.add(type); type="empty";} }
+								 linesType.add(type); 
+								 type="empty";
+								 int index = linesType.size()-1;
+								 checkPrecedent(index, yyline+1);
+								 yybegin(CONSUME_LINE);
+								}
 				{SPACE}			{}
 	      		\n             	{linesType.add(type); type="empty";}
 	      		\\{SPACE}*\n	{}
 	      		.				{if(type.equals("empty")) type="line";}
 		}
+
+/************************/
+/* CONSUME_LINE STATE	    */
+/************************/
+/* Consume characters till end of line */
+<CONSUME_LINE>
+		{
+	      		{FUNCEND}		{ 
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+		      					}															
+				\n				{yybegin(YYINITIAL);}
+	      		.              	{}
+		}	
+
 		
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {}
+		}
+
+/*
+ * The string states are designed to avoid problems due to patterns found in strings.
+ */ 
+/************************/
+/* STRING_SIMPLE STATE	    */
+/************************/
+<STRING_SIMPLE>   	
+		{
+				{IGNORE_STRING_S}	{}
+				{STRING_S}    		{yybegin(YYINITIAL);}  
+		  	 	[^]|{SPACE}  		{}
+		}
+
+/************************/
+/* STRING_DOUBLE STATE	    */
+/************************/
+<STRING_DOUBLE>   	
+		{
+				{IGNORE_STRING_D}	{}
+				{STRING_D}    		{yybegin(YYINITIAL);}  
+		  	 	[^]|{SPACE}  		{}
+		}		
+
 
 /************************/
 /* ERROR STATE	        */
