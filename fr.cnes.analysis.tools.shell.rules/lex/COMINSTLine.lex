@@ -119,7 +119,7 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{	
+				{FNAME}			{	
 									location = yytext();
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : VAR \""+yytext()+"\" )");
 									yybegin(YYINITIAL);}
