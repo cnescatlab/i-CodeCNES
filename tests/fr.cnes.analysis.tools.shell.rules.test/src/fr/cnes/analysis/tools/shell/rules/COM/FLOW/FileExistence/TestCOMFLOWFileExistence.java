@@ -35,9 +35,9 @@ public class TestCOMFLOWFileExistence {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 8, 9, 11, 13, 15, 17, 18, 18, 20, 23, 26, 28 };
+	public final static int[] LINES = { 8, 9, 11, 13, 15, 17, 18, 18, 20, 24, 27, 29 };
 	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
-			"MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+			"MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "my-function",
 			"MAIN PROGRAM", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMFLOWFileExistence();
 
