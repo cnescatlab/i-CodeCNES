@@ -50,7 +50,7 @@ FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 FUNCTION    	= "function"
 FNAME		 	= [a-zA-Z0-9\.\!\-\_\@\?\+]+
 NAME	     	= [a-zA-Z\_][a-zA-Z0-9\_]*
-SPACE			= [\ \r\t\f\space]
+SPACE			= [\ \r\t\f]
 SHELL_VAR		= ([0-9]+|[\-\@\?\#\!\_\*\$])
 EXPANDED_VAR	= [\$][\{](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\:\%\=\+\?\/\!\-\,\^\#\*\@]|([\[](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\/\:\%\=\+\?\!\$\-\,\^\#\*\@\[\]\{\}])+[\]]))+[\}]
 VAR				= {NAME}|{EXPANDED_VAR}|([\$]({NAME}|{SHELL_VAR}))

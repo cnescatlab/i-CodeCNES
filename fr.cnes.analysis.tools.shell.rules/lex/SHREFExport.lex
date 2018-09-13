@@ -49,7 +49,7 @@ COMMENT_WORD = \#
 FUNCTION     = "function"
 FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
 FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
-SPACE		 = [\ \r\t\f\space]
+SPACE		 = [\ \r\t\f]
 NAME	     = [a-zA-Z\_][a-zA-Z0-9\_]*
 SHELL_VAR	 = ([0-9]+|[\-\@\?\#\!\_\*\$])
 EXPANDED_VAR = [\$][\{](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\:\%\=\+\?\/\!\-\,\^\#\*\@]|([\[](([\:]{SPACE}*[\-])|[a-zA-Z0-9\_\/\:\%\=\+\?\!\$\-\,\^\#\*\@\[\]\{\}])+[\]]))+[\}]

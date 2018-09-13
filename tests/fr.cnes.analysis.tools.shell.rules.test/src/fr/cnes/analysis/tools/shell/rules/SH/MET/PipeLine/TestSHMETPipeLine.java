@@ -35,8 +35,8 @@ public class TestSHMETPipeLine {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 8 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM" };
+	public final static int[] LINES = { 8, 16, 19 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "test1", "test" };
 	public final AbstractChecker rule = new SHMETPipeLine();
 
 	/**
