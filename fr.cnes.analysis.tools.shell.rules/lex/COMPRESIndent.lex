@@ -227,7 +227,7 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(BEGINFUNC);}
+				{FNAME}			{location = yytext(); yybegin(BEGINFUNC);}
 				\n             	{currentPos=0; yybegin(YYINITIAL);}  
 			   	.              	{}
 		}

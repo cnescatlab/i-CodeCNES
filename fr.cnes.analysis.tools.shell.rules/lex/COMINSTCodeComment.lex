@@ -163,7 +163,7 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); loc.add(yytext()); yybegin(PREHEADER);}
+				{FNAME}			{location = yytext(); loc.add(yytext()); yybegin(PREHEADER);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}

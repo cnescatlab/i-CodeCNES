@@ -190,7 +190,7 @@ IGNORE_STRING_S = [\\][\']
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); functions.put(location, false); yybegin(BEGINFUNC);}
+				{FNAME}			{location = yytext(); functions.put(location, false); yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  
 				<<EOF>>			{return getCheckResults();}
 			   	.              	{}
