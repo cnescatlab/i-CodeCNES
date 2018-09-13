@@ -9,7 +9,19 @@ echo "--------------------"
 
  ls -l | sed -e "s/[aeio]/u/g"  
 
- # Cette commande permet de recherche dans un archive tous les
+function test ()
+{
+   test1 ()
+      if [$compress]; then
+        # this is a comment for the pipe command
+        tar tvf ./archive.tar | awk '{print $3, $6}' | egrep '\.c$' | sort -nr | head -1
+      fi
+   test1
+   # another comment
+   
+    ls -l | sed -e "s/[eiou]/a/g"  
+}
+# Cette commande permet de recherche dans un archive tous les
 # fichier d’extension « .c » et d’afficher le plus volumineux
 tar tvf ./archive.tar | awk '{print $3, $6}' | egrep '\.c$' | sort -nr | head -1
 
