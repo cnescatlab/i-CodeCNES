@@ -2,7 +2,7 @@
 <feature
       id="fr.cnes.icode.feature.core"
       label="iCode CNES Core"
-      version="3.0.1.qualifier"
+      version="3.1.0.qualifier"
       provider-name="CNES">
 
    <description>
