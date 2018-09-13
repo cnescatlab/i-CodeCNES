@@ -62,7 +62,7 @@ public class TestSHMETRatioComment {
                 }
             }
             if (fileValue == null) {
-                fail("Erreur : Aucun résultat sur le fichier trouvé.");
+                fail("Erreur : Aucun rï¿½sultat sur le fichier trouvï¿½.");
             } else {
 
                 assertTrue(fileValue.getFile().getName().equals(fileName));
