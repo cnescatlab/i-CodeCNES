@@ -37,12 +37,15 @@ import java.io.FileReader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 %%
 
@@ -57,7 +60,7 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING
+%state COMMENT, NAMING, BEGINFUNC
 
 COMMENT_WORD	 = \#
 FUNCTION    	 = "function"
@@ -74,13 +77,23 @@ REDIRECT_LEFT	= ([a-zA-Z3-9\_\?\-\/\\\}]|{STRING})+{SPACE}*({OPERATOR_LEFT}|{OPE
 REDIRECT_RL		= ([a-zA-Z3-9\_\?\-\/\\\}]|{STRING})+{SPACE}*{OPERATOR_RL}{SPACE}*([a-zA-Z3-9\_\?\.\-\$\/\\]|{STRING})+
 REDIRECT 		= {REDIRECT_RIGHT}|{REDIRECT_LEFT}|{REDIRECT_RL}
 
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 																
 %{
-	String location = "MAIN PROGRAM";
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+	
+	String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+
     private String parsedFileName;
 	List<String> redirections = new ArrayList<String>();
 	private boolean isLastLineCommented = false;
 	private boolean errorReported=false;
+	
+	private Stack<Function> functionStack = new Stack<>();
 	
     public SHIORedirect() {
     	
@@ -93,7 +106,24 @@ REDIRECT 		= {REDIRECT_RIGHT}|{REDIRECT_LEFT}|{REDIRECT_RL}
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
-			
+
+	private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}
+	
 %}
 
 %eofval{
@@ -125,8 +155,8 @@ REDIRECT 		= {REDIRECT_RIGHT}|{REDIRECT_LEFT}|{REDIRECT_RL}
 /************************/
 <NAMING>   	
 		{
-				{FNAME}			{
-									location = yytext(); yybegin(YYINITIAL);}
+				{FNAME}			{location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
+
 				\n             	{	
 									isLastLineCommented=false;
 									yybegin(YYINITIAL);}  
@@ -148,13 +178,53 @@ REDIRECT 		= {REDIRECT_RIGHT}|{REDIRECT_LEFT}|{REDIRECT_RL}
 			    				}
 			    				}
 				{FUNCTION}     	{yybegin(NAMING);}
-				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); }
-			    {STRING}		{}
+				{FUNCT}			{functionLine = yyline+1;
+								 location = yytext().substring(0,yytext().length()-2).trim();
+								 yybegin(BEGINFUNC);
+								}
+				{FUNCSTART}		{
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 
+		      					}
+	      		{FUNCEND}		{
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+		      					}
+				{STRING}		{}
 	      		.         		{}
 	     		\n				{isLastLineCommented=false;errorReported=false;}
 		}
 
-
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {}
+		}
+		
 /************************/
 /* ERROR STATE	        */
 /************************/
