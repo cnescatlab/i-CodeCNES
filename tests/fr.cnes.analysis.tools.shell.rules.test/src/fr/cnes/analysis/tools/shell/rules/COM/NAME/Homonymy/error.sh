@@ -70,9 +70,11 @@ while [ $a -eq 1 ] ; do
 fi 
  
 set var=val #tcsh
+_dir="test"
 
 function test5() 
 {
-	# erreur -> variable locale avec le meme nom que la variable tcsh
+   # erreur -> variable locale avec le meme nom que la variable tcsh
    local var=5
+   local _dir="fonction_test5"
 }

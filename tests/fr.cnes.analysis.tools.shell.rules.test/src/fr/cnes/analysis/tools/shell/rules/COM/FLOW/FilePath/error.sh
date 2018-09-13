@@ -19,9 +19,10 @@ grep ^2 $fictle > l1.tmp
 
 date>$fichier
 
-if [ -e ${TAPE_DEV_REP}/${DATE_EXE}_${TYPE_ACTION}_${NIVEAU_SAUVEGARDE}_${MACHINE_S}.tar.gz ] ; then   
-   cat "${DATE_EXE}_${TYPE_ACTION}_${NIVEAU_SAUVEGARDE}_${MACHINE_S}.tar.gz" | Execute_Commande_C_Retour -d "cat - > ${TAPE_DEV_REP}/${DATE_EXE}_${TYPE_ACTION}_${NIVEAU_SAUVEGARDE}_${MACHINE_S}.tar.gz"
-fi
+my-function ()
+    if [ -e ${TAPE_DEV_REP}/${DATE_EXE}_${TYPE_ACTION}_${NIVEAU_SAUVEGARDE}_${MACHINE_S}.tar.gz ] ; then   
+        cat "${DATE_EXE}_${TYPE_ACTION}_${NIVEAU_SAUVEGARDE}_${MACHINE_S}.tar.gz" | Execute_Commande_C_Retour -d "cat - > ${TAPE_DEV_REP}/${DATE_EXE}_${TYPE_ACTION}_${NIVEAU_SAUVEGARDE}_${MACHINE_S}.tar.gz"
+    fi
 
 grep -v "P" $ficsynthese 
 
