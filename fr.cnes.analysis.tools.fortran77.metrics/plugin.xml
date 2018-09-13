@@ -33,5 +33,12 @@
             languageId="fr.cnes.analysis.tools.languages.f77"
             name="F77.MET.RatioComment">
       </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfComment"
+            id="fr.cnes.analysis.tools.fortran77.metrics.lineofcomment"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.f77"
+            name="F77.MET.LineOfComment">
+      </check>
    </extension>
 </plugin>
