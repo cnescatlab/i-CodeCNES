@@ -45,3 +45,4 @@ date +%d_%m_%y | sed -e 's,_, ,g' | awk '{print $1,$2,$3+2000}' | read jj mm aaa
 
 nettoyer_repertoire "${tmpdir}"
 
+grep "Date :" $ficresarc | awk '{print $3}' > datejul.tmp

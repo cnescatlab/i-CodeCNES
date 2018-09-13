@@ -4,12 +4,19 @@ echo "-   COM.NAME.Homonymy    -"
 echo "--------------------------"
 
 index=0
+_dir="test"
+c=1
 
 fonction ()
 {
   local position_local=5
   echo "Variable locale 'position' dans la fonction : $position_local"
-
+  position_local=6
+  index_=3
+  local test_var="test"
+  echo $test_var
+  local _c=5
+  _dir="test_fonction"
   echo "Variable globale 'index' dans la fonction : $index"
 }
 

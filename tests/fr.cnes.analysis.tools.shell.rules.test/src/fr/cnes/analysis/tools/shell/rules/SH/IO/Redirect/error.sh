@@ -15,5 +15,10 @@ res=`ls -l 2>&1`
 dd if=$randomizer of=$output_file bs=$block_size count=3
 dd_stats='^[0-9]+\+[0-9]+ records (in|out)$'
 res=`((dd if=$output_file ibs=$block_size 2>&1 1>&3 3>&- 4>&-;
-echo $?>&4
+
+my-function ()
+{
+    echo $?>&4
+}
+
 egrep -v "$dd_stats" 1>&2 3>&- 4>&-) 4>&1`

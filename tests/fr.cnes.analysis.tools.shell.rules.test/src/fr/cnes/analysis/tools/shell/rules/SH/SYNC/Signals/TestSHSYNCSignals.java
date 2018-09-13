@@ -36,7 +36,7 @@ public class TestSHSYNCSignals {
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
 	public final static int[] LINES = { 57 };
-	public final static String[] LOCATIONS = { "nettoie" };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM" };
 	public final AbstractChecker rule = new SHSYNCSignals();
 
 	/**
