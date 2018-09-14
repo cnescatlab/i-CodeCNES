@@ -35,9 +35,9 @@ public class TestCOMNAMEHomonymy {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 19, 27, 32, 41, 43, 51, 54, 60, 67, 69, 77 };
+	public final static int[] LINES = { 19, 27, 32, 41, 43, 51, 54, 60, 67, 69, 78, 79 };
 	public final static String[] LOCATIONS = { "fonction_globale", "MAIN PROGRAM", "MAIN PROGRAM", "test2", "test2",
-			"test3", "test3", "test4", "test4", "test4", "test5" };
+			"test3", "test3", "test4", "test4", "test4", "test5", "test5"};
 	public final AbstractChecker rule = new COMNAMEHomonymy();
 
 	/**

@@ -42,7 +42,10 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %state COMMENT, NAMING, 
 
 COMMENT_WORD = \#
-FUNC         = "function"
+FUNCTION     = "function"
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE		 = [\ \r\t\f]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 STRING		 = \'[^\']*\' | \"[^\"]*\"
 
@@ -92,7 +95,7 @@ CONTINUE	= "continue"
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = location + yytext(); yybegin(YYINITIAL);}
+				{FNAME}			{location = location + yytext(); yybegin(YYINITIAL);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -104,7 +107,8 @@ CONTINUE	= "continue"
 		{
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
 			  	{STRING}		{}
-				{FUNC}        	{location = yytext(); yybegin(NAMING);}
+				{FUNCTION}      {yybegin(NAMING);}
+				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim(); }
 			    {CONTINUE}		{setError(location,"The keyword CONTINUE is not allowed.", yyline+1); }
 			    {VAR}			{} /* Clause to match with words that contains "continue" */
 			 	[^]            	{}

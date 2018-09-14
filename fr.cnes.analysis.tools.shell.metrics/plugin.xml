@@ -34,5 +34,12 @@
             languageId="fr.cnes.analysis.tools.languages.shell"
             name="SH.MET.RatioComment">
       </check>
+      <check
+            class="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfComment"
+            id="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfComment"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.shell"
+            name="SH.MET.LineOfComment">
+      </check>
    </extension>
 </plugin>

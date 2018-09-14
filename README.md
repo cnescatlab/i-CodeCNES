@@ -6,6 +6,42 @@ i-Code CNES is a static code analysis tool to help developers write code complia
 
 All the informations on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/lequal/i-CodeCNES/tree/master/documentation). 
 
+Release 3.1.0
+=============
+## New features
+* New command line #133 
+* New parsing error handling, a violation named "Parser error" is added instead of suspend the analysis. #154
+* New rules (Shell)
+  * COM.DATA.Initialisation ( fix #113 )
+  * COM.DATA.Invariant ( fix #114 )
+  * COM.FLOW.FilePath ( fix #115 )
+  * COM.FLOW.Recursion ( fix #116 )
+  * COM.INST.BoolNegation ( fix #117 )
+  * COM.NAME.Homonymy ( fix #118 )
+  * COM.PRES.Indent ( fix #119 )
+  * COM.PRES.LengthLine ( fix #120 )
+  * SH.FLOW.CheckCodeReturn ( fix #121 )
+  * SH.Ref.Export ( fix #122 #52 #138 #137)
+  * SH.SYNC.Signals #123 
+* New metrics
+  * SH.MET.LineOfComment
+  * F77.MET.LineOfComment
+  * F90.MET.LineOfComment
+
+## Fixes 
+* Shell 
+  * All checkers :
+    * Function correction on FUNCSTART and FNAME #138 #137 #150
+  * COM.FLOW.CaseSwitch : 
+    * Case handling fixed #135
+    * Function localization fixed #52
+  * COM.DATA.LoopCondition
+    * Function localization fixed #52
+  * COM.DESIGN.ActiveWait
+    * Function localization fixed #52
+  * COM.FLOW.Abort 
+    * Function localization fixed #52
+  
 Release 3.0.1
 =============
 * Fix of Eclipse's plug-in performances #101

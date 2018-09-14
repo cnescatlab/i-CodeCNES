@@ -35,10 +35,10 @@ public class TestCOMPRESIndent {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 18, 26, 45, 49, 59, 60, 64, 70, 78, 79 };
+	public final static int[] LINES = { 18, 26, 45, 49, 59, 60, 64, 70, 78, 79, 92, 93, 94 };
 	public final static String[] LOCATIONS = { "ma_fonction_affine", "ma_fonction_affine", "affiche_resultat",
-			"affiche_resultat", "affiche_resultat", "affiche_resultat", "affiche_resultat", "affiche_resultat",
-			"affiche_resultat", "affiche_resultat" };
+			"affiche_resultat", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+			"MAIN PROGRAM", "MAIN PROGRAM", "ma_fonction_affine2", "ma_fonction_affine2", "ma_fonction_affine2" };
 	public final AbstractChecker rule = new COMPRESIndent();
 
 	/**
@@ -76,8 +76,8 @@ public class TestCOMPRESIndent {
 			for (final CheckResult value : list) {
 				final Integer index = list.indexOf(value);
 				final String location = value.getLocation();
-				assertTrue("CheckResult " + index.toString() + " has wrong location : " + location + " should contain "
-						+ LOCATIONS[index], location.contains(LOCATIONS[index]));
+				assertTrue("CheckResult " + index.toString() + " has wrong location : " + location + " should be "
+						+ LOCATIONS[index], location.equals(LOCATIONS[index]));
 				final int line = value.getLine();
 				assertEquals("CheckResult " + index.toString() + " is in wrong line : ", LINES[index], line);
 			}

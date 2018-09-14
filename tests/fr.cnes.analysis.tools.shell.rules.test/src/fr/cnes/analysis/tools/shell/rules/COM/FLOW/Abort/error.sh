@@ -16,3 +16,11 @@ fi
 
 # kill process directly in one line
 #ps -ef | grep "ruby" | awk '{print $2}' | xargs kill
+
+function testFunction()
+{
+	kill $PID
+}
+
+killall -9 $PID
+

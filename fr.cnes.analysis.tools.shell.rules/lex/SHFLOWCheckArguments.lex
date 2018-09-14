@@ -43,7 +43,8 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 
 COMMENT_WORD = \#
 FUNCTION     = "function"
-FUNCT		 = {VAR}{SPACE}*\(\)
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE		 = [\ \r\t\f]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 STRING		 = \'[^\']*\' | \"[^\"]*\"
@@ -51,7 +52,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 COMP		 = "-eq"	| "-ne"		| "-gt"		| "-ge"		|
 			   "-lt"	| "-le"		| \<		| \<\=		|
 			   \>		| \>\=
-ARGS		 = "if"{SPACE}+\[{SPACE}+\$\#{SPACE}+{COMP}
+ARGS		 = "if"{SPACE}+\[{SPACE}+{NUMBER_PARAMS}{SPACE}+{COMP}
+NUMBER_PARAMS = \$\# | \$\{\#\}
 																
 %{
 	String location = "MAIN PROGRAM";
@@ -106,7 +108,7 @@ ARGS		 = "if"{SPACE}+\[{SPACE}+\$\#{SPACE}+{COMP}
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); yybegin(CHECKARGUMENTS);}
+				{FNAME}			{location = yytext(); yybegin(CHECKARGUMENTS);}
 				\n             	{yybegin(CHECKARGUMENTS);}  
 			   	.              	{}
 		}

@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
+import fr.cnes.analysis.tools.analyzer.datas.ParsingError;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
@@ -62,7 +63,17 @@ public class CallableChecker implements Callable<List<CheckResult>> {
         ICodeLogger.entering(CLASS, method);
         final List<CheckResult> results = new ArrayList<>();
         rule.setInputFile(file);
-        results.addAll(rule.run());
+        try {
+			results.addAll(rule.run());
+		} catch (JFlexException exception) {
+			ICodeLogger.error(exception.getFileName(), exception.getRuleName(), exception.getMessage());
+			CheckResult result = new CheckResult(ParsingError.PARSING_ERROR_NAME,ParsingError.PARSING_ERROR_ID, ParsingError.PARSING_ERROR_LANGUAGE);
+			result.setLine(Integer.valueOf(exception.getLine()));
+		    result.setLocation(exception.getRuleName() +"[l"+exception.getLine()+":c"+exception.getColumn()+"]");
+		    result.setMessage(exception.getErrorMessage());
+		    result.setFile(file);			
+			results.add(result);
+		}
         ICodeLogger.exiting(CLASS, method, results);
         return results;
     }

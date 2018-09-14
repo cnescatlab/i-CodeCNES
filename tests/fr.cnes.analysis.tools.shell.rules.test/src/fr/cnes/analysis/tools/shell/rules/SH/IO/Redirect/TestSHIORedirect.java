@@ -36,8 +36,8 @@ public class TestSHIORedirect {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 13, 14, 17, 18, 19 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM",
+	public final static int[] LINES = { 13, 14, 17, 21, 24 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM", "my-function",
 			"MAIN PROGRAM" };
 	public final AbstractChecker rule = new SHIORedirect();
 
@@ -64,8 +64,6 @@ public class TestSHIORedirect {
 			// We verify that there is the right number of errors
 
 			final int nb_CheckResults = list.size();
-			for (CheckResult v : list)
-				System.out.println(v.getLine());
 			assertEquals("Wrong number of CheckResults : ", LINES.length, nb_CheckResults);
 
 			// We verify that the error detected is the right one. There is
