@@ -35,8 +35,8 @@ public class TestCOMDATALoopCondition {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 25, 41 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM" };
+	public final static int[] LINES = { 27, 44 };
+	public final static String[] LOCATIONS = { "testFunction", "MAIN PROGRAM" };
 	public final AbstractChecker rule = new COMDATALoopCondition();
 
 	/**

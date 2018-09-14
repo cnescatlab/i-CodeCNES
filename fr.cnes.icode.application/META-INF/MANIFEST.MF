@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Shell command Application
+Bundle-Name: i-Code CNES Command Line Application
 Bundle-SymbolicName: fr.cnes.icode.application;singleton:=true
-Bundle-Version: 3.0.1.qualifier
-Bundle-Vendor: Cnes
+Bundle-Version: 3.1.0.qualifier
+Bundle-Vendor: CNES
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.core.runtime,
  fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0",
@@ -16,5 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.cnes.analysis.tools.fortran90.metrics;bundle-version="2.0.0",
  fr.cnes.analysis.tools.fortran90.rules;bundle-version="2.0.0",
  fr.cnes.analysis.tools.shell.metrics;bundle-version="2.0.0",
- fr.cnes.analysis.tools.shell.rules;bundle-version="2.0.0"
+ fr.cnes.analysis.tools.shell.rules;bundle-version="2.0.0",
+ org.apache.commons.cli;bundle-version="1.2.0",
+ org.apache.commons.io;bundle-version="2.2.0"
 Import-Package: org.apache.tools.ant

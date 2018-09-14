@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.cnes.icode</groupId>
 	<artifactId>fr.cnes.icode.parent</artifactId>
-	<version>3.0.1-SNAPSHOT</version>
+	<version>3.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -56,6 +56,16 @@
 								<id>org.mockito</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.apache.commons.cli</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.apache.commons.io</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
 						</extraRequirements>
 					</dependency-resolution>
 					<target>
@@ -66,7 +76,6 @@
 						</artifact>
 					</target>
 					<environments>
-
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
@@ -100,7 +109,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.1.0</version>
 				<inherited>false</inherited>
 				<executions>
 					<execution>

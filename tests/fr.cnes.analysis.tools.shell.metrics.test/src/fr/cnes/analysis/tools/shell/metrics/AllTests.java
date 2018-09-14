@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import fr.cnes.analysis.tools.shell.metrics.MET.ComplexitySimplified.TestSHMETComplexitySimplified;
 import fr.cnes.analysis.tools.shell.metrics.MET.LineOfCode.TestSHMETLineOfCode;
+import fr.cnes.analysis.tools.shell.metrics.MET.LineOfComment.TestSHMETLineOfComment;
 import fr.cnes.analysis.tools.shell.metrics.MET.Nesting.TestSHMETNesting;
 import fr.cnes.analysis.tools.shell.metrics.MET.RatioComment.TestSHMETRatioComment;
 
@@ -22,6 +23,7 @@ import fr.cnes.analysis.tools.shell.metrics.MET.RatioComment.TestSHMETRatioComme
     TestSHMETComplexitySimplified.class,
     TestSHMETNesting.class,
     TestSHMETLineOfCode.class,
+    TestSHMETLineOfComment.class,
     TestSHMETRatioComment.class})
 public class AllTests {
 }

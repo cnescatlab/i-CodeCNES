@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Cnes Icode IDE" uid="icodeIDE.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="3.0.1" useFeatures="true" includeLaunchers="true">
-
+<product name="Cnes Icode IDE" uid="icodeIDE.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="3.1.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -19,18 +18,15 @@
 
    <windowImages/>
 
-
    <launcher name="icodeIDE">
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
-
    <vm>
       <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
    </vm>
-
 
    <plugins>
       <plugin id="fr.cnes.analysis.tools.analyzer"/>
@@ -81,11 +77,11 @@
       <feature id="org.eclipse.cdt.gnu.debug"/>
       <feature id="org.eclipse.cdt.gdb"/>
       <feature id="org.eclipse.e4.rcp"/>
-      <feature id="fr.cnes.icode.feature.fortran77" version="3.0.1.qualifier"/>
-      <feature id="fr.cnes.icode.feature.fortran90" version="3.0.1.qualifier"/>
-      <feature id="fr.cnes.icode.feature.shell" version="3.0.1.qualifier"/>
-      <feature id="fr.cnes.icode.feature.ui" version="3.0.1.qualifier"/>
       <feature id="fr.cnes.icode.feature.core"/>
+      <feature id="fr.cnes.icode.feature.fortran77" version="3.1.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.fortran90" version="3.1.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.shell" version="3.1.0.qualifier"/>
+      <feature id="fr.cnes.icode.feature.ui" version="3.1.0.qualifier"/>
    </features>
 
    <configurations>

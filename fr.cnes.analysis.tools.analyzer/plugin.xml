@@ -3,5 +3,23 @@
 <plugin>
    <extension-point id="languages" name="languages" schema="schema/languages.exsd"/>
    <extension-point id="checks" name="checks" schema="schema/checks.exsd"/>
+   <extension
+         id="id1"
+         name="name"
+         point="fr.cnes.analysis.tools.analyzer.checks">
+      <check
+            class="fr.cnes.analysis.tools.analyzer.datas.ParsingError"
+            id="fr.cnes.analysis.tools.analyzer.parsingError"
+            languageId="fr.cnes.analysis.tools.analyzer.parsingError"
+            name="Parsing Error">
+      </check>
+   </extension>
+   <extension
+         point="fr.cnes.analysis.tools.analyzer.languages">
+      <language
+            id="fr.cnes.analysis.tools.analyzer.parsingError"
+            name="Parsing Error">
+      </language>
+   </extension>
    
 </plugin>

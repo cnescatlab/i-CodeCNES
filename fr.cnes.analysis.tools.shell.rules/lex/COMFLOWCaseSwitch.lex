@@ -18,12 +18,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.util.List;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 %%
 
@@ -39,20 +42,39 @@ import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, CONDITIONAL
+%state COMMENT, NAMING, BEGINFUNC, STRING_SIMPLE, STRING_DOUBLE
 
 COMMENT_WORD = \#
-FUNC         = "function"
+FUNCT		 = {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FUNCTION     = "function"
+FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+SPACE		 = [\ \r\t\f]
 VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
-STRING		 = \'[^\']*\' | \"[^\"]*\"
+
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
+
+STRING_D		= \"
+IGNORE_STRING_D = [\\][\"]
+STRING_S	 	= \'
+IGNORE_STRING_S = [\\][\']
 
 CASE		 = "case"
 ESAC		 = "esac"
 																
 %{
-	String location = "MAIN PROGRAM";
-    private String parsedFileName;
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+	
+	String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+
+	private String parsedFileName;
 	boolean defaultExpr = false;
+	
+	private Stack<Function> functionStack = new Stack<>();
+
 
     public COMFLOWCaseSwitch() {
     }
@@ -64,7 +86,24 @@ ESAC		 = "esac"
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
 	}
-		
+	
+	private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}	
+	
 %}
 
 %eofval{
@@ -94,7 +133,7 @@ ESAC		 = "esac"
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = location + yytext(); yybegin(YYINITIAL);}
+				{FNAME}			{location = yytext(); functionLine = yyline+1; yybegin(BEGINFUNC);}
 				\n             	{yybegin(YYINITIAL);}  
 			   	.              	{}
 		}
@@ -105,24 +144,106 @@ ESAC		 = "esac"
 <YYINITIAL>
 		{
 			  	{COMMENT_WORD} 	{yybegin(COMMENT);}
-				{FUNC}        	{location = yytext(); yybegin(NAMING);}
-			    {STRING}		{}
-			    {CASE}			{defaultExpr=false; yybegin(CONDITIONAL);}
+ 				{STRING_D}		{yybegin(STRING_DOUBLE);}
+				{STRING_S}		{yybegin(STRING_SIMPLE);}
+				{FUNCTION}     	{yybegin(NAMING);}
+				{FUNCT}			{functionLine = yyline+1;
+								 location = yytext().substring(0,yytext().length()-2).trim();
+								 yybegin(BEGINFUNC);}
+			    {CASE}			{
+									defaultExpr=false;
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 									
+								}
+				{FUNCSTART}		{
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 
+		      					}
+				{ESAC}			{
+									if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); 
+									defaultExpr=false;
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}									
+								}
+	      		{FUNCEND}		{
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+		      					}
+				\*\)			{defaultExpr=true;}
 			    {VAR}			{} /* Clause to match with words that contains "kill" */
 			 	[^]            	{}
 		}
 		
 /************************/
-/* CONDITIONAL STATE    */
+/* BEGINFUNC STATE	    */
 /************************/
-<CONDITIONAL>   	
+/*
+ * This state target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
 		{
-				\*\)			{defaultExpr=true;}
-				{ESAC}			{if(!defaultExpr) setError(location,"The default case of the case switch condition is missing.", yyline+1); yybegin(YYINITIAL);}
-				{VAR}			{}
-				[^]         	{}  
+				\(\)			{}
+			    {CASE}			{
+									defaultExpr=false;
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);									
+								}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {}
 		}
-		
+
+/*
+ * The string states are designed to avoid problems due to patterns found in strings.
+ */ 
+/************************/
+/* STRING_SIMPLE STATE	    */
+/************************/
+<STRING_SIMPLE>   	
+		{
+				{IGNORE_STRING_S}	{}
+				{STRING_S}    		{yybegin(YYINITIAL);}  
+		  	 	[^]|{SPACE}  		{}
+		}
+
+/************************/
+/* STRING_DOUBLE STATE	    */
+/************************/
+<STRING_DOUBLE>   	
+		{
+				{IGNORE_STRING_D}	{}
+				{STRING_D}    		{yybegin(YYINITIAL);}  
+		  	 	[^]|{SPACE}  		{}
+		}		
+
 
 /************************/
 /* ERROR STATE	        */

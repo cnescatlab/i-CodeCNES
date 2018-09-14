@@ -25,6 +25,9 @@ import org.eclipse.core.runtime.Path;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import java.util.EmptyStackException;
+import java.util.Stack;
+import fr.cnes.analysis.tools.shell.metrics.Function;
 
 import java.util.logging.Logger;
 
@@ -42,7 +45,7 @@ import java.util.logging.Logger;
 %type List<CheckResult>
 
 
-%state COMMENT, NAMING, FILE, STRING
+%state COMMENT, NAMING, FILE, STRING, BEGINFUNC
 
 COMMENT_WORD = [\#]
 FUNCTION     = "function"
@@ -54,6 +57,8 @@ SHELL_VAR	 = ([0-9]+|[\-\@\?\#\!\_\*\$])
 EXPANDED_VAR = [\!]?{NAME}([\:]|(([\%]?[\%])|([\#]?[\#]))|([\:]?[\=\+\?\-]))({NAME}|[\[]{NAME}[\]])|([\#]{NAME})
 VAR 		 = ({NAME}|([\$][\{]({NAME}|{SHELL_VAR}|{EXPANDED_VAR})[\}])|([\$]({NAME}|{SHELL_VAR}))) 
 
+FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
+FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 OPERATOR_RIGHT  = [\>]|[\>][\&]|[\&][\>]|[\>][\>]|[\>][\>][\>]
 OPERATOR_LEFT	= [\<]|[\<][\&]|[\&][\<]|[\<][\<]|[\<][\<][\<]
@@ -92,10 +97,18 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 																
 %{
     private static final Logger LOGGER = Logger.getLogger(COMFLOWFileExistence.class.getName());
-	private String location = "MAIN PROGRAM";
-    private String parsedFileName;
+
+	/* MAINPROGRAM: constant for main program localisation */
+    private static final String MAINPROGRAM = "MAIN PROGRAM";
+	
+	String location = MAINPROGRAM;
+	/* functionLine: the beginning line of the function */
+	int functionLine = 0;
+ 
+	private String parsedFileName;
     
-    
+    private Stack<Function> functionStack = new Stack<>();
+
 	List<String> filesExistence = new ArrayList<String>();
 	
 	private String stringBeginner = ""; 
@@ -116,6 +129,23 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
         this.zzReader = new FileReader(new Path(file.getAbsolutePath()).toOSString());
         LOGGER.fine("end method setInputFile");
 	}
+	
+	private void endLocation() throws JFlexException {
+		try{
+		    Function functionFinished = functionStack.pop();
+			if (!functionStack.empty()) {
+				/* there is a current function: change location to this function */
+				location = functionStack.peek().getName();
+			} else {
+				/* we are in the main program: change location to main */
+				location = MAINPROGRAM;
+			}
+		}catch(EmptyStackException e){
+        		final String errorMessage = e.getMessage();
+            	throw new JFlexException(this.getClass().getName(), parsedFileName,
+        errorMessage, yytext(), yyline, yycolumn);
+		}
+	}		
 		
 %}
 
@@ -145,9 +175,10 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{location = yytext(); 
+				{FNAME}			{location = yytext();
+									functionLine = yyline+1; 
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : VAR \""+yytext()+"\" )");
-									yybegin(YYINITIAL);}
+									yybegin(BEGINFUNC);}
 				\n             	{
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
 									yybegin(YYINITIAL);}  
@@ -165,8 +196,28 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 																yybegin(NAMING);
 															}
 				{FUNCT}										{	
+																functionLine = yyline+1;
 																location = yytext().substring(0,yytext().length()-2).trim();
+																yybegin(BEGINFUNC);
 															}
+				{FUNCSTART}		{
+									if(!functionStack.empty()){
+										if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+											functionStack.peek().addStarterRepetition();
+										}
+									} 
+		      					}
+	      		{FUNCEND}		{
+									if(!functionStack.empty()){
+		      							if(functionStack.peek().isFinisher(yytext())){
+		      								if(functionStack.peek().getStarterRepetition()>0) {
+	      									    functionStack.peek().removeStarterRepetition();
+		      								} else {
+		      									endLocation();
+		      								}
+										}
+									}
+		      					}
 			    {FILEEXIST}									{
 			    												int index = yytext().indexOf('-');
 															 	String subfile = yytext().substring(index);
@@ -266,7 +317,28 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 								    						}
 				.				{}
 		}
+/************************/
+/* BEGINFUNC STATE	    */
+/************************/
+/*
+ * This state's target is to retrieve the function starter. For more information on fonction starter, have a look on {@link Function} class.
+ * Pending this starter, the function ender can be defined.
+ *
+ */ 
+<BEGINFUNC>
+		{
+				\(\)			{}
+				{FUNCSTART}		{
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+							 	}
+			   	[^]|{SPACE}  {}
+		}
 
+
+		
 
 /************************/
 /* ERROR STATE	        */

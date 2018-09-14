@@ -46,7 +46,8 @@ import java.util.logging.Logger;
 
 COMMENT_WORD 			= [\#]
 FUNCTION  			  	= "function"
-FUNCT					= {VAR}{SPACE}*\(\)
+FUNCT					= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
+FNAME					= [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE					= [\ \r\t\f]
 VALUE					= [0-9][0-9]*([\.][0-9][0-9]*)?
 VAR					  	= ([a-zA-Z][a-zA-Z0-9\_\-]*)|([$]([\-\@\?\#\!\_\*]|([a-zA-Z0-9]*)|[\{][a-zA-Z0-9]*[\}]))
@@ -118,7 +119,7 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 /************************/
 <NAMING>   	
 		{
-				{VAR}			{	
+				{FNAME}			{	
 									location = yytext();
 									LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : VAR \""+yytext()+"\" )");
 									yybegin(YYINITIAL);}

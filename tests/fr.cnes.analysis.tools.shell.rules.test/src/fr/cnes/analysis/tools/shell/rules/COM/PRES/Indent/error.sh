@@ -28,11 +28,11 @@ ma_fonction_affine ()
 }
 
 
+
 # ------------------------------------------------------------------------------------
 #    Definition d'une fonction qui affiche les resultats obtenus 
 # ------------------------------------------------------------------------------------
-affiche_resultat ()
-{
+affiche_resultat () 
    if [ $# -ne 2 ]
    then
       printf "Erreur grave dans affiche_resultat : nombre d'arguments incorrects\n"
@@ -47,7 +47,7 @@ affiche_resultat ()
          printf "   ===>Erreur grave dans ma_fonction_affine : nombre d'arguments incorrects<===\n"
       fi
   fi
-}
+
 
 a_trouver=$(($RANDOM % 100))
  
@@ -80,3 +80,17 @@ else
         fi
     fi
 fi
+
+function ma_fonction_affine2 ()
+{
+   if [ $# -ne 3 ]
+   then
+      my_function=$code_error_nbargs
+   else
+      printf "Calling : p1=%s p2=%s p3=%s\n" $1 $2 $3
+              # operation : y = ax + b
+        let y=$1*$2+$3
+           printf "y=%s\n" $y
+                       my_function=$y
+   fi
+}

@@ -35,8 +35,8 @@ public class TestCOMFLOWAbort {
 
 	public final static String ERROR_FILE = "error.sh";
 	public final static String NO_ERROR_FILE = "noError.sh";
-	public final static int[] LINES = { 13, 14 };
-	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM" };
+	public final static int[] LINES = { 13, 14, 22, 25 };
+	public final static String[] LOCATIONS = { "MAIN PROGRAM", "MAIN PROGRAM", "testFunction" , "MAIN PROGRAM"  };
 	public final AbstractChecker rule = new COMFLOWAbort();
 
 	/**

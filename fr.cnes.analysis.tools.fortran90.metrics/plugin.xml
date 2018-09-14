@@ -34,5 +34,12 @@
             languageId="fr.cnes.analysis.tools.languages.f90"
             name="F90.MET.RatioComment">
       </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfComment"
+            id="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfComment"
+            isMetric="true"
+            languageId="fr.cnes.analysis.tools.languages.f90"
+            name="F90.MET.LineOfComment">
+      </check>
    </extension>
 </plugin>
