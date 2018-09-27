@@ -36,6 +36,15 @@ Set-Alias icode c:\user\tools\icode.exe
 ```
 
 # Quick analysis
+## ⚠️ File extensions
+Analysis on project are based on file extension to attribute the good file to the good analyzer. Which mean, it's not required to filter file's extension when launching an anlysis on a project, however it's important (especially in shell) that files that should be analyzed have an appropriate extension.
+
+Extension supported by languages : 
+* Shell : sh, ksh, bash
+* Fortran : f, f77, f90, F, F90, F77, fortran
+
+> A Shell file for instance, like "no_extension" should be renamed "no_extension.sh" before running the analysis.
+
 ## i-Code CNES IDE and Eclipse plugin
 ### Preferences
 Select `Window > Preferences > i-Code CNES`.
@@ -57,5 +66,4 @@ icode '**/*' -f xml -o output.xml
 # List all functionality and description
 icode --help
 ```
-
 
