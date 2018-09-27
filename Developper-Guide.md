@@ -1,6 +1,4 @@
-This page introduce common informations required for the developpement in i-Code CNES.
-
-
+This page contains recommandations for developpers who had like to contribute to i-Code CNES. Feel free to ask further informations [issues](https://github.com/lequal/i-CodeCNES/issues).
 
 # Requirements
 ## Tools
