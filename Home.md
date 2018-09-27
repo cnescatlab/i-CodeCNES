@@ -43,7 +43,7 @@ Extension supported by languages :
 * Shell : sh, ksh, bash
 * Fortran : f, f77, f90, F, F90, F77, fortran
 
-> A Shell file for instance, like "no_extension" should be renamed "no_extension.sh" before running the analysis.
+> A Shell file for instance `no_extension` should be renamed `no_extension.sh` in order to be analyzed.
 
 ## i-Code CNES IDE and Eclipse plugin
 ### Preferences
