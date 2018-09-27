@@ -49,7 +49,7 @@ Extension supported by languages :
 ### Preferences
 Select `Window > Preferences > i-Code CNES`.
 
-You can set the severity configuration of the analysis using the scrollbar from RNC A to D, and choose rules to enable or disable in the different tables. You can also edit Metrics threeshold.
+You can set the severity configuration of the analysis using the scrollbar from RNC A to D, and choose rules to enable or disable in the different tables. You can also edit Metrics threshold.
 
 ### Launching an analysis
 Select files to analysis, one or several, and then click on `i-Code CNES > Run analysis`.
