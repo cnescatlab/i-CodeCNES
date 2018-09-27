@@ -36,7 +36,7 @@ Set-Alias icode c:\user\tools\icode.exe
 ```
 
 # Quick analysis
-## ⚠️ File extensions
+## ⚠️ Filename extension
 Analysis on project are based on file extension to attribute the good file to the good analyzer. Which mean, it's not required to filter file's extension when launching an anlysis on a project, however it's important (especially in shell) that files that should be analyzed have an appropriate extension.
 
 Extension supported by languages : 
