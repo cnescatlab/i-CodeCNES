@@ -88,19 +88,27 @@ CHAR		 = "character" {SPACE}* \*
         super.setInputFile(file);
 		
 		/** Initializing first rule. **/
-        this.rule1.setContribution(this.getContribution());
+        this.rule1.setId(this.getId());
+        this.rule1.setName(this.getName());
+        this.rule1.setLanguageId(this.getLanguageId());
         this.rule1.setInputFile(file);
 		
 		/** Initializing second rule. **/
-        this.rule2.setContribution(this.getContribution());
+        this.rule2.setId(this.getId());
+        this.rule2.setName(this.getName());
+        this.rule2.setLanguageId(this.getLanguageId());
         this.rule2.setInputFile(file);
 		
 		/** Initializing third rule. **/
-        this.rule3.setContribution(this.getContribution());
+        this.rule3.setId(this.getId());
+        this.rule3.setName(this.getName());
+        this.rule3.setLanguageId(this.getLanguageId());
         this.rule3.setInputFile(file);
 		
 		/** Initializing fourth rule. **/
-        this.rule4.setContribution(this.getContribution());
+        this.rule4.setId(this.getId());
+        this.rule4.setName(this.getName());
+        this.rule4.setLanguageId(this.getLanguageId());
         this.rule4.setInputFile(file);
 		
         this.parsedFileName = file.toString();

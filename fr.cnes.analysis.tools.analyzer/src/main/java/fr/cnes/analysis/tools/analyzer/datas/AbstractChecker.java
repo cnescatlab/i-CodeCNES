@@ -32,13 +32,20 @@ import java.util.List;
  */
 public abstract class AbstractChecker implements IChecker {
 
-    /** Class name */
+    /** Class name. */
     private static final String CLASS = AbstractChecker.class.getName();
     /** Analyzed file. */
     private File inputFile;
 
     /** List of {@link CheckResult} found during analysis. **/
     private List<CheckResult> checkResults = new ArrayList<>();
+
+    /** Checker id. **/
+    protected String id;
+    /** Checker name. **/
+    protected String name;
+    /** Checker language id. **/
+    protected String languageId;
 
     /**
      * Method to add a {@link CheckResult}, knowing its location and line.
@@ -56,9 +63,9 @@ public abstract class AbstractChecker implements IChecker {
         ICodeLogger.entering(CLASS, method, new Object[] {
             pLocation, pMessage, Integer.valueOf(pLine)
         });
-        final CheckResult checkResult = new CheckResult("name",
-                        "id",
-                        "languageId");
+        final CheckResult checkResult = new CheckResult(getName(),
+                        getId(),
+                        getLanguageId());
         checkResult.setLine(Integer.valueOf(pLine));
         checkResult.setLocation(pLocation);
         checkResult.setMessage(pMessage);
@@ -84,7 +91,7 @@ public abstract class AbstractChecker implements IChecker {
         ICodeLogger.entering(CLASS, method, new Object[] {
             pLocation, Float.valueOf(pValue), Integer.valueOf(pLine)
         });
-        final CheckResult checkResult = new CheckResult("name", "id","languageId");
+        final CheckResult checkResult = new CheckResult(getName(), getId(),getLanguageId());
         checkResult.setLine(Integer.valueOf(pLine));
         checkResult.setLocation(pLocation);
         checkResult.setValue(Float.valueOf(pValue));
@@ -106,7 +113,7 @@ public abstract class AbstractChecker implements IChecker {
         final String method = "setInputFile";
         ICodeLogger.entering(CLASS, method, pInputFile);
         this.checkResults = new LinkedList<CheckResult>();
-        final CheckResult checkResult = new CheckResult("name", "id","languageId");
+        final CheckResult checkResult = new CheckResult(getName(), getId(), getLanguageId());
         checkResult.setFile(pInputFile);
         this.inputFile = pInputFile;
         ICodeLogger.exiting(CLASS, method);
@@ -150,6 +157,66 @@ public abstract class AbstractChecker implements IChecker {
         ICodeLogger.entering(CLASS, method);
         ICodeLogger.exiting(CLASS, method, inputFile);
         return inputFile;
+    }
+
+    /**
+     * Getter for the {@Link #name} of the checker.
+     *
+     * @return the corresponding string.
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Getter for the {@Link #id} of the checker.
+     *
+     * @return the corresponding string.
+     */
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Getter for the {@Link #languageId} of the checker.
+     *
+     * @return the corresponding string.
+     */
+    @Override
+    public String getLanguageId() {
+        return languageId;
+    }
+
+    /**
+     * Setter for the {@Link #languageId} of the checker.
+     *
+     * @param pName New name.
+     */
+    @Override
+    public void setName(final String pName) {
+        this.name = pName;
+    }
+
+    /**
+     * Setter for the {@Link #id} of the checker.
+     *
+     * @param pId New ID.
+     */
+    @Override
+    public void setId(final String pId) {
+        this.id = pId;
+    }
+
+    /**
+     * Setter for the {@Link #languageId} of the checker.
+     *
+     * @param pLanguageId New language ID.
+     */
+    @Override
+    public void setLanguageId(final String pLanguageId) {
+        this.languageId = pLanguageId;
     }
 
 }

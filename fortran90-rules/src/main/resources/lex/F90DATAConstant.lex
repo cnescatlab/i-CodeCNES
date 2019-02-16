@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.util.List;
-import org.eclipse.core.runtime.Path;
 
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;

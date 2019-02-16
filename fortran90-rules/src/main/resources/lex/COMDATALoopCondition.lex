@@ -139,11 +139,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	/** If the last variable is in the list of DO variables -> error **/
 	private void checkDo() {
 		if(conditionsDo.contains(descr)) {
-			try {
-				this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
-			} catch (JFlexException e) {
-				e.printStackTrace();
-			}
+			this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
 		}
 	}
 	
@@ -157,11 +153,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				conditionsWhile.remove(descr);
 			}
 			else {
-				try {
-					this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
-				} catch (JFlexException e) {
-					e.printStackTrace();
-				}
+				this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
 			}
 		}
 	}

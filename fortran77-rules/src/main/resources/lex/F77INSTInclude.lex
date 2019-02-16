@@ -21,9 +21,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Path;
-
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
@@ -82,15 +79,17 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 		this.include = false;
     }
     
-    public F77INSTInclude(boolean included, IConfigurationElement pContribution) {
-		this.setContribution(pContribution);
+    public F77INSTInclude(boolean included, String pId, String pName, String pLanguageId) {
+		this.setId(pId);
+		this.setName(pName);
+		this.setLanguageId(pLanguageId);
 		this.include = included;
     }
 	
 	@Override
 	public void setInputFile(final File file) throws FileNotFoundException {
 		super.setInputFile(file);
-		project = getProjectPath(new Path(file.getAbsolutePath()).toOSString());
+		project = getProjectPath(file.getAbsolutePath());
 		this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new File(file.getAbsolutePath()));
 	}
@@ -102,7 +101,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 			fileName = str[str.length-1];
 		}
 		try {
-			final AbstractChecker rule = new F77INSTInclude(true, this.getContribution());
+			final AbstractChecker rule = new F77INSTInclude(true, this.getId(), this.getName(), this.getLanguageId());
 
 			File[] currDir = new File(project).listFiles();
 			getFileFromPath(currDir);

@@ -151,12 +151,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	private void checkDo() {
         LOGGER.finest("begin method checkDo");
 		if(conditionsDo.contains(descr)) {
-			try {
-				LOGGER.fine("Setting error line "+yyline+1+" for the variable "+descr+".");
-				this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
-			} catch (JFlexException e) {
-				e.printStackTrace();
-			}
+            LOGGER.fine("Setting error line "+yyline+1+" for the variable "+descr+".");
+            this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
 		}
         LOGGER.finest("end method checkDo");
 	}
@@ -172,12 +168,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 				conditionsWhile.remove(descr);
 			}
 			else {
-				try {
-					LOGGER.fine("Setting error line "+yyline+1+" for the variable "+descr+".");
-					this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
-				} catch (JFlexException e) {
-					e.printStackTrace();
-				}
+                LOGGER.fine("Setting error line "+yyline+1+" for the variable "+descr+".");
+                this.setError(location,"The variable " + descr + " is modified inside the loop.", yyline+1);
 			}
 		}
         LOGGER.finest("end method checkDoWhile");

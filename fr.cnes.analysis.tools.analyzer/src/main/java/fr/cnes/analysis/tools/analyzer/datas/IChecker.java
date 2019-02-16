@@ -26,4 +26,16 @@ public interface IChecker {
     void setCheckResults(List<CheckResult> pCheckResults);
 
     File getInputFile();
+
+    String getName();
+
+    String getId();
+
+    String getLanguageId();
+
+    void setName(final String pName);
+
+    void setId(final String pId);
+
+    void setLanguageId(final String pLanguageId);
 }
