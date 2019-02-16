@@ -59,7 +59,7 @@ Release 3.0.0
   * To add exports #19 #26 
 * API  
   * To run analysis #16   
-  * To export analysis #19  #26   
+  * To fr.cnes.analysis.tools.analyzer.services.export analysis #19  #26   
   * To reach configurations & preferences 
 * Shells metrics (*SH.MET.LineOfCode*, *SH.MET.RatioComment*, *SH.MET.Nesting*, *SH.MET.ComplexitySimplified*) #30 
 * Automated build #1
@@ -68,7 +68,7 @@ Release 3.0.0
 * Analysis performances improvements  #14 
 * User Interface preference page improvements  #36 
 * Improvements of analysis failure notifications #50 
-* XML and CSV export improvements #69  #19 
+* XML and CSV fr.cnes.analysis.tools.analyzer.services.export improvements #69  #19 
 
 *Minor fixes and other enhancements : [milestone 3.0.0](https://github.com/lequal/i-CodeCNES/milestone/1).*
 

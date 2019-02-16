@@ -4,7 +4,7 @@
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
 /**
- * This package contains class to export i-Code CNES analysis result.
+ * This package contains class to fr.cnes.analysis.tools.analyzer.services.export i-Code CNES analysis result.
  * 
  * @since 2.0
  * @version 3.0

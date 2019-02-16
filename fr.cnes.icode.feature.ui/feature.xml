@@ -120,7 +120,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.jface.text" version="3.10.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.e4.core.di" version="1.6.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.export" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.analysis.tools.analyzer.services.export" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface"/>
    </requires>
 

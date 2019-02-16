@@ -30,12 +30,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.ExportService;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
+import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
+import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
 
 /**
  * This class is the main page of the {@link CheckerExportWizard}. It's
- * responsible of suggesting available formats for export to the user using
+ * responsible of suggesting available formats for fr.cnes.analysis.tools.analyzer.services.export to the user using
  * {@link ExportService#getAvailableFormats()} and indicating the chosen format to the
  * next page {@link CheckerFileCreationExportWizardPage}.
  * 
@@ -81,9 +81,9 @@ public class CheckerExportWizardPage extends WizardPage {
         ICodeLogger.entering(CLASS, method, new Object[] {
             pSelection, pExporter
         });
-        this.setTitle("i-Code CNES - Analysis result export.");
+        this.setTitle("i-Code CNES - Analysis result fr.cnes.analysis.tools.analyzer.services.export.");
         this.setDescription(
-                        "Description : Please choose the format of the export of you file. \nNote: This export will contain both metric & rules analysis result.");
+                        "Description : Please choose the format of the fr.cnes.analysis.tools.analyzer.services.export of you file. \nNote: This fr.cnes.analysis.tools.analyzer.services.export will contain both metric & rules analysis result.");
         this.exporter = pExporter;
         formatButtons = new ArrayList<>();
         parametersFields = new HashMap<>();
@@ -153,10 +153,10 @@ public class CheckerExportWizardPage extends WizardPage {
                                             SWT.WRAP | SWT.BORDER | SWT.LEFT);
                             if (params.size() == 1) {
                                 parametersIndicator.setText(
-                                                "Information : This export requires parameters, edit default parameter if necessary before reaching next page.");
+                                                "Information : This fr.cnes.analysis.tools.analyzer.services.export requires parameters, edit default parameter if necessary before reaching next page.");
                             } else {
                                 parametersIndicator.setText(
-                                                "Information : This export requires parameters, edit default parameters if necessary before reaching next page.");
+                                                "Information : This fr.cnes.analysis.tools.analyzer.services.export requires parameters, edit default parameters if necessary before reaching next page.");
                             }
                             final GridData data = new GridData(SWT.HORIZONTAL, SWT.TOP, true, false,
                                             1, 1);

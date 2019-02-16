@@ -23,9 +23,9 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.ExportService;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
+import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
+import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
+import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
@@ -35,8 +35,8 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * {@link CheckerExportWizard}.
  * 
  * <p>
- * On {@link #getInitialContents()} this class realize an export using
- * {@link fr.cnes.analysis.tools.export.ExportService} service.
+ * On {@link #getInitialContents()} this class realize an fr.cnes.analysis.tools.analyzer.services.export using
+ * {@link fr.cnes.analysis.tools.analyzer.services.export.ExportService} service.
  * </p>
  * 
  * @since 3.0
@@ -48,7 +48,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
     private ExportService exporter;
     /** Export format requested by the user */
     private String requestedFormat;
-    /** Parameters requested by the export plugin */
+    /** Parameters requested by the fr.cnes.analysis.tools.analyzer.services.export plugin */
     private Map<String, String> parameters;
 
     /**
@@ -68,8 +68,8 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
         });
         exporter = new ExportService();
         requestedFormat = pRequestedFormat;
-        this.setTitle("i-Code CNES - Rules export (" + pRequestedFormat + ")");
-        this.setDescription("Description : Create a result export file in " + pRequestedFormat
+        this.setTitle("i-Code CNES - Rules fr.cnes.analysis.tools.analyzer.services.export (" + pRequestedFormat + ")");
+        this.setDescription("Description : Create a result fr.cnes.analysis.tools.analyzer.services.export file in " + pRequestedFormat
                         + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
     }
@@ -80,19 +80,19 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
      * 
      * <p>
      * This class is currently called by the previous page
-     * {@link CheckerExportWizardPage} every time an user select an export
+     * {@link CheckerExportWizardPage} every time an user select an fr.cnes.analysis.tools.analyzer.services.export
      * format for his file.
      * </p>
      * 
      * @param pRequestedFormat
-     *            to export.
+     *            to fr.cnes.analysis.tools.analyzer.services.export.
      */
     public void updateFormat(String pRequestedFormat) {
         final String method = "updateFormat";
         ICodeLogger.entering(CLASS, method, pRequestedFormat);
         requestedFormat = pRequestedFormat;
-        this.setTitle("i-Code CNES - Analysis results export (" + pRequestedFormat + ")");
-        this.setDescription("Description : Create a result export file in " + pRequestedFormat
+        this.setTitle("i-Code CNES - Analysis results fr.cnes.analysis.tools.analyzer.services.export (" + pRequestedFormat + ")");
+        this.setDescription("Description : Create a result fr.cnes.analysis.tools.analyzer.services.export file in " + pRequestedFormat
                         + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
         ICodeLogger.exiting(CLASS, method);
@@ -113,7 +113,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
         try {
             // create a temporary file
             final File temp;
-            temp = File.createTempFile("export",
+            temp = File.createTempFile("fr.cnes.analysis.tools.analyzer.services.export",
                             "." + exporter.getAvailableFormats().get(this.requestedFormat));
             final ExportService export = new ExportService();
             // get the page
@@ -129,7 +129,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             page.showView(MetricsView.VIEW_ID);
             final MetricsView metricsView = (MetricsView) page.findView(MetricsView.VIEW_ID);
             /*
-             * Retrieving violations to export into a list.
+             * Retrieving violations to fr.cnes.analysis.tools.analyzer.services.export into a list.
              */
             final List<CheckResult> checkResults = new ArrayList<>();
             checkResults.addAll(violationView.getAnalysisResults());
@@ -192,7 +192,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
 
     /**
      * This function can be called from other pages to update parameters sent in
-     * the export.
+     * the fr.cnes.analysis.tools.analyzer.services.export.
      * 
      * @param params
      *            the new parameter to set.

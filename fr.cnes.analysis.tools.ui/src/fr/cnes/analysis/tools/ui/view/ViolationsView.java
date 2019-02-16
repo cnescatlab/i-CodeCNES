@@ -66,7 +66,7 @@ public class ViolationsView extends ViewPart {
 
     /**
      * The list of all violation used by the TreeViewer of the view, useful to
-     * make an export of the view
+     * make an fr.cnes.analysis.tools.analyzer.services.export of the view
      */
     private Set<CheckResult> analysisResults = new TreeSet<>(new Comparator<CheckResult>() {
 

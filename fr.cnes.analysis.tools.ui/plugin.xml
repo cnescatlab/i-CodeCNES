@@ -33,13 +33,13 @@
             allPopups="false"
             locationURI="toolbar:fr.cnes.analysis.tools.ui.view.ViolationsView">
          <command
-               commandId="org.eclipse.ui.file.export"
-               icon="icons/export.GIF"
+               commandId="org.eclipse.ui.file.fr.cnes.analysis.tools.analyzer.services.export"
+               icon="icons/fr.cnes.analysis.tools.analyzer.services.export.GIF"
                label="Export Results"
                style="push">
             <parameter
                   name="exportWizardId"
-                  value="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard">
+                  value="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.RuleExportWizard">
             </parameter>
          </command>
       </menuContribution>
@@ -47,13 +47,13 @@
             allPopups="false"
             locationURI="toolbar:fr.cnes.analysis.tools.ui.view.MetricsView">
          <command
-               commandId="org.eclipse.ui.file.export"
-               icon="icons/export.GIF"
+               commandId="org.eclipse.ui.file.fr.cnes.analysis.tools.analyzer.services.export"
+               icon="icons/fr.cnes.analysis.tools.analyzer.services.export.GIF"
                label="Export Results"
                style="push">
             <parameter
                   name="exportWizardId"
-                  value="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard">
+                  value="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.metric.MetricExportWizard">
             </parameter>
          </command>
       </menuContribution>
@@ -210,30 +210,30 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
-            icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.CheckerExportWizard"
+            icon="icons/fr.cnes.analysis.tools.analyzer.services.export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.RuleExportWizard"
             name="Violations Export Wizard">
       </wizard>
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
-            icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.CheckerExportWizard"
+            icon="icons/fr.cnes.analysis.tools.analyzer.services.export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.metric.MetricExportWizard"
             name="Metric Export">
       </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
-            icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.CheckerExportWizard"
+            icon="icons/fr.cnes.analysis.tools.analyzer.services.export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.RuleExportWizard"
             name="Violations Export Wizard">
       </wizard>
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
-            icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            class="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.CheckerExportWizard"
+            icon="icons/fr.cnes.analysis.tools.analyzer.services.export.GIF"
+            id="fr.cnes.analysis.tools.ui.wizard.fr.cnes.analysis.tools.analyzer.services.export.metric.MetricExportWizard"
             name="Metric Export">
       </wizard>
    </extension>
