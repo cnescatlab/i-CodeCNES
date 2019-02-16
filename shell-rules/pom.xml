@@ -16,14 +16,14 @@
 
     <name>Shell rules</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>fr.cnes.icode</groupId>
-            <artifactId>fr.cnes.analysis.tools.shell.metrics</artifactId>
-            <version>${icode.version}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>fr.cnes.icode</groupId>
+			<artifactId>fr.cnes.analysis.tools.shell.metrics</artifactId>
+			<version>${icode.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 	
 	<!-- generate the lex code -->
 	<build>

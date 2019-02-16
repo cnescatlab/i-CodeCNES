@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>fr.cnes.icode</groupId>
-		<artifactId>fr.cnes.icode.parent</artifactId>
-		<version>3.1.0-SNAPSHOT</version>
+		<artifactId>parent</artifactId>
+		<version>dev</version>
 	</parent>
 
-	<artifactId>fr.cnes.analysis.tools.fortran77.metrics</artifactId>
-	<packaging>eclipse-plugin</packaging>
+	<artifactId>fortran77-metrics</artifactId>
+	<version>${icode.version}</version>
+	<packaging>jar</packaging>
+
+	<name>Fortran 77 metrics</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fr.cnes.analysis.tools.analyzer</artifactId>
+            <version>${icode.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<!-- generate the lex code -->
 	<build>
@@ -27,14 +40,13 @@
 						<configuration>
 							<minimize>true</minimize>
 							<lexDefinitions>
-								<lexDefinition>lex/</lexDefinition>
+								<lexDefinition>src/main/resources/lex</lexDefinition>
 							</lexDefinitions>
-							<outputDirectory>src-gen</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

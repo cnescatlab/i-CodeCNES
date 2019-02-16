@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;

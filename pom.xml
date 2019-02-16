@@ -25,8 +25,8 @@
 		<module>fortran90-metrics</module>
 		<module>fortran90-rules</module>
 
-        <module>fr.cnes.analysis.tools.export.xml</module>
-        <module>fr.cnes.analysis.tools.export.csv</module>
+        <module>export-xml</module>
+        <module>export-csv</module>
 	</modules>
 
 	<name>i-Code parent</name>
