@@ -7,6 +7,7 @@
 package fr.cnes.analysis.tools.analyzer.services.checkers;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
+import fr.cnes.analysis.tools.analyzer.datas.IChecker;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.services.languages.ILanguage;
 
@@ -31,7 +32,7 @@ public class CheckerContainer {
     /** Checker's language */
     private ILanguage language;
     /** Checker's analysis class */
-    private AbstractChecker checker;
+    private IChecker checker;
     /** Whether or not the checker is a metric */
     private boolean isMetric;
 
@@ -46,7 +47,7 @@ public class CheckerContainer {
      *            Checker analysis class.
      */
     public CheckerContainer(final String pId, final String pName, final ILanguage pLanguage,
-                    final AbstractChecker pChecker) {
+                    final IChecker pChecker) {
         final String method = "";
         ICodeLogger.entering(CLASS, method);
 
@@ -63,17 +64,16 @@ public class CheckerContainer {
      * @param pName
      *            Checker name.
      * @param pLanguage
-     *            Checker's language.
+ *            Checker's language.
      * @param pChecker
-     *            Checker analysis class.
+*            Checker analysis class.
      * @param pIsMetric
-     *            whether or not the checker returns a value.
      */
     public CheckerContainer(final String pId, final String pName, final ILanguage pLanguage,
-                    final AbstractChecker pChecker, boolean pIsMetric) {
+                            final IChecker pChecker, boolean pIsMetric) {
         final String method = "CheckerContainer";
         ICodeLogger.entering(CLASS, method, new Object[] {
-            pId, pName, pLanguage, pChecker, Boolean.valueOf(pIsMetric)
+            pId, pName, pLanguage, pChecker, pIsMetric
         });
         this.id = pId;
         this.name = pName;
@@ -92,7 +92,7 @@ public class CheckerContainer {
         final String method = "canVerifyFormat";
         ICodeLogger.entering(CLASS, method, pFormat);
         final boolean verify = this.language.getFileExtension().contains(pFormat);
-        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(verify));
+        ICodeLogger.exiting(CLASS, method, verify);
         return verify;
     }
 
@@ -197,7 +197,7 @@ public class CheckerContainer {
     public final boolean isMetric() {
         final String method = "isMetric";
         ICodeLogger.entering(CLASS, method);
-        ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isMetric));
+        ICodeLogger.exiting(CLASS, method, isMetric);
         return isMetric;
     }
 
@@ -207,7 +207,7 @@ public class CheckerContainer {
      */
     public final void setMetric(final boolean pIsMetric) {
         final String method = "setMetric";
-        ICodeLogger.entering(CLASS, method, Boolean.valueOf(pIsMetric));
+        ICodeLogger.entering(CLASS, method, pIsMetric);
         this.isMetric = pIsMetric;
         ICodeLogger.exiting(CLASS, method);
     }

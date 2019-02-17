@@ -33,7 +33,7 @@ import fr.cnes.analysis.tools.analyzer.services.export.IExporter;
  * plug-in and could be used as a service from any third.
  * </p>
  * <p>
- * This class is responsible of the fr.cnes.analysis.tools.analyzer.services.export in the format XML of
+ * This class is responsible of the export in the format XML of
  * {@link CheckResult} elements into a {@link File}.
  * </p>
  * 
@@ -57,7 +57,7 @@ public class ExporterXml implements IExporter {
     public static final String PARAM_CONFIGURATION_ID = "AnalysisConfigurationID";
     /** DEfault <i>analysisDate</i> parameter */
     public static final String PARAM_DATE = "Date";
-    /** Parameter required by this fr.cnes.analysis.tools.analyzer.services.export. */
+    /** Parameter required by this export. */
     private Map<String, String> parameters;
 
     /**
@@ -87,7 +87,7 @@ public class ExporterXml implements IExporter {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.analyzer.services.export.IExport#fr.cnes.analysis.tools.analyzer.services.export(java.util.List,
+     * @see fr.cnes.analysis.tools.analyzer.services.export.IExport#export(java.util.List,
      * java.io.File)
      */
     @Override

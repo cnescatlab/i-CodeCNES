@@ -66,7 +66,7 @@ ERROR		 = "apropos" |"apt-get" |"aptitude" |"aspell" |"bash" |
 			   "chkconfig" |"clear" |"cron" |"dc" |"ddrescue" |
 			   "declare" |"diff3" |"dig" |"dir" |"dircolors" |"dirs" |"dmesg" |
 			   "egrep" |"eject" |"enable" |"ethtool" |"eval" |"exec" |"exit" |
-			   "expect" |"fr.cnes.analysis.tools.analyzer.services.export" |"fdformat" |"fdisk" |"fg" |"fgrep" |
+			   "expect" |"export" |"fdformat" |"fdisk" |"fg" |"fgrep" |
 			   "fmt" |"format" |"free" |"fsck" |"ftp" |"function" |"gawk" |
 			   "groupadd" |"groupdel" |"groupmod" |"groups" |"gzip" |"help" |
 			   "history" |"hostname" |"ifconfig" |"ifdown" |"ifup" |"import" |
@@ -107,7 +107,7 @@ VAR_ERROR   = ([\$]{ERROR}) | ([\$][\{]{ERROR}[\}])
 			   "chkconfig" ,"clear" ,"cron" ,"dc" ,"ddrescue" ,
 			   "declare" ,"diff3" ,"dig" ,"dir" ,"dircolors" ,"dirs" ,"dmesg" ,
 			   "egrep" ,"eject" ,"enable" ,"ethtool" ,"eval" ,"exec" ,"exit" ,
-			   "expect" ,"fr.cnes.analysis.tools.analyzer.services.export" ,"fdformat" ,"fdisk" ,"fg" ,"fgrep" ,
+			   "expect" ,"export" ,"fdformat" ,"fdisk" ,"fg" ,"fgrep" ,
 			   "fmt" ,"format" ,"free" ,"fsck" ,"ftp" ,"function" ,"gawk" ,
 			   "groupadd" ,"groupdel" ,"groupmod" ,"groups" ,"gzip" ,"help" ,
 			   "history" ,"hostname" ,"ifconfig" ,"ifdown" ,"ifup" ,"import" ,

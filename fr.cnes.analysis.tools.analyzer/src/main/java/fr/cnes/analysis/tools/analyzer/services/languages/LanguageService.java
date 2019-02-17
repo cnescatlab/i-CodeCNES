@@ -10,9 +10,7 @@ import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.reflexion.ClassFinder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
  * 
  * <p>
  * <b>Note : </b>Part of the functions of this class uses
- * {@link Language} class to returns data.
+ * {@link ILanguage} class to returns data.
  * </p>
  * 
  * @since 3.0
@@ -33,6 +31,9 @@ public final class LanguageService {
 
     /** Class name **/
     private static final String CLASS = LanguageService.class.getName();
+
+    /** Languages cache. **/
+    private static List<ILanguage> languages = null;
 
     /**
      * Utils class default constructor removal.
@@ -47,21 +48,25 @@ public final class LanguageService {
     public static List<ILanguage> getLanguages() {
         final String method = "getLanguages";
         ICodeLogger.entering(CLASS, method);
-        final List<ILanguage> languages = new ArrayList<>();
+        final List<ILanguage> languages;
 
-        try {
-            Set<Class<?>> classes = ClassFinder.find(ILanguage.class);
-            for(final Class current : classes) {
-                final ILanguage language = (ILanguage) current.newInstance();
-                languages.add(language);
+        if(Objects.isNull(LanguageService.languages)) {
+            languages = new ArrayList<>();
+            try {
+                Set<Class<?>> classes = ClassFinder.find(ILanguage.class);
+                for (final Class current : classes) {
+                    final ILanguage language = (ILanguage) current.newInstance();
+                    languages.add(language);
+                }
+            } catch (final Exception e) {
+                ICodeLogger.error(CLASS, method, e);
             }
-        } catch (final Exception e) {
-            ICodeLogger.error(CLASS, method, e);
+        } else {
+            languages = LanguageService.languages;
         }
 
         ICodeLogger.exiting(CLASS, method, languages);
         return languages;
-
     }
 
     /**
@@ -73,7 +78,14 @@ public final class LanguageService {
     public static boolean isLanguageIdContributor(final String languageId) {
         final String method = "isLanguageIdContributor";
         ICodeLogger.entering(CLASS, method, languageId);
+
         boolean isLanguageIdContributor = false;
+        final Iterator<ILanguage> languages = getLanguages().iterator();
+
+        while(languages.hasNext() && !isLanguageIdContributor) {
+            isLanguageIdContributor = languages.next().getId().equals(languageId);
+        }
+
         ICodeLogger.exiting(CLASS, method);
         return isLanguageIdContributor;
     }
@@ -81,7 +93,7 @@ public final class LanguageService {
     /**
      * @param languageId
      *            Identifier of the language.
-     * @return A {@link Language} fulfilled of data retrieved from the
+     * @return A {@link ILanguage} fulfilled of data retrieved from the
      *         contribution.
      * @throws NullContributionException
      *             When <code>languageId</code> is not contributing to
@@ -91,25 +103,42 @@ public final class LanguageService {
                     throws NullContributionException {
         final String method = "getLanguage";
         ICodeLogger.entering(CLASS, method, languageId);
-        final NullContributionException exception = new NullContributionException(
-                        "Impossible to find " + languageId + " in analyzer contributors.");
-        ICodeLogger.throwing(CLASS, method, exception);
-        throw exception;
+
+        ILanguage language = null;
+        final Iterator<ILanguage> languages = getLanguages().iterator();
+
+        while(languages.hasNext() && Objects.isNull(language)) {
+            ILanguage current = languages.next();
+            if(current.getId().equals(languageId)) {
+                language = current;
+            }
+        }
+
+        if(Objects.isNull(language)) {
+            final NullContributionException exception = new NullContributionException(
+                    "Impossible to find " + languageId + " in analyzer contributors.");
+            ICodeLogger.throwing(CLASS, method, exception);
+            throw exception;
+        }
+
+        return language;
     }
 
     /**
      * @param languagesIds
      *            Languages identifiers
-     * @return List of {@link Language} fulfilled with data retrieved
+     * @return List of {@link ILanguage} fulfilled with data retrieved
      *         from <code>languagesIds</code> contribution.
      */
     public static List<ILanguage> getLanguages(final List<String> languagesIds) {
         final String method = "getLanguages";
         ICodeLogger.entering(CLASS, method, languagesIds);
-        final List<ILanguage> languages = new ArrayList<>();
 
-        ICodeLogger.exiting(CLASS, method, languages);
-        return languages;
+        final List<ILanguage> results = getLanguages().stream()
+                .filter(x->languagesIds.contains(x.getId())).collect(Collectors.toList());
+
+        ICodeLogger.exiting(CLASS, method, results);
+        return results;
     }
 
     /**

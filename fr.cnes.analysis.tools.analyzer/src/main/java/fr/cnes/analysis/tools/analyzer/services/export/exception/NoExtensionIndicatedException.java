@@ -7,7 +7,7 @@
 package fr.cnes.analysis.tools.analyzer.services.export.exception;
 
 /**
- * This exception should be thrown when trying to fr.cnes.analysis.tools.analyzer.services.export data without precision
+ * This exception should be thrown when trying to export data without precision
  * on the output format.
  */
 public class NoExtensionIndicatedException extends Exception {

@@ -10,27 +10,27 @@ import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMa
 import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
 
 /**
- * Interface to implement to realize an fr.cnes.analysis.tools.analyzer.services.export service.
+ * Interface to implement to realize an export service.
  */
 public interface IExportService {
 
     /**
-     * This function fr.cnes.analysis.tools.analyzer.services.export each {@link CheckResult} of {@code checkResults}
+     * This function export each {@link CheckResult} of {@code checkResults}
      * parameter into the {@link File} parameter.
      * 
      * @param checkResults
-     *            to fr.cnes.analysis.tools.analyzer.services.export.
+     *            to export.
      * @param outputFile
-     *            to use for the fr.cnes.analysis.tools.analyzer.services.export.
+     *            to use for the export.
      * @param parameters
-     *            parameter required by the fr.cnes.analysis.tools.analyzer.services.export plugin
+     *            parameter required by the export plugin
      * @throws NoContributorMatchingException
      *             when a format can not be handled by the @link
      *             {@link ExportService} service.
      * @throws NoExtensionIndicatedException
      *             when the {@code outputFile} has no extension indicated.
      * @throws IOException
-     *             when the fr.cnes.analysis.tools.analyzer.services.export failed due to a {@link java.io.File}
+     *             when the export failed due to a {@link java.io.File}
      *             exception.
      */
     public void export(List<CheckResult> checkResults, File outputFile,
@@ -68,15 +68,15 @@ public interface IExportService {
                     throws NoContributorMatchingException;
 
     /**
-     * This function fr.cnes.analysis.tools.analyzer.services.export each {@link CheckResult} of {@code checkResults}
+     * This function export each {@link CheckResult} of {@code checkResults}
      * parameter into the {@link File} parameter.
      * 
      * @param pCheckResults
-     *            to fr.cnes.analysis.tools.analyzer.services.export.
+     *            to export.
      * @param pOutputFile
-     *            to use for the fr.cnes.analysis.tools.analyzer.services.export.
+     *            to use for the export.
      * @param pParameters
-     *            parameter required by the fr.cnes.analysis.tools.analyzer.services.export plugin.
+     *            parameter required by the export plugin.
      * @param pFormat
      * 			  define the format of the results file.
      * @throws NoContributorMatchingException
@@ -85,7 +85,7 @@ public interface IExportService {
      * @throws NoExtensionIndicatedException
      *             when the {@code outputFile} has no extension indicated.
      * @throws IOException
-     *             when the fr.cnes.analysis.tools.analyzer.services.export failed due to a {@link java.io.File}
+     *             when the export failed due to a {@link java.io.File}
      *             exception.
      */
 	void export(List<CheckResult> pCheckResults, File pOutputFile, Map<String, String> pParameters, String pFormat)

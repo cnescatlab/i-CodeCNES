@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * This class contains method for fr.cnes.analysis.tools.analyzer.services.export plug-in.
+ * This class contains method for export plug-in.
  */
 public final class ExportUtils {
 

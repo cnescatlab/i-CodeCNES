@@ -10,11 +10,11 @@ import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
 import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
-import fr.cnes.analysis.tools.analyzer.services.languages.ILanguage;
-import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
 import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
 import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
+import fr.cnes.analysis.tools.analyzer.services.languages.ILanguage;
+import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 import fr.cnes.icode.application.exception.BadArgumentValueException;
 import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.DirectoryScanner;
@@ -85,7 +85,7 @@ public class ICodeApplication {
 	private List<String> excludedRules;
 	
 	/**
-	 * Format of the fr.cnes.analysis.tools.analyzer.services.export (xml by default).
+	 * Format of the export (xml by default).
 	 */
 	private String exportFormat;
 	
@@ -114,7 +114,7 @@ public class ICodeApplication {
 		languages = new HashMap<>();
 		checkedLanguages = LanguageService.getLanguagesIds();
 		excludedRules = new ArrayList<>();
-		// default fr.cnes.analysis.tools.analyzer.services.export format is set to XML
+		// default export format is set to XML
 		exportFormat = "xml";
 		// init a temp file to retrieve results for displaying on screen
 		try {
@@ -186,7 +186,7 @@ public class ICodeApplication {
                 exportFormat = cli.getOptionValue(CommandLineManager.LIST_EXPORT_PARAMETERS);
 
                 if(exportService.getAvailableFormats().containsValue(exportFormat)) {
-                    // Get default parameters for the chosen fr.cnes.analysis.tools.analyzer.services.export.
+                    // Get default parameters for the chosen export.
                     exporterParameters = exportService.getParameters(exportFormat);
 
                     // Security in the case of a null return.
@@ -196,7 +196,7 @@ public class ICodeApplication {
 
                     // display all available languages
                     displayList(exporterParameters.keySet(),
-                            String.format("List of available parameters for %s fr.cnes.analysis.tools.analyzer.services.export:", exportFormat));
+                            String.format("List of available parameters for %s export:", exportFormat));
                 } else {
                     String message = String.format("Exporting in format '%s' is not available in i-Code.", exportFormat);
                     throw new BadArgumentValueException(message);
@@ -237,7 +237,7 @@ public class ICodeApplication {
                         }
                     }
                 }
-                // Get fr.cnes.analysis.tools.analyzer.services.export format from command line.
+                // Get export format from command line.
                 if(cli.hasOption(CommandLineManager.EXPORT_FORMAT)) {
                     exportFormat = cli.getOptionValue(CommandLineManager.EXPORT_FORMAT);
                     if(!exportService.getAvailableFormats().containsValue(exportFormat)) {
@@ -253,7 +253,7 @@ public class ICodeApplication {
 
                 // Run the analysis.
                 final List<CheckResult> checkResults = analyzer.check(sources, checkedLanguages, excludedRules);
-                // Get default parameters for the chosen fr.cnes.analysis.tools.analyzer.services.export.
+                // Get default parameters for the chosen export.
                 exporterParameters = exportService.getParameters(exportFormat);
 
                 // Add user parameters if there are some.
@@ -271,7 +271,7 @@ public class ICodeApplication {
                             if(exporterParameters.containsKey(values[0])) {
                                 exporterParameters.put(values[0], values[1]);
                             } else {
-                                String message = String.format("Export parameter '%s' is not a valid parameter for %s fr.cnes.analysis.tools.analyzer.services.export.",
+                                String message = String.format("Export parameter '%s' is not a valid parameter for %s export.",
                                         values[0], exportFormat);
                                 throw new BadArgumentValueException(message);
                             }
@@ -341,7 +341,7 @@ public class ICodeApplication {
                 exportFormat = cli.getOptionValue(CommandLineManager.LIST_EXPORT_PARAMETERS);
 
                 if(exportService.getAvailableFormats().containsValue(exportFormat)) {
-                    // Get default parameters for the chosen fr.cnes.analysis.tools.analyzer.services.export.
+                    // Get default parameters for the chosen export.
                     exporterParameters = exportService.getParameters(exportFormat);
 
                     // Security in the case of a null return.
@@ -351,7 +351,7 @@ public class ICodeApplication {
 
                     // display all available languages
                     displayList(exporterParameters.keySet(),
-                            String.format("List of available parameters for %s fr.cnes.analysis.tools.analyzer.services.export:", exportFormat));
+                            String.format("List of available parameters for %s export:", exportFormat));
                 } else {
                     String message = String.format("Exporting in format '%s' is not available in i-Code.", exportFormat);
                     throw new BadArgumentValueException(message);
@@ -392,7 +392,7 @@ public class ICodeApplication {
                         }
                     }
                 }
-                // Get fr.cnes.analysis.tools.analyzer.services.export format from command line.
+                // Get export format from command line.
                 if(cli.hasOption(CommandLineManager.EXPORT_FORMAT)) {
                     exportFormat = cli.getOptionValue(CommandLineManager.EXPORT_FORMAT);
                     if(!exportService.getAvailableFormats().containsValue(exportFormat)) {
@@ -408,7 +408,7 @@ public class ICodeApplication {
 
                 // Run the analysis.
                 final List<CheckResult> checkResults = analyzer.check(sources, checkedLanguages, excludedRules);
-                // Get default parameters for the chosen fr.cnes.analysis.tools.analyzer.services.export.
+                // Get default parameters for the chosen export.
                 exporterParameters = exportService.getParameters(exportFormat);
 
                 // Add user parameters if there are some.
@@ -426,7 +426,7 @@ public class ICodeApplication {
                             if(exporterParameters.containsKey(values[0])) {
                                 exporterParameters.put(values[0], values[1]);
                             } else {
-                                String message = String.format("Export parameter '%s' is not a valid parameter for %s fr.cnes.analysis.tools.analyzer.services.export.",
+                                String message = String.format("Export parameter '%s' is not a valid parameter for %s export.",
                                         values[0], exportFormat);
                                 throw new BadArgumentValueException(message);
                             }

@@ -60,7 +60,7 @@ IGNORE_STRING_D = [\\][\"]
 STRING_S	 	= \'
 IGNORE_STRING_S = [\\][\']
 
-EXPORT		 = "fr.cnes.analysis.tools.analyzer.services.export"{SPACE}+\-"f"{SPACE}+{FNAME}
+EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{FNAME}
 																
 %{
 	/* MAINPROGRAM: constant for main program localisation */
@@ -176,7 +176,7 @@ EXPORT		 = "fr.cnes.analysis.tools.analyzer.services.export"{SPACE}+\-"f"{SPACE}
 		      							}
 									}
 		      					}
-			    {EXPORT}		{setError(location,"It is forbidden to fr.cnes.analysis.tools.analyzer.services.export functions.", yyline+1);}
+			    {EXPORT}		{setError(location,"It is forbidden to export functions.", yyline+1);}
 	      		[^]         	{}
 		}
 

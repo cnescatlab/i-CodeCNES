@@ -24,22 +24,22 @@ import java.util.Map;
 public interface IExporter {
 
     /**
-     * This function fr.cnes.analysis.tools.analyzer.services.export each {@link CheckResult} of {@code checkResults}
+     * This function export each {@link CheckResult} of {@code checkResults}
      * parameter into the {@link File} parameter.
      * 
      * @param checkResults
-     *            to fr.cnes.analysis.tools.analyzer.services.export.
+     *            to export.
      * @param outputFile
-     *            to use for the fr.cnes.analysis.tools.analyzer.services.export.
+     *            to use for the export.
      * @param params
-     *            parameter required by the fr.cnes.analysis.tools.analyzer.services.export plugin
+     *            parameter required by the export plugin
      * @throws NoContributorMatchingException
      *             when a format can not be handled by the @link
      *             {@link ExportService} service.
      * @throws NoExtensionIndicatedException
      *             when the {@code outputFile} has no extension indicated.
      * @throws IOException
-     *             when the fr.cnes.analysis.tools.analyzer.services.export failed due to a {@link java.io.File}
+     *             when the export failed due to a {@link java.io.File}
      *             exception.
      */
     public void export(List<CheckResult> checkResults, File outputFile, Map<String, String> params)
@@ -47,7 +47,7 @@ public interface IExporter {
                     NoExtensionIndicatedException;
 
     /**
-     * @return if the fr.cnes.analysis.tools.analyzer.services.export function requires more parameter.
+     * @return if the export function requires more parameter.
      */
     public boolean hasParameters();
 

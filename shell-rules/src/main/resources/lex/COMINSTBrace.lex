@@ -171,7 +171,7 @@ BRACING		 = "expr"	| "let"
 				{COMMENT_WORD}	{yybegin(COMMENT);}
 				{FUNCTION}     	{yybegin(NAMING);}
 				{FUNCT}			{location = yytext().substring(0,yytext().length()-2).trim();}
-			    "fr.cnes.analysis.tools.analyzer.services.export"		{yybegin(COMMENT);}
+			    "export"		{yybegin(COMMENT);}
 				{BRACING}		{yybegin(BRACE);}
 				{VAR}			{}
 	      		[^]          	{}

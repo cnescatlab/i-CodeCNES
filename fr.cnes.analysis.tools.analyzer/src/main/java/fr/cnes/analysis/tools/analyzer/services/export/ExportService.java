@@ -16,12 +16,12 @@ import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMa
 import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
 
 /**
- * This class is an fr.cnes.analysis.tools.analyzer.services.export service for i-Code CNES.
+ * This class is an export service for i-Code CNES.
  * 
  * <p>
  * The methods of this class throw <tt>NoContributorMatchingException</tt> when
  * a function could not retrieve or reach intended data of a contributor. It
- * also throw <tt>NoIndicatedFormatInFileException</tt> when the file to fr.cnes.analysis.tools.analyzer.services.export
+ * also throw <tt>NoIndicatedFormatInFileException</tt> when the file to export
  * has no extension.
  * </p>
  * 
@@ -36,7 +36,7 @@ public class ExportService implements IExportService {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.analyzer.services.export.IExportService#fr.cnes.analysis.tools.analyzer.services.export(java.util.List,
+     * @see fr.cnes.analysis.tools.analyzer.services.export.IExportService#export(java.util.List,
      * java.io.File, java.util.Map)
      */
     @Override
@@ -50,7 +50,7 @@ public class ExportService implements IExportService {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.analyzer.services.export.IExportService#fr.cnes.analysis.tools.analyzer.services.export(java.util.List,
+     * @see fr.cnes.analysis.tools.analyzer.services.export.IExportService#export(java.util.List,
      * java.io.File, java.util.Map, java.lang.String)
      */
     @Override
@@ -104,10 +104,10 @@ public class ExportService implements IExportService {
      * 
      * @param formatExtension
      *            extension requested (without ".").
-     * @return {@link IExporter} set by a contributor to fr.cnes.analysis.tools.analyzer.services.export
+     * @return {@link IExporter} set by a contributor to export
      *         {@code formatExtension} requested.
      * @throws NoContributorMatchingException
-     *             when there is no contributor of able to fr.cnes.analysis.tools.analyzer.services.export the
+     *             when there is no contributor of able to export the
      *             requested format.
      */
     private IExporter getExportClass(final String formatExtension)
@@ -115,7 +115,7 @@ public class ExportService implements IExportService {
         final String method = "getExportClass";
         ICodeLogger.entering(CLASS, method);
         /*
-         * The fr.cnes.analysis.tools.analyzer.services.export class to return from the contributors of the Extension
+         * The export class to return from the contributors of the Extension
          * Point.
          */
         IExporter exportClass = null;

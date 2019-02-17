@@ -15,7 +15,7 @@ import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMa
 import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
 
 /**
- * This class is an import and fr.cnes.analysis.tools.analyzer.services.export service for i-Code CNES.
+ * This class is an import and export service for i-Code CNES.
  * <p>
  * To use it, your plug-in must be dependent of the
  * {@link fr.cnes.analysis.tools.analyzer} plug-in.
@@ -25,7 +25,7 @@ import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndi
  * The methods of this class throw <tt>NoContributorMatchingException</tt> when
  * a function could not retrieve or reach intended data of a contributor. It
  * also throw <tt>NoIndicatedFormatInFileException</tt> when the file to import
- * or fr.cnes.analysis.tools.analyzer.services.export has no extension.
+ * or export has no extension.
  * </p>
  * 
  * @since 3.0

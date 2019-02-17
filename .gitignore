@@ -4,8 +4,8 @@
 bin/
 target/
 */target/**
-.flattened-pom.xml
-*/.flattened-pom.xml
+*-pom.xml
+*/*-pom.xml
 
 # Ignore code generation directories 
 */src-gen/fr/

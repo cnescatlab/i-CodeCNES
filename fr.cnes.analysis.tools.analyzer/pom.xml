@@ -28,6 +28,7 @@
             <artifactId>jflex</artifactId>
             <version>1.7.0</version>
             <scope>compile</scope>
+			<optional>true</optional>
         </dependency>
 	</dependencies>
 </project>

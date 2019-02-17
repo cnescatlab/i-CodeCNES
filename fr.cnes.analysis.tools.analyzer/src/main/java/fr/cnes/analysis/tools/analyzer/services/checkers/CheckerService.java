@@ -6,12 +6,15 @@
  */
 package fr.cnes.analysis.tools.analyzer.services.checkers;
 
+import fr.cnes.analysis.tools.analyzer.datas.IChecker;
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.analysis.tools.analyzer.reflexion.ClassFinder;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This service can be used to reach Checker available in
@@ -24,23 +27,6 @@ public final class CheckerService {
 
     /** Extension Point ID . */
     public static final String CHECKER_EP_ID = "fr.cnes.analysis.tools.analyzer.checks";
-    /** Checker extension point's name. */
-    public static final String CHECKER_EP_NAME = "checks";
-    /** Check element key */
-    public static final String CHECKER_EP_ELEMENT_CHECK = "check";
-    /** Check element's name attribute key */
-    public static final String CHECKER_EP_ELEMENT_CHECK_ATT_NAME = "name";
-    /** Check's element identifier attribute key */
-    public static final String CHECKER_EP_ELEMENT_CHECK_ATT_ID = "id";
-    /**
-     * Check's element language identifier attribute (in reference to a
-     * languageId contributing
-     */
-    public static final String CHECKER_EP_ELEMENT_CHECK_ATT_LANGUAGEID = "languageId";
-    /** Check's element class attribute key */
-    public static final String CHECKER_EP_ELEMENT_CHECK_ATT_CLASS = "class";
-    /** Check's element isMetric attribute key */
-    public static final String CHECKER_EP_ELEMENT_CHECK_ATT_ISMETRIC = "isMetric";
 
     /** Class name **/
     private static final String CLASS = CheckerService.class.getName();
@@ -58,9 +44,27 @@ public final class CheckerService {
     public static List<CheckerContainer> getCheckers() {
         final String method = "getCheckers";
         ICodeLogger.entering(CLASS, method);
-        final List<CheckerContainer> checkers = new ArrayList<>();
-        ICodeLogger.exiting(CLASS, method, checkers);
-        return checkers;
+        final List<CheckerContainer> checkerContainers = new ArrayList<>();
+
+        try {
+            Set<Class<?>> classes = ClassFinder.find(IChecker.class);
+            for(final Class current : classes) {
+                final IChecker checker = (IChecker) current.newInstance();
+                final CheckerContainer container =
+                        new CheckerContainer(
+                                checker.getId(),
+                                checker.getName(),
+                                LanguageService.getLanguage(checker.getLanguageId()),
+                                checker,
+                                false);
+                checkerContainers.add(container);
+            }
+        } catch (final Exception e) {
+            ICodeLogger.error(CLASS, method, e);
+        }
+
+        ICodeLogger.exiting(CLASS, method, checkerContainers);
+        return checkerContainers;
     }
 
     /**

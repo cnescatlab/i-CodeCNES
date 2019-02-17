@@ -94,7 +94,7 @@ POSIX		= "admin"	| "alias"	| "ar"		| "asa"		|
 			  
 BUILTINS	= "bind"	| "break"	| "builtin"	| "caller"	|
 			  "continue"| "declare" | "enable"	| "eval"	|
-			  "exec"	| "exit"	| "fr.cnes.analysis.tools.analyzer.services.export"	| "getopts" |
+			  "exec"	| "exit"	| "export"	| "getopts" |
 			  "help"	| "let"		| "local"	| "mapfile"	|
 			  "readarray"| "readonly"| "return"	| "set"		|
 			  "shift"	| "shopt"	| "source"	| "times"	|

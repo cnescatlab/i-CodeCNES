@@ -17,9 +17,9 @@ import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
 
 /**
- * This Wizard contains and handle the different Wizard Page to fr.cnes.analysis.tools.analyzer.services.export analysis
+ * This Wizard contains and handle the different Wizard Page to export analysis
  * data of the Violations view. When {@link #performFinish()} is called, the
- * {@link CheckerFileCreationExportWizardPage} fr.cnes.analysis.tools.analyzer.services.export the result in the format
+ * {@link CheckerFileCreationExportWizardPage} export the result in the format
  * chosen by the user.
  * 
  * <p>
@@ -29,7 +29,7 @@ import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
  * </p>
  * 
  * <p>
- * To add a new format to fr.cnes.analysis.tools.analyzer.services.export, it's necessary to contribute to the
+ * To add a new format to export, it's necessary to contribute to the
  * {@link ExportService} service.
  * </p>
  * 
@@ -42,9 +42,9 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
 
     /** Class name */
     private static final String CLASS = CheckerExportWizard.class.getName();
-    /** The main page containing the radio to choose the fr.cnes.analysis.tools.analyzer.services.export's format. */
+    /** The main page containing the radio to choose the export's format. */
     private CheckerExportWizardPage mainPage;
-    /** The class that will be used to fr.cnes.analysis.tools.analyzer.services.export the file **/
+    /** The class that will be used to export the file **/
     private CheckerFileCreationExportWizardPage fileCreationPage;
     /** The selection of elements to build the NewFileWizardPage classes */
     private IStructuredSelection selection;
