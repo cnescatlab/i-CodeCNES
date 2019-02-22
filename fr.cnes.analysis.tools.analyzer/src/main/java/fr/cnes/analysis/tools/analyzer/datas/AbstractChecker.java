@@ -1,15 +1,16 @@
-/* 
- * i-Code CNES is a static code analyser. 
- * This software is a free software, under the terms of the Eclipse Public License version 1.0. 
- * http://www.eclipse.org/legal/epl-v10.html
- *  
- */
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
 package fr.cnes.analysis.tools.analyzer.datas;
 
+import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.List;
  * getter.
  * </p>
  */
-public abstract class AbstractChecker implements IChecker {
+public abstract class AbstractChecker {
 
     /** Class name. */
     private static final String CLASS = AbstractChecker.class.getName();
@@ -46,6 +47,17 @@ public abstract class AbstractChecker implements IChecker {
     protected String name;
     /** Checker language id. **/
     protected String languageId;
+
+    /**
+     * Run analysis for considering file and rule.
+     *
+     * @return list of {@link CheckResult}s found during analysis
+     * @throws IOException
+     *             IO problem occurred
+     * @throws JFlexException
+     *             JFlex error during analysis
+     */
+    public abstract List<CheckResult> run() throws IOException, JFlexException;
 
     /**
      * Method to add a {@link CheckResult}, knowing its location and line.
@@ -108,11 +120,10 @@ public abstract class AbstractChecker implements IChecker {
      * @throws FileNotFoundException
      *             exception thrown when a file is not found
      */
-    @Override
     public void setInputFile(final File pInputFile) throws FileNotFoundException {
         final String method = "setInputFile";
         ICodeLogger.entering(CLASS, method, pInputFile);
-        this.checkResults = new LinkedList<CheckResult>();
+        this.checkResults = new LinkedList<>();
         final CheckResult checkResult = new CheckResult(getName(), getId(), getLanguageId());
         checkResult.setFile(pInputFile);
         this.inputFile = pInputFile;
@@ -124,7 +135,6 @@ public abstract class AbstractChecker implements IChecker {
      * 
      * @return the {@link CheckResult}s
      */
-    @Override
     public List<CheckResult> getCheckResults() {
         final String method = "getCheckResults";
         ICodeLogger.entering(CLASS, method);
@@ -138,7 +148,6 @@ public abstract class AbstractChecker implements IChecker {
      * @param pCheckResults
      *            the {@link CheckResult}s to set
      */
-    @Override
     public void setCheckResults(final List<CheckResult> pCheckResults) {
         final String method = "setCheckResults";
         ICodeLogger.entering(CLASS, method, pCheckResults);
@@ -151,7 +160,6 @@ public abstract class AbstractChecker implements IChecker {
      * 
      * @return the analyzed file.
      */
-    @Override
     public File getInputFile() {
         final String method = "getInputFile";
         ICodeLogger.entering(CLASS, method);
@@ -160,61 +168,55 @@ public abstract class AbstractChecker implements IChecker {
     }
 
     /**
-     * Getter for the {@Link #name} of the checker.
+     * Getter for the {@link #name} of the checker.
      *
      * @return the corresponding string.
      */
-    @Override
     public String getName() {
         return name;
     }
 
     /**
-     * Getter for the {@Link #id} of the checker.
+     * Getter for the {@link #id} of the checker.
      *
      * @return the corresponding string.
      */
-    @Override
     public String getId() {
         return id;
     }
 
     /**
-     * Getter for the {@Link #languageId} of the checker.
+     * Getter for the {@link #languageId} of the checker.
      *
      * @return the corresponding string.
      */
-    @Override
     public String getLanguageId() {
         return languageId;
     }
 
     /**
-     * Setter for the {@Link #languageId} of the checker.
+     * Setter for the {@link #languageId} of the checker.
      *
      * @param pName New name.
      */
-    @Override
     public void setName(final String pName) {
         this.name = pName;
     }
 
     /**
-     * Setter for the {@Link #id} of the checker.
+     * Setter for the {@link #id} of the checker.
      *
      * @param pId New ID.
      */
-    @Override
     public void setId(final String pId) {
         this.id = pId;
     }
 
     /**
-     * Setter for the {@Link #languageId} of the checker.
+     * Setter for the {@link #languageId} of the checker.
      *
      * @param pLanguageId New language ID.
      */
-    @Override
     public void setLanguageId(final String pLanguageId) {
         this.languageId = pLanguageId;
     }

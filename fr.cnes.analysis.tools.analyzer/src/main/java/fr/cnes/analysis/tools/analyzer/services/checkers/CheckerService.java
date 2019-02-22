@@ -6,15 +6,18 @@
  */
 package fr.cnes.analysis.tools.analyzer.services.checkers;
 
-import fr.cnes.analysis.tools.analyzer.datas.IChecker;
+import com.google.common.collect.Lists;
+import fr.cnes.analysis.tools.analyzer.datas.CheckersDefinition;
 import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.reflexion.ClassFinder;
 import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This service can be used to reach Checker available in
@@ -31,6 +34,9 @@ public final class CheckerService {
     /** Class name **/
     private static final String CLASS = CheckerService.class.getName();
 
+    /** CheckerContainers cache. **/
+    private static List<CheckerContainer> checkerContainers = null;
+
     /**
      * Utils class default constructor removal.
      */
@@ -44,23 +50,22 @@ public final class CheckerService {
     public static List<CheckerContainer> getCheckers() {
         final String method = "getCheckers";
         ICodeLogger.entering(CLASS, method);
-        final List<CheckerContainer> checkerContainers = new ArrayList<>();
+        final List<CheckerContainer> checkerContainers;
 
-        try {
-            Set<Class<?>> classes = ClassFinder.find(IChecker.class);
-            for(final Class current : classes) {
-                final IChecker checker = (IChecker) current.newInstance();
-                final CheckerContainer container =
-                        new CheckerContainer(
-                                checker.getId(),
-                                checker.getName(),
-                                LanguageService.getLanguage(checker.getLanguageId()),
-                                checker,
-                                false);
-                checkerContainers.add(container);
+        if(Objects.isNull(CheckerService.checkerContainers)) {
+            checkerContainers = Lists.newArrayList();
+            try {
+                Set<Class<?>> classes = ClassFinder.find(CheckersDefinition.class);
+                for(final Class current : classes) {
+                    final CheckersDefinition definition = (CheckersDefinition) current.newInstance();
+                    checkerContainers.addAll(definition.list());
+                }
+            } catch (final Exception e) {
+                ICodeLogger.error(CLASS, method, e);
             }
-        } catch (final Exception e) {
-            ICodeLogger.error(CLASS, method, e);
+            CheckerService.checkerContainers = checkerContainers;
+        } else {
+            checkerContainers = CheckerService.checkerContainers;
         }
 
         ICodeLogger.exiting(CLASS, method, checkerContainers);
@@ -73,22 +78,18 @@ public final class CheckerService {
      * @return a list of {@link CheckerContainer} contributing to
      *         {@link #CHECKER_EP_ID} and referencing <code>languageId</code>
      *         parameter.
-     * @throws NullContributionException
-     *             when a contribution do not exist, it can be both due to :
-     *             <ul>
-     *             <li>the <code>languageId</code> parameter is not defined in
-     *             the {@link LanguageService#LANGUAGE_EP_ID} extension
-     *             point;</li>
-     *             <li>a checker contributing to the extension point is
-     *             referencing a languageId not existing</li>
-     *             </ul>
      */
-    public static List<CheckerContainer> getCheckers(String languageId) {
+    public static List<CheckerContainer> getCheckers(final String languageId) {
         final String method = "getCheckers";
         ICodeLogger.entering(CLASS, method, languageId);
-        final List<CheckerContainer> checkers = new ArrayList<>();
-        ICodeLogger.exiting(CLASS, method, checkers);
-        return checkers;
+
+        final List<CheckerContainer> checkers = getCheckers();
+
+        final List<CheckerContainer> results = checkers.stream()
+                .filter(x->languageId.equals(x.getLanguage().getId())).collect(Collectors.toList());
+
+        ICodeLogger.exiting(CLASS, method, results);
+        return results;
     }
 
     /**
@@ -96,10 +97,11 @@ public final class CheckerService {
      *            the language identifier to retrieve checkers from.
      * @return A list of every checker's ids referencing languageId.
      */
-    public static List<String> getCheckersIds(String languageId) {
+    public static List<String> getCheckersIds(final String languageId) {
         final String method = "getCheckersIds";
         ICodeLogger.entering(CLASS, method, languageId);
-        final List<String> checkers = new ArrayList<>();
+        final List<String> checkers = getCheckers(languageId).stream()
+                .map(CheckerContainer::getId).collect(Collectors.toList());
         ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
@@ -110,20 +112,14 @@ public final class CheckerService {
      *            {@link CheckerContainer} class from.
      * @return A list of {@link CheckerContainer} for each checker identifier in
      *         <code>checkersIds</code>.
-     * @throws NullContributionException
-     *             when a contribution couldn't be reached for one of these
-     *             reasons :
-     *             <ul>
-     *             <li>One of the checker identifier of <code>checkersIds</code>
-     *             isn't contributing to {@link #CHECKER_EP_ID};</li>
-     *             <li>One of the language identifier referenced by one of the
-     *             checker in <code>checkersIds</code> couldn't be reached.</li>
-     *             </ul>
      */
-    public static List<CheckerContainer> getCheckers(List<String> checkersIds) {
+    public static List<CheckerContainer> getCheckers(final List<String> checkersIds) {
         final String method = "getCheckers";
         ICodeLogger.entering(CLASS, method, checkersIds);
-        final List<CheckerContainer> checkers = new ArrayList<>();
+
+        final List<CheckerContainer> checkers = getCheckers().stream()
+                .filter(x->checkersIds.contains(x.getId())).collect(Collectors.toList());
+
         ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
@@ -136,19 +132,18 @@ public final class CheckerService {
      * @return a list of {@link CheckerContainer} containing all checkers
      *         referencing a language identifier in <code>languagesIds</code>
      *         except the ones contained in <code>excludedIds</code>.
-     * @throws NullContributionException
-     *             when a contribution coudln't be reached because the language
-     *             identifier, the checker identifier, or the language
-     *             identifier referenced by the checker contribution couldn't be
-     *             reached.
      */
-    public static List<CheckerContainer> getCheckers(List<String> languagesIds,
-                    List<String> excludedIds) {
+    public static List<CheckerContainer> getCheckers(final List<String> languagesIds,
+                    final List<String> excludedIds) {
         final String method = "getCheckers";
         ICodeLogger.entering(CLASS, method, new Object[] {
             languagesIds, excludedIds
         });
-        final List<CheckerContainer> checkers = new ArrayList<>();
+
+        final List<CheckerContainer> checkers = getCheckers().stream()
+                .filter(x->((!excludedIds.contains(x.getId())) && languagesIds.contains(x.getLanguage().getId())))
+                .collect(Collectors.toList());
+
         ICodeLogger.exiting(CLASS, method, checkers);
         return checkers;
     }
@@ -159,10 +154,14 @@ public final class CheckerService {
      * @return whether or not the checker identifier in <code>checkerId</code>
      *         parameter is contributing to {@link #CHECKER_EP_ID}.
      */
-    public static boolean isCheckerIdContributor(String checkerId) {
+    public static boolean isCheckerIdContributor(final String checkerId) {
         final String method = "isCheckerIdContributor";
         ICodeLogger.entering(CLASS, method, checkerId);
         boolean isCheckerIdContributor = false;
+        final Iterator<CheckerContainer> checkers = getCheckers().iterator();
+        while(checkers.hasNext() && !isCheckerIdContributor) {
+            isCheckerIdContributor = checkers.next().getId().equals(checkerId);
+        }
         ICodeLogger.exiting(CLASS, method);
         return isCheckerIdContributor;
     }
@@ -178,11 +177,29 @@ public final class CheckerService {
      *             <code>checkerId</code>'s contribution is not contributing to
      *             {@link LanguageService#LANGUAGE_EP_ID}.
      */
-    public static CheckerContainer getChecker(String checkerId) {
+    public static CheckerContainer getChecker(final String checkerId) throws NullContributionException {
         final String method = "getChecker";
         ICodeLogger.entering(CLASS, checkerId);
-        ICodeLogger.exiting(CLASS, method, null /* checker found here */);
-        return null;
+
+        CheckerContainer checker = null;
+        final Iterator<CheckerContainer> checkers = getCheckers().iterator();
+
+        while(checkers.hasNext() && Objects.isNull(checker)) {
+            CheckerContainer current = checkers.next();
+            if(current.getId().equals(checkerId)) {
+                checker = current;
+            }
+        }
+
+        if(Objects.isNull(checker)) {
+            final NullContributionException exception = new NullContributionException(
+                    "Impossible to find " + checkerId + " in analyzer contributors.");
+            ICodeLogger.throwing(CLASS, method, exception);
+            throw exception;
+        }
+
+        ICodeLogger.exiting(CLASS, method, checker);
+        return checker;
     }
 
 }

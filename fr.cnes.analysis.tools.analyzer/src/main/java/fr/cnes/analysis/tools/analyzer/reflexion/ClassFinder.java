@@ -7,7 +7,9 @@ package fr.cnes.analysis.tools.analyzer.reflexion;
 
 import org.reflections.Reflections;
 
+import java.lang.reflect.Modifier;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,16 +19,18 @@ import java.util.Set;
  */
 public class ClassFinder {
 
-    public static Set<Class<?>> find(final Class f) throws Exception {
+    public static Set<Class<?>> find(final Class f) {
 
         final Reflections reflections = new Reflections("fr.cnes");
-        final Set<Class<?>> classes;
-        if(f.isInterface()) {
-            classes = reflections.getSubTypesOf(f);
+        final Set<Class<?>> classes = new HashSet<>();
+        if(Modifier.isInterface(f.getModifiers()) || Modifier.isAbstract(f.getModifiers())) {
+            Set<Class<?>> tmp = reflections.getSubTypesOf(f);
+            for(Class cls : tmp) {
+                classes.addAll(find(cls));
+            }
         } else {
-            classes = Collections.singleton(f);
+            classes.add(f);
         }
-
         return classes;
     }
 

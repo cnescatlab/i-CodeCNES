@@ -7,10 +7,12 @@
 package fr.cnes.analysis.tools.analyzer.services.checkers;
 
 import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
-import fr.cnes.analysis.tools.analyzer.datas.IChecker;
+import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 import fr.cnes.analysis.tools.analyzer.services.languages.ILanguage;
+import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.util.List;
 
 /**
@@ -32,9 +34,22 @@ public class CheckerContainer {
     /** Checker's language */
     private ILanguage language;
     /** Checker's analysis class */
-    private IChecker checker;
+    private Class<?> checker;
     /** Whether or not the checker is a metric */
     private boolean isMetric;
+
+    /**
+     * Default constructor.
+     */
+    public CheckerContainer() {
+        final String method = "CheckerContainer";
+        ICodeLogger.entering(CLASS, method);
+        this.id = "";
+        this.name = "";
+        this.language = null;
+        this.checker = null;
+        this.isMetric = false;
+    }
 
     /**
      * @param pId
@@ -47,8 +62,8 @@ public class CheckerContainer {
      *            Checker analysis class.
      */
     public CheckerContainer(final String pId, final String pName, final ILanguage pLanguage,
-                    final IChecker pChecker) {
-        final String method = "";
+                    final Class<?> pChecker) {
+        final String method = "CheckerContainer";
         ICodeLogger.entering(CLASS, method);
 
         this.id = pId;
@@ -64,13 +79,14 @@ public class CheckerContainer {
      * @param pName
      *            Checker name.
      * @param pLanguage
- *            Checker's language.
+     *            Checker's language.
      * @param pChecker
-*            Checker analysis class.
+     *            Checker analysis class.
      * @param pIsMetric
+     *            True if the checker is a metric.
      */
     public CheckerContainer(final String pId, final String pName, final ILanguage pLanguage,
-                            final IChecker pChecker, boolean pIsMetric) {
+                            final Class<?> pChecker, boolean pIsMetric) {
         final String method = "CheckerContainer";
         ICodeLogger.entering(CLASS, method, new Object[] {
             pId, pName, pLanguage, pChecker, pIsMetric
@@ -108,7 +124,9 @@ public class CheckerContainer {
     }
 
     /**
-     * @return the id
+     * Getter for the {@link #id} of the checker.
+     *
+     * @return the corresponding string.
      */
     public final String getId() {
         final String method = "getId";
@@ -118,9 +136,11 @@ public class CheckerContainer {
     }
 
     /**
-     * @param pId
-     *            the id to set
+     * Setter for the {@link #id} of the checker.
+     *
+     * @param pId New ID.
      */
+    @XmlAttribute(name="id")
     protected final void setId(final String pId) {
         final String method = "setId";
         ICodeLogger.entering(CLASS, method, pId);
@@ -129,7 +149,9 @@ public class CheckerContainer {
     }
 
     /**
-     * @return the name
+     * Getter for the {@link #name} of the checker.
+     *
+     * @return the corresponding string.
      */
     public final String getName() {
         final String method = "getName";
@@ -139,9 +161,11 @@ public class CheckerContainer {
     }
 
     /**
-     * @param pName
-     *            the name to set
+     * Setter for the {@link #language} of the checker.
+     *
+     * @param pName New name.
      */
+    @XmlAttribute(name="name")
     protected final void setName(final String pName) {
         final String method = "setName";
         ICodeLogger.entering(CLASS, method, pName);
@@ -150,7 +174,9 @@ public class CheckerContainer {
     }
 
     /**
-     * @return the language
+     * Getter for the {@link #language} of the checker.
+     *
+     * @return the corresponding string.
      */
     public final ILanguage getLanguage() {
         final String method = "getLanguage";
@@ -160,31 +186,48 @@ public class CheckerContainer {
     }
 
     /**
-     * @param pLanguage
-     *            the language to set
+     * Setter for the {@link #language} of the checker.
+     *
+     * @param pLanguageId New language ID.
      */
-    protected final void setLanguage(final ILanguage pLanguage) {
-        final String method = "setLanguage";
-        ICodeLogger.entering(CLASS, method, pLanguage);
-        this.language = pLanguage;
+    @XmlAttribute(name="languageId")
+    protected final void setLanguageId(final String pLanguageId) {
+        final String method = "setLanguageId";
+        ICodeLogger.entering(CLASS, method, pLanguageId);
+        try {
+            this.language = LanguageService.getLanguage(pLanguageId);
+        } catch (final NullContributionException e) {
+            ICodeLogger.error(CLASS, method, e);
+        }
         ICodeLogger.exiting(CLASS, method);
     }
 
     /**
-     * @return the checker A clone class of the checker.
+     * Getter for the {@link #checker} instantiation.
+     *
+     * @return instantiation as AbstractChecker object.
      */
     public final AbstractChecker getChecker() {
         final String method = "getChecker";
         ICodeLogger.entering(CLASS, method);
+        AbstractChecker result = null;
+        try {
+            if(checker != null) {
+                result = (AbstractChecker) checker.newInstance();
+            }
+        } catch (final InstantiationException|IllegalAccessException e) {
+            ICodeLogger.error(CLASS, method, e);
+        }
         ICodeLogger.exiting(CLASS, method, null);
-        return null;
+        return result;
     }
 
     /**
-     * @param pChecker
-     *            the checker to set
+     * Setter for the {@link #checker} of the checker.
+     *
+     * @param pChecker New checker class.
      */
-    protected final void setChecker(final AbstractChecker pChecker) {
+    protected final void setChecker(final Class<?> pChecker) {
         final String method = "setChecker";
         ICodeLogger.entering(CLASS, method, pChecker);
         this.checker = pChecker;
@@ -192,7 +235,26 @@ public class CheckerContainer {
     }
 
     /**
-     * @return the isMetric
+     * Setter for the {@link #checker} of the checker.
+     *
+     * @param pClass New checker class.
+     */
+    @XmlAttribute(name="class")
+    protected final void setClass(final String pClass) {
+        final String method = "setClass";
+        ICodeLogger.entering(CLASS, method, pClass);
+        try {
+            this.checker = Class.forName(pClass);
+        } catch (final ClassNotFoundException e) {
+            ICodeLogger.error(CLASS, method, e);
+        }
+        ICodeLogger.exiting(CLASS, method);
+    }
+
+    /**
+     * Getter for the {@link #isMetric} of the checker.
+     *
+     * @return the corresponding string.
      */
     public final boolean isMetric() {
         final String method = "isMetric";
@@ -202,9 +264,11 @@ public class CheckerContainer {
     }
 
     /**
-     * @param pIsMetric
-     *            the isMetric to set
+     * Setter for the {@link #isMetric} of the checker.
+     *
+     * @param pIsMetric New checker metric status.
      */
+    @XmlAttribute(name="isMetric")
     public final void setMetric(final boolean pIsMetric) {
         final String method = "setMetric";
         ICodeLogger.entering(CLASS, method, pIsMetric);

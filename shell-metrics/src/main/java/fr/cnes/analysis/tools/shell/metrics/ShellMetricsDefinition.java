@@ -3,17 +3,28 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.analyzer.reflexion;
+package fr.cnes.analysis.tools.shell.metrics;
+
+import fr.cnes.analysis.tools.analyzer.datas.CheckersDefinition;
 
 /**
- * Utility class for instantiate objects from class.
- *
- * @author lequal
+ * Define checkers to be supported by this plugin.
  */
-public class ObjectFactory {
+public class ShellMetricsDefinition extends CheckersDefinition {
 
-    public static Object createInstance(final Class<?> cls) throws Exception {
-        return cls.newInstance();
+    /**
+     * Default constructor.
+     */
+    public ShellMetricsDefinition() {
+        super();
+    }
+
+    /**
+     * Override this method to inject checkers in containers field.
+     */
+    @Override
+    public void define() {
+        addFromResources("/shell-metrics.xml");
     }
 
 }

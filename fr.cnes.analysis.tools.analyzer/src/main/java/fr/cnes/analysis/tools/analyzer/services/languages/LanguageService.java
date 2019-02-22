@@ -50,7 +50,7 @@ public final class LanguageService {
         ICodeLogger.entering(CLASS, method);
         final List<ILanguage> languages;
 
-        if(Objects.isNull(LanguageService.languages)) {
+        if(Objects.isNull(LanguageService.languages) || LanguageService.languages.isEmpty()) {
             languages = new ArrayList<>();
             try {
                 Set<Class<?>> classes = ClassFinder.find(ILanguage.class);
@@ -61,6 +61,7 @@ public final class LanguageService {
             } catch (final Exception e) {
                 ICodeLogger.error(CLASS, method, e);
             }
+            LanguageService.languages = languages;
         } else {
             languages = LanguageService.languages;
         }
