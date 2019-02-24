@@ -134,14 +134,38 @@ public final class CheckerService {
      *         except the ones contained in <code>excludedIds</code>.
      */
     public static List<CheckerContainer> getCheckers(final List<String> languagesIds,
-                    final List<String> excludedIds) {
+                                                     final List<String> excludedIds) {
         final String method = "getCheckers";
         ICodeLogger.entering(CLASS, method, new Object[] {
-            languagesIds, excludedIds
+                languagesIds, excludedIds
         });
 
         final List<CheckerContainer> checkers = getCheckers().stream()
                 .filter(x->((!excludedIds.contains(x.getId())) && languagesIds.contains(x.getLanguage().getId())))
+                .collect(Collectors.toList());
+
+        ICodeLogger.exiting(CLASS, method, checkers);
+        return checkers;
+    }
+
+    /**
+     * @param languagesId
+     *            language identifier to retrieve checkers from.
+     * @param excludedIds
+     *            checkers identifier to not include in the returned checkers.
+     * @return a list of {@link CheckerContainer} containing all checkers
+     *         referencing a language identifier in <code>languagesIds</code>
+     *         except the ones contained in <code>excludedIds</code>.
+     */
+    public static List<CheckerContainer> getCheckers(final String languagesId,
+                                                     final List<String> excludedIds) {
+        final String method = "getCheckers";
+        ICodeLogger.entering(CLASS, method, new Object[] {
+                languagesId, excludedIds
+        });
+
+        final List<CheckerContainer> checkers = getCheckers().stream()
+                .filter(x->((!excludedIds.contains(x.getId())) && languagesId.equals(x.getLanguage().getId())))
                 .collect(Collectors.toList());
 
         ICodeLogger.exiting(CLASS, method, checkers);

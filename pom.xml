@@ -9,7 +9,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>fr.cnes.icode.application</module>
 
         <module>fr.cnes.analysis.tools.analyzer</module>
 
@@ -27,6 +26,8 @@
 
         <module>export-xml</module>
         <module>export-csv</module>
+
+		<module>fr.cnes.icode.application</module>
 	</modules>
 
 	<name>i-Code parent</name>

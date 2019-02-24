@@ -74,6 +74,42 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <target>
+                                <echo>Preparing i-Code CNES application distribution...</echo>
+                                <copy todir="${basedir}/target/icode/plugins" overwrite="true" flatten="true">
+                                    <fileset dir="${basedir}/.." includes="*.jar" >
+                                        <include name="**/target/*.jar" />
+                                        <exclude name="**/target/original-*.jar" />
+                                        <exclude name="**/target/*-shaded.jar" />
+                                        <exclude name="fr.cnes.analysis.tools.analyzer/target/*.jar"/>
+                                        <exclude name="fr.cnes.icode.application/target/*.jar"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="${basedir}/target/icode" overwrite="true" flatten="true">
+                                    <fileset dir="${basedir}" includes="*.jar" >
+                                        <include name="src/main/scripts/*" />
+                                        <include name="target/*.jar" />
+                                    </fileset>
+                                </copy>
+                                <zip destfile="target/icode-${pom.version}.zip">
+                                    <zipfileset dir="${basedir}/target/icode" prefix="icode"/>
+                                </zip>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

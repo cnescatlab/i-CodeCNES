@@ -58,7 +58,7 @@ public class CallableChecker implements Callable<List<CheckResult>> {
      * @see java.util.concurrent.Callable#call()
      */
     @Override
-    public List<CheckResult> call() throws IOException, JFlexException {
+    public List<CheckResult> call() throws IOException {
         final String method = "call";
         ICodeLogger.entering(CLASS, method);
         final List<CheckResult> results = new ArrayList<>();
@@ -68,7 +68,7 @@ public class CallableChecker implements Callable<List<CheckResult>> {
 		} catch (JFlexException exception) {
 			ICodeLogger.error(exception.getFileName(), exception.getRuleName(), exception.getMessage());
 			CheckResult result = new CheckResult(ParsingError.PARSING_ERROR_NAME,ParsingError.PARSING_ERROR_ID, ParsingError.PARSING_ERROR_LANGUAGE);
-			result.setLine(Integer.valueOf(exception.getLine()));
+			result.setLine(exception.getLine());
 		    result.setLocation(exception.getRuleName() +"[l"+exception.getLine()+":c"+exception.getColumn()+"]");
 		    result.setMessage(exception.getErrorMessage());
 		    result.setFile(file);			

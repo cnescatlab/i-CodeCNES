@@ -84,7 +84,6 @@ public abstract class AbstractChecker {
         checkResult.setFile(inputFile);
         this.checkResults.add(checkResult);
         ICodeLogger.exiting(CLASS, method);
-
     }
 
     /**

@@ -1,11 +1,32 @@
 language: java
-jdk:
-  - oraclejdk8
-install: true
-script : 
-  - mvn install -DskipTests
-  - mvn verify
 sudo: false
+install: true
+
 addons:
   sonarcloud:
     organization: "lequal"
+
+jdk:
+- oraclejdk8
+
+script:
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
+cache:
+  directories:
+  - '$HOME/.m2/repository'
+  - '$HOME/.sonar/cache'
+
+notifications:
+  email: false
+
+deploy:
+  provider: releases
+  api_key: "$GITHUB_TOKEN"
+  file_glob: true
+  file: "target/icode-*.zip"
+  skip_cleanup: true
+  name: "SonarQube Branch Plugin"
+  draft: true
+  on:
+    branch: master

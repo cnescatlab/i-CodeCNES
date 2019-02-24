@@ -214,6 +214,9 @@ public class CheckerContainer {
         try {
             if(checker != null) {
                 result = (AbstractChecker) checker.newInstance();
+                result.setId(this.getId());
+                result.setName(this.getName());
+                result.setLanguageId(this.getLanguage().getId());
             }
         } catch (final InstantiationException|IllegalAccessException e) {
             ICodeLogger.error(CLASS, method, e);

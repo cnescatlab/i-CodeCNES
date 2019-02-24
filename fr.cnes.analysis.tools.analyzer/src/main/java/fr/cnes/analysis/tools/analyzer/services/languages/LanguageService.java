@@ -154,4 +154,19 @@ public final class LanguageService {
         return languagesIds;
     }
 
+    /**
+     * @return The id of the language corresponding to the given file extension.
+     */
+    public static String getLanguageId(final String pExtension) {
+        final String method = "getLanguageId";
+        ICodeLogger.entering(CLASS, method);
+        final Optional<ILanguage> language = getLanguages().stream().filter(x -> x.getFileExtension().contains(pExtension)).findFirst();
+        String languageId = "";
+        if(language.isPresent()) {
+            languageId = language.get().getId();
+        }
+        ICodeLogger.exiting(CLASS, method, languageId);
+        return languageId;
+    }
+
 }
