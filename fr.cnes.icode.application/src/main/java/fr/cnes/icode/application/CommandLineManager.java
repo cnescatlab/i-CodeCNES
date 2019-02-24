@@ -5,19 +5,12 @@
 /************************************************************************************************/
 package fr.cnes.icode.application;
 
+import org.apache.commons.cli.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.UnrecognizedOptionException;
 
 /**
  * Manage the command line by parsing it and providing preprocessed data.
@@ -56,6 +49,10 @@ public class CommandLineManager {
      * Option short name for help.
      */
     public static final String HELP = "h";
+    /**
+     * Option short name for version.
+     */
+    public static final String VERSION = "v";
     /**
      * Option short name for languages.
      */
@@ -113,6 +110,8 @@ public class CommandLineManager {
                 "Display all available exporters.");
         options.addOption(LANGUAGES, "languages", false,
                 "Display all available languages.");
+        options.addOption(VERSION, "version", false,
+                "Display version information.");
         options.addOption(RULES, "rules", false,
                 "Display all available rules.");
         options.addOption(LIST_EXPORT_PARAMETERS, "list-export-parameters", true,
@@ -136,12 +135,12 @@ public class CommandLineManager {
      */
     public void parse(final String[] pArgs) {
         try {
-            boolean areOptionsCorrect = false;
+            boolean areOptionsCorrect;
             try {
                 // Parse the command line.
                 commandLine = parser.parse(options, pArgs);
                 areOptionsCorrect = checkOptionsUse(commandLine);
-            } catch(UnrecognizedOptionException e) {
+            } catch(final UnrecognizedOptionException e) {
                 LOGGER.warning(e.getLocalizedMessage());
                 areOptionsCorrect = false;
             }
@@ -152,7 +151,14 @@ public class CommandLineManager {
                         "\n\nPlease report issues at https://github.com/lequal/i-CodeCNES/issues", true);
                 System.exit(0);
             }
-        } catch (ParseException e) {
+            // If version option is present, version information are displayed.
+            if(commandLine.hasOption(VERSION)) {
+                final String title = getClass().getPackage().getImplementationTitle();
+                final String version = getClass().getPackage().getImplementationVersion();
+                LOGGER.info(String.format("%s version %s", title, version));
+                System.exit(0);
+            }
+        } catch(final ParseException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }

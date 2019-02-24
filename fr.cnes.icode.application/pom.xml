@@ -14,7 +14,7 @@
 	<version>${icode.version}</version>
     <packaging>jar</packaging>
 
-    <name>i-Code CNES App</name>
+    <name>i-Code CNES</name>
 
     <dependencies>
         <dependency>
