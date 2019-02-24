@@ -14,7 +14,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.ExportService;
+import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
 
 /**
  * This Wizard contains and handle the different Wizard Page to export analysis
@@ -24,7 +24,7 @@ import fr.cnes.analysis.tools.export.ExportService;
  * 
  * <p>
  * Available formats are defined by the
- * {@link fr.cnes.analysis.tools.export.ExportService} service using
+ * {@link fr.cnes.analysis.tools.analyzer.services.export.ExportService} service using
  * {@link ExportService#getAvailableFormats()}.
  * </p>
  * 

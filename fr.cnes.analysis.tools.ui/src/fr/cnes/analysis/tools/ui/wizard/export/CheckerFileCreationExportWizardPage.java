@@ -23,9 +23,9 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.ExportService;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.export.exception.NoExtensionIndicatedException;
+import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
+import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
+import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
 import fr.cnes.analysis.tools.ui.view.MetricsView;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
 
@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * 
  * <p>
  * On {@link #getInitialContents()} this class realize an export using
- * {@link fr.cnes.analysis.tools.export.ExportService} service.
+ * {@link fr.cnes.analysis.tools.analyzer.services.export.ExportService} service.
  * </p>
  * 
  * @since 3.0

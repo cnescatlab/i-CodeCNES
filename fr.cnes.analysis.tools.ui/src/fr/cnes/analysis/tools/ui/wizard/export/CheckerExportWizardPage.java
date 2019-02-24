@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.export.ExportService;
-import fr.cnes.analysis.tools.export.exception.NoContributorMatchingException;
+import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
+import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
 
 /**
  * This class is the main page of the {@link CheckerExportWizard}. It's
