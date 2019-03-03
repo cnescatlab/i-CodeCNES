@@ -24,9 +24,9 @@ deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
   file_glob: true
-  file: "target/icode-*.zip"
+  file: "fr.cnes.icode.application/target/icode-*.zip"
   skip_cleanup: true
-  name: "SonarQube Branch Plugin"
+  name: "i-Code CNES"
   draft: true
   on:
     branch: master
