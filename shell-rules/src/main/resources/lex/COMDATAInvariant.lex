@@ -1,11 +1,11 @@
 /************************************************************************************************/
 /* i-Code CNES is a static code analyzer.                                                       */
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
-/* http://www.eclipse.org/legal/epl-v10.html                                               */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/ 
 
 /**********************************************************************************/
-/* This file is used to generate a rule checker for COM.DATA.Invariant rule. */
+/* This file is used to generate a rule checker for COM.DATA.Invariant rule.      */
 /* For further information on this, we advise you to refer to RNC manuals.	      */
 /* As many comments have been done on the ExampleRule.lex file, this file         */
 /* will restrain its comments on modifications.								      */
