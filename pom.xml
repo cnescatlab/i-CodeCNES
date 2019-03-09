@@ -27,7 +27,7 @@
         <module>export-xml</module>
         <module>export-csv</module>
 
-        <module>icode-library</module>
+		<module>icode-library</module>
         <module>icode-app</module>
 
 	</modules>

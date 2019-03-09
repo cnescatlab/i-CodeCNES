@@ -90,6 +90,7 @@
                                         <exclude name="**/target/original-*.jar" />
                                         <exclude name="**/target/*-shaded.jar" />
                                         <exclude name="icode-core/target/*.jar"/>
+                                        <exclude name="icode-library/target/*.jar"/>
                                         <exclude name="icode-app/target/*.jar"/>
                                     </fileset>
                                 </copy>
@@ -99,7 +100,7 @@
                                         <include name="target/*.jar" />
                                     </fileset>
                                 </copy>
-                                <zip destfile="target/icode-${pom.version}.zip">
+                                <zip destfile="target/icode-${project.version}.zip">
                                     <zipfileset dir="${basedir}/target/icode" prefix="icode"/>
                                 </zip>
                             </target>
