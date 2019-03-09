@@ -231,12 +231,8 @@ public class ICodeApplication {
             outputToStdOut = false;
         }
 
-//        Date[] dates = new Date[4];
-
-//        dates[0] = new Date(System.currentTimeMillis());
         // Run the analysis.
         final List<CheckResult> checkResults = analyzer.stableCheck(sources, checkedLanguages, excludedRules);
-//        dates[1] = new Date(System.currentTimeMillis());
 
         // Get default parameters for the chosen export.
         exporterParameters = exportService.getParameters(exportFormat);
@@ -246,15 +242,8 @@ public class ICodeApplication {
             setExporterParameters(exporterParameters);
         }
 
-//        dates[2] = new Date(System.currentTimeMillis());
         // Export results to a file.
         exportService.export(checkResults, outputFile, exporterParameters, exportFormat);
-//        dates[3] = new Date(System.currentTimeMillis());
-
-//        System.out.println(String.format("Analysis start: %s", dates[0]));
-//        System.out.println(String.format("Analysis end: %s", dates[1]));
-//        System.out.println(String.format("Export start: %s", dates[2]));
-//        System.out.println(String.format("Analysis end: %s", dates[3]));
 
         // Display data to standard output if no file is asked by the user.
         if (outputToStdOut) {

@@ -180,7 +180,6 @@ public class TestAllFortran90Rules {
 			final List<CheckResult> list = this.rule.run();
 
 			// We verify that there is an error.
-
 			assertTrue("Error(s) are detected: " + TestUtils.getCheckResults(list), list.isEmpty());
 
 		} catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
