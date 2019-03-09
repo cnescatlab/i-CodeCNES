@@ -10,11 +10,11 @@
 		<version>dev</version>
 	</parent>
 
-	<artifactId>fr.cnes.analysis.tools.analyzer</artifactId>
+	<artifactId>icode-core</artifactId>
 	<version>${icode.version}</version>
 	<packaging>jar</packaging>
 
-	<name>Tools - Analyzer</name>
+	<name>i-Code Core</name>
 
 	<dependencies>
 		<dependency>

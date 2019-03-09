@@ -65,11 +65,11 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
 STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 /*
- * La complexit� cyclomatique d'une m�thode est d�finie par le nombre de chemins 
- * lin�airement ind�pendants qu'il est possible d'emprunter dans cette m�thode.
- * Plus simplement, il s'agit du nombre de pofloats de d�cision de la m�thode (if, case, while, ...)
+ * La complexité cyclomatique d'une méthode est définie par le nombre de chemins
+ * linéairement indépendants qu'il est possible d'emprunter dans cette méthode.
+ * Plus simplement, il s'agit du nombre de pofloats de décision de la méthode (if, case, while, ...)
  * + 1 (le chemin principal).
- * La complexit� cyclomatique d'une m�thode vaut au minimum 1, puisqu'il y a toujours au moins un chemin.
+ * La complexité cyclomatique d'une méthode vaut au minimum 1, puisqu'il y a toujours au moins un chemin.
  *
  */
 %{

@@ -24,7 +24,7 @@ deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
   file_glob: true
-  file: "fr.cnes.icode.application/target/icode-*.zip"
+  file: "icode-app/target/icode-*.zip"
   skip_cleanup: true
   name: "i-Code CNES"
   draft: true

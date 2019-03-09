@@ -45,7 +45,7 @@ C
 C
 C ---    La fonction intrinseque ISNAN (compilateur GNU) permet de detecter que 
 C ---       la variable SOMME n'est plus un nombre (NaN : Not a Number) 
-C ---    Cela indique uqu'il y a un débordement 
+C ---    Cela indique uqu'il y a un dÃ©bordement 
 C
          IF (ISNAN(SOMME)) THEN
             PRINT *, 'AT indice : ', I, ' then ', SOMME, ' is a NaN'

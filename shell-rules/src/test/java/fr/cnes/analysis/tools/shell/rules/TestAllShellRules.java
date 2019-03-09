@@ -147,7 +147,7 @@ public class TestAllShellRules {
 				assertEquals("CheckResult " + Integer.toString(index) + " is in wrong line : ", lines[index], line);
 			}
 		} catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
-            fail("Analysis error (" + e.getClass().getName() + ")");
+            fail(String.format("Analysis error (%s): %s", e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 
@@ -172,7 +172,7 @@ public class TestAllShellRules {
 			assertTrue("Error(s) are detected: " + TestUtils.getCheckResults(list), list.isEmpty());
 
 		} catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
-            fail("Analysis error (" + e.getClass().getName() + ")");
+            fail(String.format("Analysis error (%s): %s", e.getClass().getSimpleName(), e.getMessage()));
         }
 	}
 }

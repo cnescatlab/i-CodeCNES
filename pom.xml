@@ -10,7 +10,7 @@
 
 	<modules>
 
-        <module>fr.cnes.analysis.tools.analyzer</module>
+        <module>icode-core</module>
 
 		<module>fortran77-language</module>
 		<module>fortran77-metrics</module>
@@ -27,7 +27,9 @@
         <module>export-xml</module>
         <module>export-csv</module>
 
-		<module>fr.cnes.icode.application</module>
+        <module>icode-library</module>
+        <module>icode-app</module>
+
 	</modules>
 
 	<name>i-Code parent</name>

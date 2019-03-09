@@ -1,6 +1,5 @@
 package fr.cnes.analysis.tools.analyzer.datas;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public class ParsingError extends AbstractChecker {
 	
 
 	@Override
-	public List<CheckResult> run() throws IOException {
+	public List<CheckResult> run() {
 		return getCheckResults();
 	}
 }

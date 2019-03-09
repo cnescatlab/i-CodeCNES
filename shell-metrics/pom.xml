@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
-            <artifactId>fr.cnes.analysis.tools.analyzer</artifactId>
+            <artifactId>icode-core</artifactId>
             <version>${icode.version}</version>
             <scope>compile</scope>
         </dependency>

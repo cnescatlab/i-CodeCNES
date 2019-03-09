@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>fr.cnes.icode</groupId>
+        <artifactId>parent</artifactId>
+        <version>dev</version>
+    </parent>
+
+    <artifactId>icode-library</artifactId>
+    <version>${icode.version}</version>
+    <packaging>jar</packaging>
+
+    <name>i-Code Library</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>icode-core</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran77-language</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran77-metrics</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran77-rules</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran90-language</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran90-metrics</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran90-rules</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>shell-language</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>shell-metrics</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>shell-rules</artifactId>
+            <version>${icode.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

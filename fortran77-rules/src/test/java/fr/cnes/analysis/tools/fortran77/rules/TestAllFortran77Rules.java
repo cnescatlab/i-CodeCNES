@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
  * This class aims to test all Fortran 77 rules. There are 2 functions in this class.
  * The first one verifies that an error in a file is detected whenever there is
  * one, the other verifies that nothing is detected when there's no error.
- * <p>
+ *
  * These functions test all rules with values provided by parametrized test.
  */
 @RunWith(Parameterized.class)
@@ -152,7 +152,7 @@ public class TestAllFortran77Rules {
                 assertEquals("CheckResult " + Integer.toString(index) + " is in wrong line : ", lines[index], line);
             }
         } catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
-            fail("Analysis error (" + e.getClass().getName() + ")");
+            fail(String.format("Analysis error (%s): %s", e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 
@@ -177,7 +177,7 @@ public class TestAllFortran77Rules {
             assertTrue("Error(s) are detected: " + TestUtils.getCheckResults(list), list.isEmpty());
 
         } catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
-            fail("Analysis error (" + e.getClass().getName() + ")");
+            fail(String.format("Analysis error (%s): %s", e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 }

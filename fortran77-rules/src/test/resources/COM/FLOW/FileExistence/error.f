@@ -21,12 +21,12 @@
        read(unit=unit_read, fmt=FORMAT_LIGNE_TXT)
     end do
     
-    ! Détermination du nombre de lignes
+    ! DÃ©termination du nombre de lignes
     ierr = 0
     do while (ierr == 0 ) 
        ! Lecture de la ligne dans le fichier
        read(unit=unit_read2, fmt=FORMAT_LIGNE_TXT, iostat=ierr) buff
-       ! S'il on n'est pas à la fin du fichier 
+       ! S'il on n'est pas Ã  la fin du fichier 
        ! et qu'il ne s'agit pas d'une ligne blanche
        if ( ierr == 0 .and. len_trim(buff) /= 0 ) then
           if (ierr2 == 0 .and. ligne_tmp%indflu /= 0 ) then

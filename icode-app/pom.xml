@@ -10,16 +10,16 @@
         <version>dev</version>
     </parent>
 
-	<artifactId>icode</artifactId>
+	<artifactId>icode-app</artifactId>
 	<version>${icode.version}</version>
     <packaging>jar</packaging>
 
-    <name>i-Code CNES</name>
+    <name>i-Code CNES Application</name>
 
     <dependencies>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
-            <artifactId>fr.cnes.analysis.tools.analyzer</artifactId>
+            <artifactId>icode-core</artifactId>
             <version>${icode.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -89,8 +89,8 @@
                                         <include name="**/target/*.jar" />
                                         <exclude name="**/target/original-*.jar" />
                                         <exclude name="**/target/*-shaded.jar" />
-                                        <exclude name="fr.cnes.analysis.tools.analyzer/target/*.jar"/>
-                                        <exclude name="fr.cnes.icode.application/target/*.jar"/>
+                                        <exclude name="icode-core/target/*.jar"/>
+                                        <exclude name="icode-app/target/*.jar"/>
                                     </fileset>
                                 </copy>
                                 <copy todir="${basedir}/target/icode" overwrite="true" flatten="true">
