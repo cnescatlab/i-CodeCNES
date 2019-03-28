@@ -7,4 +7,4 @@
 /**
  * Package containing configuration's API for UI Plug-in.
  */
-package fr.cnes.analysis.tools.ui.configurations;
+package fr.cnes.icode.ui.configurations;

@@ -12,16 +12,16 @@
 /*																			 	 */
 /*********************************************************************************/
 
-package fr.cnes.analysis.tools.fortran90.rules;
+package fr.cnes.icode.fortran90.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.util.List;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.icode.datas.AbstractChecker;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.exception.JFlexException;
 
 %%
 

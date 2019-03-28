@@ -7,4 +7,4 @@
 /**
  * Package containing i-Code CNES Markers of UI Plug-in.
  */
-package fr.cnes.analysis.tools.ui.markers;
+package fr.cnes.icode.ui.markers;

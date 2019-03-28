@@ -1,11 +1,11 @@
-package fr.cnes.analysis.tools.ui.images;
+package fr.cnes.icode.ui.images;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.Activator;
 
 /**
  * This service should be used to reach images stored in the plugin resources.

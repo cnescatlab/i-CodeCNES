@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
+package fr.cnes.icode.ui.view.violation.treeviewer.file;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -23,12 +23,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.view.AbstractAnalysisTreeViewer;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 
 /**
  * TreeViewer that show violations in {@link #getInput()} organized by their :
@@ -44,7 +44,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.Viola
  * functions or rules and can be ordered and filtered, using a
  * {@link FileTreeViewerComparator}. </br>
  * 
- * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer
+ * @see fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewer
  * 
  * @version 2.1
  * @since 2.0
@@ -115,7 +115,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer#
+     * @see fr.cnes.icode.ui.view.AbstractAnalysisTreeViewer#
      * addDoubleClickAction()
      */
     @Override

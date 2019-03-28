@@ -3,11 +3,11 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;
 
 import org.eclipse.core.runtime.IPath;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Descriptor for a violation that is intended to be shown.</br>
@@ -83,7 +83,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.
+     * @see fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.
      * IFileRuleDescriptor#getName()
      */
     @Override
@@ -97,7 +97,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.
+     * @see fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.
      * IFileRuleDescriptor#getLine()
      */
     @Override

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.wizard.export;
+package fr.cnes.icode.ui.wizard.export;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -13,8 +13,8 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.services.export.ExportService;
 
 /**
  * This Wizard contains and handle the different Wizard Page to export analysis
@@ -24,7 +24,7 @@ import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
  * 
  * <p>
  * Available formats are defined by the
- * {@link fr.cnes.analysis.tools.analyzer.services.export.ExportService} service using
+ * {@link fr.cnes.icode.services.export.ExportService} service using
  * {@link ExportService#getAvailableFormats()}.
  * </p>
  * 

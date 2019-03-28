@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view;
+package fr.cnes.icode.ui.view;
 
 import java.util.Comparator;
 import java.util.List;
@@ -25,16 +25,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.exception.EmptyProviderException;
+import fr.cnes.icode.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewer;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewer;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
 
 public class ViolationsView extends ViewPart {
 

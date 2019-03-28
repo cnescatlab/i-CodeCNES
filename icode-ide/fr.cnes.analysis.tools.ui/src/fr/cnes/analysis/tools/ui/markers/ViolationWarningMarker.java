@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.markers;
+package fr.cnes.icode.ui.markers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * ViolationErrorMarker This class implements the creation of marker and the
@@ -34,10 +34,10 @@ import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
  */
 public final class ViolationWarningMarker {
     /** Marker ID pointing on the image. */
-    public static final String MARKER = "fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker";
+    public static final String MARKER = "fr.cnes.icode.ui.markers.ViolationWarningMarker";
 
     /** Annotation ID */
-    public static final String ANNOTATION = "fr.cnes.analysis.tools.ui.ViolationWarning";
+    public static final String ANNOTATION = "fr.cnes.icode.ui.ViolationWarning";
     /** Class name */
     private static final String CLASS = ViolationWarningMarker.class.getName();
 

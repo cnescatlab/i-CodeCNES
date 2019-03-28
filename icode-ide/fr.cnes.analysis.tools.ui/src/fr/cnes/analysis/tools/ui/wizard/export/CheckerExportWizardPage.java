@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.wizard.export;
+package fr.cnes.icode.ui.wizard.export;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,9 +29,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
-import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.services.export.ExportService;
+import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 
 /**
  * This class is the main page of the {@link CheckerExportWizard}. It's

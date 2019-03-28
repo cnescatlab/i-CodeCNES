@@ -12,7 +12,7 @@
 /*																			    */
 /********************************************************************************/
 
-package fr.cnes.analysis.tools.fortran77.rules;
+package fr.cnes.icode.fortran77.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,9 +22,9 @@ import java.util.LinkedList;
 
 import java.util.logging.Logger;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.icode.datas.AbstractChecker;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.exception.JFlexException;
 
 %%
 

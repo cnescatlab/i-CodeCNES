@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;
 
 /**
  * Interface for the rule, a file or a violation. This interface is mainly used

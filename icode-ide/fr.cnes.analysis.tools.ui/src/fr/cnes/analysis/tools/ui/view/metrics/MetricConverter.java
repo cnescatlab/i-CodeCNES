@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.metrics;
+package fr.cnes.icode.ui.view.metrics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,8 +14,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Job used to converter inputs from analysis to valuable inputs for the

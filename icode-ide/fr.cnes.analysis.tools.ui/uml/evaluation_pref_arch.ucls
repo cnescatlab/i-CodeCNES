@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.rules.RulePreferenceContainer" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RulePreferenceContainer.java" 
+  <class id="1" language="java" name="fr.cnes.icode.ui.preferencepage.rules.RulePreferenceContainer"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RulePreferenceContainer.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2065" y="645"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -12,9 +12,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.rules.RulePreferenceLabelProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RulePreferenceLabelProvider.java" 
+  <class id="2" language="java" name="fr.cnes.icode.ui.preferencepage.rules.RulePreferenceLabelProvider"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RulePreferenceLabelProvider.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2455" y="646"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -23,9 +23,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.PreferenceLabelProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/PreferenceLabelProvider.java" 
+  <class id="3" language="java" name="fr.cnes.icode.ui.preferencepage.PreferenceLabelProvider"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/PreferenceLabelProvider.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1661" y="950"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -34,9 +34,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.PreferenceContainer" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/PreferenceContainer.java" 
+  <class id="4" language="java" name="fr.cnes.icode.ui.preferencepage.PreferenceContainer"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/PreferenceContainer.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1663" y="646"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -45,9 +45,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.MetricPreferencePage" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/MetricPreferencePage.java" 
+  <class id="5" language="java" name="fr.cnes.icode.ui.preferencepage.MetricPreferencePage"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/MetricPreferencePage.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1272" y="98"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -56,9 +56,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.metrics.MetricEditingSupport" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricEditingSupport.java" 
+  <class id="6" language="java" name="fr.cnes.icode.ui.preferencepage.metrics.MetricEditingSupport"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricEditingSupport.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="929" y="96"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -67,9 +67,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.rules.RuleEditingSupport" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RuleEditingSupport.java" 
+  <class id="7" language="java" name="fr.cnes.icode.ui.preferencepage.rules.RuleEditingSupport"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/rules/RuleEditingSupport.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2454" y="98"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -78,9 +78,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.AbstractEvaluationPreference" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/AbstractEvaluationPreference.java" 
+  <class id="8" language="java" name="fr.cnes.icode.ui.preferencepage.AbstractEvaluationPreference"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/AbstractEvaluationPreference.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1664" y="99"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -89,9 +89,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.RulePreferencePage" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/RulePreferencePage.java" 
+  <class id="9" language="java" name="fr.cnes.icode.ui.preferencepage.RulePreferencePage"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/RulePreferencePage.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2064" y="98"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -100,9 +100,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.metrics.MetricPreferenceLabelProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricPreferenceLabelProvider.java" 
+  <class id="10" language="java" name="fr.cnes.icode.ui.preferencepage.metrics.MetricPreferenceLabelProvider"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricPreferenceLabelProvider.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="906" y="614"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -111,9 +111,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="fr.cnes.analysis.tools.ui.preferencepage.metrics.MetricPreferenceContainer" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricPreferenceContainer.java" 
+  <class id="11" language="java" name="fr.cnes.icode.ui.preferencepage.metrics.MetricPreferenceContainer"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/preferencepage/metrics/MetricPreferenceContainer.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1265" y="646"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

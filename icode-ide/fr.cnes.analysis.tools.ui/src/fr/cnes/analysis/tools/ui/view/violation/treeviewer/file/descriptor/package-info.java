@@ -8,7 +8,7 @@
 /************************************************************************************************/
 /**
  * This package contains all descriptors for the
- * {@link fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer}
+ * {@link fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewer}
  *
  */
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;

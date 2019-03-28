@@ -53,7 +53,7 @@
                                     </includes>
                                 </filter>
                                 <filter>
-                                    <artifact>fr.cnes.icode:fr.cnes.analysis.tools.analyzer</artifact>
+                                    <artifact>fr.cnes.icode:fr.cnes.icode</artifact>
                                     <excludes>
                                         <exclude>fr/cnes/analysis/**</exclude>
                                     </excludes>

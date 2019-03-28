@@ -3,12 +3,12 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.preferences;
+package fr.cnes.icode.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.Activator;
 
 /**
  * Container for Checker preferences used by {@link UserPreferencesService}

@@ -6,4 +6,4 @@
 /**
  * Package containing i-Code CNES Exceptions of UI Plug-in.
  */
-package fr.cnes.analysis.tools.ui.exception;
+package fr.cnes.icode.ui.exception;

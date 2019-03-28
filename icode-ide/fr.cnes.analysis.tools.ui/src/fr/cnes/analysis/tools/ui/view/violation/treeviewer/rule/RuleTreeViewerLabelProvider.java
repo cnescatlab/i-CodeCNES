@@ -3,20 +3,20 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.IRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.exception.UnknownInstanceException;
+import fr.cnes.icode.ui.images.ImageFactory;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.ui.view.AbstractLabelProvider;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.IRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
 
 /**
  * This class provides column for the table viewer.

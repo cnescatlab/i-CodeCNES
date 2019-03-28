@@ -8,4 +8,4 @@
  * Plug-in
  */
 
-package fr.cnes.analysis.tools.ui.preferences;
+package fr.cnes.icode.ui.preferences;

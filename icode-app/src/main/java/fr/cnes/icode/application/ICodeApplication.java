@@ -6,16 +6,16 @@
 package fr.cnes.icode.application;
 
 import com.google.common.collect.Sets;
-import fr.cnes.analysis.tools.analyzer.Analyzer;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerContainer;
-import fr.cnes.analysis.tools.analyzer.services.checkers.CheckerService;
-import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
-import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
-import fr.cnes.analysis.tools.analyzer.services.languages.ILanguage;
-import fr.cnes.analysis.tools.analyzer.services.languages.LanguageService;
+import fr.cnes.icode.Analyzer;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.exception.JFlexException;
+import fr.cnes.icode.services.checkers.CheckerContainer;
+import fr.cnes.icode.services.checkers.CheckerService;
+import fr.cnes.icode.services.export.ExportService;
+import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
+import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
+import fr.cnes.icode.services.languages.ILanguage;
+import fr.cnes.icode.services.languages.LanguageService;
 import fr.cnes.icode.application.exception.BadArgumentValueException;
 import org.apache.commons.io.FileUtils;
 

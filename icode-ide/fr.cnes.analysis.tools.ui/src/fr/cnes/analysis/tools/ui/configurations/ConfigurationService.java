@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.configurations;
+package fr.cnes.icode.ui.configurations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.exception.NullContributionException;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * This class should be used to reach configurations data contributing to
@@ -23,7 +23,7 @@ import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
 public final class ConfigurationService {
 
     /** Configuration EP identifier */
-    public static final String CONFIGURATION_EP_ID = "fr.cnes.analysis.tools.ui.configuration";
+    public static final String CONFIGURATION_EP_ID = "fr.cnes.icode.ui.configuration";
     /** Configuration EP name */
     public static final String CONFIGURATION_EP_NAME = "configuration";
     /** Configuration Element */

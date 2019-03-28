@@ -1,4 +1,4 @@
-package fr.cnes.analysis.tools.ui.configurations;
+package fr.cnes.icode.ui.configurations;
 
 /************************************************************************************************/
 /* i-Code CNES is a static code analyzer.                                                       */
@@ -9,7 +9,7 @@ package fr.cnes.analysis.tools.ui.configurations;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * This class is a data structure being used by {@link ConfigurationService}.

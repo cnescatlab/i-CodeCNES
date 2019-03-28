@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.0" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricLabelProvider.java" binary="false" 
+  <class id="1" language="java" name="fr.cnes.icode.ui.view.metrics.MetricLabelProvider"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricLabelProvider.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="576" y="2"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -12,9 +12,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricContentProvider.java" 
+  <class id="2" language="java" name="fr.cnes.icode.ui.view.metrics.MetricContentProvider"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricContentProvider.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="321" y="241"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -23,9 +23,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractExportableView" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/AbstractExportableView.java" binary="false" 
+  <class id="3" language="java" name="fr.cnes.icode.ui.view.AbstractExportableView"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/AbstractExportableView.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="887" y="587"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -34,8 +34,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="fr.cnes.analysis.tools.ui.view.ViolationsView" project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/ViolationsView.java" binary="false" 
+  <class id="4" language="java" name="fr.cnes.icode.ui.view.ViolationsView" project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/ViolationsView.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1213" y="588"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -44,9 +44,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractAnalysisView" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/AbstractAnalysisView.java" binary="false" 
+  <class id="5" language="java" name="fr.cnes.icode.ui.view.AbstractAnalysisView"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/AbstractAnalysisView.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="891" y="267"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -55,9 +55,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricConverter" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricConverter.java" binary="false" 
+  <class id="6" language="java" name="fr.cnes.icode.ui.view.metrics.MetricConverter"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricConverter.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="322" y="586"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -66,8 +66,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="fr.cnes.analysis.tools.ui.view.MetricsView" project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/MetricsView.java" binary="false" 
+  <class id="7" language="java" name="fr.cnes.icode.ui.view.MetricsView" project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/MetricsView.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="576" y="585"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -76,9 +76,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="fr.cnes.analysis.tools.ui.view.AbstractLabelProvider" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/AbstractLabelProvider.java" binary="false" 
+  <class id="8" language="java" name="fr.cnes.icode.ui.view.AbstractLabelProvider"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/AbstractLabelProvider.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="881" y="1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

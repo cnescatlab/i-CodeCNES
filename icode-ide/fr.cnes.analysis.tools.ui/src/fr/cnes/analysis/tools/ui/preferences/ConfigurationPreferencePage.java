@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.preferences;
+package fr.cnes.icode.ui.preferences;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,14 +28,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import fr.cnes.analysis.tools.analyzer.exception.NullContributionException;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.Activator;
-import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
-import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckersComposite;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.MetricsComposite;
+import fr.cnes.icode.exception.NullContributionException;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.Activator;
+import fr.cnes.icode.ui.configurations.ConfigurationContainer;
+import fr.cnes.icode.ui.configurations.ConfigurationService;
+import fr.cnes.icode.ui.images.ImageFactory;
+import fr.cnes.icode.ui.preferences.checkerstables.CheckersComposite;
+import fr.cnes.icode.ui.preferences.checkerstables.MetricsComposite;
 
 /**
  * i-Code CNES Preferences page.

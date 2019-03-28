@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="configuration" name="configuration" schema="schema/configuration.exsd"/>
-    <extension point="org.eclipse.core.resources.markers" id="fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker"
+    <extension point="org.eclipse.core.resources.markers" id="fr.cnes.icode.ui.markers.ViolationErrorMarker"
   name="i-Code CNES Violation error marker">
         <super type="org.eclipse.core.resources.textmarker"/>
         <super type="org.eclipse.core.resources.marker"/>
@@ -14,16 +14,16 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
-               id="fr.cnes.analysis.tools.ui.menu"
+               id="fr.cnes.icode.ui.menu"
                label="i-Code CNES">
             <command
-                  commandId="fr.cnes.analysis.tools.ui.checkCode"
+                  commandId="fr.cnes.icode.ui.checkCode"
                   label="Check Code"
                   style="push"
                   tooltip="Running an i-Code CNES analysis on selected files.">
             </command>
              <command
-                  commandId="fr.cnes.analysis.tools.ui.handler.ClearHandler"
+                  commandId="fr.cnes.icode.ui.handler.ClearHandler"
                   label="Clear All"
                   style="push">
             </command>
@@ -31,7 +31,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.cnes.analysis.tools.ui.view.ViolationsView">
+            locationURI="toolbar:fr.cnes.icode.ui.view.ViolationsView">
          <command
                commandId="org.eclipse.ui.file.export"
                icon="icons/export.GIF"
@@ -39,13 +39,13 @@
                style="push">
             <parameter
                   name="exportWizardId"
-                  value="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard">
+                  value="fr.cnes.icode.ui.wizard.export.RuleExportWizard">
             </parameter>
          </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:fr.cnes.analysis.tools.ui.view.MetricsView">
+            locationURI="toolbar:fr.cnes.icode.ui.view.MetricsView">
          <command
                commandId="org.eclipse.ui.file.export"
                icon="icons/export.GIF"
@@ -53,7 +53,7 @@
                style="push">
             <parameter
                   name="exportWizardId"
-                  value="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard">
+                  value="fr.cnes.icode.ui.wizard.export.metric.MetricExportWizard">
             </parameter>
          </command>
       </menuContribution>
@@ -61,16 +61,16 @@
             allPopups="false"
             locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?before=additions">
          <menu
-               id="fr.cnes.analysis.tools.ui.popupMenu"
+               id="fr.cnes.icode.ui.popupMenu"
                label="i-Code CNES">
          </menu>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:fr.cnes.analysis.tools.ui.view.ViolationsView">
+            locationURI="menu:fr.cnes.icode.ui.view.ViolationsView">
          <command
-               commandId="fr.cnes.analysis.tools.ui.handlers.ShowTreeViewerHandler"
-               id="fr.cnes.analysis.tools.ui.command.ShowTreeViewerHandler.RuleTreeViewer"
+               commandId="fr.cnes.icode.ui.handlers.ShowTreeViewerHandler"
+               id="fr.cnes.icode.ui.command.ShowTreeViewerHandler.RuleTreeViewer"
                label="Rule &gt; File &gt; Function &gt; Violation"
                style="radio">
             <parameter
@@ -79,8 +79,8 @@
             </parameter>
          </command>
          <command
-               commandId="fr.cnes.analysis.tools.ui.handlers.ShowTreeViewerHandler"
-               id="fr.cnes.analysis.tools.ui.command.ShowTreeViewerHandler.FileTreeViewer"
+               commandId="fr.cnes.icode.ui.handlers.ShowTreeViewerHandler"
+               id="fr.cnes.icode.ui.command.ShowTreeViewerHandler.FileTreeViewer"
                label="File &gt; Function &gt; Rule &gt; Violation"
                style="radio">
             <parameter
@@ -94,15 +94,15 @@
          point="org.eclipse.ui.commands">
      
       <command
-            defaultHandler="fr.cnes.analysis.tools.ui.handler.ClearHandler"
-            id="fr.cnes.analysis.tools.ui.handler.ClearHandler"
+            defaultHandler="fr.cnes.icode.ui.handler.ClearHandler"
+            id="fr.cnes.icode.ui.handler.ClearHandler"
             name="Clear All">
       </command>
       <command
-            defaultHandler="fr.cnes.analysis.tools.ui.handler.AnalysisHandler"
+            defaultHandler="fr.cnes.icode.ui.handler.AnalysisHandler"
             description="Running an i-Code CNES analysis on selected files."
             helpContextId="Running an i-Code CNES analysis on selected files."
-            id="fr.cnes.analysis.tools.ui.checkCode"
+            id="fr.cnes.icode.ui.checkCode"
             name="Check code">
          <state
                class="org.eclipse.ui.handlers.RegistryToggleState:true"
@@ -110,8 +110,8 @@
          </state>
       </command>
       <command
-            defaultHandler="fr.cnes.analysis.tools.ui.handler.ShowRuleTreeViewerHandler"
-            id="fr.cnes.analysis.tools.ui.handlers.ShowTreeViewerHandler"
+            defaultHandler="fr.cnes.icode.ui.handler.ShowRuleTreeViewerHandler"
+            id="fr.cnes.icode.ui.handlers.ShowTreeViewerHandler"
             name="Show Rule TreeViewer">
          <commandParameter
                id="TreeViewer"
@@ -122,10 +122,10 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="fr.cnes.analysis.tools.ui.view.iCode"
-            class="fr.cnes.analysis.tools.ui.view.ViolationsView"
+            category="fr.cnes.icode.ui.view.iCode"
+            class="fr.cnes.icode.ui.view.ViolationsView"
             icon="icons/logo-i-code-rouge-16x16.png"
-            id="fr.cnes.analysis.tools.ui.view.ViolationsView"
+            id="fr.cnes.icode.ui.view.ViolationsView"
             name="i-Code CNES Violations"
             restorable="true">
          <description>
@@ -133,14 +133,14 @@
          </description>
       </view>
       <category
-            id="fr.cnes.analysis.tools.ui.view.iCode"
+            id="fr.cnes.icode.ui.view.iCode"
             name="i-Code CNES">
       </category>
       <view
-            category="fr.cnes.analysis.tools.ui.view.iCode"
-            class="fr.cnes.analysis.tools.ui.view.MetricsView"
+            category="fr.cnes.icode.ui.view.iCode"
+            class="fr.cnes.icode.ui.view.MetricsView"
             icon="icons/logo-i-code-rouge-16x16.png"
-            id="fr.cnes.analysis.tools.ui.view.MetricsView"
+            id="fr.cnes.icode.ui.view.MetricsView"
             name="i-Code CNES Metrics"
             restorable="true">
          <description>
@@ -151,9 +151,9 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            commandId="fr.cnes.analysis.tools.all.ui.handler.rule">
+            commandId="fr.cnes.icode.all.ui.handler.rule">
          <class
-               class="fr.cnes.analysis.tools.ui.handler.RuleAnalysisAllHandler">
+               class="fr.cnes.icode.ui.handler.RuleAnalysisAllHandler">
          </class>
          <enabledWhen>
             <reference
@@ -162,9 +162,9 @@
          </enabledWhen>
       </handler>
       <handler
-            commandId="fr.cnes.analysis.tools.all.ui.handler.metric">
+            commandId="fr.cnes.icode.all.ui.handler.metric">
          <class
-               class="fr.cnes.analysis.tools.ui.handler.MetricAnalysisAllHandler">
+               class="fr.cnes.icode.ui.handler.MetricAnalysisAllHandler">
          </class>
          <enabledWhen>
             <reference
@@ -173,10 +173,10 @@
          </enabledWhen>
       </handler>
       <handler
-            commandId="fr.cnes.analysis.tools.all.ui.handler.AnalysisHandler"
+            commandId="fr.cnes.icode.all.ui.handler.AnalysisHandler"
             helpContextId="Running an i-Code CNES analysis on selected files.">
          <class
-               class="fr.cnes.analysis.tools.ui.handler.AnalysisHandler">
+               class="fr.cnes.icode.ui.handler.AnalysisHandler">
          </class>
          <enabledWhen>
             <reference
@@ -188,8 +188,8 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="fr.cnes.analysis.tools.ui.preferences.ConfigurationPreferencePage"
-            id="fr.cnes.analysis.tools.ui.preferences.ConfigurationPreferencePage"
+            class="fr.cnes.icode.ui.preferences.ConfigurationPreferencePage"
+            id="fr.cnes.icode.ui.preferences.ConfigurationPreferencePage"
             name="i-Code CNES">
       </page>
    </extension>
@@ -210,144 +210,144 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
+            class="fr.cnes.icode.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
+            id="fr.cnes.icode.ui.wizard.export.RuleExportWizard"
             name="Violations Export Wizard">
       </wizard>
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
+            class="fr.cnes.icode.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            id="fr.cnes.icode.ui.wizard.export.metric.MetricExportWizard"
             name="Metric Export">
       </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
+            class="fr.cnes.icode.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.RuleExportWizard"
+            id="fr.cnes.icode.ui.wizard.export.RuleExportWizard"
             name="Violations Export Wizard">
       </wizard>
       <wizard
-            class="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
+            class="fr.cnes.icode.ui.wizard.export.CheckerExportWizard"
             icon="icons/export.GIF"
-            id="fr.cnes.analysis.tools.ui.wizard.export.metric.MetricExportWizard"
+            id="fr.cnes.icode.ui.wizard.export.metric.MetricExportWizard"
             name="Metric Export">
       </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="fr.cnes.analysis.tools.ui.editors.EditorFortran"
+            class="fr.cnes.icode.ui.editors.EditorFortran"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="false"
             extensions="f,f90,f77"
             icon="icons/fortran.png"
-            id="fr.cnes.analysis.tools.ui.editors.EditorFortran"
+            id="fr.cnes.icode.ui.editors.EditorFortran"
             name="Fortran Editor">
       </editor>
       <editor
-            class="fr.cnes.analysis.tools.ui.editors.EditorShell"
+            class="fr.cnes.icode.ui.editors.EditorShell"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="false"
             extensions="sh,ksh"
             icon="icons/shell.png"
-            id="fr.cnes.analysis.tools.ui.editors.EditorShell"
+            id="fr.cnes.icode.ui.editors.EditorShell"
             name="Shell editor">
       </editor>
    </extension>
-    <extension point="org.eclipse.core.resources.markers" id="fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker"
+    <extension point="org.eclipse.core.resources.markers" id="fr.cnes.icode.ui.markers.ViolationWarningMarker"
   name="i-Code CNES Violation Warning">
         <super type="org.eclipse.core.resources.textmarker"/>
         <super type="org.eclipse.core.resources.marker"/>
         <persistent value="false"/><attribute name="description"/>
     </extension>
     <extension
-          point="fr.cnes.analysis.tools.ui.configuration">
+          point="fr.cnes.icode.ui.configuration">
        <configuration
              description="Configuration defined by RNC-CNES-Q-HB-80-501 class D"
              name="RNC class D">
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 20."
                 enabled="true"
                 maxValue="20"
                 name="F77.MET.ComplexitySimplified.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 100."
                 enabled="true"
                 maxValue="100"
                 name="F77.MET.LineOfCode.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METNesting"
                 description="Nesting of a control structure should not exceed 7."
                 enabled="true"
                 maxValue="7"
                 name="F77.MET.Nesting.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
                 enabled="true"
                 minValue="20"
                 name="F77.MET.RatioComment.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 20."
                 enabled="true"
                 maxValue="20"
                 name="F90.MET.ComplexitySimplified.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 100."
                 enabled="true"
                 maxValue="100"
                 name="F90.MET.LineOfCode.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METNesting"
                 description="Nesting of a control structure should not exceed 7."
                 enabled="true"
                 maxValue="7"
                 name="F90.MET.Nesting.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
                 enabled="true"
                 minValue="20"
                 name="F90.MET.RatioComment.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+                checkId="fr.cnes.icode.shell.metrics.SHMETComplexitySimplified"
                 description="McCabe simplfied number should not exceed 20."
                 enabled="true"
                 maxValue="20"
                 name="SH.MET.ComplexitySimplified.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+                checkId="fr.cnes.icode.shell.metrics.SHMETLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 100."
                 enabled="true"
                 maxValue="100"
                 name="SH.MET.LineOfCode.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+                checkId="fr.cnes.icode.shell.metrics.SHMETNesting"
                 description="Nesting of a control structure should not exceed 7."
                 enabled="true"
                 maxValue="7"
                 name="SH.MET.Nesting.D">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+                checkId="fr.cnes.icode.shell.metrics.SHMETRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
                 enabled="true"
                 minValue="20"
@@ -358,84 +358,84 @@
              description="Configuration defined by RNC-CNES-Q-HB-80-501 class C"
              name="RNC class C">
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 12."
                 enabled="true"
                 maxValue="12"
                 name="F77.MET.ComplexitySimplified.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 80."
                 enabled="true"
                 maxValue="80"
                 name="F77.MET.LineOfCode.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METNesting"
                 description="Nesting of a control structure should not exceed 6."
                 enabled="true"
                 maxValue="6"
                 name="F77.MET.Nesting.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
                 enabled="true"
                 minValue="20"
                 name="F77.MET.RatioComment.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 12."
                 enabled="true"
                 maxValue="12"
                 name="F90.MET.ComplexitySimplified.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 80."
                 enabled="true"
                 maxValue="80"
                 name="F90.MET.LineOfCode.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METNesting"
                 description="Nesting of a control structure should not exceed 6."
                 enabled="true"
                 maxValue="6"
                 name="F90.MET.Nesting.C">
           </checkConfiguration>
           <checkConfiguration 
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
                 enabled="true"
                 minValue="20"
                 name="F90.MET.RatioComment.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+                checkId="fr.cnes.icode.shell.metrics.SHMETComplexitySimplified"
                 description="McCabe simplfied number should not exceed 12."
                 enabled="true"
                 maxValue="12"
                 name="SH.MET.ComplexitySimplified.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+                checkId="fr.cnes.icode.shell.metrics.SHMETLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 80."
                 enabled="true"
                 maxValue="80"
                 name="SH.MET.LineOfCode.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+                checkId="fr.cnes.icode.shell.metrics.SHMETNesting"
                 description="Nesting of a control structure should not exceed 6."
                 enabled="true"
                 maxValue="6"
                 name="SH.MET.Nesting.C">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+                checkId="fr.cnes.icode.shell.metrics.SHMETRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 20%."
                 enabled="true"
                 minValue="20"
@@ -446,84 +446,84 @@
              description="Configuration defined by RNC-CNES-Q-HB-80-501 class B"
              name="RNC class B">
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 10."
                 enabled="true"
                 maxValue="10"
                 name="F77.MET.ComplexitySimplified.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 60."
                 enabled="true"
                 maxValue="60"
                 name="F77.MET.LineOfCode.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METNesting"
                 description="Nesting of a control structure should not exceed 5."
                 enabled="true"
                 maxValue="5"
                 name="F77.MET.Nesting.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 30%"
                 enabled="true"
                 minValue="30"
                 name="F77.MET.RatioComment.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 10."
                 enabled="true"
                 maxValue="10"
                 name="F90.MET.ComplexitySimplified.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 60."
                 enabled="true"
                 maxValue="60"
                 name="F90.MET.LineOfCode.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METNesting"
                 description="Nesting of a control structure should not exceed 5."
                 enabled="true"
                 maxValue="5"
                 name="F90.MET.Nesting.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 30%"
                 enabled="true"
                 minValue="30"
                 name="F90.MET.RatioComment.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+                checkId="fr.cnes.icode.shell.metrics.SHMETComplexitySimplified"
                 description="McCabe simplfied number should not exceed 10."
                 enabled="true"
                 maxValue="10"
                 name="SH.MET.ComplexitySimplified.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+                checkId="fr.cnes.icode.shell.metrics.SHMETLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 60."
                 enabled="true"
                 maxValue="60"
                 name="SH.MET.LineOfCode.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+                checkId="fr.cnes.icode.shell.metrics.SHMETNesting"
                 description="Nesting of a control structure should not exceed 5."
                 enabled="true"
                 maxValue="5"
                 name="SH.MET.Nesting.B">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+                checkId="fr.cnes.icode.shell.metrics.SHMETRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 30%"
                 enabled="true"
                 minValue="30"
@@ -534,84 +534,84 @@
              description="Configuration defined by RNC-CNES-Q-HB-80-501 class A"
              name="RNC class A">
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 10."
                 enabled="true"
                 maxValue="10"
                 name="F77.MET.ComplexitySimplified.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METLineOfCode"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 60."
                 enabled="true"
                 maxValue="60"
                 name="F77.MET.LineOfCode.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METNesting"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METNesting"
                 description="Nesting of a control structure should not exceed 5."
                 enabled="true"
                 maxValue="5"
                 name="F77.MET.Nesting.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran77.metrics.F77METRatioComment"
+                checkId="fr.cnes.icode.fortran77.metrics.F77METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 30%"
                 enabled="true"
                 minValue="30"
                 name="F77.MET.RatioComment.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METComplexitySimplified"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified"
                 description="McCabe simplfied number should not exceed 10."
                 enabled="true"
                 maxValue="10"
                 name="F90.MET.ComplexitySimplified.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METLineOfCode"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 60."
                 enabled="true"
                 maxValue="60"
                 name="F90.MET.LineOfCode.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METNesting"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METNesting"
                 description="Nesting of a control structure should not exceed 5."
                 enabled="true"
                 maxValue="5"
                 name="F90.MET.Nesting.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.fortran90.metrics.F90METRatioComment"
+                checkId="fr.cnes.icode.fortran90.metrics.F90METRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 30%"
                 enabled="true"
                 minValue="30"
                 name="F90.MET.RatioComment.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETComplexitySimplified"
+                checkId="fr.cnes.icode.shell.metrics.SHMETComplexitySimplified"
                 description="McCabe simplfied number should not exceed 10."
                 enabled="true"
                 maxValue="10"
                 name="SH.MET.ComplexitySimplified.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETLineOfCode"
+                checkId="fr.cnes.icode.shell.metrics.SHMETLineOfCode"
                 description="Number of line of a function (without blank and comment lines) should not exceed 60."
                 enabled="true"
                 maxValue="60"
                 name="SH.MET.LineOfCode.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETNesting"
+                checkId="fr.cnes.icode.shell.metrics.SHMETNesting"
                 description="Nesting of a control structure should not exceed 5."
                 enabled="true"
                 maxValue="5"
                 name="SH.MET.Nesting.A">
           </checkConfiguration>
           <checkConfiguration
-                checkId="fr.cnes.analysis.tools.shell.metrics.SHMETRatioComment"
+                checkId="fr.cnes.icode.shell.metrics.SHMETRatioComment"
                 description="Comment Ratio (commentlines/(totalLines+commentLines)) must not be below 30%"
                 enabled="true"
                 minValue="30"
@@ -622,8 +622,8 @@
     <extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
         id="violationerror" name="Violation Error">
     <specification
-          annotationType="fr.cnes.analysis.tools.ui.ViolationError"
-          colorPreferenceKey="fr.cnes.analysis.tools.ui.ViolationError.color"
+          annotationType="fr.cnes.icode.ui.ViolationError"
+          colorPreferenceKey="fr.cnes.icode.ui.ViolationError.color"
           colorPreferenceValue="255,85,89"
           contributesToHeader="false"
           icon="icons/logo-i-code-rouge-16x16.png"
@@ -641,8 +641,8 @@
     <extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
         id="violationwarning" name="Violation Warning">
     <specification
-          annotationType="fr.cnes.analysis.tools.ui.ViolationWarning"
-          colorPreferenceKey="fr.cnes.analysis.tools.ui.ViolationWarning.color"
+          annotationType="fr.cnes.icode.ui.ViolationWarning"
+          colorPreferenceKey="fr.cnes.icode.ui.ViolationWarning.color"
           colorPreferenceValue="255,204,136"
           contributesToHeader="false"
           icon="icons/logo-i-code-orange-16x16.png"
@@ -661,12 +661,12 @@
       <type
             markerSeverity="2"
             super="org.eclipse.ui.workbench.texteditor.info"
-            name="fr.cnes.analysis.tools.ui.ViolationError"
-            markerType="fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker"/>
+            name="fr.cnes.icode.ui.ViolationError"
+            markerType="fr.cnes.icode.ui.markers.ViolationErrorMarker"/>
       <type
             markerSeverity="0"
-            markerType="fr.cnes.analysis.tools.ui.markers.InformationMarker"
-            name="fr.cnes.analysis.tools.ui.Information"
+            markerType="fr.cnes.icode.ui.markers.InformationMarker"
+            name="fr.cnes.icode.ui.Information"
             super="org.eclipse.ui.workbench.texteditor.info">
       </type>
     </extension>
@@ -674,15 +674,15 @@
       <type
             markerSeverity="1"
             super="org.eclipse.ui.workbench.texteditor.info"
-            name="fr.cnes.analysis.tools.ui.ViolationWarning"
-            markerType="fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker"/>
+            name="fr.cnes.icode.ui.ViolationWarning"
+            markerType="fr.cnes.icode.ui.markers.ViolationWarningMarker"/>
     </extension>
     <extension point="org.eclipse.ui.decorators">  
         <decorator
               adaptable="true"
-              class="fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator"
+              class="fr.cnes.icode.ui.decorators.ViolationErrorDecorator"
               icon="icons/logo-i-code-rouge-8x8.png"
-              id="fr.cnes.analysis.tools.ui.decorators.violationerrordecorator"
+              id="fr.cnes.icode.ui.decorators.violationerrordecorator"
               label="i-Code CNES - Violation error"
               lightweight="true"
               location="TOP_RIGHT"
@@ -696,9 +696,9 @@
         </decorator>
         <decorator
               adaptable="true"
-              class="fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator"
+              class="fr.cnes.icode.ui.decorators.ViolationWarningDecorator"
               icon="icons/logo-i-code-orange-8x8.png"
-              id="fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator"
+              id="fr.cnes.icode.ui.decorators.violationwarningdecorator"
               label="i-Code CNES - Violation warning"
               lightweight="true"
               location="TOP_RIGHT"
@@ -712,9 +712,9 @@
             </decorator>
         <decorator
               adaptable="true"
-              class="fr.cnes.analysis.tools.ui.decorators.InformationDecorator"
+              class="fr.cnes.icode.ui.decorators.InformationDecorator"
               icon="icons/logo-i-code-bleue-8x8.png"
-              id="fr.cnes.analysis.tools.ui.decorators.informationdecorator"
+              id="fr.cnes.icode.ui.decorators.informationdecorator"
               label="i-Code CNES - Information"
               lightweight="true"
               location="TOP_RIGHT"
@@ -732,13 +732,13 @@
     <extension
           point="org.eclipse.core.runtime.preferences">
        <initializer
-             class="fr.cnes.analysis.tools.ui.preferences.UserPreferencesService">
+             class="fr.cnes.icode.ui.preferences.UserPreferencesService">
        </initializer>
     </extension>
     <extension
           point="org.eclipse.ui.editors.markerAnnotationSpecification">
        <specification
-             annotationType="fr.cnes.analysis.tools.ui.Information"
+             annotationType="fr.cnes.icode.ui.Information"
              colorPreferenceKey="clcolor"
              colorPreferenceValue="173,216,230"
              icon="icons/logo-i-code-bleue-16x16.png"

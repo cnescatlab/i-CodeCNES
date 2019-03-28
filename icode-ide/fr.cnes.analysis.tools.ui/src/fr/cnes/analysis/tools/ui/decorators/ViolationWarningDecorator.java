@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.decorators;
+package fr.cnes.icode.ui.decorators;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.images.ImageFactory;
+import fr.cnes.icode.ui.markers.ViolationErrorMarker;
+import fr.cnes.icode.ui.markers.ViolationWarningMarker;
 
 /**
  * ViolationWarningDecorator add decorators to the file's icon when there is
@@ -38,7 +38,7 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
     /**
      * Decorator identifier
      */
-    public static final String ID = "fr.cnes.analysis.tools.ui.decorators."
+    public static final String ID = "fr.cnes.icode.ui.decorators."
                     + "violationwarningdecorator";
     /** Class name **/
     private static final String CLASS = ViolationWarningDecorator.class.getName();

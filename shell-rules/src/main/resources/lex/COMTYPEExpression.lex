@@ -12,7 +12,7 @@
 /*																			      */
 /**********************************************************************************/
 
-package fr.cnes.analysis.tools.shell.rules;
+package fr.cnes.icode.shell.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,9 +20,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.icode.datas.AbstractChecker;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.exception.JFlexException;
 
 %%
 

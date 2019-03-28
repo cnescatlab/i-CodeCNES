@@ -6,4 +6,4 @@
 /**
  * Package containing i-Code CNES Editors of UI Plug-in.
  */
-package fr.cnes.analysis.tools.ui.editors;
+package fr.cnes.icode.ui.editors;

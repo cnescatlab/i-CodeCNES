@@ -3,17 +3,17 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Class for general description of a rule for a
- * {@link fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer}
+ * {@link fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewer}
  * .
  * 
  */
@@ -75,7 +75,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getName()
+     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -139,7 +139,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getValue()
+     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getValue()
      */
     @Override
     public Integer getValue() {
@@ -156,7 +156,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getCriticity()
+     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getCriticity()
      */
     @Override
     public String getSeverity() {

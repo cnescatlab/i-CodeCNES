@@ -5,4 +5,4 @@
  * @author waldmao
  *
  */
-package fr.cnes.analysis.tools.ui.images;
+package fr.cnes.icode.ui.images;

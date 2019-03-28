@@ -9,4 +9,4 @@
  * @since 2.0
  * @version 3.0
  */
-package fr.cnes.analysis.tools.ui.wizard.export;
+package fr.cnes.icode.ui.wizard.export;

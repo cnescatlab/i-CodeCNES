@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.0" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizardPage"
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/wizard/export/CheckerExportWizardPage.java"
+  <class id="1" language="java" name="fr.cnes.icode.ui.wizard.export.CheckerExportWizardPage"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/wizard/export/CheckerExportWizardPage.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="207" width="191" x="646" y="248"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -12,9 +12,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="fr.cnes.analysis.tools.ui.wizard.export.CheckerExportWizard"
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/wizard/export/CheckerExportWizard.java"
+  <class id="2" language="java" name="fr.cnes.icode.ui.wizard.export.CheckerExportWizard"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/wizard/export/CheckerExportWizard.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="171" width="227" x="343" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

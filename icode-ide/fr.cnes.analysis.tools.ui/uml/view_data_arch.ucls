@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <interface id="1" language="java" name="fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/IRuleDescriptor.java" binary="false" 
+  <interface id="1" language="java" name="fr.cnes.icode.ui.view.rules.IRuleDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/rules/IRuleDescriptor.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="160" y="1332"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -12,9 +12,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="2" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricDescriptor.java" binary="false" 
+  <class id="2" language="java" name="fr.cnes.icode.ui.view.metrics.MetricDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricDescriptor.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="511" y="995"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -23,9 +23,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.MetricConverter" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricConverter.java" binary="false" 
+  <class id="3" language="java" name="fr.cnes.icode.ui.view.metrics.MetricConverter"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/MetricConverter.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="510" y="560"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -34,9 +34,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="fr.cnes.analysis.tools.ui.view.rules.RuleDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/RuleDescriptor.java" binary="false" 
+  <class id="4" language="java" name="fr.cnes.icode.ui.view.rules.RuleDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/rules/RuleDescriptor.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="504" y="1789"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -45,9 +45,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/FunctionMetricDescriptor.java" 
+  <class id="5" language="java" name="fr.cnes.icode.ui.view.metrics.FunctionMetricDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/FunctionMetricDescriptor.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="-169" y="996"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -56,9 +56,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="fr.cnes.analysis.tools.ui.view.rules.ViolationConverter" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/ViolationConverter.java" binary="false" 
+  <class id="6" language="java" name="fr.cnes.icode.ui.view.rules.ViolationConverter"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/rules/ViolationConverter.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="504" y="1348"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -67,9 +67,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="7" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/IMetricDescriptor.java" binary="false" 
+  <interface id="7" language="java" name="fr.cnes.icode.ui.view.metrics.IMetricDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/IMetricDescriptor.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="162" y="589"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -78,9 +78,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="8" language="java" name="fr.cnes.analysis.tools.ui.view.rules.FileRuleDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/FileRuleDescriptor.java" binary="false" 
+  <class id="8" language="java" name="fr.cnes.icode.ui.view.rules.FileRuleDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/rules/FileRuleDescriptor.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="160" y="1788"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -89,9 +89,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="fr.cnes.analysis.tools.ui.view.rules.FunctionRuleDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/rules/FunctionRuleDescriptor.java" 
+  <class id="9" language="java" name="fr.cnes.icode.ui.view.rules.FunctionRuleDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/rules/FunctionRuleDescriptor.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="-260" y="1789"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -100,9 +100,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="fr.cnes.analysis.tools.ui.view.metrics.FileMetricDescriptor" 
-    project="fr.cnes.analysis.tools.ui" 
-    file="/fr.cnes.analysis.tools.ui/src/fr/cnes/analysis/tools/ui/view/metrics/FileMetricDescriptor.java" 
+  <class id="10" language="java" name="fr.cnes.icode.ui.view.metrics.FileMetricDescriptor"
+    project="fr.cnes.icode.ui"
+    file="/fr.cnes.icode.ui/src/fr/cnes/analysis/tools/ui/view/metrics/FileMetricDescriptor.java"
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="157" y="993"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

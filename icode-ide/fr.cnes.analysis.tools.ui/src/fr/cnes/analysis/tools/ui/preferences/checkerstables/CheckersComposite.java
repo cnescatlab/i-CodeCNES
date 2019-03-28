@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.preferences.checkerstables;
+package fr.cnes.icode.ui.preferences.checkerstables;
 
 import java.util.List;
 
@@ -25,11 +25,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.LanguagePreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.images.ImageFactory;
+import fr.cnes.icode.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.icode.ui.preferences.LanguagePreferencesContainer;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * This viewer can show {@link CheckerPreferencesContainer} in a Table,

@@ -6,4 +6,4 @@
 /**
  * Descriptor for the {@link RuleTreeViewer}
  */
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor;

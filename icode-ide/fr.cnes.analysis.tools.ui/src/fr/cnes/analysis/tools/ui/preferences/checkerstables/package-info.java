@@ -8,4 +8,4 @@
  * Package containing i-Code CNES Checkers table viewers for preferences pages
  * of UI Plug-in.
  */
-package fr.cnes.analysis.tools.ui.preferences.checkerstables;
+package fr.cnes.icode.ui.preferences.checkerstables;

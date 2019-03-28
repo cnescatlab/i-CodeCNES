@@ -15,13 +15,13 @@
 
 	<modules>
 		<!-- tests -->
-		<module>fr.cnes.analysis.tools.fortran77.metrics.test</module>
-		<module>fr.cnes.analysis.tools.fortran90.metrics.test</module>
-		<module>fr.cnes.analysis.tools.shell.metrics.test</module>
-		<module>fr.cnes.analysis.tools.fortran90.rules.test</module>
-		<module>fr.cnes.analysis.tools.fortran77.rules.test</module>
-		<module>fr.cnes.analysis.tools.shell.rules.test</module>
-		<module>fr.cnes.analysis.tools.ui.test</module>
+		<module>fr.cnes.icode.fortran77.metrics.test</module>
+		<module>fr.cnes.icode.fortran90.metrics.test</module>
+		<module>fr.cnes.icode.shell.metrics.test</module>
+		<module>fr.cnes.icode.fortran90.rules.test</module>
+		<module>fr.cnes.icode.fortran77.rules.test</module>
+		<module>fr.cnes.icode.shell.rules.test</module>
+		<module>fr.cnes.icode.ui.test</module>
 
 
 	</modules>

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
+package fr.cnes.icode.ui.view.violation.treeviewer.file;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,12 +14,12 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 
 /**
  * Thread job converting all {@link Violation} in {@link #inputs} into a
@@ -40,7 +40,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.Viola
  * </ul>
  * 
  * @see Job
- * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer
+ * @see fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewer
  * 
  * @since 2.0
  * @version 2.1
@@ -232,7 +232,7 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
         } catch (final CloneNotSupportedException exception) {
             ICodeLogger.error(CLASS, method, exception);
-            status = new Status(IStatus.ERROR, "fr.cnes.analysis.tools.ui", IStatus.ERROR,
+            status = new Status(IStatus.ERROR, "fr.cnes.icode.ui", IStatus.ERROR,
                             exception.getMessage(), exception);
         }
 

@@ -8,4 +8,4 @@
  * 
  * @version 3.0
  */
-package fr.cnes.analysis.tools.ui.handler;
+package fr.cnes.icode.ui.handler;

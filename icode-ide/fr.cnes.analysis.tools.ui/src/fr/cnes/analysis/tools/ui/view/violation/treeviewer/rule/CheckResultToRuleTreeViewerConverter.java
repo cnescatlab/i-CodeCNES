@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,11 +14,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
 
 /**
  * Job used to converter inputs from analysis to valuable inputs for the
@@ -169,7 +169,7 @@ public class CheckResultToRuleTreeViewerConverter extends Job {
             this.container = descriptors.toArray(new RuleDescriptor[descriptors.size()]);
         } catch (final CloneNotSupportedException exception) {
             ICodeLogger.error(CLASS, method, exception);
-            status = new Status(IStatus.ERROR, "fr.cnes.analysis.tools.fortran.analyzer",
+            status = new Status(IStatus.ERROR, "fr.cnes.icode.fortran.analyzer",
                             IStatus.ERROR, exception.getMessage(), exception);
         }
 

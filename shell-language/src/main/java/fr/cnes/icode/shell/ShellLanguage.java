@@ -5,7 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.icode.shell;
 
-import fr.cnes.analysis.tools.analyzer.services.languages.ILanguage;
+import fr.cnes.icode.services.languages.ILanguage;
 
 import java.util.List;
 import java.util.stream.Collectors;

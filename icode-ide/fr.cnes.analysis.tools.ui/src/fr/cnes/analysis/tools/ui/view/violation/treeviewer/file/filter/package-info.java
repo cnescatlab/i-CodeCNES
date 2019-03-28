@@ -9,4 +9,4 @@
 /**
  * This package contains all filter for the FileTreeViewer
  */
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter;
+package fr.cnes.icode.ui.view.violation.treeviewer.file.filter;

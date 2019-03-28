@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.decorators;
+package fr.cnes.icode.ui.decorators;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.images.ImageFactory;
+import fr.cnes.icode.ui.markers.ViolationErrorMarker;
 
 /**
  * Put a new Decoration in the files tree on the top right of an icon of a file

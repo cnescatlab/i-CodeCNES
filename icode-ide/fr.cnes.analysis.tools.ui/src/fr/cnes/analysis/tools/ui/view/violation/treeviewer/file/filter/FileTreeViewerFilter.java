@@ -3,22 +3,22 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter;
+package fr.cnes.icode.ui.view.violation.treeviewer.file.filter;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 
 /**
  * This class is a filter to apply on
- * {@link fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer}
+ * {@link fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewer}
  *
  */
 public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnalysisFilter {
@@ -164,7 +164,7 @@ public class FileTreeViewerFilter extends ViewerFilter implements IUpdatableAnal
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.view.rules.treeviewer.IUpdatableAnalysisFilter#
+     * fr.cnes.icode.ui.view.rules.treeviewer.IUpdatableAnalysisFilter#
      * update(java.lang.String, boolean, boolean)
      */
     @Override

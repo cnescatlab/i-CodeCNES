@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -23,11 +23,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.view.AbstractAnalysisTreeViewer;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
 
 /**
  * ViolationsRuleTreeViewer This class implements an AbstractAnalysisTreeViewer

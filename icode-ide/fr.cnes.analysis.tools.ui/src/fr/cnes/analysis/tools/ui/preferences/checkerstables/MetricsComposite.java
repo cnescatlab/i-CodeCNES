@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.preferences.checkerstables;
+package fr.cnes.icode.ui.preferences.checkerstables;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * This {@link CheckersComposite} is implemented to show and edit configuration
@@ -88,7 +88,7 @@ public class MetricsComposite extends CheckersComposite {
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerTableViewer#
+     * fr.cnes.icode.ui.preferences.checkerstables.CheckerTableViewer#
      * createColumns(org.eclipse.swt.widgets.Composite,
      * org.eclipse.jface.viewers.TableViewer)
      */

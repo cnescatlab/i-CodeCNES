@@ -3,14 +3,14 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Class descriptor for rule's violations in a file.
@@ -103,7 +103,7 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getName()
+     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -117,7 +117,7 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getValue()
+     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getValue()
      */
     @Override
     public Integer getValue() {
@@ -131,7 +131,7 @@ public class FileRuleDescriptor implements IRuleDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getCriticity()
+     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getCriticity()
      */
     @Override
     public String getSeverity() {

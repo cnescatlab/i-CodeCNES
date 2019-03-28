@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui;
+package fr.cnes.icode.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleActivator;
@@ -17,7 +17,7 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin implements BundleActivator {
     /** Plug-in ID */
-    public static final String PLUGIN_ID = "fr.cnes.analysis.tools.ui";
+    public static final String PLUGIN_ID = "fr.cnes.icode.ui";
     /** The static bundle context **/
     private static BundleContext context;
     /** Plugin activator */

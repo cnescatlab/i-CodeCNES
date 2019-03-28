@@ -1,0 +1,23 @@
+package fr.cnes.icode.datas;
+
+import java.util.List;
+
+/**
+ * This rule is intended to add record parsing exceptions.
+ *  
+ */
+public class ParsingError extends AbstractChecker {
+	
+	public final static String PARSING_ERROR_ID = "fr.cnes.icode.parsingError";
+	public final static String PARSING_ERROR_LANGUAGE = "fr.cnes.icode.parsingError";
+	public final static String PARSING_ERROR_NAME = "Parsing error";
+	
+	public ParsingError() {
+	}
+	
+
+	@Override
+	public List<CheckResult> run() {
+		return getCheckResults();
+	}
+}

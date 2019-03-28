@@ -107,49 +107,49 @@ This Agreement is governed by the laws of the State of New York and the intellec
    <requires>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.core.runtime" version="3.12.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer.services.export" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer.services.export.csv" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.analyzer.services.export.xml" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.languages" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran77.metrics" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran77.rules" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran90.metrics" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.fortran90.rules" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.shell.metrics" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="fr.cnes.analysis.tools.shell.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.services.export" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.services.export.csv" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.services.export.xml" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.languages" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.fortran77.metrics" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.fortran77.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.fortran90.metrics" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.fortran90.rules" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.shell.metrics" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.cnes.icode.shell.rules" version="2.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="fr.cnes.analysis.tools.analyzer"
+         id="fr.cnes.icode"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.cnes.analysis.tools.analyzer.services.export"
+         id="fr.cnes.icode.services.export"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.cnes.analysis.tools.analyzer.services.export.csv"
+         id="fr.cnes.icode.services.export.csv"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.cnes.analysis.tools.analyzer.services.export.xml"
+         id="fr.cnes.icode.services.export.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.cnes.analysis.tools.languages"
+         id="fr.cnes.icode.languages"
          download-size="0"
          install-size="0"
          version="0.0.0"

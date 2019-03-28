@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.utils;
+package fr.cnes.icode.ui.utils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,11 +18,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import fr.cnes.analysis.tools.ui.exception.EmptyResourceException;
-import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.exception.InvalidResourceTypeException;
-import fr.cnes.analysis.tools.ui.exception.NonAccessibleResourceException;
-import fr.cnes.analysis.tools.ui.exception.UnknownResourceTypeException;
+import fr.cnes.icode.ui.exception.EmptyResourceException;
+import fr.cnes.icode.ui.exception.EmptySelectionException;
+import fr.cnes.icode.ui.exception.InvalidResourceTypeException;
+import fr.cnes.icode.ui.exception.NonAccessibleResourceException;
+import fr.cnes.icode.ui.exception.UnknownResourceTypeException;
 
 /**
  * Contains tools methods for handler purpose.

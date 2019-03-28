@@ -3,16 +3,16 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.preferences.checkerstables;
+package fr.cnes.icode.ui.preferences.checkerstables;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Editing support for Maximum columns.

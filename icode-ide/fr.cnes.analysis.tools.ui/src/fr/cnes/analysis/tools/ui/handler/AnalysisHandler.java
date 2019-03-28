@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.handler;
+package fr.cnes.icode.ui.handler;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -39,20 +39,20 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import fr.cnes.analysis.tools.analyzer.Analyzer;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.decorators.InformationDecorator;
-import fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator;
-import fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator;
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.markers.InformationMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.Analyzer;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.decorators.InformationDecorator;
+import fr.cnes.icode.ui.decorators.ViolationErrorDecorator;
+import fr.cnes.icode.ui.decorators.ViolationWarningDecorator;
+import fr.cnes.icode.ui.exception.EmptyProviderException;
+import fr.cnes.icode.ui.exception.EmptySelectionException;
+import fr.cnes.icode.ui.markers.InformationMarker;
+import fr.cnes.icode.ui.markers.ViolationErrorMarker;
+import fr.cnes.icode.ui.markers.ViolationWarningMarker;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.ui.view.MetricsView;
+import fr.cnes.icode.ui.view.ViolationsView;
 
 /**
  * This class can run analysis using {@link Analyzer} service.

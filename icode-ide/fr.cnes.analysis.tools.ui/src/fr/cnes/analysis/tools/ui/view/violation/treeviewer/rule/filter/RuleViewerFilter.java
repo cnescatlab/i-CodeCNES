@@ -3,17 +3,17 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter;
+package fr.cnes.icode.ui.view.violation.treeviewer.rule.filter;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
+import fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
 
 /**
  * This class is a filter to apply on RuleTreeViewers.
@@ -125,7 +125,7 @@ public class RuleViewerFilter extends ViewerFilter implements IUpdatableAnalysis
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.
+     * @see fr.cnes.icode.ui.view.violation.treeviewer.
      * IUpdatableAnalysisFilter#update(java.lang.String, boolean, boolean,
      * boolean)
      */

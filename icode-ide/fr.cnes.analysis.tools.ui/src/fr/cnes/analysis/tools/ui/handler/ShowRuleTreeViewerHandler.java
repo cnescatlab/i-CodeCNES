@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.handler;
+package fr.cnes.icode.ui.handler;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -11,8 +11,8 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.ui.PlatformUI;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.view.ViolationsView;
 
 /**
  * This Handler is being used by {@link ViolationsView} to dispose and show

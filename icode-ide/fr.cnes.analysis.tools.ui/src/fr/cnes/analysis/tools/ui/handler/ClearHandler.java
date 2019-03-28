@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.handler;
+package fr.cnes.icode.ui.handler;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -15,10 +15,10 @@ import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.exception.EmptyProviderException;
+import fr.cnes.icode.ui.view.MetricsView;
+import fr.cnes.icode.ui.view.ViolationsView;
 
 /**
  * Handler to clear the views.
@@ -72,8 +72,8 @@ public class ClearHandler extends AbstractHandler {
         ICodeLogger.entering(CLASS, method);
         final IDecoratorManager manager = PlatformUI.getWorkbench().getDecoratorManager();
 
-        manager.update("fr.cnes.analysis.tools.ui.decorators.violationwarningdecorator");
-        manager.update("fr.cnes.analysis.tools.ui.decorators.violationerrordecorator");
+        manager.update("fr.cnes.icode.ui.decorators.violationwarningdecorator");
+        manager.update("fr.cnes.icode.ui.decorators.violationerrordecorator");
 
         ICodeLogger.exiting(CLASS, method);
     }
@@ -128,11 +128,11 @@ public class ClearHandler extends AbstractHandler {
         final IResource resource = ResourcesPlugin.getWorkspace().getRoot();
         final int depth = IResource.DEPTH_INFINITE;
         try {
-            resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker", true,
+            resource.deleteMarkers("fr.cnes.icode.ui.markers.ViolationErrorMarker", true,
                             depth);
-            resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker", true,
+            resource.deleteMarkers("fr.cnes.icode.ui.markers.ViolationWarningMarker", true,
                             depth);
-            resource.deleteMarkers("fr.cnes.analysis.tools.ui.markers.InformationMarker", true,
+            resource.deleteMarkers("fr.cnes.icode.ui.markers.InformationMarker", true,
                             depth);
         } catch (final CoreException exception) {
             ICodeLogger.error(CLASS, method, exception);

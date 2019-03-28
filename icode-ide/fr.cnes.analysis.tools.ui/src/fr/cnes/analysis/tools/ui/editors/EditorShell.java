@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.editors;
+package fr.cnes.icode.ui.editors;
 
 import org.eclipse.ui.editors.text.TextEditor;
 

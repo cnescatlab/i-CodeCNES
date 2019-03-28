@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.metrics;
+package fr.cnes.icode.ui.view.metrics;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -11,9 +11,9 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
-import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.exception.UnknownInstanceException;
+import fr.cnes.icode.ui.view.AbstractLabelProvider;
 
 /**
  * This class provides column for the metric tree viewer.

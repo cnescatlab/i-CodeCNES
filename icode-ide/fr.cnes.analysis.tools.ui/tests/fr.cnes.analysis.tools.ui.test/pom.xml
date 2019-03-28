@@ -9,7 +9,7 @@
 		<version>3.1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fr.cnes.analysis.tools.ui.test</artifactId>
+	<artifactId>fr.cnes.icode.ui.test</artifactId>
 	
 	<packaging>eclipse-test-plugin</packaging>
 </project>

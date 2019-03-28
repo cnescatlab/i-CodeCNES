@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.decorators;
+package fr.cnes.icode.ui.decorators;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.InformationMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.ui.images.ImageFactory;
+import fr.cnes.icode.ui.markers.InformationMarker;
+import fr.cnes.icode.ui.markers.ViolationErrorMarker;
+import fr.cnes.icode.ui.markers.ViolationWarningMarker;
 
 /**
  * Put a new Decoration in the files tree on the top right of an icon of a file
@@ -37,7 +37,7 @@ public class InformationDecorator extends LabelProvider implements ILightweightL
      */
     public static final String ICON = ImageFactory.INFO_VERY_SMALL;
     /** Decorator ID */
-    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.analysis.tools.ui.decorators"
+    public static final String ID_INFORMATION_DECORATOR = "fr.cnes.icode.ui.decorators"
                     + ".informationdecorator";
 
     /** Class name **/

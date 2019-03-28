@@ -3,13 +3,13 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.handler;
+package fr.cnes.icode.ui.handler;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import fr.cnes.analysis.tools.ui.utils.AnalysisHandlerUIUtils;
+import fr.cnes.icode.ui.utils.AnalysisHandlerUIUtils;
 
 /**
  * This class is used to test UI

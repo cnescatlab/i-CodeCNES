@@ -14,17 +14,17 @@
 /*																			   */
 /*******************************************************************************/
 
-package fr.cnes.analysis.tools.fortran77.metrics;
+package fr.cnes.icode.fortran77.metrics;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import org.eclipse.core.runtime.IPath;
 
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
-import fr.cnes.analysis.tools.analyzer.metrics.AbstractChecker;
-import fr.cnes.analysis.tools.analyzer.metrics.FileMetricValue;
-import fr.cnes.analysis.tools.analyzer.metrics.FunctionMetricValue;
+import fr.cnes.icode.exception.JFlexException;
+import fr.cnes.icode.metrics.AbstractChecker;
+import fr.cnes.icode.metrics.FileMetricValue;
+import fr.cnes.icode.metrics.FunctionMetricValue;
 
 /* All code lines before this marker (%%) are directly written in the 		*/
 /* generated Java code, at the beginning. This is were you can declare your */

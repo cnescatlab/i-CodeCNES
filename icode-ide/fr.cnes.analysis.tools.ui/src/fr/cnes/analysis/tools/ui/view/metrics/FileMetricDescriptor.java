@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.metrics;
+package fr.cnes.icode.ui.view.metrics;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
+import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Class descriptor for metric value in a file.
@@ -126,7 +126,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getName()
+     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -140,7 +140,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getValue()
+     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getValue()
      */
     @Override
     public Float getValue() {
@@ -153,7 +153,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
     /*
      * (non-Javadoc)
      * 
-     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMean()
+     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMean()
      */
     @Override
     public Float getMean() {
@@ -172,7 +172,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinimum()
+     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinimum()
      */
     @Override
     public Float getMinimum() {
@@ -192,7 +192,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaximum()
+     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaximum()
      */
     @Override
     public Float getMaximum() {
@@ -212,7 +212,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinCause()
+     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinCause()
      */
     @Override
     public String getMinCause() {
@@ -233,7 +233,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaxCause()
+     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaxCause()
      */
     @Override
     public String getMaxCause() {
@@ -254,7 +254,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
      * (non-Javadoc)
      * 
      * @see
-     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#hasRightValue()
+     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#hasRightValue()
      */
     @Override
     public boolean hasRightValue() {

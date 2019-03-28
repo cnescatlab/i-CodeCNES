@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.wizard.export;
+package fr.cnes.icode.ui.wizard.export;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,13 +21,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.logger.ICodeLogger;
-import fr.cnes.analysis.tools.analyzer.services.export.ExportService;
-import fr.cnes.analysis.tools.analyzer.services.export.exception.NoContributorMatchingException;
-import fr.cnes.analysis.tools.analyzer.services.export.exception.NoExtensionIndicatedException;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.services.export.ExportService;
+import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
+import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
+import fr.cnes.icode.ui.view.MetricsView;
+import fr.cnes.icode.ui.view.ViolationsView;
 
 /**
  * This class is an adaptive {@link WizardNewFileCreationPage} which format is
@@ -36,7 +36,7 @@ import fr.cnes.analysis.tools.ui.view.ViolationsView;
  * 
  * <p>
  * On {@link #getInitialContents()} this class realize an export using
- * {@link fr.cnes.analysis.tools.analyzer.services.export.ExportService} service.
+ * {@link fr.cnes.icode.services.export.ExportService} service.
  * </p>
  * 
  * @since 3.0

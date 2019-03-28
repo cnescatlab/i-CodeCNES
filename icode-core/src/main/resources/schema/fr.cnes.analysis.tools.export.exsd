@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="fr.cnes.analysis.tools.analyzer.services.export" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="fr.cnes.icode.services.export" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="fr.cnes.analysis.tools.analyzer.services.export" id="fr.cnes.analysis.tools.analyzer.services.export" name="fr.cnes.analysis.tools.analyzer.services.export"/>
+         <meta.schema plugin="fr.cnes.icode.services.export" id="fr.cnes.icode.services.export" name="fr.cnes.icode.services.export"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -69,7 +69,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":fr.cnes.analysis.tools.analyzer.services.export.IExport"/>
+                  <meta.attribute kind="java" basedOn=":fr.cnes.icode.services.export.IExport"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -79,7 +79,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":fr.cnes.analysis.tools.analyzer.services.export.IImport"/>
+                  <meta.attribute kind="java" basedOn=":fr.cnes.icode.services.export.IImport"/>
                </appinfo>
             </annotation>
          </attribute>

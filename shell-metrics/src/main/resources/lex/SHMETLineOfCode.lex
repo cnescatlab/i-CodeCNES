@@ -13,11 +13,11 @@
 /*																				*/
 /********************************************************************************/
 
-package fr.cnes.analysis.tools.shell.metrics;
+package fr.cnes.icode.shell.metrics;
 
-import fr.cnes.analysis.tools.analyzer.datas.AbstractChecker;
-import fr.cnes.analysis.tools.analyzer.datas.CheckResult;
-import fr.cnes.analysis.tools.analyzer.exception.JFlexException;
+import fr.cnes.icode.datas.AbstractChecker;
+import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.exception.JFlexException;
 
 import java.io.File;
 import java.io.FileNotFoundException;

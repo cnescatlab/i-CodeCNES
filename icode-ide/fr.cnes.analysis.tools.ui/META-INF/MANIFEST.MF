@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: i-Code CNES UI
-Bundle-SymbolicName: fr.cnes.analysis.tools.ui;singleton:=true
+Bundle-SymbolicName: fr.cnes.icode.ui;singleton:=true
 Bundle-Version: 3.1.0.qualifier
-Bundle-Activator: fr.cnes.analysis.tools.ui.Activator
-Require-Bundle: fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0",
+Bundle-Activator: fr.cnes.icode.ui.Activator
+Require-Bundle: fr.cnes.icode;bundle-version="2.0.0",
  org.eclipse.core.runtime;bundle-version="3.11.0",
  org.eclipse.ui;bundle-version="3.107.0",
  org.eclipse.core.expressions;bundle-version="3.5.0",
@@ -16,17 +16,17 @@ Require-Bundle: fr.cnes.analysis.tools.analyzer;bundle-version="2.0.0",
  org.eclipse.jface.text;bundle-version="3.10.0",
  org.eclipse.ui.editors;bundle-version="3.9.0",
  org.eclipse.e4.core.di;bundle-version="1.6.0",
- fr.cnes.analysis.tools.analyzer.services.export;bundle-version="1.0.0",
+ fr.cnes.icode.services.export;bundle-version="1.0.0",
  org.eclipse.jface
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: fr.cnes.analysis.tools.ui.exception,
- fr.cnes.analysis.tools.ui.utils;
+Export-Package: fr.cnes.icode.ui.exception,
+ fr.cnes.icode.ui.utils;
   uses:="org.eclipse.core.runtime,
    org.eclipse.core.resources,
-   fr.cnes.analysis.tools.ui.preferencepage,
+   fr.cnes.icode.ui.preferencepage,
    org.eclipse.jface.viewers",
- fr.cnes.analysis.tools.ui.view;
+ fr.cnes.icode.ui.view;
   uses:="org.eclipse.swt.widgets,
    org.eclipse.core.resources,
    org.eclipse.jface.viewers,

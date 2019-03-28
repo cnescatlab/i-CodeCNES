@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.analysis.tools.ui.view.metrics;
+package fr.cnes.icode.ui.view.metrics;
 
 /**
  * Interface which represents any level of a metric description. It could
