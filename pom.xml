@@ -28,6 +28,8 @@
         <module>export-csv</module>
 
 		<module>icode-library</module>
+
+		<module>icode-ide</module>
         <module>icode-app</module>
 
 	</modules>

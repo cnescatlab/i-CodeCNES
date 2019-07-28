@@ -4,13 +4,12 @@
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
 
-package fr.cnes.icode.ui.editors;
+package fr.cnes.analysis.tools.ui.editors;
 
 import org.eclipse.ui.editors.text.TextEditor;
 
 /**
  * Editor extension for open all fortran files extensions.
- * 
  */
 public class EditorFortran extends TextEditor {
     /**

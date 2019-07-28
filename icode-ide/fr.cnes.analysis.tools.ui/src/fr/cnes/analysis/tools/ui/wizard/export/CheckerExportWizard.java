@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.wizard.export;
+package fr.cnes.analysis.tools.ui.wizard.export;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,47 +21,55 @@ import fr.cnes.icode.services.export.ExportService;
  * data of the Violations view. When {@link #performFinish()} is called, the
  * {@link CheckerFileCreationExportWizardPage} export the result in the format
  * chosen by the user.
- * 
+ *
  * <p>
  * Available formats are defined by the
- * {@link fr.cnes.icode.services.export.ExportService} service using
+ * {@link fr.cnes.analysis.tools.export.ExportService} service using
  * {@link ExportService#getAvailableFormats()}.
  * </p>
- * 
+ *
  * <p>
  * To add a new format to export, it's necessary to contribute to the
  * {@link ExportService} service.
  * </p>
- * 
+ *
  * @version 3.0
  * @since 2.0
- * 
- * 
  */
 public class CheckerExportWizard extends Wizard implements IExportWizard, INewWizard {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = CheckerExportWizard.class.getName();
-    /** The main page containing the radio to choose the export's format. */
+    /**
+     * The main page containing the radio to choose the export's format.
+     */
     private CheckerExportWizardPage mainPage;
-    /** The class that will be used to export the file **/
+    /**
+     * The class that will be used to export the file
+     **/
     private CheckerFileCreationExportWizardPage fileCreationPage;
-    /** The selection of elements to build the NewFileWizardPage classes */
+    /**
+     * The selection of elements to build the NewFileWizardPage classes
+     */
     private IStructuredSelection selection;
-    /** Exporter service */
+    /**
+     * Exporter service
+     */
     private ExportService exporter;
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
      * org.eclipse.jface.viewers.IStructuredSelection)
      */
     @Override
     public void init(IWorkbench pWorkbench, IStructuredSelection pSelection) {
         final String method = "init";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pWorkbench, pSelection
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pWorkbench, pSelection
         });
         this.selection = pSelection;
         this.exporter = new ExportService();
@@ -78,7 +86,7 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.Wizard#performFinish()
      */
     @Override
@@ -86,7 +94,7 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
         final String method = "performFinish";
         ICodeLogger.entering(CLASS, method);
         final IFile file = ((WizardNewFileCreationPage) this.getContainer().getCurrentPage())
-                        .createNewFile();
+                .createNewFile();
         final boolean performFinish = (file != null);
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(performFinish));
         return performFinish;
@@ -95,7 +103,7 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.Wizard#addPages()
      */
     @Override
@@ -113,7 +121,7 @@ public class CheckerExportWizard extends Wizard implements IExportWizard, INewWi
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.Wizard#canFinish()
      */
     @Override

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.preferences.checkerstables;
+package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -12,34 +12,38 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Editing support for Enabled cells.
  */
 public class EnabledEditingSupport extends EditingSupport {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = EnabledEditingSupport.class.getName();
 
-    /** Column viewer containing the cell */
+    /**
+     * Column viewer containing the cell
+     */
     private final ColumnViewer viewer;
-    /** TableViewer containing the column */
+    /**
+     * TableViewer containing the column
+     */
     private final CheckersComposite checkerTableViewer;
 
     /**
-     * @param pViewer
-     *            Column viewer containing the cell
-     * @param pCheckerTableViewer
-     *            TableViewer containing the column
+     * @param pViewer             Column viewer containing the cell
+     * @param pCheckerTableViewer TableViewer containing the column
      */
     public EnabledEditingSupport(final TableViewer pViewer,
-                    final CheckersComposite pCheckerTableViewer) {
+                                 final CheckersComposite pCheckerTableViewer) {
         super(pViewer);
         final String method = "EnabledEditingSupport";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pViewer, pCheckerTableViewer
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pViewer, pCheckerTableViewer
         });
         this.viewer = pViewer;
         this.checkerTableViewer = pCheckerTableViewer;
@@ -48,7 +52,7 @@ public class EnabledEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
      */
@@ -63,7 +67,7 @@ public class EnabledEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
      */
     @Override
@@ -75,7 +79,7 @@ public class EnabledEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
      */
     @Override
@@ -87,7 +91,7 @@ public class EnabledEditingSupport extends EditingSupport {
             value = Boolean.valueOf(((CheckerPreferencesContainer) element).isChecked());
         } else {
             value = Boolean.valueOf(UserPreferencesService
-                            .isEnabledChecker(((CheckerPreferencesContainer) element).getId()));
+                    .isEnabledChecker(((CheckerPreferencesContainer) element).getId()));
         }
         ICodeLogger.exiting(CLASS, method, value);
         return value;
@@ -95,15 +99,15 @@ public class EnabledEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object,
      * java.lang.Object)
      */
     @Override
     protected void setValue(Object element, Object value) {
         final String method = "setValue";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            element, value
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                element, value
         });
         ((CheckerPreferencesContainer) element).setChecked(((Boolean) value).booleanValue());
 

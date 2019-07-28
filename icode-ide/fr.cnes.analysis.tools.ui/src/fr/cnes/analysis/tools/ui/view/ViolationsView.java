@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view;
+package fr.cnes.analysis.tools.ui.view;
 
 import java.util.Comparator;
 import java.util.List;
@@ -25,20 +25,22 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.exception.EmptyProviderException;
-import fr.cnes.icode.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewer;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
-import fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewer;
-import fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
-import fr.cnes.icode.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
 
 public class ViolationsView extends ViewPart {
 
-    /** View identifier */
+    /**
+     * View identifier
+     */
     public static final String VIEW_ID = ViolationsView.class.getName();
 
     public static final String RULE_TREE_VIEWER_TYPE = "RuleTreeViewer";
@@ -47,16 +49,26 @@ public class ViolationsView extends ViewPart {
      * FILE_TREE_VIEWER_TYPE
      */
     public static final String FILE_TREE_VIEWER_TYPE = "FileTreeViewer";
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = MetricsView.class.getName();
-    /** The string to filter results in the TreeViewer */
+    /**
+     * The string to filter results in the TreeViewer
+     */
     private String searchString = "";
 
-    /** Indicate if violation of level warning must be shown */
+    /**
+     * Indicate if violation of level warning must be shown
+     */
     private boolean showWarning = true;
-    /** Indicate if violation of level error must be shown */
+    /**
+     * Indicate if violation of level error must be shown
+     */
     private boolean showError = true;
-    /** Whether or not to show violation of Info severity */
+    /**
+     * Whether or not to show violation of Info severity
+     */
     private boolean showInfo;
     /**
      * Contain the identifier of the type of TreeViewer currently being
@@ -76,16 +88,20 @@ public class ViolationsView extends ViewPart {
             int res = value1.getId().compareTo(value2.getId());
             if (res == 0) {
                 res = value1.getFile().getAbsoluteFile()
-                                .compareTo(value2.getFile().getAbsoluteFile());
+                        .compareTo(value2.getFile().getAbsoluteFile());
             }
             return res;
         }
     });
 
-    /** The viewer which display results. **/
+    /**
+     * The viewer which display results.
+     **/
     private TreeViewer viewer;
 
-    /** Composite contained in the view and displaying it's elements */
+    /**
+     * Composite contained in the view and displaying it's elements
+     */
     private Composite parent;
 
     /**
@@ -101,7 +117,7 @@ public class ViolationsView extends ViewPart {
 
     /**
      * Getter for the viewer.
-     * 
+     *
      * @return the viewer
      */
     public TreeViewer getViewer() {
@@ -113,9 +129,8 @@ public class ViolationsView extends ViewPart {
 
     /**
      * Setter for the viewer.
-     * 
-     * @param pViewer
-     *            this.descriptors.clone() set
+     *
+     * @param pViewer this.descriptors.clone() set
      */
     public void setViewer(final TreeViewer pViewer) {
         final String method = "setViewer";
@@ -126,7 +141,7 @@ public class ViolationsView extends ViewPart {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.
      * widgets.Composite)
      */
@@ -144,7 +159,7 @@ public class ViolationsView extends ViewPart {
         final Text search = new Text(pParent, SWT.SEARCH | SWT.CANCEL | SWT.ICON_SEARCH);
         search.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
         search.setMessage("Filter : Enter part of file path, name, rule name or function's name... "
-                        + "(not case sensitive)");
+                + "(not case sensitive)");
 
         /*
          * Updating search attribute every time the search field is being
@@ -223,7 +238,7 @@ public class ViolationsView extends ViewPart {
     }
 
     /**
-     * 
+     *
      */
     public void update() {
         final String method = "update";
@@ -231,7 +246,7 @@ public class ViolationsView extends ViewPart {
         for (final ViewerFilter filter : this.viewer.getFilters()) {
             if (filter instanceof IUpdatableAnalysisFilter) {
                 ((IUpdatableAnalysisFilter) filter).update(searchString, showInfo, showWarning,
-                                showError);
+                        showError);
             }
         }
         viewer.refresh();
@@ -240,9 +255,8 @@ public class ViolationsView extends ViewPart {
 
     /**
      * This method create the viewer, which is a tree table.
-     * 
-     * @param pParent
-     *            the parent composite
+     *
+     * @param pParent the parent composite
      */
     private void createRuleTreeViewer(final Composite pParent) {
         final String method = "createRuleTreeViewer";
@@ -276,7 +290,7 @@ public class ViolationsView extends ViewPart {
         /*
          * Creating a filter using field search & check buttons Warning and
          * Error.
-         * 
+         *
          * Show only element selected by the user.
          */
         final RuleViewerFilter ruleFilter = new RuleViewerFilter();
@@ -287,9 +301,8 @@ public class ViolationsView extends ViewPart {
 
     /**
      * This method create the viewer, which is a tree table.
-     * 
-     * @param pParent
-     *            the parent composite
+     *
+     * @param pParent the parent composite
      */
     private void createFileTreeViewer(final Composite pParent) {
         final String method = "createFileTreeViewer";
@@ -323,7 +336,7 @@ public class ViolationsView extends ViewPart {
         /*
          * Creating a filter using field search & check buttons Warning and
          * Error.
-         * 
+         *
          * Show only element selected by the user.
          */
         final FileTreeViewerFilter fileFilter = new FileTreeViewerFilter();
@@ -334,54 +347,53 @@ public class ViolationsView extends ViewPart {
 
     /**
      * Display violations found during analysis in the violations view.
-     * 
-     * @param violations
-     *            the violations to display
+     *
+     * @param violations the violations to display
      */
     public void display(final List<CheckResult> violations) {
         final String method = "display";
         ICodeLogger.entering(CLASS, method, violations);
         synchronized (this) {
             final Set<CheckResult> listInputs = new TreeSet<CheckResult>(
-                            new Comparator<CheckResult>() {
+                    new Comparator<CheckResult>() {
 
-                                @Override
-                                public int compare(final CheckResult check1,
-                                                final CheckResult check2) {
-                                    int res = check1.getName().compareTo(check2.getName());
+                        @Override
+                        public int compare(final CheckResult check1,
+                                           final CheckResult check2) {
+                            int res = check1.getName().compareTo(check2.getName());
+                            if (res == 0) {
+                                res = check1.getFile().getAbsolutePath().compareTo(
+                                        check2.getFile().getAbsolutePath());
+                                if (res == 0) {
+                                    res = check1.getLine().compareTo(check2.getLine());
                                     if (res == 0) {
-                                        res = check1.getFile().getAbsolutePath().compareTo(
-                                                        check2.getFile().getAbsolutePath());
+                                        res = check1.getLocation()
+                                                .compareTo(check2.getLocation());
                                         if (res == 0) {
-                                            res = check1.getLine().compareTo(check2.getLine());
-                                            if (res == 0) {
-                                                res = check1.getLocation()
-                                                                .compareTo(check2.getLocation());
-                                                if (res == 0) {
-                                                    res = check1.getMessage()
-                                                                    .compareTo(check2.getMessage());
-                                                }
-                                            }
+                                            res = check1.getMessage()
+                                                    .compareTo(check2.getMessage());
                                         }
                                     }
-                                    return res;
                                 }
+                            }
+                            return res;
+                        }
 
-                            });
+                    });
 
             if (this.treeViewerType.equals(FILE_TREE_VIEWER_TYPE)
-                            && ((FileTreeViewerContentProvider) this.viewer.getContentProvider())
-                                            .getConverter().getInputs() != null) {
+                    && ((FileTreeViewerContentProvider) this.viewer.getContentProvider())
+                    .getConverter().getInputs() != null) {
                 for (final CheckResult value : ((FileTreeViewerContentProvider) this.getViewer()
-                                .getContentProvider()).getConverter().getInputs()) {
+                        .getContentProvider()).getConverter().getInputs()) {
                     listInputs.add(value);
                 }
             }
             if (this.treeViewerType.equals(RULE_TREE_VIEWER_TYPE)
-                            && ((RuleTreeViewerContentProvider) this.viewer.getContentProvider())
-                                            .getConverter().getInputs() != null) {
+                    && ((RuleTreeViewerContentProvider) this.viewer.getContentProvider())
+                    .getConverter().getInputs() != null) {
                 for (final CheckResult value : ((RuleTreeViewerContentProvider) this.getViewer()
-                                .getContentProvider()).getConverter().getInputs()) {
+                        .getContentProvider()).getConverter().getInputs()) {
                     listInputs.add(value);
                 }
             }
@@ -399,7 +411,7 @@ public class ViolationsView extends ViewPart {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
      */
     @Override
@@ -412,10 +424,9 @@ public class ViolationsView extends ViewPart {
 
     /**
      * This method will clear the message and make it appear on the view.
-     * 
-     * @throws EmptyProviderException
-     *             when source provider to determine view type is not found (not
-     *             necessarily used)
+     *
+     * @throws EmptyProviderException when source provider to determine view type is not found (not
+     *                                necessarily used)
      */
     public void clear() throws EmptyProviderException {
         final String method = "clear";
@@ -440,9 +451,8 @@ public class ViolationsView extends ViewPart {
      * Set the TreeViewerType by modifying the attribute and also processing to
      * dispose if necessary the old TreeViewer and create a new one with the
      * type requested.
-     * 
-     * @param name
-     *            Name or identifier of the TreeViewerType requested.
+     *
+     * @param name Name or identifier of the TreeViewerType requested.
      */
     public void setTreeViewerType(final String name) {
         final String method = "setTreeViewerType";
@@ -455,7 +465,7 @@ public class ViolationsView extends ViewPart {
                 // We reinsert inputs from previous TreeViewer in the current
                 // one
                 this.getViewer().setInput(this.analysisResults
-                                .toArray(new CheckResult[this.analysisResults.size()]));
+                        .toArray(new CheckResult[this.analysisResults.size()]));
                 this.treeViewerType = name;
 
             } else if (name.equals(RULE_TREE_VIEWER_TYPE)) {
@@ -463,7 +473,7 @@ public class ViolationsView extends ViewPart {
                 // We reinsert inputs from previous TreeViewer in the current
                 // one
                 this.getViewer().setInput(this.analysisResults
-                                .toArray(new CheckResult[this.analysisResults.size()]));
+                        .toArray(new CheckResult[this.analysisResults.size()]));
                 this.treeViewerType = name;
 
             }
@@ -486,9 +496,7 @@ public class ViolationsView extends ViewPart {
     }
 
     /**
-     * @param pAnalysisResults
-     *            results to set.
-     * 
+     * @param pAnalysisResults results to set.
      */
     public void setAnalysisResults(Set<CheckResult> pAnalysisResults) {
         final String method = "setAnalysisResults";

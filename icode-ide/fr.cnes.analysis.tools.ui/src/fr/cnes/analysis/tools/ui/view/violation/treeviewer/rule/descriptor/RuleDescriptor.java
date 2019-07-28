@@ -3,29 +3,36 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Class for general description of a rule for a
- * {@link fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewer}
+ * {@link fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer}
  * .
- * 
  */
 public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = RuleDescriptor.class.getName();
-    /** Rule's id. **/
+    /**
+     * Rule's id.
+     **/
     private String ruleId;
-    /** Rule's name. **/
+    /**
+     * Rule's name.
+     **/
     private String name;
-    /** List of analyzed files with their violations. **/
+    /**
+     * List of analyzed files with their violations.
+     **/
     private List<FileRuleDescriptor> descriptors;
 
     /**
@@ -43,16 +50,14 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Constructor with the id and the name.
-     * 
-     * @param pRuleId
-     *            rule's id
-     * @param pName
-     *            rule's name
+     *
+     * @param pRuleId rule's id
+     * @param pName   rule's name
      */
     public RuleDescriptor(final String pRuleId, final String pName) {
         final String method = "RuleDescriptor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pRuleId, pName
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pRuleId, pName
         });
         this.ruleId = pRuleId;
         this.name = pName;
@@ -62,7 +67,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Getter for the id.
-     * 
+     *
      * @return rule's id
      */
     public String getRuleId() {
@@ -74,8 +79,8 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -87,7 +92,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Getter for the descriptors.
-     * 
+     *
      * @return the descriptors
      */
     public List<FileRuleDescriptor> getDescriptors() {
@@ -99,9 +104,8 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for the id.
-     * 
-     * @param pRuleId
-     *            the id to set
+     *
+     * @param pRuleId the id to set
      */
     public void setRuleId(final String pRuleId) {
         final String method = "setRuleId";
@@ -112,9 +116,8 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for the name
-     * 
-     * @param pName
-     *            the name to set
+     *
+     * @param pName the name to set
      */
     public void setName(final String pName) {
         final String method = "setName";
@@ -125,9 +128,8 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for the descriptors
-     * 
-     * @param pDescriptors
-     *            the descriptors to set
+     *
+     * @param pDescriptors the descriptors to set
      */
     public void setDescriptors(final List<FileRuleDescriptor> pDescriptors) {
         final String method = "setDescriptors";
@@ -138,8 +140,8 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getValue()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getValue()
      */
     @Override
     public Integer getValue() {
@@ -155,8 +157,8 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getCriticity()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getCriticity()
      */
     @Override
     public String getSeverity() {
@@ -169,7 +171,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -188,7 +190,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -199,7 +201,7 @@ public class RuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override

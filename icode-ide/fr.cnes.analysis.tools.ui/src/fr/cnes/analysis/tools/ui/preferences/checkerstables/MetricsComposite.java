@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.preferences.checkerstables;
+package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
 import java.util.List;
 
@@ -13,90 +13,125 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * This {@link CheckersComposite} is implemented to show and edit configuration
  * of i-Code Checker which are set as metrics.
- * 
+ *
  * @version 3.0
  * @since 3.0
  */
 public class MetricsComposite extends CheckersComposite {
-    /** Enable or disable checkers column's index. */
+    /**
+     * Enable or disable checkers column's index.
+     */
     private static final int COLUMN_ENABLED_INDEX = 0;
-    /** Enable or disable checkers column's bound. */
+    /**
+     * Enable or disable checkers column's bound.
+     */
     private static final int COLUMN_ENABLED_BOUND = 30;
-    /** Checker's name column's name. */
+    /**
+     * Checker's name column's name.
+     */
     private static final String COLUMN_CHECKER_NAME = "Checker";
-    /** Checker's name checkers column's index. */
+    /**
+     * Checker's name checkers column's index.
+     */
     private static final int COLUMN_CHECKER_INDEX = 1;
-    /** Checker's name checkers column's bound. */
+    /**
+     * Checker's name checkers column's bound.
+     */
     private static final int COLUMN_CHECKER_BOUND = 200;
-    /** Checker's languages column's name. */
+    /**
+     * Checker's languages column's name.
+     */
     private static final String COLUMN_LANGUAGE_NAME = "Language";
-    /** Checker's languages checkers column's index. */
+    /**
+     * Checker's languages checkers column's index.
+     */
     private static final int COLUMN_LANGUAGE_INDEX = 2;
-    /** Checker's languages checkers column's bound. */
+    /**
+     * Checker's languages checkers column's bound.
+     */
     private static final int COLUMN_LANGUAGE_BOUND = 80;
-    /** Checker's minimum value column's name. */
+    /**
+     * Checker's minimum value column's name.
+     */
     private static final String COLUMN_MINIMUM_NAME = "Minimum";
-    /** Checker's minimum value column's index. */
+    /**
+     * Checker's minimum value column's index.
+     */
     private static final int COLUMN_MINIMUM_INDEX = 3;
-    /** Checker's minimum value column's bound. */
+    /**
+     * Checker's minimum value column's bound.
+     */
     private static final int COLUMN_MINIMUM_BOUND = 80;
-    /** Checker's maximum value column's name. */
+    /**
+     * Checker's maximum value column's name.
+     */
     private static final String COLUMN_MAXIMUM_NAME = "Maximum";
-    /** Checker's maximum value column's index. */
+    /**
+     * Checker's maximum value column's index.
+     */
     private static final int COLUMN_MAXIMUM_INDEX = 4;
-    /** Checker's maximum value column's bound. */
+    /**
+     * Checker's maximum value column's bound.
+     */
     private static final int COLUMN_MAXIMUM_BOUND = 80;
-    /** Checker's severity column's name. */
+    /**
+     * Checker's severity column's name.
+     */
     private static final String COLUMN_SEVERITY_NAME = "Severity";
-    /** Checker's severity column's index. */
+    /**
+     * Checker's severity column's index.
+     */
     private static final int COLUMN_SEVERITY_INDEX = 5;
-    /** Checker's severity column's bound. */
+    /**
+     * Checker's severity column's bound.
+     */
     private static final int COLUMN_SEVERITY_BOUND = 80;
 
-    /** Float NaN display. */
+    /**
+     * Float NaN display.
+     */
     private static final String FLOAT_NAN_DISPLAY = "-";
 
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = MetricsComposite.class.getName();
 
     /**
-     * @param parent
-     *            composite containing the table.
-     * @param checkers
-     *            to show and configure in the table.
-     * @param style
-     *            SWT style
+     * @param parent   composite containing the table.
+     * @param checkers to show and configure in the table.
+     * @param style    SWT style
      */
     public MetricsComposite(final Composite parent,
-                    final List<CheckerPreferencesContainer> checkers, final int style) {
+                            final List<CheckerPreferencesContainer> checkers, final int style) {
         super(parent, checkers, style);
         final String method = "MetricsComposite";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            parent, checkers, Integer.valueOf(style)
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                parent, checkers, Integer.valueOf(style)
         });
         ICodeLogger.exiting(CLASS, method);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.preferences.checkerstables.CheckerTableViewer#
+     * fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckerTableViewer#
      * createColumns(org.eclipse.swt.widgets.Composite,
      * org.eclipse.jface.viewers.TableViewer)
      */
     @Override
     protected void createColumns(final Composite parent, final TableViewer pCheckersTableViewer) {
         final String method = "createColumns";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            parent, pCheckersTableViewer
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                parent, pCheckersTableViewer
         });
 
         setEnabledColumn(createEnabledViewerColumn(COLUMN_ENABLED_BOUND, COLUMN_ENABLED_INDEX));
@@ -120,7 +155,7 @@ public class MetricsComposite extends CheckersComposite {
             }
         });
         TableViewerColumn col = createTableViewerColumn(COLUMN_CHECKER_NAME, COLUMN_CHECKER_BOUND,
-                        COLUMN_CHECKER_INDEX);
+                COLUMN_CHECKER_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(final Object element) {
@@ -129,7 +164,7 @@ public class MetricsComposite extends CheckersComposite {
             }
         });
         col = createTableViewerColumn(COLUMN_LANGUAGE_NAME, COLUMN_LANGUAGE_BOUND,
-                        COLUMN_LANGUAGE_INDEX);
+                COLUMN_LANGUAGE_INDEX);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(final Object element) {
@@ -139,7 +174,7 @@ public class MetricsComposite extends CheckersComposite {
         });
 
         col = createTableViewerColumn(COLUMN_MINIMUM_NAME, COLUMN_MINIMUM_BOUND,
-                        COLUMN_MINIMUM_INDEX);
+                COLUMN_MINIMUM_INDEX);
         col.setEditingSupport(new MinValueEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
@@ -151,12 +186,12 @@ public class MetricsComposite extends CheckersComposite {
                         floatValue = Float.toString(checker.getMinValue().floatValue());
                     } else if (UserPreferencesService.hasMinValue(checker.getId())) {
                         floatValue = Float.toString(UserPreferencesService
-                                        .getMinValue(checker.getId()).floatValue());
+                                .getMinValue(checker.getId()).floatValue());
                     }
                 } else {
                     if (UserPreferencesService.hasMinValue(checker.getId())) {
                         floatValue = Float.toString(UserPreferencesService
-                                        .getMinValue(checker.getId()).floatValue());
+                                .getMinValue(checker.getId()).floatValue());
                     }
                 }
                 return floatValue;
@@ -164,7 +199,7 @@ public class MetricsComposite extends CheckersComposite {
         });
 
         col = createTableViewerColumn(COLUMN_MAXIMUM_NAME, COLUMN_MAXIMUM_BOUND,
-                        COLUMN_MAXIMUM_INDEX);
+                COLUMN_MAXIMUM_INDEX);
         col.setEditingSupport(new MaxValueEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
@@ -176,19 +211,19 @@ public class MetricsComposite extends CheckersComposite {
                         floatValue = Float.toString(checker.getMaxValue().floatValue());
                     } else if (UserPreferencesService.hasMaxValue(checker.getId())) {
                         floatValue = Float.toString(UserPreferencesService
-                                        .getMaxValue(checker.getId()).floatValue());
+                                .getMaxValue(checker.getId()).floatValue());
                     }
                 } else {
                     if (UserPreferencesService.hasMaxValue(checker.getId())) {
                         floatValue = Float.toString(UserPreferencesService
-                                        .getMaxValue(checker.getId()).floatValue());
+                                .getMaxValue(checker.getId()).floatValue());
                     }
                 }
                 return floatValue;
             }
         });
         col = createTableViewerColumn(COLUMN_SEVERITY_NAME, COLUMN_SEVERITY_BOUND,
-                        COLUMN_SEVERITY_INDEX);
+                COLUMN_SEVERITY_INDEX);
         col.setEditingSupport(new SeverityEditingSupport(pCheckersTableViewer));
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
@@ -201,16 +236,16 @@ public class MetricsComposite extends CheckersComposite {
                 final CheckerPreferencesContainer checker = (CheckerPreferencesContainer) element;
                 final Image severityImage;
                 switch (checker.getSeverity()) {
-                case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
-                    severityImage = getErrorImage();
-                    break;
-                case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
-                    severityImage = getWarningImage();
-                    break;
-                case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
-                default:
-                    severityImage = getInfoImage();
-                    break;
+                    case UserPreferencesService.PREF_SEVERITY_ERROR_VALUE:
+                        severityImage = getErrorImage();
+                        break;
+                    case UserPreferencesService.PREF_SEVERITY_WARNING_VALUE:
+                        severityImage = getWarningImage();
+                        break;
+                    case UserPreferencesService.PREF_SEVERITY_INFO_VALUE:
+                    default:
+                        severityImage = getInfoImage();
+                        break;
                 }
 
                 return severityImage;

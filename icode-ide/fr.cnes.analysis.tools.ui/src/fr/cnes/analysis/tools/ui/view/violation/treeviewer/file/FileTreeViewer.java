@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -23,12 +23,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
+import fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.view.AbstractAnalysisTreeViewer;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 
 /**
  * TreeViewer that show violations in {@link #getInput()} organized by their :
@@ -39,14 +39,13 @@ import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescr
  * <li>All the {@link ViolationDescriptor} are contained inside
  * {@link RuleDescriptor}</li>
  * </ul>
- * 
+ * <p>
  * It also contains information as the number of violations on each files,
  * functions or rules and can be ordered and filtered, using a
  * {@link FileTreeViewerComparator}. </br>
- * 
- * @see fr.cnes.icode.ui.view.violation.treeviewer.rule.RuleTreeViewer
- * 
+ *
  * @version 2.1
+ * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer
  * @since 2.0
  */
 public class FileTreeViewer extends AbstractAnalysisTreeViewer {
@@ -55,42 +54,45 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
      * TITLES : Location => File > Function > Rules > Violations Line => Line of
      * the violation ! => Criticity Number of violation.
      */
-    public static final String[] TITLES = new String[] {
-        "Location", "Line", "!", "Number of violations"
+    public static final String[] TITLES = new String[]{
+            "Location", "Line", "!", "Number of violations"
     };
 
-    /** Bounds of the TreeViewer */
-    public static final int[] BOUNDS = new int[] {
-        425, 50, 30, 200
+    /**
+     * Bounds of the TreeViewer
+     */
+    public static final int[] BOUNDS = new int[]{
+            425, 50, 30, 200
     };
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = FileTreeViewer.class.getName();
     /**
-     * 
      * Kind of bitmap to know if the sorting should be up or down for each
      * column of the tree
      */
-    private transient boolean[] columnSortUp = new boolean[] {
-        true, true, false, true, true
+    private transient boolean[] columnSortUp = new boolean[]{
+            true, true, false, true, true
     };
 
-    /** Index selected to sort the columns, by default 1 */
+    /**
+     * Index selected to sort the columns, by default 1
+     */
     private transient int indexSort = 1;
 
     /**
      * Constructor for violations file treeviewer.
-     * 
-     * @param parent
-     *            The Composite containing the TreeViewer
-     * @param style
-     *            The SWT style
+     *
+     * @param parent The Composite containing the TreeViewer
+     * @param style  The SWT style
      */
     public FileTreeViewer(final Composite parent, final int style) {
         super(parent, style, TITLES, BOUNDS);
         final String method = "FileTreeViewer";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            parent, Integer.valueOf(style)
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                parent, Integer.valueOf(style)
         });
         final ViewerComparator comparator = new FileTreeViewerComparator();
         this.setComparator(comparator);
@@ -114,8 +116,8 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.AbstractAnalysisTreeViewer#
+     *
+     * @see fr.cnes.analysis.tools.ui.view.AbstractAnalysisTreeViewer#
      * addDoubleClickAction()
      */
     @Override
@@ -128,17 +130,17 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
             public void doubleClick(final DoubleClickEvent event) {
                 final TreeViewer tViewer = (TreeViewer) event.getViewer();
                 final IStructuredSelection thisSelection = (IStructuredSelection) event
-                                .getSelection();
+                        .getSelection();
                 final Object selectedNode = thisSelection.getFirstElement();
 
                 // if it is a leaf -> open the file
                 if (!tViewer.isExpandable(selectedNode)
-                                && selectedNode instanceof ViolationDescriptor) {
+                        && selectedNode instanceof ViolationDescriptor) {
                     final IPath path = ((ViolationDescriptor) selectedNode).getFilePath();
                     final int number = ((ViolationDescriptor) selectedNode).getValue().intValue();
                     // get resource
                     final IFile fileToOpen = ResourcesPlugin.getWorkspace().getRoot()
-                                    .getFileForLocation(path);
+                            .getFileForLocation(path);
                     final IResource res = fileToOpen;
 
                     // open file in editor
@@ -153,20 +155,17 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     /**
      * Create a column of the TreeViewer, customize it and assign it's index
      * number and action listener to be sorted.
-     * 
-     * @param title
-     *            The title of the head column.
-     * @param bound
-     *            The bound of the column.
-     * @param colNumber
-     *            The index number of the column in the TreeViewer.
+     *
+     * @param title     The title of the head column.
+     * @param bound     The bound of the column.
+     * @param colNumber The index number of the column in the TreeViewer.
      * @return The treeViewerColumn created.
      */
     private TreeViewerColumn createTreeViewerColumn(final String title, final int bound,
-                    final int colNumber) {
+                                                    final int colNumber) {
         final String method = "createTreeViewerColumn";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            title, Integer.valueOf(bound), Integer.valueOf(colNumber)
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                title, Integer.valueOf(bound), Integer.valueOf(colNumber)
         });
         final TreeViewerColumn viewerColumn = new TreeViewerColumn(this, SWT.NONE);
         final TreeColumn column = viewerColumn.getColumn();
@@ -179,7 +178,7 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.
              * eclipse.swt.events.SelectionEvent)
              */
@@ -205,13 +204,12 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
     /**
      * Comparator for class {@link FileTreeViewer}. Allow the user to order the
      * file using different column sort.
-     *
      */
     class FileTreeViewerComparator extends ViewerComparator {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see
          * org.eclipse.jface.viewers.ViewerComparator#compare(org.eclipse.jface.
          * viewers.Viewer, java.lang.Object, java.lang.Object)
@@ -224,33 +222,33 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                 final RuleDescriptor rule2 = (RuleDescriptor) e2;
 
                 switch (indexSort) {
-                case 2:
-                    rc = rule1.getSeverity().compareTo(rule2.getSeverity());
-                    break;
-                case 0:
-                    rc = rule1.getName().compareToIgnoreCase(rule2.getName());
-                    break;
-                case 3:
-                    rc = rule1.getValue().intValue() - rule2.getValue().intValue();
-                    break;
-                default:
-                    rc = 0;
-                    break;
+                    case 2:
+                        rc = rule1.getSeverity().compareTo(rule2.getSeverity());
+                        break;
+                    case 0:
+                        rc = rule1.getName().compareToIgnoreCase(rule2.getName());
+                        break;
+                    case 3:
+                        rc = rule1.getValue().intValue() - rule2.getValue().intValue();
+                        break;
+                    default:
+                        rc = 0;
+                        break;
                 }
             } else if (e1 instanceof FileRuleDescriptor && e2 instanceof FileRuleDescriptor) {
                 final FileRuleDescriptor file1 = (FileRuleDescriptor) e1;
                 final FileRuleDescriptor file2 = (FileRuleDescriptor) e2;
 
                 switch (indexSort) {
-                case 0:
-                    rc = file1.getName().compareToIgnoreCase(file2.getName());
-                    break;
-                case 3:
-                    rc = file1.getValue().intValue() - file2.getValue().intValue();
-                    break;
-                default:
-                    rc = 0;
-                    break;
+                    case 0:
+                        rc = file1.getName().compareToIgnoreCase(file2.getName());
+                        break;
+                    case 3:
+                        rc = file1.getValue().intValue() - file2.getValue().intValue();
+                        break;
+                    default:
+                        rc = 0;
+                        break;
                 }
             } else if (e1 instanceof FunctionDescriptor && e2 instanceof FunctionDescriptor) {
 
@@ -258,30 +256,30 @@ public class FileTreeViewer extends AbstractAnalysisTreeViewer {
                 final FunctionDescriptor function2 = (FunctionDescriptor) e2;
 
                 switch (indexSort) {
-                case 0:
-                    rc = function1.getName().compareToIgnoreCase(function2.getName());
-                    break;
-                case 3:
-                    rc = function1.getValue().intValue() - function2.getValue().intValue();
-                    break;
-                default:
-                    rc = 0;
-                    break;
+                    case 0:
+                        rc = function1.getName().compareToIgnoreCase(function2.getName());
+                        break;
+                    case 3:
+                        rc = function1.getValue().intValue() - function2.getValue().intValue();
+                        break;
+                    default:
+                        rc = 0;
+                        break;
                 }
             } else if (e1 instanceof ViolationDescriptor && e2 instanceof ViolationDescriptor) {
                 final ViolationDescriptor violation1 = (ViolationDescriptor) e1;
                 final ViolationDescriptor violation2 = (ViolationDescriptor) e2;
 
                 switch (indexSort) {
-                case 0:
-                    rc = violation1.getLocation().compareToIgnoreCase(violation2.getLocation());
-                    break;
-                case 1:
-                    rc = violation1.getValue().intValue() - violation2.getValue().intValue();
-                    break;
-                default:
-                    rc = 0;
-                    break;
+                    case 0:
+                        rc = violation1.getLocation().compareToIgnoreCase(violation2.getLocation());
+                        break;
+                    case 1:
+                        rc = violation1.getValue().intValue() - violation2.getValue().intValue();
+                        break;
+                    default:
+                        rc = 0;
+                        break;
                 }
 
             }

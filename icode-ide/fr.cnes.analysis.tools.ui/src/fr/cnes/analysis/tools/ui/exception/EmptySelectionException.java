@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.exception;
+package fr.cnes.analysis.tools.ui.exception;
 
 /**
  * Exception throw when the package explorer selection is empty.
@@ -24,9 +24,8 @@ public class EmptySelectionException extends Exception {
 
     /**
      * Constructor with a message as parameter.
-     * 
-     * @param message
-     *            The exception message.
+     *
+     * @param message The exception message.
      */
     public EmptySelectionException(final String message) {
         super(message);

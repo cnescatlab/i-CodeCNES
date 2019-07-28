@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="fr.cnes.icode" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="fr.cnes.analysis.tools.analyzer" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="fr.cnes.icode" id="configuration" name="configuration"/>
+         <meta.schema plugin="fr.cnes.analysis.tools.analyzer" id="configuration" name="configuration"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -77,7 +77,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="identifier" basedOn="fr.cnes.icode.checks/check/@id"/>
+                  <meta.attribute kind="identifier" basedOn="fr.cnes.analysis.tools.analyzer.checks/check/@id"/>
                </appinfo>
             </annotation>
          </attribute>

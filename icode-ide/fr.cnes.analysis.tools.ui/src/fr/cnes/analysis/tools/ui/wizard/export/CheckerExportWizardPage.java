@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.wizard.export;
+package fr.cnes.analysis.tools.ui.wizard.export;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -38,15 +37,15 @@ import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
  * responsible of suggesting available formats for export to the user using
  * {@link ExportService#getAvailableFormats()} and indicating the chosen format to the
  * next page {@link CheckerFileCreationExportWizardPage}.
- * 
+ *
  * @version 3.0
  * @since 2.0
- * 
- * 
  */
 public class CheckerExportWizardPage extends WizardPage {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = CheckerExportWizard.class.getName();
 
     /**
@@ -64,26 +63,26 @@ public class CheckerExportWizardPage extends WizardPage {
      */
     private Map<Label, Text> parametersFields;
 
-    /** Information text notification about parameters */
+    /**
+     * Information text notification about parameters
+     */
     private Label parametersIndicator;
 
     /**
      * Create the wizard.
-     * 
-     * @param pSelection
-     *            user selection
-     * @param pExporter
-     *            service.
+     *
+     * @param pSelection user selection
+     * @param pExporter  service.
      */
     public CheckerExportWizardPage(final IStructuredSelection pSelection, final ExportService pExporter) {
         super("RuleExportWizardPage");
         final String method = "CheckerExportWizardPage";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pSelection, pExporter
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pSelection, pExporter
         });
         this.setTitle("i-Code CNES - Analysis result export.");
         this.setDescription(
-                        "Description : Please choose the format of the export of you file. \nNote: This export will contain both metric & rules analysis result.");
+                "Description : Please choose the format of the export of you file. \nNote: This export will contain both metric & rules analysis result.");
         this.exporter = pExporter;
         formatButtons = new ArrayList<>();
         parametersFields = new HashMap<>();
@@ -92,7 +91,7 @@ public class CheckerExportWizardPage extends WizardPage {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#canFlipToNextPage()
      */
     @Override
@@ -106,7 +105,7 @@ public class CheckerExportWizardPage extends WizardPage {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.
      * widgets.Composite)
      */
@@ -128,7 +127,7 @@ public class CheckerExportWizardPage extends WizardPage {
                 @Override
                 public void widgetSelected(final SelectionEvent e) {
                     final CheckerFileCreationExportWizardPage nextPage = (CheckerFileCreationExportWizardPage) getWizard()
-                                    .getPage("RuleCreationFileExportWizardPage");
+                            .getPage("RuleCreationFileExportWizardPage");
                     nextPage.updateFormat(btn.getText());
                     this.updateParameters(nextPage);
                     container.layout();
@@ -146,20 +145,20 @@ public class CheckerExportWizardPage extends WizardPage {
                     parametersFields.clear();
                     try {
                         if (exporter.hasParameters(
-                                        exporter.getAvailableFormats().get(btn.getText()))) {
+                                exporter.getAvailableFormats().get(btn.getText()))) {
                             final Map<String, String> params = exporter.getParameters(
-                                            exporter.getAvailableFormats().get(btn.getText()));
+                                    exporter.getAvailableFormats().get(btn.getText()));
                             parametersIndicator = new Label(container,
-                                            SWT.WRAP | SWT.BORDER | SWT.LEFT);
+                                    SWT.WRAP | SWT.BORDER | SWT.LEFT);
                             if (params.size() == 1) {
                                 parametersIndicator.setText(
-                                                "Information : This export requires parameters, edit default parameter if necessary before reaching next page.");
+                                        "Information : This export requires parameters, edit default parameter if necessary before reaching next page.");
                             } else {
                                 parametersIndicator.setText(
-                                                "Information : This export requires parameters, edit default parameters if necessary before reaching next page.");
+                                        "Information : This export requires parameters, edit default parameters if necessary before reaching next page.");
                             }
                             final GridData data = new GridData(SWT.HORIZONTAL, SWT.TOP, true, false,
-                                            1, 1);
+                                    1, 1);
                             parametersIndicator.setLayoutData(data);
                             for (final String key : params.keySet()) {
 
@@ -176,9 +175,9 @@ public class CheckerExportWizardPage extends WizardPage {
                                     public void modifyText(final ModifyEvent e) {
                                         final Map<String, String> params = new TreeMap<>();
                                         for (final Entry<Label, Text> param : parametersFields
-                                                        .entrySet()) {
+                                                .entrySet()) {
                                             params.put(param.getKey().getText(),
-                                                            param.getValue().getText());
+                                                    param.getValue().getText());
                                         }
                                         nextPage.updateParameters(params);
 
@@ -192,10 +191,10 @@ public class CheckerExportWizardPage extends WizardPage {
                             nextPage.updateParameters(params);
                         }
 
-                    } catch (NoContributorMatchingException | CoreException exception) {
+                    } catch (final NoContributorMatchingException exception) {
                         ICodeLogger.throwing(CLASS, method, exception);
                         MessageDialog.openError(getShell(), "i-Code CNES : Internal error",
-                                        exception.getMessage());
+                                exception.getMessage());
                     }
 
                 }
@@ -208,7 +207,7 @@ public class CheckerExportWizardPage extends WizardPage {
         if (this.formatButtons.size() > 0) {
             this.formatButtons.get(0).setSelection(true);
             final CheckerFileCreationExportWizardPage nextPage = (CheckerFileCreationExportWizardPage) getWizard()
-                            .getPage("RuleCreationFileExportWizardPage");
+                    .getPage("RuleCreationFileExportWizardPage");
             nextPage.updateFormat(this.formatButtons.get(0).getText());
         }
         ICodeLogger.exiting(CLASS, method);
@@ -217,7 +216,7 @@ public class CheckerExportWizardPage extends WizardPage {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
      */
     @Override
@@ -232,7 +231,7 @@ public class CheckerExportWizardPage extends WizardPage {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
      */
     @Override
@@ -246,7 +245,7 @@ public class CheckerExportWizardPage extends WizardPage {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#getPreviousPage()
      */
     @Override

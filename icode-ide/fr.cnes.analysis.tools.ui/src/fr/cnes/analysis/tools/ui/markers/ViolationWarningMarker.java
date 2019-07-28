@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.markers;
+package fr.cnes.analysis.tools.ui.markers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,15 +30,20 @@ import fr.cnes.icode.logger.ICodeLogger;
  * ViolationErrorMarker This class implements the creation of marker and the
  * listing of theses ones. This class is useful for the use of markers and also
  * the decorator. It allows also multiple lines selection.
- * 
  */
 public final class ViolationWarningMarker {
-    /** Marker ID pointing on the image. */
-    public static final String MARKER = "fr.cnes.icode.ui.markers.ViolationWarningMarker";
+    /**
+     * Marker ID pointing on the image.
+     */
+    public static final String MARKER = "fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker";
 
-    /** Annotation ID */
-    public static final String ANNOTATION = "fr.cnes.icode.ui.ViolationWarning";
-    /** Class name */
+    /**
+     * Annotation ID
+     */
+    public static final String ANNOTATION = "fr.cnes.analysis.tools.ui.ViolationWarning";
+    /**
+     * Class name
+     */
     private static final String CLASS = ViolationWarningMarker.class.getName();
 
     /**
@@ -50,25 +55,19 @@ public final class ViolationWarningMarker {
 
     /**
      * Create a new marker
-     * 
-     * @param res
-     *            The resource in which must be put the marker (file)
-     * @param line
-     *            Line number of the marker
-     * @param description
-     *            The description of the function
-     * @param message
-     *            The error message
      *
+     * @param res         The resource in which must be put the marker (file)
+     * @param line        Line number of the marker
+     * @param description The description of the function
+     * @param message     The error message
      * @return the new marker
-     * @throws CoreException
-     *             when marker could not be created.
+     * @throws CoreException when marker could not be created.
      */
     public static IMarker createMarker(final IResource res, final Integer line,
-                    final String description, final String message) throws CoreException {
+                                       final String description, final String message) throws CoreException {
         final String method = "createMarker";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            res, line, description, message
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                res, line, description, message
         });
         IMarker marker = null;
         // note: you use the id that is defined in your plugin.xml
@@ -83,9 +82,8 @@ public final class ViolationWarningMarker {
 
     /**
      * Find all markers in a file.
-     * 
-     * @param resource
-     *            to find marker on.
+     *
+     * @param resource to find marker on.
      * @return list of a resources markers
      */
     public static List<IMarker> findMarkers(final IResource resource) {
@@ -104,12 +102,10 @@ public final class ViolationWarningMarker {
     /**
      * Returns a list of markers that are linked to the resource or any sub
      * resource of the resource
-     * 
-     * @param resource
-     *            to find marker on.
-     * 
+     *
+     * @param resource to find marker on.
      * @return list of markers that are linked to the resource or any
-     *         sub-resource or resource
+     * sub-resource or resource
      */
     public static List<IMarker> findAllMarkers(final IResource resource) {
         final String method = "findAllMarkers";
@@ -126,7 +122,7 @@ public final class ViolationWarningMarker {
 
     /**
      * Returns the selection of the package explorer
-     * 
+     *
      * @return the selection of the package explorer
      */
     public static TreeSelection getTreeSelection() {
@@ -134,7 +130,7 @@ public final class ViolationWarningMarker {
         ICodeLogger.entering(CLASS, method);
         TreeSelection toReturn = null;
         final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                        .getSelectionService().getSelection();
+                .getSelectionService().getSelection();
         if (selection instanceof TreeSelection) {
             toReturn = (TreeSelection) selection;
         }
@@ -144,7 +140,7 @@ public final class ViolationWarningMarker {
 
     /**
      * Returns the selection of the package explorer
-     * 
+     *
      * @return selection of the package explorer
      */
     public static TextSelection getTextSelection() {
@@ -152,7 +148,7 @@ public final class ViolationWarningMarker {
         ICodeLogger.entering(CLASS, method);
         TextSelection toReturn = null;
         final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                        .getSelectionService().getSelection();
+                .getSelectionService().getSelection();
         if (selection instanceof TextSelection) {
             toReturn = (TextSelection) selection;
         }
@@ -161,18 +157,15 @@ public final class ViolationWarningMarker {
     }
 
     /**
-     * @param marker
-     *            Marker to add annotation
-     * @param selection
-     *            selection to add annotation on.
-     * @param editor
-     *            document editor to add annotation on.
+     * @param marker    Marker to add annotation
+     * @param selection selection to add annotation on.
+     * @param editor    document editor to add annotation on.
      */
     public static void addAnnotation(final IMarker marker, final ITextSelection selection,
-                    final ITextEditor editor) {
+                                     final ITextEditor editor) {
         final String method = "addAnnotation";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            marker, selection, editor
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                marker, selection, editor
         });
         // The DocumentProvider enables to get the document currently loaded in
         // the editor

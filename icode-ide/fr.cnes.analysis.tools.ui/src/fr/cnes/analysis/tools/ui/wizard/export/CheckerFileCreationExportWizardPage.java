@@ -1,9 +1,9 @@
 /************************************************************************************************/
-/* i-Code CNES is a static code analyzer. */
+/* i-Code CNES is a static code analyzer.                                                       */
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
-/* http://www.eclipse.org/legal/epl-v10.html */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.wizard.export;
+package fr.cnes.analysis.tools.ui.wizard.export;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,71 +21,76 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.export.ExportService;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
-import fr.cnes.icode.ui.view.MetricsView;
-import fr.cnes.icode.ui.view.ViolationsView;
 
 /**
  * This class is an adaptive {@link WizardNewFileCreationPage} which format is
  * pending the selection of the user in the previous page
  * {@link CheckerExportWizard}.
- * 
+ *
  * <p>
  * On {@link #getInitialContents()} this class realize an export using
- * {@link fr.cnes.icode.services.export.ExportService} service.
+ * {@link fr.cnes.analysis.tools.export.ExportService} service.
  * </p>
- * 
+ *
  * @since 3.0
  */
 public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPage {
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = CheckerFileCreationExportWizardPage.class.getName();
-    /** Export service used */
+    /**
+     * Export service used
+     */
     private ExportService exporter;
-    /** Export format requested by the user */
+    /**
+     * Export format requested by the user
+     */
     private String requestedFormat;
-    /** Parameters requested by the export plugin */
+    /**
+     * Parameters requested by the export plugin
+     */
     private Map<String, String> parameters;
 
     /**
      * Constructor for this wizard page
-     * 
-     * @param selection
-     *            the selection
-     * @param pRequestedFormat
-     *            the format requested by the user (can be default one also).
+     *
+     * @param selection        the selection
+     * @param pRequestedFormat the format requested by the user (can be default one also).
      */
     public CheckerFileCreationExportWizardPage(final IStructuredSelection selection,
-                    final String pRequestedFormat) {
+                                               final String pRequestedFormat) {
         super("RuleCreationFileExportWizardPage", selection);
         final String method = "CheckerFileCreationExportWizardPage";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            selection, pRequestedFormat
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                selection, pRequestedFormat
         });
         exporter = new ExportService();
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Rules export (" + pRequestedFormat + ")");
         this.setDescription("Description : Create a result export file in " + pRequestedFormat
-                        + " format.");
+                + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
     }
 
     /**
      * This function update all field of the page and the file format pending
      * the {@code pRequestedFormat} value.
-     * 
+     *
      * <p>
      * This class is currently called by the previous page
      * {@link CheckerExportWizardPage} every time an user select an export
      * format for his file.
      * </p>
-     * 
-     * @param pRequestedFormat
-     *            to export.
+     *
+     * @param pRequestedFormat to export.
      */
     public void updateFormat(String pRequestedFormat) {
         final String method = "updateFormat";
@@ -93,14 +98,14 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
         requestedFormat = pRequestedFormat;
         this.setTitle("i-Code CNES - Analysis results export (" + pRequestedFormat + ")");
         this.setDescription("Description : Create a result export file in " + pRequestedFormat
-                        + " format.");
+                + " format.");
         this.setFileExtension(exporter.getAvailableFormats().get(pRequestedFormat));
         ICodeLogger.exiting(CLASS, method);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
      */
@@ -114,18 +119,18 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
             // create a temporary file
             final File temp;
             temp = File.createTempFile("export",
-                            "." + exporter.getAvailableFormats().get(this.requestedFormat));
+                    "." + exporter.getAvailableFormats().get(this.requestedFormat));
             final ExportService export = new ExportService();
             // get the page
             final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                            .getActivePage();
+                    .getActivePage();
 
             // open view
             page.showView(ViolationsView.VIEW_ID);
 
             // get view
             final ViolationsView violationView = (ViolationsView) page
-                            .findView(ViolationsView.VIEW_ID);
+                    .findView(ViolationsView.VIEW_ID);
             page.showView(MetricsView.VIEW_ID);
             final MetricsView metricsView = (MetricsView) page.findView(MetricsView.VIEW_ID);
             /*
@@ -139,11 +144,11 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
 
             stream = new FileInputStream(temp);
         } catch (final IOException | CoreException | NoContributorMatchingException
-                        | NoExtensionIndicatedException exception) {
+                | NoExtensionIndicatedException exception) {
             ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
+                    "Internal Error",
+                    "Contact support service : \n" + exception.getMessage());
         }
         ICodeLogger.exiting(CLASS, method, stream);
         return stream;
@@ -151,7 +156,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
      */
     @Override
@@ -164,7 +169,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#getPreviousPage()
      */
     @Override
@@ -178,7 +183,7 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
      */
     @Override
@@ -193,9 +198,8 @@ public class CheckerFileCreationExportWizardPage extends WizardNewFileCreationPa
     /**
      * This function can be called from other pages to update parameters sent in
      * the export.
-     * 
-     * @param params
-     *            the new parameter to set.
+     *
+     * @param params the new parameter to set.
      */
     public void updateParameters(Map<String, String> params) {
         final String method = "updateParameters";

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.preferences;
+package fr.cnes.analysis.tools.ui.preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,39 +14,57 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.analysis.tools.ui.configurations.CheckConfigurationContainer;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
 import fr.cnes.icode.exception.NullContributionException;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 import fr.cnes.icode.services.checkers.CheckerService;
-import fr.cnes.icode.services.languages.LanguageContainer;
+import fr.cnes.icode.services.languages.ILanguage;
 import fr.cnes.icode.services.languages.LanguageService;
-import fr.cnes.icode.ui.Activator;
-import fr.cnes.icode.ui.configurations.CheckConfigurationContainer;
-import fr.cnes.icode.ui.configurations.ConfigurationContainer;
-import fr.cnes.icode.ui.configurations.ConfigurationService;
 
 /**
  *
  */
 public class UserPreferencesService extends AbstractPreferenceInitializer {
 
-    /** Preference key to access severity of a checker */
+    /**
+     * Preference key to access severity of a checker
+     */
     public static final String PREF_SEVERITY_KEY = ".Severity";
-    /** Preference value of SEVERITY for Error */
+    /**
+     * Preference value of SEVERITY for Error
+     */
     public static final String PREF_SEVERITY_ERROR_VALUE = "Error";
-    /** Preference value of SEVERITY for Warning */
+    /**
+     * Preference value of SEVERITY for Warning
+     */
     public static final String PREF_SEVERITY_WARNING_VALUE = "Warning";
-    /** Preference value of SEVERITY for Info */
+    /**
+     * Preference value of SEVERITY for Info
+     */
     public static final String PREF_SEVERITY_INFO_VALUE = "Info";
-    /** Preference key to access Min of a checker */
+    /**
+     * Preference key to access Min of a checker
+     */
     public static final String PREF_MIN_VALUE_KEY = ".Min";
-    /** Preference key to access Max of a checker */
+    /**
+     * Preference key to access Max of a checker
+     */
     public static final String PREF_MAX_VALUE_KEY = ".Max";
-    /** Preference key to access severity of a checker */
+    /**
+     * Preference key to access severity of a checker
+     */
     public static final String PREF_CONFIGURATION_KEY = "Configuration";
-    /** Preference key to access severity of a checker */
+    /**
+     * Preference key to access severity of a checker
+     */
     public static final String PREF_CONFIGURATION_CUSTOMVALUE = "Custom";
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = UserPreferencesService.class.getName();
 
     /**
@@ -59,38 +77,38 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
      * <li>maxValue, minValue: <i>Pending the
      * {@link CheckerPreferencesContainer}</i></li>
      * </ul>
-     * 
-     * @throws NullContributionException
-     *             when a contribution couldn't be reached in one of the
-     *             extension points being used to initiate preferences.
-     * @throws CoreException
-     *             when an eclipse related method couldn't be executed
+     *
+     * @throws NullContributionException when a contribution couldn't be reached in one of the
+     *                                   extension points being used to initiate preferences.
+     * @throws CoreException             when an eclipse related method couldn't be executed
      */
     public static void initPreferences() throws NullContributionException, CoreException {
         final String method = "initPreferences";
         ICodeLogger.entering(CLASS, method);
+        ICodeLogger.error(CLASS, method, new Exception("avant"));
         for (final String languageId : LanguageService.getLanguagesIds()) {
+            ICodeLogger.error(CLASS, method, new Exception("Language de benoit: " + languageId));
             Activator.getDefault().getPreferenceStore().setDefault(languageId, true);
             for (final CheckerContainer checker : CheckerService.getCheckers(languageId)) {
                 Activator.getDefault().getPreferenceStore().setDefault(checker.getId(), true);
                 Activator.getDefault().getPreferenceStore().setDefault(
-                                checker.getId() + PREF_SEVERITY_KEY, PREF_SEVERITY_ERROR_VALUE);
+                        checker.getId() + PREF_SEVERITY_KEY, PREF_SEVERITY_ERROR_VALUE);
                 if (checker.isMetric()) {
                     Activator.getDefault().getPreferenceStore()
-                                    .setDefault(checker.getId() + PREF_MAX_VALUE_KEY, Float.NaN);
+                            .setDefault(checker.getId() + PREF_MAX_VALUE_KEY, Float.NaN);
                     Activator.getDefault().getPreferenceStore()
-                                    .setDefault(checker.getId() + PREF_MIN_VALUE_KEY, Float.NaN);
+                            .setDefault(checker.getId() + PREF_MIN_VALUE_KEY, Float.NaN);
                 }
             }
         }
         Activator.getDefault().getPreferenceStore().setDefault(PREF_CONFIGURATION_KEY,
-                        PREF_CONFIGURATION_CUSTOMVALUE);
+                PREF_CONFIGURATION_CUSTOMVALUE);
         ICodeLogger.exiting(CLASS, method);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#
      * initializeDefaultPreferences()
      */
@@ -102,15 +120,14 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
             initPreferences();
         } catch (NullContributionException | CoreException e) {
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            Activator.PLUGIN_ID, e.getMessage());
+                    Activator.PLUGIN_ID, e.getMessage());
             ICodeLogger.error(this.getClass().getName(), method, e);
         }
         ICodeLogger.exiting(CLASS, method);
     }
 
     /**
-     * @param languageId
-     *            Identifier of the language to enable.
+     * @param languageId Identifier of the language to enable.
      * @return Language enabling success.
      */
     public static boolean enableLanguage(final String languageId) {
@@ -126,36 +143,33 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
     }
 
     /**
-     * @param languageId
-     *            Language identifier to verify.
+     * @param languageId Language identifier to verify.
      * @return Whether or not the language is enabled.
      */
     public static boolean isEnabledLanguage(final String languageId) {
         final String method = "isEnabledLanguage";
         ICodeLogger.entering(CLASS, method, languageId);
         final boolean isEnabledLanguage = Activator.getDefault().getPreferenceStore()
-                        .getBoolean(languageId);
+                .getBoolean(languageId);
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isEnabledLanguage));
         return isEnabledLanguage;
     }
 
     /**
-     * @param checkerId
-     *            Identifier of the checker.
+     * @param checkerId Identifier of the checker.
      * @return Whether or not the language is enabled.
      */
     public static boolean isEnabledChecker(final String checkerId) {
         final String method = "isEnabledChecker";
         ICodeLogger.entering(CLASS, method, checkerId);
         final boolean isEnabledChecker = Activator.getDefault().getPreferenceStore()
-                        .getBoolean(checkerId);
+                .getBoolean(checkerId);
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(isEnabledChecker));
         return isEnabledChecker;
     }
 
     /**
-     * @param languageId
-     *            Language identifier of language to disable.
+     * @param languageId Language identifier of language to disable.
      * @return Language disabling success.
      */
     public static boolean disableLanguage(final String languageId) {
@@ -173,17 +187,15 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
     /**
      * Enable a checker pending it's language. In case the language is disabled
      * it will be enabled too.
-     * 
-     * @param languageId
-     *            language identifier of the checker
-     * @param checkerId
-     *            identifier of the checker to enable
+     *
+     * @param languageId language identifier of the checker
+     * @param checkerId  identifier of the checker to enable
      * @return checker enabling success
      */
     public static boolean enableChecker(final String languageId, final String checkerId) {
         final String method = "enableChecker";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            languageId, checkerId
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                languageId, checkerId
         });
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
@@ -197,17 +209,15 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
 
     /**
      * Disable a checker pending it's language.
-     * 
-     * @param languageId
-     *            language identifier of the checker
-     * @param checkerId
-     *            identifier of the checker to enable
+     *
+     * @param languageId language identifier of the checker
+     * @param checkerId  identifier of the checker to enable
      * @return checker disabling success
      */
     public static boolean disableChecker(final String languageId, final String checkerId) {
         final String method = "disableChecker";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            languageId, checkerId
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                languageId, checkerId
         });
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
@@ -221,9 +231,9 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
     /**
      * This method verify and return for each languages contributing the
      * analyzer that is enabled in the preferences.
-     * 
+     *
      * @return Language identifier of languages enabled in the
-     *         {@link PreferenceStore}.
+     * {@link PreferenceStore}.
      */
     public static List<String> getEnabledLanguagesIds() {
         final String method = "getEnabledLanguagesIds";
@@ -259,34 +269,32 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
     /**
      * This method verify and return for each languages contributing the
      * analyzer and it's checkers.
-     * 
+     *
      * @return Language identifier of languages enabled in the
-     *         {@link PreferenceStore}.
-     * @throws CoreException
-     *             on execution failure
-     * @throws NullContributionException
-     *             when no contribution can be found
+     * {@link PreferenceStore}.
+     * @throws CoreException             on execution failure
+     * @throws NullContributionException when no contribution can be found
      */
     public static List<LanguagePreferencesContainer> getLanguagesPreferences()
-                    throws NullContributionException, CoreException {
+            throws NullContributionException, CoreException {
         final String method = "getLanguagesPreferences";
         ICodeLogger.entering(CLASS, method);
         final List<LanguagePreferencesContainer> languagesPrefs = new ArrayList<>();
-        for (final LanguageContainer language : LanguageService.getLanguages()) {
+        for (final ILanguage language : LanguageService.getLanguages()) {
             if (languageExists(language.getId())) {
                 final boolean languageEnabled = isEnabledLanguage(language.getId());
                 final List<CheckerPreferencesContainer> checkersPrefs = new ArrayList<>();
                 for (final CheckerContainer checker : CheckerService
-                                .getCheckers(language.getId())) {
+                        .getCheckers(language.getId())) {
                     if (checkerExists(language.getId(), checker.getId())) {
                         checkersPrefs.add(new CheckerPreferencesContainer(language.getId(),
-                                        language.getName(), checker.getId(), checker.getName(),
-                                        isEnabledChecker(checker.getId()),
-                                        getCheckerSeverity(checker.getId()), checker.isMetric()));
+                                language.getName(), checker.getId(), checker.getName(),
+                                isEnabledChecker(checker.getId()),
+                                getCheckerSeverity(checker.getId()), checker.isMetric()));
                     }
                 }
                 languagesPrefs.add(new LanguagePreferencesContainer(language.getId(),
-                                language.getName(), languageEnabled, checkersPrefs));
+                        language.getName(), languageEnabled, checkersPrefs));
 
             }
         }
@@ -296,13 +304,11 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
 
     /**
      * @return checkers with value set in preferences
-     * @throws NullContributionException
-     *             if a checker can't be reached because not existing
-     * @throws CoreException
-     *             when a checker can be reached for some runtime reasons.
+     * @throws NullContributionException if a checker can't be reached because not existing
+     * @throws CoreException             when a checker can be reached for some runtime reasons.
      */
     public static List<CheckerPreferencesContainer> getCheckersPreferences()
-                    throws NullContributionException, CoreException {
+            throws NullContributionException, CoreException {
         final String method = "getCheckersPreferences";
         ICodeLogger.entering(CLASS, method);
         final List<CheckerPreferencesContainer> checkPrefs = new ArrayList<>();
@@ -325,11 +331,11 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
                     maxValue = Float.valueOf(Float.NaN);
                 }
                 checkPrefs.add(new CheckerPreferencesContainer(languageId, languageName,
-                                checker.getId(), checker.getName(), isEnabled, severity, minValue,
-                                maxValue, true));
+                        checker.getId(), checker.getName(), isEnabled, severity, minValue,
+                        maxValue, true));
             } else {
                 checkPrefs.add(new CheckerPreferencesContainer(languageId, languageName,
-                                checker.getId(), checker.getName(), isEnabled, severity, false));
+                        checker.getId(), checker.getName(), isEnabled, severity, false));
             }
         }
         ICodeLogger.exiting(CLASS, method, checkPrefs);
@@ -337,38 +343,34 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
     }
 
     /**
-     * @param checkerId
-     *            identifier of the checker
+     * @param checkerId identifier of the checker
      * @return severity of the checker
      */
     public static String getCheckerSeverity(String checkerId) {
         final String method = "getCheckerSeverity";
         ICodeLogger.entering(CLASS, method, checkerId);
         final String checkerSeverity = Activator.getDefault().getPreferenceStore()
-                        .getString(checkerId + PREF_SEVERITY_KEY);
+                .getString(checkerId + PREF_SEVERITY_KEY);
         ICodeLogger.exiting(CLASS, method, checkerSeverity);
         return checkerSeverity;
     }
 
     /**
-     * @param languageId
-     *            language of the checker
-     * @param checkerId
-     *            identifier of the checker
-     * @param severity
-     *            severity chosen for the checker
+     * @param languageId language of the checker
+     * @param checkerId  identifier of the checker
+     * @param severity   severity chosen for the checker
      * @return set of the severity success
      */
     public static boolean setCheckerSeverity(final String languageId, final String checkerId,
-                    final String severity) {
+                                             final String severity) {
         final String method = "setCheckerSeverity";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            languageId, checkerId, severity
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                languageId, checkerId, severity
         });
         boolean success = false;
         if (checkerExists(languageId, checkerId)) {
             Activator.getDefault().getPreferenceStore().setValue(checkerId + PREF_SEVERITY_KEY,
-                            severity);
+                    severity);
             success = true;
         }
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(success));
@@ -376,46 +378,42 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
     }
 
     /**
-     * @param languageId
-     *            language identifier of the checker
-     * @param checkerId
-     *            identifier of the checker
+     * @param languageId language identifier of the checker
+     * @param checkerId  identifier of the checker
      * @return whether or not the preferences store contains this checker.
      */
     public static boolean checkerExists(final String languageId, final String checkerId) {
         final String method = "checkerExists";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            languageId, checkerId
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                languageId, checkerId
         });
         final boolean checkerExists = Activator.getDefault().getPreferenceStore()
-                        .contains(checkerId);
+                .contains(checkerId);
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(checkerExists));
         return checkerExists;
     }
 
     /**
-     * @param configurationName
-     *            Configuration name to set in preferences.
-     * @throws NullContributionException
-     *             when a contribution could not be reached.
+     * @param configurationName Configuration name to set in preferences.
+     * @throws NullContributionException when a contribution could not be reached.
      */
     public static void setConfiguration(final String configurationName)
-                    throws NullContributionException {
+            throws NullContributionException {
         final String method = "setConfiguration";
         ICodeLogger.entering(CLASS, method, configurationName);
         Activator.getDefault().getPreferenceStore().setValue(PREF_CONFIGURATION_KEY,
-                        configurationName);
+                configurationName);
         final ConfigurationContainer config = ConfigurationService
-                        .getConfigurations(configurationName);
+                .getConfigurations(configurationName);
         for (CheckConfigurationContainer checker : config.getCheckConfigurations()) {
             Activator.getDefault().getPreferenceStore().setValue(
-                            checker.getCheckId() + PREF_MAX_VALUE_KEY,
-                            checker.getMaxValue().floatValue());
+                    checker.getCheckId() + PREF_MAX_VALUE_KEY,
+                    checker.getMaxValue().floatValue());
             Activator.getDefault().getPreferenceStore().setValue(
-                            checker.getCheckId() + PREF_MIN_VALUE_KEY,
-                            checker.getMinValue().floatValue());
+                    checker.getCheckId() + PREF_MIN_VALUE_KEY,
+                    checker.getMinValue().floatValue());
             Activator.getDefault().getPreferenceStore().setValue(checker.getCheckId(),
-                            checker.isEnabled());
+                    checker.isEnabled());
         }
         ICodeLogger.exiting(CLASS, method);
 
@@ -439,7 +437,7 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
         final String method = "getConfigurationName";
         ICodeLogger.entering(CLASS, method);
         final String configurationName = Activator.getDefault().getPreferenceStore()
-                        .getString(PREF_CONFIGURATION_KEY);
+                .getString(PREF_CONFIGURATION_KEY);
         ICodeLogger.exiting(CLASS, method, configurationName);
         return configurationName;
     }
@@ -451,84 +449,79 @@ public class UserPreferencesService extends AbstractPreferenceInitializer {
         final String method = "isDefaultConfigurationActive";
         ICodeLogger.entering(CLASS, method);
         final boolean defaultConfigurationActive = Activator.getDefault().getPreferenceStore()
-                        .getString(PREF_CONFIGURATION_KEY).equals(PREF_CONFIGURATION_CUSTOMVALUE);
+                .getString(PREF_CONFIGURATION_KEY).equals(PREF_CONFIGURATION_CUSTOMVALUE);
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(defaultConfigurationActive));
         return defaultConfigurationActive;
     }
 
     /**
-     * @param languageId
-     *            that must be checked
+     * @param languageId that must be checked
      * @return whether or not the preference store contains this language.
      */
     public static boolean languageExists(final String languageId) {
         final String method = "languageExists";
         ICodeLogger.entering(CLASS, method, languageId);
         final boolean languageExists = Activator.getDefault().getPreferenceStore()
-                        .contains(languageId);
+                .contains(languageId);
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(languageExists));
         return languageExists;
     }
 
     /**
-     * @param checkerId
-     *            identifier of the checker
+     * @param checkerId identifier of the checker
      * @return the maxValue allowed for the <code>checkerId<code>, if it's set.
      */
     public static Float getMaxValue(final String checkerId) {
         final String method = "getMaxValue";
         ICodeLogger.entering(CLASS, method, checkerId);
         final Float maxValue = Float.valueOf(Activator.getDefault().getPreferenceStore()
-                        .getFloat(checkerId + PREF_MAX_VALUE_KEY));
+                .getFloat(checkerId + PREF_MAX_VALUE_KEY));
         ICodeLogger.exiting(CLASS, method, maxValue);
         return maxValue;
     }
 
     /**
-     * @param checkerId
-     *            identifier of the checker
+     * @param checkerId identifier of the checker
      * @return whether or not a max value was set in preference for the
-     *         <code>checkerId<code>.
+     * <code>checkerId<code>.
      */
     public static boolean hasMaxValue(final String checkerId) {
         final String method = "hasMaxValue";
         ICodeLogger.entering(CLASS, method, checkerId);
         final boolean hasMaxValue = Activator.getDefault().getPreferenceStore()
-                        .contains(checkerId + PREF_MAX_VALUE_KEY)
-                        && !Float.isNaN(Activator.getDefault().getPreferenceStore()
-                                        .getFloat(checkerId + PREF_MAX_VALUE_KEY));
+                .contains(checkerId + PREF_MAX_VALUE_KEY)
+                && !Float.isNaN(Activator.getDefault().getPreferenceStore()
+                .getFloat(checkerId + PREF_MAX_VALUE_KEY));
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(hasMaxValue));
         return hasMaxValue;
     }
 
     /**
-     * @param checkerId
-     *            identifier of the checker
+     * @param checkerId identifier of the checker
      * @return the minimum value set for the <code>checkerId<code>, if one is
-     *         set.
+     * set.
      */
     public static Float getMinValue(final String checkerId) {
         final String method = "getMinValue";
         ICodeLogger.entering(CLASS, method, checkerId);
         final Float minValue = Float.valueOf(Activator.getDefault().getPreferenceStore()
-                        .getFloat(checkerId + PREF_MIN_VALUE_KEY));
+                .getFloat(checkerId + PREF_MIN_VALUE_KEY));
         ICodeLogger.exiting(CLASS, method, minValue);
         return minValue;
     }
 
     /**
-     * @param checkerId
-     *            identifier of the checker
+     * @param checkerId identifier of the checker
      * @return whether or not a minimum value was set of this
-     *         <code>checkedId</code>.
+     * <code>checkedId</code>.
      */
     public static boolean hasMinValue(final String checkerId) {
         final String method = "hasMinValue";
         ICodeLogger.entering(CLASS, method, checkerId);
         final boolean hasMinValue = Activator.getDefault().getPreferenceStore()
-                        .contains(checkerId + PREF_MIN_VALUE_KEY)
-                        && !Float.isNaN(Activator.getDefault().getPreferenceStore()
-                                        .getFloat(checkerId + PREF_MIN_VALUE_KEY));
+                .contains(checkerId + PREF_MIN_VALUE_KEY)
+                && !Float.isNaN(Activator.getDefault().getPreferenceStore()
+                .getFloat(checkerId + PREF_MIN_VALUE_KEY));
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(hasMinValue));
         return hasMinValue;
     }

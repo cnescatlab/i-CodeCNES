@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.metrics;
+package fr.cnes.analysis.tools.ui.view.metrics;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,19 +15,25 @@ import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Class descriptor for metric value in a file.
- * 
- * 
  */
 public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = FileMetricDescriptor.class.getName();
 
-    /** File's path. **/
+    /**
+     * File's path.
+     **/
     private IPath filePath;
-    /** Value for the file. **/
+    /**
+     * Value for the file.
+     **/
     private Float value;
-    /** List of descriptors for the function in the file. **/
+    /**
+     * List of descriptors for the function in the file.
+     **/
     private List<FunctionMetricDescriptor> descriptors;
 
     /**
@@ -43,16 +49,14 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Constructor with file's path and the value.
-     * 
-     * @param pFilePath
-     *            the file's path
-     * @param pValue
-     *            the value
+     *
+     * @param pFilePath the file's path
+     * @param pValue    the value
      */
     public FileMetricDescriptor(final IPath pFilePath, final Float pValue) {
         final String method = "FileMetricDescriptor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pFilePath, pValue
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pFilePath, pValue
         });
         this.filePath = pFilePath;
         this.value = pValue;
@@ -62,7 +66,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Getter for the file's path.
-     * 
+     *
      * @return the file's path
      */
     public IPath getFilePath() {
@@ -74,7 +78,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Getter for the descriptors.
-     * 
+     *
      * @return the descriptors
      */
     public List<FunctionMetricDescriptor> getDescriptors() {
@@ -86,9 +90,8 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the file's path.
-     * 
-     * @param pFilePath
-     *            the file's path to set
+     *
+     * @param pFilePath the file's path to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -99,9 +102,8 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the descriptors.
-     * 
-     * @param pDescriptors
-     *            the descriptors to set
+     *
+     * @param pDescriptors the descriptors to set
      */
     public void setDescriptors(final List<FunctionMetricDescriptor> pDescriptors) {
         final String method = "setDescriptors";
@@ -112,9 +114,8 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the value
-     * 
-     * @param pValue
-     *            the value to set
+     *
+     * @param pValue the value to set
      */
     public void setValue(final Float pValue) {
         final String method = "setValue";
@@ -125,8 +126,8 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -139,8 +140,8 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getValue()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getValue()
      */
     @Override
     public Float getValue() {
@@ -152,8 +153,8 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMean()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMean()
      */
     @Override
     public Float getMean() {
@@ -170,9 +171,9 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinimum()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinimum()
      */
     @Override
     public Float getMinimum() {
@@ -190,9 +191,9 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaximum()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaximum()
      */
     @Override
     public Float getMaximum() {
@@ -210,9 +211,9 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinCause()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinCause()
      */
     @Override
     public String getMinCause() {
@@ -231,9 +232,9 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaxCause()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaxCause()
      */
     @Override
     public String getMaxCause() {
@@ -252,9 +253,9 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#hasRightValue()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#hasRightValue()
      */
     @Override
     public boolean hasRightValue() {
@@ -272,7 +273,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -291,7 +292,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -305,7 +306,7 @@ public class FileMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override

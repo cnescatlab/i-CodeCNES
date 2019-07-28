@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
 import org.eclipse.core.runtime.IPath;
 
@@ -14,50 +14,57 @@ import fr.cnes.icode.logger.ICodeLogger;
  * This descriptor would return the violation message {@link #name} and the line
  * of the violation in the file using {@link #getName()} and {@link #getValue()}
  * when instanced in a {@link IFileRuleDescriptor}.</br>
- * 
+ * <p>
  * Descriptors contained by this descriptor are {@link ViolationDescriptor}.
- * 
+ *
+ * @version 2.1
  * @see IFileRuleDescriptor
  * @see FileRuleDescriptor
  * @see RuleDescriptor
  * @see ViolationDescriptor
- * @version 2.1
  * @since 2.0
  */
 public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = ViolationDescriptor.class.getName();
-    /** Rule's id. **/
+    /**
+     * Rule's id.
+     **/
     private String ruleId;
-    /** Violation's message. **/
+    /**
+     * Violation's message.
+     **/
     private String message;
-    /** Function containing the violation. **/
+    /**
+     * Function containing the violation.
+     **/
     private String location;
-    /** Line of the violation. **/
+    /**
+     * Line of the violation.
+     **/
     private Integer line;
-    /** The path of the file containing the violation. */
+    /**
+     * The path of the file containing the violation.
+     */
     private IPath filePath;
 
     /**
      * Constructor for Violation Descriptor
-     * 
-     * @param pRuleId
-     *            The rule violated
-     * @param pMessage
-     *            The violation's message
-     * @param pLocation
-     *            The function where is violation is located
-     * @param pLine
-     *            The line of the violation
-     * @param pFilePath
-     *            The filePath to the violation
+     *
+     * @param pRuleId   The rule violated
+     * @param pMessage  The violation's message
+     * @param pLocation The function where is violation is located
+     * @param pLine     The line of the violation
+     * @param pFilePath The filePath to the violation
      */
     public ViolationDescriptor(final String pRuleId, final String pLocation, final String pMessage,
-                    final Integer pLine, final IPath pFilePath) {
+                               final Integer pLine, final IPath pFilePath) {
         super();
         final String method = "ViolationDescriptor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pRuleId, pLocation, pMessage, pLocation, pLine, pFilePath
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pRuleId, pLocation, pMessage, pLocation, pLine, pFilePath
         });
         this.ruleId = pRuleId;
         this.message = pMessage;
@@ -82,8 +89,8 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.
+     *
+     * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.
      * IFileRuleDescriptor#getName()
      */
     @Override
@@ -96,8 +103,8 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.
+     *
+     * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.
      * IFileRuleDescriptor#getLine()
      */
     @Override
@@ -119,8 +126,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pRuleId
-     *            the ruleId to set
+     * @param pRuleId the ruleId to set
      */
     public void setRuleId(final String pRuleId) {
         final String method = "setRuleId";
@@ -140,8 +146,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pLocation
-     *            the location to set
+     * @param pLocation the location to set
      */
     public void setLocation(final String pLocation) {
         final String method = "setLocation";
@@ -161,8 +166,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pFilePath
-     *            the filePath to set
+     * @param pFilePath the filePath to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -172,8 +176,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pName
-     *            the name to set
+     * @param pName the name to set
      */
     public void setName(final String pName) {
         final String method = "setName";
@@ -183,8 +186,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pLine
-     *            the value to set
+     * @param pLine the value to set
      */
     public void setLine(final Integer pLine) {
         final String method = "setLine";
@@ -195,7 +197,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override
@@ -224,8 +226,7 @@ public class ViolationDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pMessage
-     *            Violation message to set.
+     * @param pMessage Violation message to set.
      */
     public void setMessage(final String pMessage) {
         final String method = "setMessage";

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,21 +17,27 @@ import fr.cnes.icode.logger.ICodeLogger;
  * This descriptor would return it's {@link #filePath} and the number of
  * violations that it contains when using {@link #getName()} and
  * {@link #getValue()} when instanced in a {@link IFileRuleDescriptor}.</br>
- * 
+ * <p>
  * Descriptors of this file are {@link FunctionDescriptor} for all violations
  * contained in a function of the file described by the class.
- * 
- * @see IFileRuleDescriptor
+ *
  * @version 2.1
+ * @see IFileRuleDescriptor
  * @since 2.0
  */
 public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = FileRuleDescriptor.class.getName();
 
-    /** File's path. **/
+    /**
+     * File's path.
+     **/
     private IPath filePath;
-    /** List of violations in the file. **/
+    /**
+     * List of violations in the file.
+     **/
     private List<FunctionDescriptor> descriptors;
 
     /**
@@ -47,9 +53,8 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Constructor with the file's path.
-     * 
-     * @param pFilePath
-     *            the file's path.
+     *
+     * @param pFilePath the file's path.
      */
     public FileRuleDescriptor(final IPath pFilePath) {
         final String method = "FileRuleDescriptor";
@@ -61,7 +66,7 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Getter for the file's path.
-     * 
+     *
      * @return file's path
      */
     public IPath getFilePath() {
@@ -73,7 +78,7 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Getter for the descriptors.
-     * 
+     *
      * @return the descriptors
      */
     public List<FunctionDescriptor> getDescriptors() {
@@ -85,9 +90,8 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Setter for the file's path.
-     * 
-     * @param pFilePath
-     *            the file's path to set
+     *
+     * @param pFilePath the file's path to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -98,9 +102,8 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Setter for the descriptors.
-     * 
-     * @param pDescriptors
-     *            the descriptors to set
+     *
+     * @param pDescriptors the descriptors to set
      */
     public void setDescriptors(final List<FunctionDescriptor> pDescriptors) {
         final String method = "setDescriptors";
@@ -111,8 +114,8 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -125,8 +128,8 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getValue()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getValue()
      */
     @Override
     public Integer getValue() {
@@ -142,7 +145,7 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -161,7 +164,7 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -175,7 +178,7 @@ public class FileRuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override

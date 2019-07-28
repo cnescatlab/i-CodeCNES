@@ -3,31 +3,34 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.preferences.checkerstables;
+package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Editing support for minimum
  */
 public class MinValueEditingSupport extends EditingSupport {
 
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = MinValueEditingSupport.class.getName();
 
-    /** Cell editor */
+    /**
+     * Cell editor
+     */
     private final CellEditor editor;
 
     /**
-     * @param pViewer
-     *            Table viewer containing the cell
+     * @param pViewer Table viewer containing the cell
      */
     public MinValueEditingSupport(final TableViewer pViewer) {
         super(pViewer);
@@ -39,7 +42,7 @@ public class MinValueEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
      */
@@ -53,7 +56,7 @@ public class MinValueEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
      */
     @Override
@@ -61,14 +64,14 @@ public class MinValueEditingSupport extends EditingSupport {
         final String method = "canEdit";
         ICodeLogger.entering(CLASS, method, element);
         final boolean canEdit = UserPreferencesService.isDefaultConfigurationActive()
-                        && ((CheckerPreferencesContainer) element).isMetric();
+                && ((CheckerPreferencesContainer) element).isMetric();
         ICodeLogger.exiting(CLASS, method, Boolean.valueOf(canEdit));
         return canEdit;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
      */
     @Override
@@ -78,10 +81,10 @@ public class MinValueEditingSupport extends EditingSupport {
         final Object value;
         if (UserPreferencesService.isDefaultConfigurationActive()) {
             value = Float.toString(
-                            ((CheckerPreferencesContainer) element).getMinValue().floatValue());
+                    ((CheckerPreferencesContainer) element).getMinValue().floatValue());
         } else {
             value = UserPreferencesService
-                            .getMinValue(((CheckerPreferencesContainer) element).getId());
+                    .getMinValue(((CheckerPreferencesContainer) element).getId());
         }
         ICodeLogger.exiting(CLASS, method, value);
         return value;
@@ -89,7 +92,7 @@ public class MinValueEditingSupport extends EditingSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object,
      * java.lang.Object)
      */

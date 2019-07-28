@@ -3,10 +3,10 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.handler;
+package fr.cnes.analysis.tools.ui.handler;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -14,27 +14,35 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.Analyzer;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.Activator;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.
- * 
+ *
  * @since 3.0
  */
 public class AnalysisJob extends Job {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = AnalysisJob.class.getName();
 
-    /** {@link Analyzer} service to run the analysis */
+    /**
+     * {@link Analyzer} service to run the analysis
+     */
     private Analyzer analyzer;
-    /** List of files to analyze. */
+    /**
+     * List of files to analyze.
+     */
     private List<File> inputFiles;
-    /** List of languages plug-in identifiers to run analysis with */
+    /**
+     * List of languages plug-in identifiers to run analysis with
+     */
     private List<String> languageIds;
     /**
      * List of all metrics excluded from the analysis. <i>More informations on
@@ -48,22 +56,18 @@ public class AnalysisJob extends Job {
 
     /**
      * Constructor for {@link AnalysisJob}
-     * 
-     * @param pName
-     *            name of the Job
-     * @param pInputFiles
-     *            to analyze
-     * @param pLanguageIds
-     *            to run analysis with
-     * @param pExcludedIds
-     *            to exclude from analysis
+     *
+     * @param pName        name of the Job
+     * @param pInputFiles  to analyze
+     * @param pLanguageIds to run analysis with
+     * @param pExcludedIds to exclude from analysis
      */
     public AnalysisJob(final String pName, final List<File> pInputFiles,
-                    final List<String> pLanguageIds, final List<String> pExcludedIds) {
+                       final List<String> pLanguageIds, final List<String> pExcludedIds) {
         super(pName);
         final String method = "AnalysisJob";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pName, pInputFiles, pLanguageIds, pExcludedIds
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pName, pInputFiles, pLanguageIds, pExcludedIds
         });
         this.inputFiles = pInputFiles;
         this.languageIds = pLanguageIds;
@@ -80,12 +84,12 @@ public class AnalysisJob extends Job {
         monitor.setTaskName("Analyzing files...");
         if (status.isOK()) {
             try {
-                this.checks = analyzer.check(inputFiles, languageIds, excludedIds);
-            } catch (IOException | JFlexException exception) {
+                this.checks = analyzer.check(new HashSet<>(inputFiles), languageIds, excludedIds);
+            } catch (final JFlexException exception) {
                 ICodeLogger.warning(CLASS, method, exception.getClass().getName()
-                                + " handled in method " + method + " changing Job status.");
-                status = new Status(IStatus.ERROR, Analyzer.ANALYZER_PLUGIN_ID,
-                                exception.getMessage());
+                        + " handled in method " + method + " changing Job status.");
+                status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+                        exception.getMessage());
             }
         }
         ICodeLogger.exiting(CLASS, method, status);
@@ -94,7 +98,7 @@ public class AnalysisJob extends Job {
 
     /**
      * @return whether or not files to analyzer can be reachde in the file
-     *         system.
+     * system.
      */
     private IStatus verifyInputs() {
         final String method = "verifyInputs";
@@ -104,9 +108,9 @@ public class AnalysisJob extends Job {
         while (this.inputFiles.size() > counter && status.isOK()) {
             if (!inputFiles.get(counter).exists()) {
                 ICodeLogger.warning(CLASS, method,
-                                "File unreachable : " + inputFiles.get(counter).getAbsolutePath());
+                        "File unreachable : " + inputFiles.get(counter).getAbsolutePath());
                 status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-                                "File unreachable : " + inputFiles.get(counter).getAbsolutePath());
+                        "File unreachable : " + inputFiles.get(counter).getAbsolutePath());
             }
             counter++;
         }
@@ -125,8 +129,7 @@ public class AnalysisJob extends Job {
     }
 
     /**
-     * @param pInputFiles
-     *            to analyze
+     * @param pInputFiles to analyze
      */
     public void setInputFiles(List<File> pInputFiles) {
         final String method = "setInputFiles";

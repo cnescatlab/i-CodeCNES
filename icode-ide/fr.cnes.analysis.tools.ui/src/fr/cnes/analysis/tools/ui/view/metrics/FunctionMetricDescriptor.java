@@ -3,35 +3,45 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.metrics;
+package fr.cnes.analysis.tools.ui.view.metrics;
 
 import org.eclipse.core.runtime.IPath;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Descriptor for metric's value of a function.
- * 
- * 
  */
 public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = FunctionMetricDescriptor.class.getName();
 
-    /** Metric's id, used to find associated preferences. **/
+    /**
+     * Metric's id, used to find associated preferences.
+     **/
     private String metricId;
 
-    /** Metric's value's location. **/
+    /**
+     * Metric's value's location.
+     **/
     private String location;
 
-    /** Metric's value **/
+    /**
+     * Metric's value
+     **/
     private Float value;
 
-    /** Path of the file containing the Metric **/
+    /**
+     * Path of the file containing the Metric
+     **/
     private IPath filePath;
 
-    /** Line of the metric. **/
+    /**
+     * Line of the metric.
+     **/
     private Integer line;
 
     /**
@@ -49,23 +59,18 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Constructor with all attributes initialized.
-     * 
-     * @param pId
-     *            the id
-     * @param pLocation
-     *            the location
-     * @param pValue
-     *            the value
-     * @param pFilePath
-     *            the file containing the metric Path
-     * @param pLine
-     *            metric's line
+     *
+     * @param pId       the id
+     * @param pLocation the location
+     * @param pValue    the value
+     * @param pFilePath the file containing the metric Path
+     * @param pLine     metric's line
      */
     public FunctionMetricDescriptor(final String pId, final String pLocation, final Float pValue,
-                    final IPath pFilePath, final Integer pLine) {
+                                    final IPath pFilePath, final Integer pLine) {
         final String method = "FunctionMetricDescriptor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pId, pLocation, pValue, pFilePath, pLine
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pId, pLocation, pValue, pFilePath, pLine
         });
         this.metricId = pId;
         this.filePath = pFilePath;
@@ -77,7 +82,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Getter for line.
-     * 
+     *
      * @return line of the metric
      */
     public Integer getLine() {
@@ -89,9 +94,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for line.
-     * 
-     * @param pLine
-     *            new line
+     *
+     * @param pLine new line
      */
     public void setLine(final Integer pLine) {
         final String method = "setLine";
@@ -112,9 +116,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Set the filePath of the file containing the Metric
-     * 
-     * @param pFilePath
-     *            the new Path to set
+     *
+     * @param pFilePath the new Path to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -125,7 +128,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Getter for the id.
-     * 
+     *
      * @return the id
      */
     public String getMetricId() {
@@ -137,7 +140,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Getter for the location.
-     * 
+     *
      * @return the location
      */
     public String getLocation() {
@@ -149,8 +152,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getValue()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getValue()
      */
     @Override
     public Float getValue() {
@@ -162,9 +165,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the id.
-     * 
-     * @param pId
-     *            the id to set
+     *
+     * @param pId the id to set
      */
     public void setMetricId(final String pId) {
         final String method = "setMetricId";
@@ -175,9 +177,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the location.
-     * 
-     * @param pLocation
-     *            the location to set
+     *
+     * @param pLocation the location to set
      */
     public void setLocation(final String pLocation) {
         final String method = "setLocation";
@@ -188,9 +189,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the value.
-     * 
-     * @param pValue
-     *            the value to set
+     *
+     * @param pValue the value to set
      */
     public void setValue(final Float pValue) {
         final String method = "setValue";
@@ -201,8 +201,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -214,8 +214,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMean()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMean()
      */
     @Override
     public Float getMean() {
@@ -227,9 +227,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinimum()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinimum()
      */
     @Override
     public Float getMinimum() {
@@ -241,9 +241,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaximum()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaximum()
      */
     @Override
     public Float getMaximum() {
@@ -255,9 +255,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinCause()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinCause()
      */
     @Override
     public String getMinCause() {
@@ -269,9 +269,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaxCause()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaxCause()
      */
     @Override
     public String getMaxCause() {
@@ -283,9 +283,9 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#hasRightValue()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#hasRightValue()
      */
     @Override
     public boolean hasRightValue() {
@@ -306,7 +306,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -316,8 +316,8 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
         final boolean isEqual;
         if (object instanceof FunctionMetricDescriptor) {
             isEqual = this.location.equals(((FunctionMetricDescriptor) object).getLocation())
-                            && this.metricId.equals(
-                                            ((FunctionMetricDescriptor) object).getMetricId());
+                    && this.metricId.equals(
+                    ((FunctionMetricDescriptor) object).getMetricId());
         } else {
             isEqual = false;
         }
@@ -327,7 +327,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -341,7 +341,7 @@ public class FunctionMetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override

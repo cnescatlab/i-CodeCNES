@@ -6,4 +6,4 @@
 /**
  *
  */
-package fr.cnes.icode.ui.view.violation.treeviewer.rule.filter;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter;

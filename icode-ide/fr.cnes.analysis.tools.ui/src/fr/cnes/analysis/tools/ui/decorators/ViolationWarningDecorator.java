@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.decorators;
+package fr.cnes.analysis.tools.ui.decorators;
 
 import java.util.List;
 
@@ -13,21 +13,20 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.images.ImageFactory;
-import fr.cnes.icode.ui.markers.ViolationErrorMarker;
-import fr.cnes.icode.ui.markers.ViolationWarningMarker;
 
 /**
  * ViolationWarningDecorator add decorators to the file's icon when there is
  * markers of warning criticity and no marker of error criticity.
- * 
+ * <p>
  * This class is being called everytime a document is being refreshed in the
  * files explorer view.
- * 
+ * <p>
  * In case there is no marker anymore (error && warning), this class restore
  * back the original icon.
- *
  */
 public class ViolationWarningDecorator extends LabelProvider implements ILightweightLabelDecorator {
 
@@ -38,14 +37,16 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
     /**
      * Decorator identifier
      */
-    public static final String ID = "fr.cnes.icode.ui.decorators."
-                    + "violationwarningdecorator";
-    /** Class name **/
+    public static final String ID = "fr.cnes.analysis.tools.ui.decorators."
+            + "violationwarningdecorator";
+    /**
+     * Class name
+     **/
     private static final String CLASS = ViolationWarningDecorator.class.getName();
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.ILightweightLabelDecorator#decorate(java.lang.
      * Object, org.eclipse.jface.viewers.IDecoration)
@@ -53,17 +54,17 @@ public class ViolationWarningDecorator extends LabelProvider implements ILightwe
     @Override
     public void decorate(final Object resource, final IDecoration decoration) {
         final String method = "decorate";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            resource, decoration
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                resource, decoration
         });
 
         if (resource instanceof IResource) {
             // We add a ViolationWarningDecorator only if there is a warning in
             // the file and that there is no errors markers in the file
             final List<IMarker> vErrorMarkers = ViolationErrorMarker
-                            .findAllMarkers((IResource) resource);
+                    .findAllMarkers((IResource) resource);
             final List<IMarker> vWarningMarkers = ViolationWarningMarker
-                            .findAllMarkers((IResource) resource);
+                    .findAllMarkers((IResource) resource);
 
             if (vErrorMarkers.isEmpty() && !vWarningMarkers.isEmpty()) {
                 // If the file do not contain error marker and contain warning

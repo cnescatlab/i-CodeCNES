@@ -3,46 +3,60 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Descriptor for a Rule that is intended to be shown.</br>
  * This descriptor would return it's rules {@link #name} and the number of
  * violations that it contains while using {@link #getName()} and
  * {@link #getValue()} when instanced in a {@link IFileRuleDescriptor}.</br>
- * 
+ * <p>
  * Descriptors contained by this descriptor are {@link ViolationDescriptor}.
- * 
+ *
+ * @version 2.1
  * @see IFileRuleDescriptor
  * @see FileRuleDescriptor
  * @see RuleDescriptor
  * @see ViolationDescriptor
- * @version 2.1
  * @since 2.0
  */
 public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = RuleDescriptor.class.getName();
 
-    /** Rule's id. **/
+    /**
+     * Rule's id.
+     **/
     private String ruleId;
-    /** Rule's name. **/
+    /**
+     * Rule's name.
+     **/
     private String name;
-    /** Function containing the violation. **/
+    /**
+     * Function containing the violation.
+     **/
     private String location;
-    /** Number of violations stored for the rule */
+    /**
+     * Number of violations stored for the rule
+     */
     private Integer value;
-    /** The violations stored for the rule */
+    /**
+     * The violations stored for the rule
+     */
     private List<ViolationDescriptor> descriptors;
-    /** File name */
+    /**
+     * File name
+     */
     private IPath filePath;
 
     /**
@@ -61,25 +75,20 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Constructor for RuleDescriptor
-     * 
-     * @param pRuleId
-     *            The ID of the rule
-     * @param pName
-     *            Name of the Rule
-     * @param pLocation
-     *            Location of the function, program, method containing the
-     *            violation of the rule
-     * @param pValue
-     *            Number of Violation contained for this rule
-     * @param pPath
-     *            Path to the file containing the rule
+     *
+     * @param pRuleId   The ID of the rule
+     * @param pName     Name of the Rule
+     * @param pLocation Location of the function, program, method containing the
+     *                  violation of the rule
+     * @param pValue    Number of Violation contained for this rule
+     * @param pPath     Path to the file containing the rule
      */
     public RuleDescriptor(final String pRuleId, final String pName, final String pLocation,
-                    final Integer pValue, final IPath pPath) {
+                          final Integer pValue, final IPath pPath) {
         super();
         final String method = "RuleDescriptor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pRuleId, pName, pLocation, pValue, pPath
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pRuleId, pName, pLocation, pValue, pPath
         });
         this.ruleId = pRuleId;
         this.name = pName;
@@ -101,8 +110,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pDescriptors
-     *            the descriptors to set
+     * @param pDescriptors the descriptors to set
      */
     public void setDescriptors(final LinkedList<ViolationDescriptor> pDescriptors) {
         final String method = "setDescriptors";
@@ -113,7 +121,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Getter for the id.
-     * 
+     *
      * @return rule's id
      */
     public String getRuleId() {
@@ -125,8 +133,8 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -138,9 +146,8 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Setter for the id.
-     * 
-     * @param pRuleId
-     *            the id to set
+     *
+     * @param pRuleId the id to set
      */
     public void setRuleId(final String pRuleId) {
         final String method = "";
@@ -151,9 +158,8 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /**
      * Setter for the name
-     * 
-     * @param pName
-     *            the name to set
+     *
+     * @param pName the name to set
      */
     public void setName(final String pName) {
         final String method = "";
@@ -164,9 +170,9 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.rules.treeviewer.file.IFileRuleDescriptor#
+     * fr.cnes.analysis.tools.ui.view.rules.treeviewer.file.IFileRuleDescriptor#
      * getValue()
      */
     @Override
@@ -191,7 +197,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -211,7 +217,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -230,7 +236,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override
@@ -259,8 +265,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pLocation
-     *            the location to set
+     * @param pLocation the location to set
      */
     public void setLocation(final String pLocation) {
         final String method = "setLocation";
@@ -280,8 +285,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pFilePath
-     *            the filePath to set
+     * @param pFilePath the filePath to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -291,8 +295,7 @@ public class RuleDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pValue
-     *            the value to set
+     * @param pValue the value to set
      */
     public void setValue(final Integer pValue) {
         final String method = "setValue";

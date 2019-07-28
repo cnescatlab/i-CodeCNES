@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view;
+package fr.cnes.analysis.tools.ui.view;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -20,29 +20,30 @@ import fr.cnes.icode.logger.ICodeLogger;
 /**
  * AbstractviolationsTreeViewer is an abstract class containing most useful
  * method to create a TreeViewer showing result of a static analysis.
- *
  */
 public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private final static String CLASS = AbstractAnalysisTreeViewer.class.getName();
-    /** Titles of the columns */
+    /**
+     * Titles of the columns
+     */
     private String[] titles;
 
-    /** Bounds of the TreeViewer */
+    /**
+     * Bounds of the TreeViewer
+     */
     private int[] bounds;
 
     /**
-     * @param parent
-     *            Composite containing the TreeViewer
-     * @param style
-     *            Style parameters of the TreeViewer
-     * @param pTitles
-     *            Columns titles
-     * @param pBounds
-     *            Bounds of the TreeViewer.
+     * @param parent  Composite containing the TreeViewer
+     * @param style   Style parameters of the TreeViewer
+     * @param pTitles Columns titles
+     * @param pBounds Bounds of the TreeViewer.
      */
     public AbstractAnalysisTreeViewer(Composite parent, int style, String[] pTitles,
-                    int[] pBounds) {
+                                      int[] pBounds) {
         super(parent, style);
         final String method = "AbstractAnalysisTreeViewer";
         ICodeLogger.entering(CLASS, method);
@@ -61,7 +62,7 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     /**
      * This method must be implemented in order to open a file selected by the
      * user by double clicking one of the TreeViewer content.
-     * 
+     * <p>
      * {@link #openFileInEditor(IResource, int)}
      */
     protected abstract void addDoubleClickAction();
@@ -69,19 +70,17 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     /**
      * Method that open a file in the editor when double-clicked, on a specific
      * line.
-     * 
-     * @param res
-     *            the file to open
-     * @param line
-     *            the line on which the file has to be opened
+     *
+     * @param res  the file to open
+     * @param line the line on which the file has to be opened
      */
     protected void openFileInEditor(final IResource res, final int line) {
         final String method = "openFileInEditor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            res, Integer.valueOf(line)
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                res, Integer.valueOf(line)
         });
         final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                        .getActivePage();
+                .getActivePage();
         try {
             // Before creating the marker
             res.deleteMarkers(IMarker.MARKER, false, 1);
@@ -91,7 +90,7 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
         } catch (final CoreException exception) {
             ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Marker problem", exception.getMessage());
+                    "Marker problem", exception.getMessage());
         }
         ICodeLogger.exiting(CLASS, method);
     }
@@ -107,8 +106,7 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     }
 
     /**
-     * @param pTitles
-     *            the titles to set
+     * @param pTitles the titles to set
      */
     public void setTitles(String[] pTitles) {
         final String method = "setTitles";
@@ -129,8 +127,7 @@ public abstract class AbstractAnalysisTreeViewer extends TreeViewer {
     }
 
     /**
-     * @param pBounds
-     *            the bounds to set
+     * @param pBounds the bounds to set
      */
     public void setBounds(int[] pBounds) {
         final String method = "setBounds";

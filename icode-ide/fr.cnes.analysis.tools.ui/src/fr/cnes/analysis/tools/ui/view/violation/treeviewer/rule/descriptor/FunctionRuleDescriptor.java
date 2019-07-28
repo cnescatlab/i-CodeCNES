@@ -3,31 +3,41 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.rule.descriptor;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
 import org.eclipse.core.runtime.IPath;
 
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.preferences.UserPreferencesService;
 
 /**
  * Descriptor for rule's violations in a function.
- * 
- * 
  */
 public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = FunctionRuleDescriptor.class.getName();
-    /** Function containing the violation. **/
+    /**
+     * Function containing the violation.
+     **/
     private String location;
-    /** Violation's message */
+    /**
+     * Violation's message
+     */
     private String message;
-    /** Line of the violation. **/
+    /**
+     * Line of the violation.
+     **/
     private Integer value;
-    /** Path of the file containing the violation. **/
+    /**
+     * Path of the file containing the violation.
+     **/
     private IPath filePath;
-    /** Id of the violated rule. **/
+    /**
+     * Id of the violated rule.
+     **/
     private String ruleId;
 
     /**
@@ -45,23 +55,18 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Constructor with every attribute as parameter.
-     * 
-     * @param pRuleId
-     *            rule's id
-     * @param pFilePath
-     *            file's path
-     * @param pLocation
-     *            violation's location
-     * @param pMessage
-     *            violation's message
-     * @param pValue
-     *            violation's line
+     *
+     * @param pRuleId   rule's id
+     * @param pFilePath file's path
+     * @param pLocation violation's location
+     * @param pMessage  violation's message
+     * @param pValue    violation's line
      */
     public FunctionRuleDescriptor(final String pRuleId, final IPath pFilePath,
-                    final String pLocation, final String pMessage, final Integer pValue) {
+                                  final String pLocation, final String pMessage, final Integer pValue) {
         final String method = "";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pRuleId, pFilePath, pLocation, pMessage, pValue
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pRuleId, pFilePath, pLocation, pMessage, pValue
         });
         this.ruleId = pRuleId;
         this.filePath = pFilePath;
@@ -73,7 +78,7 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Getter for the location.
-     * 
+     *
      * @return the location
      */
     public String getLocation() {
@@ -85,8 +90,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getValue()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getValue()
      */
     @Override
     public Integer getValue() {
@@ -98,7 +103,7 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Getter for file's path.
-     * 
+     *
      * @return the file's path
      */
     public IPath getFilePath() {
@@ -110,7 +115,7 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Getter for the id.
-     * 
+     *
      * @return the id
      */
     public String getRuleId() {
@@ -122,9 +127,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for the location.
-     * 
-     * @param pLocation
-     *            the location to set
+     *
+     * @param pLocation the location to set
      */
     public void setLocation(final String pLocation) {
         final String method = "setLocation";
@@ -135,9 +139,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for the line.
-     * 
-     * @param pValue
-     *            line's violation
+     *
+     * @param pValue line's violation
      */
     public void setValue(final Integer pValue) {
         final String method = "setValue";
@@ -148,9 +151,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for the file's path.
-     * 
-     * @param pFilePath
-     *            the file's path to set
+     *
+     * @param pFilePath the file's path to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -161,9 +163,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /**
      * Setter for rule's id.
-     * 
-     * @param pRuleId
-     *            the id to set
+     *
+     * @param pRuleId the id to set
      */
     public void setRuleId(final String pRuleId) {
         final String method = "setRuleId";
@@ -174,8 +175,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -187,8 +188,8 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.rules.IRuleDescriptor#getCriticity()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.rules.IRuleDescriptor#getCriticity()
      */
     @Override
     public String getSeverity() {
@@ -201,7 +202,7 @@ public class FunctionRuleDescriptor implements IRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,17 +14,17 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 
 /**
  * Thread job converting all {@link Violation} in {@link #inputs} into a
  * {@link #container} of {@link FileRuleDescriptor}. </br>
- * 
+ * <p>
  * The job consist in verifying different attributes of the {@link Violation}
  * and the {@link #container}, creating a new : </br>
  * <ul>
@@ -38,20 +38,25 @@ import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescr
  * <li>{@link ViolationDescriptor} for each violation and putting it into the
  * right {@link RuleDescriptor}.
  * </ul>
- * 
- * @see Job
- * @see fr.cnes.icode.ui.view.violation.treeviewer.file.FileTreeViewer
- * 
- * @since 2.0
+ *
  * @version 2.1
+ * @see Job
+ * @see fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer
+ * @since 2.0
  */
 public class ViolationToFileTreeViewerConverter extends Job {
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = ViolationToFileTreeViewerConverter.class.getName();
 
-    /** The original inputs. **/
+    /**
+     * The original inputs.
+     **/
     private CheckResult[] inputs;
-    /** A value container which has all values of rules. **/
+    /**
+     * A value container which has all values of rules.
+     **/
     private FileRuleDescriptor[] container;
 
     /**
@@ -68,9 +73,8 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
     /**
      * Constructor for this Job with an array of violations.
-     * 
-     * @param pInputs
-     *            the inputs
+     *
+     * @param pInputs the inputs
      */
     public ViolationToFileTreeViewerConverter(final CheckResult[] pInputs) {
         super("Converting results...");
@@ -83,7 +87,7 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
     /**
      * Getter for the inputs id.
-     * 
+     *
      * @return the inputs
      */
     public CheckResult[] getInputs() {
@@ -96,7 +100,7 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
     /**
      * Getter for the container
-     * 
+     *
      * @return the container
      */
     public FileRuleDescriptor[] getContainer() {
@@ -109,9 +113,8 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
     /**
      * Setter for the inputs.
-     * 
-     * @param pInputs
-     *            the inputs to set
+     *
+     * @param pInputs the inputs to set
      */
     public void setInputs(final CheckResult[] pInputs) {
         final String method = "setInputs";
@@ -122,9 +125,8 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
     /**
      * Setter for the container
-     * 
-     * @param pContainer
-     *            the container to set
+     *
+     * @param pContainer the container to set
      */
     public void setContainer(final FileRuleDescriptor[] pContainer) {
         final String method = "setContainer";
@@ -135,7 +137,7 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
      * IProgressMonitor)
      */
@@ -173,19 +175,19 @@ public class ViolationToFileTreeViewerConverter extends Job {
                 if (descriptors.contains(file)) {
                     file = descriptors.get((descriptors.indexOf(file)));
                     function = new FunctionDescriptor(value.getLocation(), Integer.valueOf(-1),
-                                    new Path(value.getFile().getAbsolutePath()));
+                            new Path(value.getFile().getAbsolutePath()));
                     if (file.getDescriptors().contains(function)) {
                         function = file.getDescriptors()
-                                        .get(file.getDescriptors().indexOf(function));
+                                .get(file.getDescriptors().indexOf(function));
                         rule = new RuleDescriptor(value.getId(), value.getName(),
-                                        value.getLocation(), Integer.valueOf(-1),
-                                        new Path(value.getFile().getAbsolutePath()));
+                                value.getLocation(), Integer.valueOf(-1),
+                                new Path(value.getFile().getAbsolutePath()));
                         if (function.getDescriptors().contains(rule)) {
                             rule = function.getDescriptors()
-                                            .get(function.getDescriptors().indexOf(rule));
+                                    .get(function.getDescriptors().indexOf(rule));
                             viold = new ViolationDescriptor(value.getName(), value.getLocation(),
-                                            value.getMessage(), value.getLine(),
-                                            new Path(value.getFile().getAbsolutePath()));
+                                    value.getMessage(), value.getLine(),
+                                    new Path(value.getFile().getAbsolutePath()));
                             if (rule.getDescriptors().contains(viold)) {
                                 /*
                                  * This shouldn't happen, this mean the
@@ -196,31 +198,31 @@ public class ViolationToFileTreeViewerConverter extends Job {
                             }
                         } else {
                             viold = new ViolationDescriptor(value.getName(), value.getLocation(),
-                                            value.getMessage(), value.getLine(),
-                                            new Path(value.getFile().getAbsolutePath()));
+                                    value.getMessage(), value.getLine(),
+                                    new Path(value.getFile().getAbsolutePath()));
                             rule.getDescriptors().add(viold.clone());
                             function.getDescriptors().add(rule.clone());
                         }
                     } else {
                         rule = new RuleDescriptor(value.getId(), value.getName(),
-                                        value.getLocation(), Integer.valueOf(-1),
-                                        new Path(value.getFile().getAbsolutePath()));
+                                value.getLocation(), Integer.valueOf(-1),
+                                new Path(value.getFile().getAbsolutePath()));
                         viold = new ViolationDescriptor(value.getName(), value.getLocation(),
-                                        value.getMessage(), value.getLine(),
-                                        new Path(value.getFile().getAbsolutePath()));
+                                value.getMessage(), value.getLine(),
+                                new Path(value.getFile().getAbsolutePath()));
                         rule.getDescriptors().add(viold.clone());
                         function.getDescriptors().add(rule.clone());
                         file.getDescriptors().add(function.clone());
                     }
                 } else {
                     rule = new RuleDescriptor(value.getId(), value.getName(), value.getLocation(),
-                                    Integer.valueOf(-1),
-                                    new Path(value.getFile().getAbsolutePath()));
+                            Integer.valueOf(-1),
+                            new Path(value.getFile().getAbsolutePath()));
                     viold = new ViolationDescriptor(value.getName(), value.getLocation(),
-                                    value.getMessage(), value.getLine(),
-                                    new Path(value.getFile().getAbsolutePath()));
+                            value.getMessage(), value.getLine(),
+                            new Path(value.getFile().getAbsolutePath()));
                     function = new FunctionDescriptor(value.getLocation(), Integer.valueOf(-1),
-                                    new Path(value.getFile().getAbsolutePath()));
+                            new Path(value.getFile().getAbsolutePath()));
                     rule.getDescriptors().add(viold.clone());
                     function.getDescriptors().add(rule.clone());
                     file.getDescriptors().add(function.clone());
@@ -232,8 +234,8 @@ public class ViolationToFileTreeViewerConverter extends Job {
 
         } catch (final CloneNotSupportedException exception) {
             ICodeLogger.error(CLASS, method, exception);
-            status = new Status(IStatus.ERROR, "fr.cnes.icode.ui", IStatus.ERROR,
-                            exception.getMessage(), exception);
+            status = new Status(IStatus.ERROR, "fr.cnes.analysis.tools.ui", IStatus.ERROR,
+                    exception.getMessage(), exception);
         }
 
         ICodeLogger.exiting(CLASS, method, status);

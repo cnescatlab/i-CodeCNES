@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view;
+package fr.cnes.analysis.tools.ui.view;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 
@@ -11,20 +11,22 @@ import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Label provider for columns of viewers
- *
  */
 public abstract class AbstractLabelProvider extends ColumnLabelProvider {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = AbstractLabelProvider.class.getName();
-    /** An integer to determine which column has to be provide. **/
+    /**
+     * An integer to determine which column has to be provide.
+     **/
     private int type;
 
     /**
      * Constructor with integer parameter which represents the column created.
-     * 
-     * @param pType
-     *            the column to create
+     *
+     * @param pType the column to create
      */
     public AbstractLabelProvider(final int pType) {
         super();
@@ -36,7 +38,7 @@ public abstract class AbstractLabelProvider extends ColumnLabelProvider {
 
     /**
      * Getter for the type.
-     * 
+     *
      * @return the type
      */
     public int getType() {
@@ -48,9 +50,8 @@ public abstract class AbstractLabelProvider extends ColumnLabelProvider {
 
     /**
      * Setter for the type.
-     * 
-     * @param pType
-     *            the type to set
+     *
+     * @param pType the type to set
      */
     public void setType(final int pType) {
         final String method = "setType";

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.configurations;
+package fr.cnes.analysis.tools.ui.configurations;
 
 import fr.cnes.icode.logger.ICodeLogger;
 
@@ -12,42 +12,50 @@ import fr.cnes.icode.logger.ICodeLogger;
  */
 public class CheckConfigurationContainer {
 
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = CheckConfigurationContainer.class.getName();
 
-    /** Checker identifier */
+    /**
+     * Checker identifier
+     */
     private String checkId;
-    /** Checker name */
+    /**
+     * Checker name
+     */
     private String name;
-    /** Checker configuration's description */
+    /**
+     * Checker configuration's description
+     */
     private String description;
-    /** Checker is enabled */
+    /**
+     * Checker is enabled
+     */
     private boolean enabled;
-    /** Max value set for the Checker */
+    /**
+     * Max value set for the Checker
+     */
     private Float maxValue;
-    /** Min value set for the Checker */
+    /**
+     * Min value set for the Checker
+     */
     private Float minValue;
 
     /**
-     * @param pCheckId
-     *            Checker identifier
-     * @param pName
-     *            Checker name
-     * @param pDescription
-     *            Checker configuration's description
-     * @param pEnabled
-     *            Checker is enabled
-     * @param pMaxValue
-     *            Max value set for the Checker
-     * @param pMinValue
-     *            Min value set for the Checker
+     * @param pCheckId     Checker identifier
+     * @param pName        Checker name
+     * @param pDescription Checker configuration's description
+     * @param pEnabled     Checker is enabled
+     * @param pMaxValue    Max value set for the Checker
+     * @param pMinValue    Min value set for the Checker
      */
     public CheckConfigurationContainer(String pCheckId, String pName, String pDescription,
-                    Boolean pEnabled, Float pMaxValue, Float pMinValue) {
+                                       Boolean pEnabled, Float pMaxValue, Float pMinValue) {
         super();
         final String method = "CheckConfigurationContainer";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pCheckId, pName, pDescription, pEnabled, pMaxValue, pMinValue
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pCheckId, pName, pDescription, pEnabled, pMaxValue, pMinValue
         });
         this.checkId = pCheckId;
         this.name = pName;
@@ -69,8 +77,7 @@ public class CheckConfigurationContainer {
     }
 
     /**
-     * @param pCheckId
-     *            the checkId to set
+     * @param pCheckId the checkId to set
      */
     public final void setCheckId(String pCheckId) {
         final String method = "setCheckId";
@@ -90,8 +97,7 @@ public class CheckConfigurationContainer {
     }
 
     /**
-     * @param pName
-     *            the name to set
+     * @param pName the name to set
      */
     public final void setName(String pName) {
         final String method = "setName";
@@ -111,8 +117,7 @@ public class CheckConfigurationContainer {
     }
 
     /**
-     * @param pDescription
-     *            the description to set
+     * @param pDescription the description to set
      */
     public final void setDescription(String pDescription) {
         final String method = "setDescription";
@@ -132,8 +137,7 @@ public class CheckConfigurationContainer {
     }
 
     /**
-     * @param pEnabled
-     *            the enabled to set
+     * @param pEnabled the enabled to set
      */
     public final void setEnabled(boolean pEnabled) {
         final String method = "setEnabled";
@@ -153,8 +157,7 @@ public class CheckConfigurationContainer {
     }
 
     /**
-     * @param pMaxValue
-     *            the maxValue to set
+     * @param pMaxValue the maxValue to set
      */
     public final void setMaxValue(Float pMaxValue) {
         final String method = "setMaxValue";
@@ -174,8 +177,7 @@ public class CheckConfigurationContainer {
     }
 
     /**
-     * @param pMinValue
-     *            the minValue to set
+     * @param pMinValue the minValue to set
      */
     public final void setMinValue(Float pMinValue) {
         final String method = "setMinValue";

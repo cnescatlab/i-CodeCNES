@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
 import java.util.List;
 
@@ -12,27 +12,28 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.exception.UnknownInstanceException;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
-import fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 
 /**
- * 
- * 
- * @since 2.0
  * @version 2.1
- * 
  * @see FileTreeViewer
  * @see org.eclipse.jface.viewers.ITreeContentProvider
+ * @since 2.0
  */
 public class FileTreeViewerContentProvider implements ITreeContentProvider {
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = FileTreeViewerContentProvider.class.getName();
-    /** The original inputs. **/
+    /**
+     * The original inputs.
+     **/
     private ViolationToFileTreeViewerConverter converter;
 
     /**
@@ -48,7 +49,7 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /**
      * Getter for the converter.
-     * 
+     *
      * @return the converter
      */
     public ViolationToFileTreeViewerConverter getConverter() {
@@ -60,9 +61,8 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /**
      * Setter for the converter.
-     * 
-     * @param pConverter
-     *            the converter to set
+     *
+     * @param pConverter the converter to set
      */
     public void setConverter(final ViolationToFileTreeViewerConverter pConverter) {
         final String method = "setConverter";
@@ -73,15 +73,15 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.
      * jface .viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
     public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
         final String method = "inputChanged";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            viewer, oldInput, newInput
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                viewer, oldInput, newInput
         });
 
         try {
@@ -94,20 +94,20 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
             } else if (newInput != null) {
                 final UnknownInstanceException exception = new UnknownInstanceException(
-                                "inputChanged method of AbstractContentProvider has a "
-                                                + newInput.getClass().getName()
-                                                + " type instead of a Descriptor<?>[] instance");
+                        "inputChanged method of AbstractContentProvider has a "
+                                + newInput.getClass().getName()
+                                + " type instead of a Descriptor<?>[] instance");
                 ICodeLogger.error(CLASS, method, exception);
                 MessageDialog.openError(
-                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                "Internal Error",
-                                "Contact support service : \n" + exception.getMessage());
+                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        "Internal Error",
+                        "Contact support service : \n" + exception.getMessage());
             }
         } catch (final InterruptedException exception) {
             ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
+                    "Internal Error",
+                    "Contact support service : \n" + exception.getMessage());
         }
 
         ICodeLogger.exiting(CLASS, method);
@@ -115,7 +115,7 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.
      * Object)
@@ -132,7 +132,7 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -147,7 +147,7 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
      * Object)
@@ -163,7 +163,7 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
      * )
@@ -178,7 +178,7 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
      * Object)
@@ -193,29 +193,29 @@ public class FileTreeViewerContentProvider implements ITreeContentProvider {
             // The parent element can be a FileValue : we find array of
             // function values depending
             final List<FunctionDescriptor> mVals = ((FileRuleDescriptor) parentElement)
-                            .getDescriptors();
+                    .getDescriptors();
             values = mVals.toArray(new FunctionDescriptor[mVals.size()]);
         } else if (parentElement instanceof FunctionDescriptor) {
 
             // A Descriptor : we find array of file values depending
             final List<RuleDescriptor> mVals = ((FunctionDescriptor) parentElement)
-                            .getDescriptors();
+                    .getDescriptors();
             values = mVals.toArray(new RuleDescriptor[mVals.size()]);
         } else if (parentElement instanceof RuleDescriptor) {
             final List<ViolationDescriptor> mVals = ((RuleDescriptor) parentElement)
-                            .getDescriptors();
+                    .getDescriptors();
             values = mVals.toArray(new ViolationDescriptor[mVals.size()]);
 
         } else if (!(parentElement instanceof RuleDescriptor)) {
 
             // Otherwise, an error is thrown on the interface
             final UnknownInstanceException exception = new UnknownInstanceException(
-                            "Unknow type in getChildren method of AbstractContentProvider : "
-                                            + parentElement.getClass().getName());
+                    "Unknow type in getChildren method of AbstractContentProvider : "
+                            + parentElement.getClass().getName());
             ICodeLogger.error(CLASS, method, exception);
             MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            "Internal Error",
-                            "Contact support service : \n" + exception.getMessage());
+                    "Internal Error",
+                    "Contact support service : \n" + exception.getMessage());
         }
 
         ICodeLogger.exiting(CLASS, method, values);

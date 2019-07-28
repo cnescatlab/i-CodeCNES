@@ -1,176 +1,173 @@
-! Fichier de test pour évaluer les outils d'analyse de code Fortran.
+! Fichier de test pour ï¿½valuer les outils d'analyse de code Fortran.
 
-! Le but de ce "programme" est d'observer quelles règles du RNC vérifient 
-! chaque outil sélectionné sur Internet. Il sera utilisé par la suite comme
+! Le but de ce "programme" est d'observer quelles rï¿½gles du RNC vï¿½rifient 
+! chaque outil sï¿½lectionnï¿½ sur Internet. Il sera utilisï¿½ par la suite comme
 ! fichier de test pour le pugin Eclipse. 
 
-! Ce fichier permet de tester les règles particulières impossibles
-! à vérifier pour F90 et impossible à vérifier avec un fichier F77.
+! Ce fichier permet de tester les rï¿½gles particuliï¿½res impossibles
+! ï¿½ vï¿½rifier pour F90 et impossible ï¿½ vï¿½rifier avec un fichier F77.
 
 PROGRAM TEST
 
-! Déclaration des variables pour la suite des vérifications
-! Variable pour vérification de Don.AllocDynBord
-REAL, ALLOCATABLE, DIMENSION(:) :: A,B
+    ! Dï¿½claration des variables pour la suite des vï¿½rifications
+    ! Variable pour vï¿½rification de Don.AllocDynBord
+    REAL, ALLOCATABLE, DIMENSION(:) :: A, B
 
-! Vérification de Org.SousType
-INTEGER,PARAMETER :: DOUBLE = selected_real_kind(15)
+    ! Vï¿½rification de Org.SousType
+    INTEGER, PARAMETER :: DOUBLE = selected_real_kind(15)
 
-! Variable pour vérification de Tr.OrdreChoix
-INTEGER :: NUM
+    ! Variable pour vï¿½rification de Tr.OrdreChoix
+    INTEGER :: NUM
 
-! Variables pour vérification de Pr.SuiteAligne
-! Vérification de Don.SousTypeRéel
-REAL D,E,F,G, H
+    ! Variables pour vï¿½rification de Pr.SuiteAligne
+    ! Vï¿½rification de Don.SousTypeRï¿½el
+    REAL D, E, F, G, H
 
-! Vérification de Don.SpecSousType
-INTEGER,PARAMETER :: DISTANCE = 10
+    ! Vï¿½rification de Don.SpecSousType
+    INTEGER, PARAMETER :: DISTANCE = 10
 
-! Variables pour vérification de Don.LimitePointer
-INTEGER,POINTER :: P
-INTEGER,TARGET :: N
+    ! Variables pour vï¿½rification de Don.LimitePointer
+    INTEGER, POINTER :: P
+    INTEGER, TARGET :: N
 
-! Vérification de Don.ConstFlottant
-REAL(DOUBLE) :: x1 = 0.1
+    ! Vï¿½rification de Don.ConstFlottant
+    REAL(DOUBLE) :: x1 = 0.1
 
-! Variable pour vérification de Don.Associated
-INTEGER,POINTER :: Q
+    ! Variable pour vï¿½rification de Don.Associated
+    INTEGER, POINTER :: Q
 
-! Variables pour vérification de Tr.TableauAffect
-INTEGER :: V(4)
-INTEGER :: TAB(4)
-! Variables pour vérification de Don.Equivalence
-COMPLEX :: COMPL(2) 
-REAL :: TEMP(4) 
+    ! Variables pour vï¿½rification de Tr.TableauAffect
+    INTEGER :: V(4)
+    INTEGER :: TAB(4)
+    ! Variables pour vï¿½rification de Don.Equivalence
+    COMPLEX :: COMPL(2)
+    REAL :: TEMP(4)
 
-! Vérification de Don.Equivalence
-EQUIVALENCE  (TEMP(1), COMPL(1))
+    ! Vï¿½rification de Don.Equivalence
+    EQUIVALENCE  (TEMP(1), COMPL(1))
 
-! Vérification de Don.AllocDynBord
-! Vérification de Don.AllocEchec
-! Vérification de Err.Allocate
-ALLOCATE(A(4))
+    ! Vï¿½rification de Don.AllocDynBord
+    ! Vï¿½rification de Don.AllocEchec
+    ! Vï¿½rification de Err.Allocate
+    ALLOCATE(A(4))
 
-! Initialisation des variables
-NUM = 5
-A(1) = 2
-A(2) = 4
-A(3) = 5
-A(4) = 7
-D = 75
-E = 65
-F = 92
-G = 156
+    ! Initialisation des variables
+    NUM = 5
+    A(1) = 2
+    A(2) = 4
+    A(3) = 5
+    A(4) = 7
+    D = 75
+    E = 65
+    F = 92
+    G = 156
 
-! Vérification de Don.AllocLiberation : toute mémoire allouée dynamiquement doit
-! être libérée par la suite.
-! On regarde si cette règle est vérifiée en ne libérant pas la mémoire.
+    ! Vï¿½rification de Don.AllocLiberation : toute mï¿½moire allouï¿½e dynamiquement doit
+    ! ï¿½tre libï¿½rï¿½e par la suite.
+    ! On regarde si cette rï¿½gle est vï¿½rifiï¿½e en ne libï¿½rant pas la mï¿½moire.
 
-! Vérification de Tr.OrdreChoix
-SELECT CASE (NUM) 
-	CASE (-5 : -1)
-		WRITE(*,*) 'Tr.OrdreChoix'
-	CASE (1 : 10 )
-		WRITE(*,*) 'Tr.OrdreChoix'
-	CASE ( : -6)
-		WRITE(*,*) 'Tr.OrdreChoix'
-        CASE (0)
-		WRITE(*,*) 'Tr.OrdreChoix'
-END SELECT
+    ! Vï¿½rification de Tr.OrdreChoix
+    SELECT CASE (NUM)
+    CASE (-5:-1)
+        WRITE(*, *) 'Tr.OrdreChoix'
+    CASE (1:10)
+        WRITE(*, *) 'Tr.OrdreChoix'
+    CASE (:-6)
+        WRITE(*, *) 'Tr.OrdreChoix'
+    CASE (0)
+        WRITE(*, *) 'Tr.OrdreChoix'
+    END SELECT
 
-! Vérification de Pr.Instruction
-WRITE(*,*) 'Pr.Instruction' ; WRITE(*,*) 'Pr.Instruction' ;
+    ! Vï¿½rification de Pr.Instruction
+    WRITE(*, *) 'Pr.Instruction' ; WRITE(*, *) 'Pr.Instruction' ;
 
-! Vérification de Pr.SuiteAligne
-H = (G * F) + (G / (D - E)) &
-    + (F / (G + F * E)) &
-    - D
+    ! Vï¿½rification de Pr.SuiteAligne
+    H = (G * F) + (G / (D - E)) &
+            + (F / (G + F * E)) &
+            - D
 
-! Vérification de Id.Homonymie
-CALL INCR(NUM)
+    ! Vï¿½rification de Id.Homonymie
+    CALL INCR(NUM)
 
-! Vérification de Don.LimitePointer
-P => N
+    ! Vï¿½rification de Don.LimitePointer
+    P => N
 
-! Vérification de Don.Associated
-PRINT*, ASSOCIATED(Q)
+    ! Vï¿½rification de Don.Associated
+    PRINT*, ASSOCIATED(Q)
 
-! Vérification de Tr.TableauComplet
-A(1:4) = 2 * A(1:4)
+    ! Vï¿½rification de Tr.TableauComplet
+    A(1:4) = 2 * A(1:4)
 
-A(1:3) = A(1:3) + A(2:4)
+    A(1:3) = A(1:3) + A(2:4)
 
-! Vérification de Tr.TableauDepend : on vérifie la présence d'un commentaire avant
-! Vérification de Tr.TableauAffect
-V = (/ 1, 2, 2, 3 /)
-TAB(V) = (/ 1, 2, 3, 4 /)
+    ! Vï¿½rification de Tr.TableauDepend : on vï¿½rifie la prï¿½sence d'un commentaire avant
+    ! Vï¿½rification de Tr.TableauAffect
+    V = (/ 1, 2, 2, 3 /)
+    TAB(V) = (/ 1, 2, 3, 4 /)
 
-! Vérification de Tr.IFLogique
-IF (D == 0) E = 7
+    ! Vï¿½rification de Tr.IFLogique
+    IF (D == 0) E = 7
 
-! Vérification de Err.OpenRead
-! Vérification de Int.ParamOpen
-OPEN(11, FILE = 'README.txt')
+    ! Vï¿½rification de Err.OpenRead
+    ! Vï¿½rification de Int.ParamOpen
+    OPEN(11, FILE = 'README.txt')
 
-! Vérification de Int.FormatFlottant
-WRITE(6,*) x1
+    ! Vï¿½rification de Int.FormatFlottant
+    WRITE(6, *) x1
 
-! Vérification de Don.AllocErreur
-IF (.TRUE.) THEN
-	ALLOCATE(B(1))
-	B(2) = 0
-END IF
+    ! Vï¿½rification de Don.AllocErreur
+    IF (.TRUE.) THEN
+        ALLOCATE(B(1))
+        B(2) = 0
+    END IF
 
-! Vérification de Dyn.Ressources
-DEALLOCATE(B)
+    ! Vï¿½rification de Dyn.Ressources
+    DEALLOCATE(B)
 
 END
 
 
-
-! Vérification de Tr.RecursifBord
+! Vï¿½rification de Tr.RecursifBord
 INTEGER RECURSIVE FUNCTION FONCTION_REC(NUM) RESULT (RES)
 
-! Vérification de Pr.OperRelationnel
-IF (NUM .EQ. 0) RETURN
-RES = NUM * FONCTION_REC(NUM - 1)
+    ! Vï¿½rification de Pr.OperRelationnel
+    IF (NUM .EQ. 0) RETURN
+    RES = NUM * FONCTION_REC(NUM - 1)
 
-! Vérification de Pr.UnitéNommée
+    ! Vï¿½rification de Pr.Unitï¿½Nommï¿½e
 END FUNCTION
 
 
+! Vï¿½rification de Org.SousProgramme
+! Vï¿½rification de Id.Homonymie
+SUBROUTINE INCR(J)
 
-! Vérification de Org.SousProgramme
-! Vérification de Id.Homonymie
-SUBROUTINE INCR(J)  
+    ! Vï¿½rification de Tr.Intent
+    ! On ne spï¿½cifie pas le INTENT pour J
 
-! Vérification de Tr.Intent
-! On ne spécifie pas le INTENT pour J
-
-I = I + 1     
-RETURN
+    I = I + 1
+    RETURN
 
 END
 
 
+! Vï¿½rification de Don.Init
+INTEGER FUNCTION FUN(A, X)
 
-! Vérification de Don.Init
-INTEGER FUNCTION FUN(A,X)
+    ! Vï¿½rification de Tr.ParamTableau : dï¿½clarer la dimension des tableaux explicitement
+    INTEGER, INTENT(IN) :: A
 
-! Vérification de Tr.ParamTableau : déclarer la dimension des tableaux explicitement
-INTEGER, INTENT(IN) :: A
+    ! Vï¿½rification de Tr.ParamOptionnel
+    INTEGER, OPTIONAL, INTENT(IN) :: X
 
-! Vérification de Tr.ParamOptionnel
-INTEGER, OPTIONAL, INTENT(IN) :: X
+    INTEGER :: I, S = 0
+    DO I = 1, A
+        S = S + I
+    END DO
+    FUN = S
 
-INTEGER :: I, S = 0   
-DO I= 1, A
-	S = S + I
-END DO
-FUN = S
-
-! Vérification de Tr.Entry
-ENTRY FUNK
-RETURN
+    ! Vï¿½rification de Tr.Entry
+    ENTRY FUNK
+    RETURN
 
 END FUNCTION FUN

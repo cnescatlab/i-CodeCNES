@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.decorators;
+package fr.cnes.analysis.tools.ui.decorators;
 
 import java.util.List;
 
@@ -15,20 +15,19 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.images.ImageFactory;
-import fr.cnes.icode.ui.markers.ViolationErrorMarker;
 
 /**
  * Put a new Decoration in the files tree on the top right of an icon of a file
  * if a file contains a violation error marker.
- * 
+ * <p>
  * This class is being called everytime a document is being refreshed in the
  * files explorer view.
- * 
+ * <p>
  * In case there is no marker anymore (error && warning), this class restore
  * back the original icon.
- *
  */
 public class ViolationErrorDecorator extends LabelProvider implements ILightweightLabelDecorator {
 
@@ -36,22 +35,25 @@ public class ViolationErrorDecorator extends LabelProvider implements ILightweig
      * Link to the Violation Error icon
      */
     public static final String ICON = ImageFactory.ERROR_VERY_SMALL;
-    /** Decorator ID */
+    /**
+     * Decorator ID
+     */
     public static final String ID_VIOLATION_ERROR_DECORATOR = "fr.cnes.tools.ui."
-                    + "decorators.violationerrordecorator";
-    /** Class name **/
+            + "decorators.violationerrordecorator";
+    /**
+     * Class name
+     **/
     private static final String CLASS = ViolationErrorDecorator.class.getName();
 
     /**
      * An Violation Error icon is being put on the top-right of the icon's file
      * only if the file contain a marker of type "ViolationErrorMarker".
-     * 
      */
     @Override
     public void decorate(Object resource, final IDecoration decoration) {
         final String method = "decorate";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            resource, decoration
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                resource, decoration
         });
 
         /*

@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.metrics;
+package fr.cnes.analysis.tools.ui.view.metrics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,16 +12,21 @@ import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Class for general description of a metric.
- * 
  */
 public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = MetricDescriptor.class.getName();
 
-    /** Name of the metric. **/
+    /**
+     * Name of the metric.
+     **/
     private String name;
-    /** List of descriptor for the files. **/
+    /**
+     * List of descriptor for the files.
+     **/
     private List<FileMetricDescriptor> descriptors;
 
     /**
@@ -37,9 +42,8 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Constructor with metric's name.
-     * 
-     * @param pName
-     *            metric's name
+     *
+     * @param pName metric's name
      */
     public MetricDescriptor(final String pName) {
         final String method = "MetricDescriptor";
@@ -51,8 +55,8 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getName()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getName()
      */
     @Override
     public String getName() {
@@ -64,7 +68,7 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Getter for descriptors.
-     * 
+     *
      * @return the descriptors.
      */
     public List<FileMetricDescriptor> getDescriptors() {
@@ -76,9 +80,8 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the name.
-     * 
-     * @param pName
-     *            the name to set
+     *
+     * @param pName the name to set
      */
     public void setName(final String pName) {
         final String method = "setName";
@@ -89,9 +92,8 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /**
      * Setter for the descriptors.
-     * 
-     * @param pDescriptors
-     *            the descriptors to set
+     *
+     * @param pDescriptors the descriptors to set
      */
     public void setDescriptors(final List<FileMetricDescriptor> pDescriptors) {
         final String method = "setDescriptors";
@@ -102,8 +104,8 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getValue()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getValue()
      */
     @Override
     public Float getValue() {
@@ -119,8 +121,8 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMean()
+     *
+     * @see fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMean()
      */
     @Override
     public Float getMean() {
@@ -139,9 +141,9 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinimum()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinimum()
      */
     @Override
     public Float getMinimum() {
@@ -159,9 +161,9 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaximum()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaximum()
      */
     @Override
     public Float getMaximum() {
@@ -179,9 +181,9 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMinCause()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMinCause()
      */
     @Override
     public String getMinCause() {
@@ -200,9 +202,9 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#getMaxCause()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#getMaxCause()
      */
     @Override
     public String getMaxCause() {
@@ -221,9 +223,9 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * fr.cnes.icode.ui.view.metrics.IMetricDescriptor#hasRightValue()
+     * fr.cnes.analysis.tools.ui.view.metrics.IMetricDescriptor#hasRightValue()
      */
     @Override
     public boolean hasRightValue() {
@@ -241,7 +243,7 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -260,7 +262,7 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -274,7 +276,7 @@ public class MetricDescriptor implements IMetricDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override

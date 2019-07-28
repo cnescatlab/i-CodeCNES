@@ -3,41 +3,49 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.preferences;
+package fr.cnes.analysis.tools.ui.preferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.Activator;
 
 /**
  * Container for languages used {@link UserPreferencesService}
  */
 public class LanguagePreferencesContainer {
 
-    /** Class name */
+    /**
+     * Class name
+     */
     private static final String CLASS = LanguagePreferencesContainer.class.getName();
 
-    /** Language's identifier */
+    /**
+     * Language's identifier
+     */
     private String id;
-    /** Language's name */
+    /**
+     * Language's name
+     */
     private String name;
-    /** Language selection */
+    /**
+     * Language selection
+     */
     private boolean checked;
-    /** Language's checkers */
+    /**
+     * Language's checkers
+     */
     private List<CheckerPreferencesContainer> checkers;
 
     /**
-     * @param pId
-     *            Language's identifier
-     * @param pChecked
-     *            Language's checkers
+     * @param pId      Language's identifier
+     * @param pChecked Language's checkers
      */
     public LanguagePreferencesContainer(final String pId, final boolean pChecked) {
         final String method = "LanguagePreferencesContainer";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pId, Boolean.valueOf(pChecked)
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pId, Boolean.valueOf(pChecked)
         });
         this.id = pId;
         this.checked = pChecked;
@@ -46,18 +54,15 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pId
-     *            Language's identifier
-     * @param pName
-     *            Language's name
-     * @param pChecked
-     *            Language selection
+     * @param pId      Language's identifier
+     * @param pName    Language's name
+     * @param pChecked Language selection
      */
     public LanguagePreferencesContainer(final String pId, final String pName,
-                    final boolean pChecked) {
+                                        final boolean pChecked) {
         final String method = "LanguagePreferencesContainer";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pId, pName, Boolean.valueOf(pChecked)
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pId, pName, Boolean.valueOf(pChecked)
         });
         this.id = pId;
         this.name = pName;
@@ -67,20 +72,16 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pId
-     *            Language's identifier
-     * @param pName
-     *            Language's name
-     * @param pChecked
-     *            Language selection
-     * @param pCheckers
-     *            Language's checkers
+     * @param pId       Language's identifier
+     * @param pName     Language's name
+     * @param pChecked  Language selection
+     * @param pCheckers Language's checkers
      */
     public LanguagePreferencesContainer(final String pId, final String pName,
-                    final boolean pChecked, final List<CheckerPreferencesContainer> pCheckers) {
+                                        final boolean pChecked, final List<CheckerPreferencesContainer> pCheckers) {
         final String method = "LanguagePreferencesContainer";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pId, pName, Boolean.valueOf(pChecked), pCheckers
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pId, pName, Boolean.valueOf(pChecked), pCheckers
         });
         this.id = pId;
         this.name = pName;
@@ -90,8 +91,7 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pChecked
-     *            selection to set.
+     * @param pChecked selection to set.
      */
     public void setChecked(final Boolean pChecked) {
         final String method = "setChecked";
@@ -140,8 +140,7 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pId
-     *            the id to set
+     * @param pId the id to set
      */
     public final void setId(final String pId) {
         final String method = "setId";
@@ -161,8 +160,7 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pName
-     *            the name to set
+     * @param pName the name to set
      */
     public final void setName(final String pName) {
         final String method = "setName";
@@ -182,8 +180,7 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pChecked
-     *            the checked to set
+     * @param pChecked the checked to set
      */
     public final void setChecked(final boolean pChecked) {
         final String method = "setChecked";
@@ -203,8 +200,7 @@ public class LanguagePreferencesContainer {
     }
 
     /**
-     * @param pCheckers
-     *            the checkers to set
+     * @param pCheckers the checkers to set
      */
     public final void setCheckers(final List<CheckerPreferencesContainer> pCheckers) {
         final String method = "setCheckers";

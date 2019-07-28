@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.metrics;
+package fr.cnes.analysis.tools.ui.view.metrics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,18 +20,25 @@ import fr.cnes.icode.logger.ICodeLogger;
 /**
  * Job used to converter inputs from analysis to valuable inputs for the
  * MetricView.
- * 
  */
 public class MetricConverter extends Job {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = MetricConverter.class.getName();
 
-    /** Job message */
+    /**
+     * Job message
+     */
     private static final String CONVERT_JOB_MESSAGE = "Converting results...";
 
-    /** The original inputs. **/
+    /**
+     * The original inputs.
+     **/
     private CheckResult[] inputs;
-    /** A value container which has all values of rules. **/
+    /**
+     * A value container which has all values of rules.
+     **/
     private MetricDescriptor[] container;
 
     /**
@@ -49,9 +56,8 @@ public class MetricConverter extends Job {
 
     /**
      * Constructor for this Job with an array of violations.
-     * 
-     * @param checkResults
-     *            the inputs
+     *
+     * @param checkResults the inputs
      */
     public MetricConverter(final CheckResult[] checkResults) {
         super(CONVERT_JOB_MESSAGE);
@@ -64,7 +70,7 @@ public class MetricConverter extends Job {
 
     /**
      * Getter for the inputs id.
-     * 
+     *
      * @return the inputs
      */
     public CheckResult[] getInputs() {
@@ -77,7 +83,7 @@ public class MetricConverter extends Job {
 
     /**
      * Getter for the container
-     * 
+     *
      * @return the container
      */
     public MetricDescriptor[] getContainer() {
@@ -90,9 +96,8 @@ public class MetricConverter extends Job {
 
     /**
      * Setter for the inputs.
-     * 
-     * @param pInputs
-     *            the inputs to set
+     *
+     * @param pInputs the inputs to set
      */
     public void setInputs(final CheckResult[] pInputs) {
         final String method = "setInputs";
@@ -103,9 +108,8 @@ public class MetricConverter extends Job {
 
     /**
      * Setter for the container
-     * 
-     * @param pContainer
-     *            the container to set
+     *
+     * @param pContainer the container to set
      */
     public void setContainer(final MetricDescriptor[] pContainer) {
         final String method = "setContainer";
@@ -116,7 +120,7 @@ public class MetricConverter extends Job {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
      * IProgressMonitor)
      */
@@ -153,7 +157,7 @@ public class MetricConverter extends Job {
                     while (fileIndex < metric.getDescriptors().size() && !fileDefined) {
                         final FileMetricDescriptor file = metric.getDescriptors().get(fileIndex);
                         if (file.getFilePath().toFile().getAbsolutePath()
-                                        .equals(checker.getFile().getAbsolutePath())) {
+                                .equals(checker.getFile().getAbsolutePath())) {
                             fileDefined = true;
                         } else {
                             fileIndex++;
@@ -184,7 +188,7 @@ public class MetricConverter extends Job {
             if (checker.getLocation() == null || checker.getLocation().isEmpty()) {
                 if (!fileDefined) {
                     file = new FileMetricDescriptor(new Path(checker.getFile().getAbsolutePath()),
-                                    checker.getValue());
+                            checker.getValue());
                     metric.getDescriptors().add(file);
                 } else {
                     file = metric.getDescriptors().get(fileIndex);
@@ -204,8 +208,8 @@ public class MetricConverter extends Job {
                     file = metric.getDescriptors().get(fileIndex);
                 }
                 file.getDescriptors().add(new FunctionMetricDescriptor(checker.getId(),
-                                checker.getLocation(), checker.getValue(),
-                                new Path(checker.getFile().getAbsolutePath()), checker.getLine()));
+                        checker.getLocation(), checker.getValue(),
+                        new Path(checker.getFile().getAbsolutePath()), checker.getLine()));
             }
         }
         this.container = descriptors.toArray(new MetricDescriptor[descriptors.size()]);

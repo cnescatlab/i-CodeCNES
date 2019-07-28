@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.view.violation.treeviewer.file.descriptor;
+package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,27 +17,37 @@ import fr.cnes.icode.logger.ICodeLogger;
  * This descriptor would return it's {@link #location} and the number of
  * violations that it contains while using {@link #getName()} and
  * {@link #getValue()} when instanced in a {@link IFileRuleDescriptor}.</br>
- * 
+ * <p>
  * Descriptors of this file are {@link RuleDescriptor} for each rule violated in
  * the function described by this class.
- * 
+ *
+ * @version 2.1
  * @see IFileRuleDescriptor
  * @see FileRuleDescriptor
  * @see RuleDescriptor
- * @version 2.1
  * @since 2.0
  */
 public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
-    /** Class name **/
+    /**
+     * Class name
+     **/
     private static final String CLASS = FunctionDescriptor.class.getName();
 
-    /** Function containing the violation. **/
+    /**
+     * Function containing the violation.
+     **/
     private String location;
-    /** Line of the violation. **/
+    /**
+     * Line of the violation.
+     **/
     private Integer value;
-    /** File name */
+    /**
+     * File name
+     */
     private IPath filePath;
-    /** List of all rules violated in the file */
+    /**
+     * List of all rules violated in the file
+     */
     private List<RuleDescriptor> descriptors;
 
     /**
@@ -53,18 +63,15 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pLocation
-     *            Function's name.
-     * @param pValue
-     *            Value computed for the function.
-     * @param pFilePath
-     *            Function's file.
+     * @param pLocation Function's name.
+     * @param pValue    Value computed for the function.
+     * @param pFilePath Function's file.
      */
     public FunctionDescriptor(final String pLocation, final Integer pValue, final IPath pFilePath) {
         super();
         final String method = "FunctionDescriptor";
-        ICodeLogger.entering(CLASS, method, new Object[] {
-            pLocation, pValue, pFilePath
+        ICodeLogger.entering(CLASS, method, new Object[]{
+                pLocation, pValue, pFilePath
         });
         this.descriptors = new LinkedList<>();
         this.location = pLocation;
@@ -95,7 +102,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -111,7 +118,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -141,7 +148,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override
@@ -168,8 +175,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pLocation
-     *            the location to set
+     * @param pLocation the location to set
      */
     public void setLocation(final String pLocation) {
         final String method = "setLocation";
@@ -189,8 +195,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pFilePath
-     *            the filePath to set
+     * @param pFilePath the filePath to set
      */
     public void setFilePath(final IPath pFilePath) {
         final String method = "setFilePath";
@@ -210,8 +215,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pDescriptors
-     *            the descriptors to set
+     * @param pDescriptors the descriptors to set
      */
     public void setDescriptors(List<RuleDescriptor> pDescriptors) {
         final String method = "setDescriptors";
@@ -221,8 +225,7 @@ public class FunctionDescriptor implements IFileRuleDescriptor, Cloneable {
     }
 
     /**
-     * @param pValue
-     *            the value to set
+     * @param pValue the value to set
      */
     public void setValue(Integer pValue) {
         final String method = "setValue";

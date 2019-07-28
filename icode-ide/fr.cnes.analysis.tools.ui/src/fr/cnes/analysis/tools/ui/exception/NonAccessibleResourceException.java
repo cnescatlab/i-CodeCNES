@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.exception;
+package fr.cnes.analysis.tools.ui.exception;
 
 /**
  * This exception is thrown whenever the resource is not accessible : a folder
@@ -18,9 +18,8 @@ public class NonAccessibleResourceException extends Exception {
 
     /**
      * Constructor with message.
-     * 
-     * @param message
-     *            the error message.
+     *
+     * @param message the error message.
      */
     public NonAccessibleResourceException(final String message) {
         super(message);
@@ -28,11 +27,9 @@ public class NonAccessibleResourceException extends Exception {
 
     /**
      * Constructor with message and original exception.
-     * 
-     * @param message
-     *            the error message.
-     * @param exception
-     *            original exception.
+     *
+     * @param message   the error message.
+     * @param exception original exception.
      */
     public NonAccessibleResourceException(final String message, final Exception exception) {
         super(message, exception);

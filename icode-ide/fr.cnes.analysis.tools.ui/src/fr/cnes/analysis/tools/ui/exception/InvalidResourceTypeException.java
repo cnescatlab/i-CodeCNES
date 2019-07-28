@@ -3,12 +3,11 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.exception;
+package fr.cnes.analysis.tools.ui.exception;
 
 /**
  * This exception is thrown whenever {IResource}'s type is ROOT, while its
  * parent is a project or a folder.
- * 
  */
 public class InvalidResourceTypeException extends Exception {
 
@@ -19,9 +18,8 @@ public class InvalidResourceTypeException extends Exception {
 
     /**
      * Constructor with message.
-     * 
-     * @param message
-     *            the error message.
+     *
+     * @param message the error message.
      */
     public InvalidResourceTypeException(final String message) {
         super(message);

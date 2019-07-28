@@ -3,7 +3,7 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.ui.preferences;
+package fr.cnes.analysis.tools.ui.preferences;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,32 +28,44 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckersComposite;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.MetricsComposite;
 import fr.cnes.icode.exception.NullContributionException;
 import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.ui.Activator;
-import fr.cnes.icode.ui.configurations.ConfigurationContainer;
-import fr.cnes.icode.ui.configurations.ConfigurationService;
-import fr.cnes.icode.ui.images.ImageFactory;
-import fr.cnes.icode.ui.preferences.checkerstables.CheckersComposite;
-import fr.cnes.icode.ui.preferences.checkerstables.MetricsComposite;
 
 /**
  * i-Code CNES Preferences page.
  */
 public class ConfigurationPreferencePage extends PreferencePage
-                implements IWorkbenchPreferencePage {
+        implements IWorkbenchPreferencePage {
 
-    /** Composite containing the configuration preference page */
+    /**
+     * Composite containing the configuration preference page
+     */
     private Composite composite;
-    /** List of {@link CheckerPreferencesContainer} displayed on the page */
+    /**
+     * List of {@link CheckerPreferencesContainer} displayed on the page
+     */
     private List<CheckerPreferencesContainer> preferences;
-    /** Configuration identifier selected */
+    /**
+     * Configuration identifier selected
+     */
     private String configurationId;
-    /** Combo box to set the configuration */
+    /**
+     * Combo box to set the configuration
+     */
     private Combo configurationSelection;
-    /** Table viewer containing the rules */
+    /**
+     * Table viewer containing the rules
+     */
     private CheckersComposite rulesExpandBarContainer;
-    /** Table viewer containing the metrics */
+    /**
+     * Table viewer containing the metrics
+     */
     private MetricsComposite metricsExpandBarContainer;
 
     @Override
@@ -62,9 +74,9 @@ public class ConfigurationPreferencePage extends PreferencePage
         ICodeLogger.entering(this.getClass().getName(), method, workbench);
         // Page description
         setImageDescriptor(ImageFactory.getDescriptor(ImageFactory.ERROR_BIG));
-        setDescription("This preference page is dedicated to iCode analysis. On this page,"
-                        + " you can enable/disable language and checker that should be "
-                        + "run during the analysis.");
+        setDescription("This preference page is dedicated to i-SCode analysis. On this page,"
+                + " you can enable/disable language and checker that should be "
+                + "run during the analysis.");
 
         // Associate preference store
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
@@ -74,7 +86,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.
      * swt.widgets.Composite)
@@ -94,7 +106,7 @@ public class ConfigurationPreferencePage extends PreferencePage
         }
         if (configurationSelection.indexOf(UserPreferencesService.getConfigurationName()) != -1) {
             configurationSelection.select(configurationSelection
-                            .indexOf(UserPreferencesService.getConfigurationName()));
+                    .indexOf(UserPreferencesService.getConfigurationName()));
         }
 
         composite = new Composite(parent, SWT.LEFT);
@@ -113,7 +125,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
                 @Override
                 public int compare(CheckerPreferencesContainer arg0,
-                                CheckerPreferencesContainer arg1) {
+                                   CheckerPreferencesContainer arg1) {
                     return arg0.getName().compareTo(arg1.getName());
                 }
             });
@@ -125,9 +137,9 @@ public class ConfigurationPreferencePage extends PreferencePage
         final GridLayout layout = new GridLayout();
         layout.makeColumnsEqualWidth = true;
         final Color expandBarColor = new Color(parent.getBackground().getDevice(),
-                        parent.getBackground().getRed() - 10,
-                        parent.getBackground().getGreen() - 10,
-                        parent.getBackground().getBlue() - 10);
+                parent.getBackground().getRed() - 10,
+                parent.getBackground().getGreen() - 10,
+                parent.getBackground().getBlue() - 10);
 
         expandBar.setBackground(expandBarColor);
 
@@ -158,7 +170,7 @@ public class ConfigurationPreferencePage extends PreferencePage
         metricExpandItem.setText("Metric");
         metricExpandItem.setImage(ImageFactory.getImage(ImageFactory.ERROR_SMALL));
         metricExpandItem.setHeight(
-                        metricsExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+                metricsExpandBarContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
         metricExpandItem.setControl(metricsExpandBarContainer);
 
         // Then the expandItem Rules
@@ -171,7 +183,7 @@ public class ConfigurationPreferencePage extends PreferencePage
                 final String methodName = "widgetSelected";
                 ICodeLogger.entering(this.getClass().getName(), methodName, e);
                 configurationId = configurationSelection
-                                .getItem(configurationSelection.getSelectionIndex());
+                        .getItem(configurationSelection.getSelectionIndex());
                 refresh();
                 ICodeLogger.exiting(this.getClass().getName(), methodName);
             }
@@ -186,7 +198,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.preference.PreferencePage#performApply()
      */
     @Override
@@ -196,7 +208,7 @@ public class ConfigurationPreferencePage extends PreferencePage
         if (configurationId.equals(UserPreferencesService.PREF_CONFIGURATION_CUSTOMVALUE)) {
             UserPreferencesService.setDefaultConfiguration();
             for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
-                            .getInputs()) {
+                    .getInputs()) {
                 checker.savePreferences();
             }
             for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
@@ -204,7 +216,7 @@ public class ConfigurationPreferencePage extends PreferencePage
             }
         } else {
             for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
-                            .getInputs()) {
+                    .getInputs()) {
                 checker.setToDefault();
             }
             for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
@@ -217,7 +229,7 @@ public class ConfigurationPreferencePage extends PreferencePage
                 ICodeLogger.error(this.getClass().getName(), method, e);
             }
             for (final CheckerPreferencesContainer checker : metricsExpandBarContainer
-                            .getInputs()) {
+                    .getInputs()) {
                 checker.update();
             }
             for (final CheckerPreferencesContainer checker : rulesExpandBarContainer.getInputs()) {
@@ -230,7 +242,7 @@ public class ConfigurationPreferencePage extends PreferencePage
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
      */
     @Override
@@ -246,14 +258,14 @@ public class ConfigurationPreferencePage extends PreferencePage
         }
         UserPreferencesService.setDefaultConfiguration();
         configurationSelection.select(configurationSelection
-                        .indexOf(UserPreferencesService.getConfigurationName()));
+                .indexOf(UserPreferencesService.getConfigurationName()));
         this.refresh();
         ICodeLogger.exiting(this.getClass().getName(), method);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.preference.PreferencePage#performOk()
      */
     @Override
