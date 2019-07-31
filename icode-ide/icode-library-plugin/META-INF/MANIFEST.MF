@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: i-Code Library Plugin
 Bundle-SymbolicName: icode.library.plugin;singleton:=true
 Bundle-Version: 3.2.0.qualifier
-Bundle-ClassPath: icode-library-3.2.0-dev.jar
+Bundle-ClassPath: target/lib/icode-library.jar
 Bundle-Vendor: CNES
 Export-Package: com.google.common.annotations,
  com.google.common.base,
