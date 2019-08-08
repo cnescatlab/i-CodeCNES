@@ -23,3 +23,6 @@ target/
 .classpath
 */.classpath
 .settings
+
+# Ignore SonarQube metadata
+.scannerwork

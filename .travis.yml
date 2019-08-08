@@ -7,7 +7,7 @@ addons:
     organization: "lequal"
 
 jdk:
-- oraclejdk8
+- openjdk8
 
 script:
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
@@ -24,9 +24,13 @@ deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
   file_glob: true
-  file: "icode-app/target/icode-*.zip"
+  file:
+  - "icode-app/target/icode-*.zip"
+  - "icode-ide/fr.cnes.icode.repository/target/products/icode-ide.product-*.zip"
+  - "icode-ide/fr.cnes.icode.repository/target/fr.cnes.icode.repository-*.zip"
   skip_cleanup: true
   name: "i-Code CNES"
   draft: true
   on:
     branch: master
+    tags: true
