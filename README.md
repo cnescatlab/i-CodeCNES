@@ -11,22 +11,85 @@ i-Code CNES is a static code analysis tool to help developers write code complia
 All the information on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/lequal/i-CodeCNES/tree/master/documentation). 
 
 ### Quick start
+- Download latest i-Code version on [GitHub Releases](https://github.com/lequal/i-CodeCNES/releases).
+- Unzip i-Code archive where you need it.
+- Run `icode path/to/project/directory`.
 
 ### i-Code products
 
+##### i-Code Core
+This is the core library containing all i-Code utilities for code analysis.
+##### i-Code Library
+This is the full library containing all official checkers. It includes i-Code Core.
+##### i-Code App or i-Code CLI
+This is the common command line application for i-Code.
+##### i-Code IDE
+##### i-Code plugin for Eclipse
+##### i-Code plugin for SonarQube
+
 ### Installation
+##### i-Code CLI
+Just unzip the corresponding archive.
+
+##### i-Code IDE
+Just unzip the corresponding archive.
+
+##### i-Code plugin for Eclipse
+Refer to Eclipse documentation to know how to install a standard Eclipse plugin.
+
+##### i-Code plugin for SonarQube
+Refer to SonarQube documentation to know how to install a standard SonarQube plugin.
 
 ### Get help
+Use `icode -h` to get the following help about *i-Code*:
+```
+usage: icode [<FILE> [...]] [-c <arg>] [-e] [-f <arg>] [-h] [-l] [-o <arg>] [-p <arg>] [-q <arg>] [-r] [-v] [-x <arg>]
+Analyze Shell, F77 & F90 code to find defects & bugs.
+
+ -c,--checked-languages <arg>        Comma separated list of languages checked during analysis. All by default.
+ -e,--exporters                      Display all available exporters.
+ -f,--export-format <arg>            Set the format for result file. Default format is XML.
+ -h,--help                           Display this message.
+ -l,--languages                      Display all available languages.
+ -o,--output <arg>                   Set the name for result file. Results are displayed in standard output by default.
+ -p,--export-parameters <arg>        Comma separated list of parameters for the export. Format is:
+                                     key1=value1,key2=value2,key3=value3. Default values depend on the chosen export plugin.
+ -q,--list-export-parameters <arg>   Display all available parameters for the given export.
+ -r,--rules                          Display all available rules.
+ -v,--version                        Display version information.
+ -x,--excluded-rules <arg>           Comma separated list of rules id to exclude from analysis. None by default.
+
+
+Please report issues at https://github.com/lequal/i-CodeCNES/issues
+```
 
 ### Build
+You can easily rebuild all i-Code products with Maven:
+```bash
+git clone https://github.com/lequal/i-CodeCNES icode
+cd ./icode/
+mvn clean install
+```
 
 ### Changelog
 
-#### Release 3.2.0
+#### Release 4.0.0
 
 ###### New features
-
-###### Fixes
+- Complete refactoring of i-Code architecture
+- Deletion of RCP in command line
+- Add version argument in command line
+- Run Jflex through maven #165
+- Jflex version update #165
+- Transform eclipse plugin into Java plugin #165
+- Command line support directory as argument: files inclusion wil be recursively included #161 #157
+- Deletion of parallelized checkers running #161
+- Refactor test as parametrized tests #165
+- Change exe to bat and bash scripts #165
+- Allow to load plugins which are dropped in plugins directory #165
+- Update packaging of i-Code #165
+- Update CI #145
+- Reintegrate RCP as a submodule using i-Code Core #165
 
 #### Release 3.1.0
 
