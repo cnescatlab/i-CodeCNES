@@ -1,0 +1,60 @@
+#!/bin/sh -e
+#
+# i-Code CNES Startup Script for Unix
+#
+# Optional ENV vars:
+#   JAVA_HOME - Location of Java's installation
+
+real_path () {
+  target=$1
+
+  (
+  while true; do
+    cd "$(dirname "$target")"
+    target=$(basename "$target")
+    test -L "$target" || break
+    target=$(readlink "$target")
+  done
+
+  echo "$(pwd -P)/$target"
+  )
+}
+
+script_path=$(real_path "$0")
+icode_home=$(dirname "$script_path")
+
+# make it fully qualified
+icode_home=$(cd "$icode_home" && pwd -P)
+
+jar_file=$icode_home/
+plugins_dir=$icode_home/plugins/
+
+# check that icode_home has been correctly set
+if [ ! -d "$jar_file" ] ; then
+  echo "Directory does not exist: $jar_file"
+  echo "'$icode_home' does not point to a valid installation directory: $icode_home"
+  exit 1
+fi
+
+# check that icode_home has been correctly set
+if [ ! -d "$plugins_dir" ] ; then
+  echo "Directory does not exist: $plugins_dir"
+  echo "'$icode_home' does not point to a valid installation directory: $icode_home"
+  exit 1
+fi
+
+# select existing JRE
+if [ -n "$JAVA_HOME" ]
+then
+  java_cmd="$JAVA_HOME/bin/java"
+else
+  java_cmd="$(which java)"
+fi
+
+exec "$java_cmd" \
+  -XX:-UseGCOverheadLimit \
+  -Xms2048M \
+  -Xmx2048M \
+  -Djava.awt.headless=true \
+  -classpath  "$jar_file/*:$plugins_dir/*" \
+  fr.cnes.icode.application.ICodeApplication "$@"

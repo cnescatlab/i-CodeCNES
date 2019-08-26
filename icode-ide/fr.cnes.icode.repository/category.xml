@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+    <feature url="features/fr.cnes.icode.feature.ui_3.2.0.qualifier.jar" id="fr.cnes.icode.feature.ui"
+             version="3.2.0.qualifier">
+        <category name="fr.cnes.icode"/>
+    </feature>
+    <category-def name="fr.cnes.icode" label="i-Code CNES"/>
+</site>

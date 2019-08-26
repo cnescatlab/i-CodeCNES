@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkers>
+    <check
+            class="fr.cnes.icode.shell.rules.COMDATAInitialisation"
+            id="fr.cnes.icode.shell.rules.COMDATAInitialisation"
+            name="COM.DATA.Initialisation" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMDATAInvariant"
+            id="fr.cnes.icode.shell.rules.COMDATAInvariant"
+            name="COM.DATA.Invariant" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMDATALoopCondition"
+            id="fr.cnes.icode.shell.rules.COMDATALoopCondition"
+            name="COM.DATA.LoopCondition" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMDATANotUsed"
+            id="fr.cnes.icode.shell.rules.COMDATANotUsed"
+            name="COM.DATA.NotUsed" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMDESIGNActiveWait"
+            id="fr.cnes.icode.shell.rules.COMDESIGNActiveWait"
+            name="COM.DESIGN.ActiveWait" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWAbort"
+            id="fr.cnes.icode.shell.rules.COMFLOWAbort"
+            name="COM.FLOW.Abort" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWBooleanExpression"
+            id="fr.cnes.icode.shell.rules.COMFLOWBooleanExpression"
+            name="COM.FLOW.BooleanExpression" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWCaseSwitch"
+            id="fr.cnes.icode.shell.rules.COMFLOWCaseSwitch"
+            name="COM.FLOW.CaseSwitch" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWExitLoop"
+            id="fr.cnes.icode.shell.rules.COMFLOWExitLoop"
+            name="COM.FLOW.ExitLoop" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWFileExistence"
+            id="fr.cnes.icode.shell.rules.COMFLOWFileExistence"
+            name="COM.FLOW.FileExistence" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWFilePath"
+            id="fr.cnes.icode.shell.rules.COMFLOWFilePath"
+            name="COM.FLOW.FilePath" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMFLOWRecursion"
+            id="fr.cnes.icode.shell.rules.COMFLOWRecursion"
+            name="COM.FLOW.Recursion" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMINSTBoolNegation"
+            id="fr.cnes.icode.shell.rules.COMINSTBoolNegation"
+            name="COM.INST.BoolNegation" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMINSTCodeComment"
+            id="fr.cnes.icode.shell.rules.COMINSTCodeComment"
+            name="COM.INST.CodeComment" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMINSTLine"
+            id="fr.cnes.icode.shell.rules.COMINSTLine"
+            name="COM.INST.Line" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMNAMEHomonymy"
+            id="fr.cnes.icode.shell.rules.COMNAMEHomonymy"
+            name="COM.NAME.Homonymy" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMPRESHeader"
+            id="fr.cnes.icode.shell.rules.COMPRESHeader"
+            name="COM.PRES.Header" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMPRESIndent"
+            id="fr.cnes.icode.shell.rules.COMPRESIndent"
+            name="COM.PRES.Indent" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.COMPRESLengthLine"
+            id="fr.cnes.icode.shell.rules.COMPRESLengthLine"
+            name="COM.PRES.LengthLine" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHDATAIFS"
+            id="fr.cnes.icode.shell.rules.SHDATAIFS"
+            name="SH.DATA.IFS" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHDATAInteger"
+            id="fr.cnes.icode.shell.rules.SHDATAInteger"
+            name="SH.DATA.Integer" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHDESIGNBash"
+            id="fr.cnes.icode.shell.rules.SHDESIGNBash"
+            name="SH.DESIGN.Bash" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHDESIGNOptions"
+            id="fr.cnes.icode.shell.rules.SHDESIGNOptions"
+            name="SH.DESIGN.Options" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHERRHelp"
+            id="fr.cnes.icode.shell.rules.SHERRHelp"
+            name="SH.ERR.Help" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHERRNoPipe"
+            id="fr.cnes.icode.shell.rules.SHERRNoPipe"
+            name="SH.ERR.NoPipe" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHERRString"
+            id="fr.cnes.icode.shell.rules.SHERRString"
+            name="SH.ERR.String" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHFLOWCheckArguments"
+            id="fr.cnes.icode.shell.rules.SHFLOWCheckArguments"
+            name="SH.FLOW.CheckArguments" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHFLOWCheckCodeReturn"
+            id="fr.cnes.icode.shell.rules.SHFLOWCheckCodeReturn"
+            name="SH.FLOW.CheckCodeReturn" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHFLOWCheckUser"
+            id="fr.cnes.icode.shell.rules.SHFLOWCheckUser"
+            name="SH.FLOW.CheckUser" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTBasename"
+            id="fr.cnes.icode.shell.rules.SHINSTBasename"
+            name="SH.INST.Basename" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTFind"
+            id="fr.cnes.icode.shell.rules.SHINSTFind"
+            name="SH.INST.Find" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTGetOpts"
+            id="fr.cnes.icode.shell.rules.SHINSTGetOpts"
+            name="SH.INST.GetOpts" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTInterpreter"
+            id="fr.cnes.icode.shell.rules.SHINSTInterpreter"
+            name="SH.INST.Interpreter" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTKeywords"
+            id="fr.cnes.icode.shell.rules.SHINSTKeywords"
+            name="SH.INST.Keywords" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTLogical"
+            id="fr.cnes.icode.shell.rules.SHINSTLogical"
+            name="SH.INST.Logical" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTPOSIX"
+            id="fr.cnes.icode.shell.rules.SHINSTPOSIX"
+            name="SH.INST.POSIX" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTSetShift"
+            id="fr.cnes.icode.shell.rules.SHINSTSetShift"
+            name="SH.INST.SetShift" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHINSTVariables"
+            id="fr.cnes.icode.shell.rules.SHINSTVariables"
+            name="SH.INST.Variables" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHIORedirect"
+            id="fr.cnes.icode.shell.rules.SHIORedirect"
+            name="SH.IO.Redirect" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHMETLimitAWK"
+            id="fr.cnes.icode.shell.rules.SHMETLimitAWK"
+            name="SH.MET.LimitAWK" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHMETLimitSed"
+            id="fr.cnes.icode.shell.rules.SHMETLimitSed"
+            name="SH.MET.LimitSed" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHMETPipeLine"
+            id="fr.cnes.icode.shell.rules.SHMETPipeLine"
+            name="SH.MET.PipeLine" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHREFExport"
+            id="fr.cnes.icode.shell.rules.SHREFExport"
+            name="SH.REF.Export" languageId="fr.cnes.icode.shell">
+    </check>
+    <check
+            class="fr.cnes.icode.shell.rules.SHSYNCSignals"
+            id="fr.cnes.icode.shell.rules.SHSYNCSignals"
+            name="SH.SYNC.Signals" languageId="fr.cnes.icode.shell">
+    </check>
+</checkers>
