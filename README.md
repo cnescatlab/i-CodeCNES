@@ -24,8 +24,11 @@ This is the full library containing all official checkers. It includes i-Code Co
 ##### i-Code App or i-Code CLI
 This is the common command line application for i-Code.
 ##### i-Code IDE
+This is the common GUI application for i-Code.
 ##### i-Code plugin for Eclipse
+The Eclipse plugin for i-Code allows to use i-Code from Eclipse IDE.
 ##### i-Code plugin for SonarQube
+The SonarQube plugin for i-Code allows to use i-Code through SonarQube analysis. Please refer to [sonar-icode-cnes-plugin](https://github.com/lequal/sonar-icode-cnes-plugin) for more details.
 
 ### Installation
 ##### i-Code CLI
