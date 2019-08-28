@@ -10,12 +10,12 @@ i-Code CNES is a static code analysis tool to help developers write code complia
 
 All the information on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/lequal/i-CodeCNES/tree/master/documentation). 
 
-### Quick start
+## Quick start
 - Download latest i-Code version on [GitHub Releases](https://github.com/lequal/i-CodeCNES/releases).
 - Unzip i-Code archive where you need it.
 - Run `icode path/to/project/directory`.
 
-### i-Code products
+## i-Code products
 
 ##### i-Code Core
 This is the core library containing all i-Code utilities for code analysis.
@@ -30,7 +30,7 @@ The Eclipse plugin for i-Code allows to use i-Code from Eclipse IDE.
 ##### i-Code plugin for SonarQube
 The SonarQube plugin for i-Code allows to use i-Code through SonarQube analysis. Please refer to [sonar-icode-cnes-plugin](https://github.com/lequal/sonar-icode-cnes-plugin) for more details.
 
-### Installation
+## Installation
 ##### i-Code CLI
 Just unzip the corresponding archive.
 
@@ -43,7 +43,7 @@ Refer to Eclipse documentation to know how to install a standard Eclipse plugin.
 ##### i-Code plugin for SonarQube
 Refer to SonarQube documentation to know how to install a standard SonarQube plugin.
 
-### Get help
+## Get help
 Use `icode -h` to get the following help about *i-Code*:
 ```
 usage: icode [<FILE> [...]] [-c <arg>] [-e] [-f <arg>] [-h] [-l] [-o <arg>] [-p <arg>] [-q <arg>] [-r] [-v] [-x <arg>]
@@ -66,7 +66,7 @@ Analyze Shell, F77 & F90 code to find defects & bugs.
 Please report issues at https://github.com/lequal/i-CodeCNES/issues
 ```
 
-### Build
+## Build
 You can easily rebuild all i-Code products with Maven:
 ```bash
 git clone https://github.com/lequal/i-CodeCNES icode
@@ -74,7 +74,10 @@ cd ./icode/
 mvn clean install
 ```
 
-### Changelog
+## Extending i-Code with your own plugin
+If you need to add some new feature, the easiest way is to implment your own plugin by forking [icode-custom-plugin-example](https://github.com/lequal/icode-custom-plugin-example) and its dedicated [Developer Guide](https://github.com/lequal/icode-custom-plugin-example/wiki/Developer-guide).
+
+## Changelog
 
 #### Release 4.0.0
 
@@ -178,7 +181,7 @@ If you experienced a problem with the plugin please open an issue. Inside this i
 If you want to do a PR, please put inside of it the reason of this pull request. If this pull request fix an issue please insert the number of the issue or explain inside of the PR how to reproduce this issue.
 
 ### License
-Copyright 2017 LEQUAL.
+Copyright 2019 LEQUAL.
 
 This software is licensed under the terms in the file named "LICENSE" in this directory.
 
