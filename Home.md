@@ -1,6 +1,6 @@
 # i-Code CNES Wiki
 
-i-Code CNES is a static analysis tools for Fortran and Shell, it's verifying code compliancy with CNES standards (RNC). 
+i-Code CNES is a static analysis tool for Fortran and Shell, it's verifying code compliancy with CNES standards (RNC). 
 
 # Documentation
 * [User Manual](https://github.com/lequal/i-CodeCNES/blob/master/documentation/i-Code%20CNES%20-%20User%20Manual.pdf)
@@ -9,7 +9,7 @@ i-Code CNES is a static analysis tools for Fortran and Shell, it's verifying cod
 
 # Quick install 
 ## i-Code CNES Eclipse plugin 
-Download the eclipse plugin archive of the last release [link](https://github.com/lequal/i-CodeCNES/releases). 
+Download the eclipse plugin archive of the [last release](https://github.com/lequal/i-CodeCNES/releases). 
 
 Then, launch Eclipse and select the **Help > Install new Software**. On the wizard, select **Add** and **Archive..** and select i-Code CNES archive.
 
@@ -26,7 +26,6 @@ Download the latest i-Code CNES CLI version [link](https://github.com/lequal/i-C
 ```sh
 unzip i-CodeCNES-3.1.0-CLI-linux.gtk.x86.zip
 alias icode=$(pwd)/i-CodeCNES-3.1.0-CLI-linux/icode
-
 ``` 
 
 **On Windows (powershell)**
