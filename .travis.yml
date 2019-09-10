@@ -34,3 +34,4 @@ deploy:
   draft: true
   on:
     tags: true
+    jdk: openjdk11
