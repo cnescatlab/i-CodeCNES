@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 %yylexthrow JFlexException
 %type List<CheckResult>
 
-%state COMMENT, NAMING, BEGINFUNC, STRING, COMMAND
+%state HEREDOC_START, HEREDOC, COMMENT, NAMING, BEGINFUNC, STRING, COMMAND
 
 COMMENT_WORD 	= [\#]
 FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
@@ -63,12 +63,17 @@ IGNORE_STRING_D = \\\"
 STRING_S	 	= \'
 IGNORE_STRING_S = \\\'
 IGNORE			= {IGNORE_STRING_D} | {IGNORE_STRING_S} | {IGNORE_COMMAND}
+HEREDOC_OP      = \<\<\- | \<\<
+HEREDOC_KEY_L   = \"[a-zA-Z0-9\.\!\-\_\@\?\+\ \r\t\f\space]*\" | \'[a-zA-Z0-9\.\!\-\_\@\?\+\ \r\t\f\space]*\'
+HEREDOC_KEY_S   = [a-zA-Z0-9\.\!\-\_\@\?\+]+
+HERESTR_OP      = \<\<\<
 FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 %{
 	private String location = "MAIN PROGRAM";
     private String parsedFileName;
+    private String heredocKey;
 	private List<String> identifiers = new LinkedList<String>();
 	private float lines=0;
 	private boolean emptyLine = true;
@@ -183,12 +188,48 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 		}
 
 /************************/
+/* HEREDOC STATES	    */
+/************************/
+<HEREDOC_START>
+        {
+                {SPACE}         {
+                                    LOGGER.fine("Do nothing");
+                                }
+                {HEREDOC_KEY_L} {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HEREDOC_START -> HEREDOC (Transition : HEREDOC_KEY_L \""+yytext()+"\" )");
+                                    heredocKey = yytext().substring(1, yytext().length()-2);
+                                    yybegin(HEREDOC);
+                                }
+                {HEREDOC_KEY_S} {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HEREDOC_START -> HEREDOC (Transition : HEREDOC_KEY_S \""+yytext()+"\" )");
+                                    heredocKey = yytext();
+                                    yybegin(HEREDOC);
+                                }
+        }
+
+<HEREDOC>
+        {
+                .+              {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HEREDOC -> YYINITIAL (Token: \""+yytext()+"\" )");
+                                    if(heredocKey.equals(yytext())) {
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HEREDOC -> YYINITIAL (Transition : HEREDOC \""+yytext()+"\" )");
+                                        yybegin(YYINITIAL);
+                                    }
+                                }
+                {SPACE} | \n    {
+                                    LOGGER.fine("Do nothing");
+                                }
+        }
+
+/************************/
 /* YYINITIAL STATE	    */
 /************************/
 <YYINITIAL>
-		{
-				
-				
+        {
+                {HEREDOC_OP}    {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> HEREDOC_START (Transition : HEREDOC_OP \""+yytext()+"\" )");
+                                    yybegin(HEREDOC_START);
+                                }
 				{COMMENT_WORD} 	{
 		  							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
 		  							yybegin(COMMENT);
@@ -380,3 +421,13 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 							}
 				. | {SPACE} { }
 		}
+
+/************************/
+/* ERROR STATE	        */
+/************************/
+[^]
+        {
+                final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
+                throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                         errorMessage, yytext(), yyline, yycolumn);
+        }
