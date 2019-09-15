@@ -71,57 +71,57 @@ FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" 
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
 %{
-	private String location = "MAIN PROGRAM";
+    private String location = "MAIN PROGRAM";
     private String parsedFileName;
     private String heredocKey;
-	private List<String> identifiers = new LinkedList<String>();
-	private Stack<FunctionNesting> functionStack = new Stack<>();
-	private Stack<String> mainNestingStack = new Stack<>();
-	private int mainNesting = 0;
-	private int mainMaxNesting = 0;
-	private int functionLine = 0;
-	private static final Logger LOGGER = Logger.getLogger(SHMETNesting.class.getName());	
-	
-	public SHMETNesting(){
-	}
-	
-	@Override
-	public void setInputFile(File file) throws FileNotFoundException {
-		super.setInputFile(file);
-		LOGGER.fine("begin method setInputFile");
-		this.parsedFileName = file.toString();
+    private List<String> identifiers = new LinkedList<String>();
+    private Stack<FunctionNesting> functionStack = new Stack<>();
+    private Stack<String> mainNestingStack = new Stack<>();
+    private int mainNesting = 0;
+    private int mainMaxNesting = 0;
+    private int functionLine = 0;
+    private static final Logger LOGGER = Logger.getLogger(SHMETNesting.class.getName());
+
+    public SHMETNesting(){
+    }
+
+    @Override
+    public void setInputFile(File file) throws FileNotFoundException {
+        super.setInputFile(file);
+        LOGGER.fine("begin method setInputFile");
+        this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new File(file.getAbsolutePath()));
-		LOGGER.fine("end method setInputFile");
-	}
-	
-	private void endLocation() throws JFlexException {
-		LOGGER.fine("begin method endLocation");
-		try{
-		    FunctionNesting functionFinished = functionStack.pop();
-	       	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionFinished.getName()+" line :"+ functionFinished.getBeginLine()+" with value : "+functionFinished.getMaxNesting());
-      	 	this.computeMetric(functionFinished.getName(), functionFinished.getMaxNesting(), functionFinished.getBeginLine());
-		}catch(EmptyStackException e){
-		    
-		    final String errorMessage = e.getMessage();
-		    throw new JFlexException(this.getClass().getName(), parsedFileName,
-		                    errorMessage, yytext(), yyline, yycolumn);
-		}
-		LOGGER.fine("end method endLocation");
-	}
+        LOGGER.fine("end method setInputFile");
+    }
+
+    private void endLocation() throws JFlexException {
+        LOGGER.fine("begin method endLocation");
+        try{
+            FunctionNesting functionFinished = functionStack.pop();
+            LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] computing function :"+functionFinished.getName()+" line :"+ functionFinished.getBeginLine()+" with value : "+functionFinished.getMaxNesting());
+            this.computeMetric(functionFinished.getName(), functionFinished.getMaxNesting(), functionFinished.getBeginLine());
+        }catch(EmptyStackException e){
+
+            final String errorMessage = e.getMessage();
+            throw new JFlexException(this.getClass().getName(), parsedFileName,
+                            errorMessage, yytext(), yyline, yycolumn);
+        }
+        LOGGER.fine("end method endLocation");
+    }
 
 %}
 
 %eofval{
-	if(this.functionStack.empty()){
-		this.computeMetric("MAIN PROGRAM", mainMaxNesting, 1);
-	}else{
-		
-	    final String errorMessage = "Analysis failure : At least one function is not ending correctly.";
-	    throw new JFlexException(this.getClass().getName(), parsedFileName,
-	                    errorMessage, yytext(), yyline, yycolumn);
-	}
-	this.computeMetric(null, mainMaxNesting, 0);
-	return getCheckResults();
+    if(this.functionStack.empty()){
+        this.computeMetric("MAIN PROGRAM", mainMaxNesting, 1);
+    }else{
+
+        final String errorMessage = "Analysis failure : At least one function is not ending correctly.";
+        throw new JFlexException(this.getClass().getName(), parsedFileName,
+                        errorMessage, yytext(), yyline, yycolumn);
+    }
+    this.computeMetric(null, mainMaxNesting, 0);
+    return getCheckResults();
 %eofval}
 %%
 
@@ -129,13 +129,13 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 /* COMMENT STATE	    */
 /************************/
 <COMMENT>   	
-		{
-				\n             	{	
-									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
-									yybegin(YYINITIAL);
-								}  
-				. | {SPACE} 	{ }
-		}
+        {
+                \n             	{
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMENT -> YYINITIAL (Transition : \\n )");
+                                    yybegin(YYINITIAL);
+                                }
+                . | {SPACE} 	{ }
+        }
 
 /************************/
 /* HEREDOC STATES	    */
@@ -180,174 +180,174 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
                                     LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> HEREDOC_START (Transition : HEREDOC_OP \""+yytext()+"\" )");
                                     yybegin(HEREDOC_START);
                                 }
-				{COMMENT_WORD}	 	{
-			  							LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
-			  							yybegin(COMMENT);
-			  						}
-				{FUNCTION}     		{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
-										yybegin(NAMING);
-									}
-				
-				{FUNCT}				{
-										functionLine = yyline+1;
-										location = yytext().substring(0,yytext().length()-2).trim();
-									 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
-									 	yybegin(BEGINFUNC);
-								 	}
-					
-	      		{FUNCSTART}			{
-		      							
-		      							if(!functionStack.empty()){
-		      								if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
-		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
-		      									functionStack.peek().addStarterRepetition();
-		      								}else{
-		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] No function change for FUNCSTART  \""+yytext()+"\" )");
-	      									}
-		      								if(FunctionNesting.isNesting(yytext())){
-	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] pushNesting() for FUNCSTART  \""+yytext()+"\" )");
-	      										this.functionStack.peek().pushNesting(yytext());
-	      									}
-		      							}else{
-		      								if(FunctionNesting.isNesting(yytext())){
-	      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Handle new nesting in the main for FUNCSTART  \""+yytext()+"\" )");
-	      										this.mainNestingStack.push(yytext());
-	      										this.mainNesting++;
-	      										if(this.mainMaxNesting < mainNesting){
-	      											this.mainMaxNesting = mainNesting;
-	      										}
-	      									}else{
-		      									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for FUNCSTART  \""+yytext()+"\" )");
-	      									}
-		      							}
-		      							
-		      						}
-	      		{FUNCEND}			{
-		      							if(!functionStack.empty()){
-		      								if(functionStack.peek().isFinisher(yytext())){
-		      									if(functionStack.peek().getStarterRepetition()>0) {
-		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
-		      										try{
-			      										if(!functionStack.peek().getNesting().empty() && functionStack.peek().getNestingFinisher().equals(yytext())){
-			      											functionStack.peek().popNesting();
-			      										}
-		      										
-		      										    functionStack.peek().removeStarterRepetition();
-		      										}catch(JFlexException e){
-		      										    
-													    final String errorMessage = e.getMessage();
-													    throw new JFlexException(this.getClass().getName(), parsedFileName,
-													                    errorMessage, yytext(), yyline, yycolumn);
-		      										}
-		      									} else {
-		      										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
-		      										endLocation();
-		      									}
-		      								}else{
-	      										if(!functionStack.peek().getNesting().empty() && functionStack.peek().getNestingFinisher().equals(yytext())){
-		      											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] popNesting() for FUNCEND  \""+yytext()+"\" )");
-		      											functionStack.peek().popNesting();
-	      										}else{
-	      											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Doing nothing on imbrication for FUNCEND  \""+yytext()+"\" )");
-      											}
-		      								}
-		      								
-		      							}else{
-			      							if(!this.mainNestingStack.empty() && FunctionNesting.nestingFinisherOf(this.mainNestingStack.peek()).equals(yytext())){
-      											LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Handle nesting closing in the main for FUNCEND  \""+yytext()+"\" )");
-      											this.mainNestingStack.pop();
-      											this.mainNesting--;
-      										}
-  										}
-		      						}
-		      	{IGNORE}			{   
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
-									}
-				{STRING_D}			{   
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
-										yybegin(STRING_DOUBLE);
-									}
-				{STRING_S}			{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
-										yybegin(STRING_SIMPLE);
-									}
-				{COMMAND}			{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
-										yybegin(COMMAND);
-									}
+                {COMMENT_WORD}	 	{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMENT (Transition : COMMENT_WORD \""+yytext()+"\" )");
+                                        yybegin(COMMENT);
+                                    }
+                {FUNCTION}     		{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> NAMING (Transition : FUNCTION \""+yytext()+"\" )");
+                                        yybegin(NAMING);
+                                    }
 
-		      	{VAR}				{   
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
-									}
+                {FUNCT}				{
+                                        functionLine = yyline+1;
+                                        location = yytext().substring(0,yytext().length()-2).trim();
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> BEGINFUNC (Transition : FUNCT \""+yytext()+"\" )");
+                                        yybegin(BEGINFUNC);
+                                    }
 
-				      					
-	      		[^]|{SPACE} 		{}
-		}
-		
-		
+                {FUNCSTART}			{
+
+                                        if(!functionStack.empty()){
+                                            if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+                                                LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] addStarterRepetition() for FUNCSTART  \""+yytext()+"\" )");
+                                                functionStack.peek().addStarterRepetition();
+                                            }else{
+                                                LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] No function change for FUNCSTART  \""+yytext()+"\" )");
+                                            }
+                                            if(FunctionNesting.isNesting(yytext())){
+                                                LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] pushNesting() for FUNCSTART  \""+yytext()+"\" )");
+                                                this.functionStack.peek().pushNesting(yytext());
+                                            }
+                                        }else{
+                                            if(FunctionNesting.isNesting(yytext())){
+                                                LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Handle new nesting in the main for FUNCSTART  \""+yytext()+"\" )");
+                                                this.mainNestingStack.push(yytext());
+                                                this.mainNesting++;
+                                                if(this.mainMaxNesting < mainNesting){
+                                                    this.mainMaxNesting = mainNesting;
+                                                }
+                                            }else{
+                                                LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for FUNCSTART  \""+yytext()+"\" )");
+                                            }
+                                        }
+
+                                    }
+                {FUNCEND}			{
+                                        if(!functionStack.empty()){
+                                            if(functionStack.peek().isFinisher(yytext())){
+                                                if(functionStack.peek().getStarterRepetition()>0) {
+                                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] removeStarterRepetition() for FUNCEND  \""+yytext()+"\" )");
+                                                    try{
+                                                        if(!functionStack.peek().getNesting().empty() && functionStack.peek().getNestingFinisher().equals(yytext())){
+                                                            functionStack.peek().popNesting();
+                                                        }
+
+                                                        functionStack.peek().removeStarterRepetition();
+                                                    }catch(JFlexException e){
+
+                                                        final String errorMessage = e.getMessage();
+                                                        throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                                                        errorMessage, yytext(), yyline, yycolumn);
+                                                    }
+                                                } else {
+                                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] endLocation() for FUNCEND  \""+yytext()+"\" )");
+                                                    endLocation();
+                                                }
+                                            }else{
+                                                if(!functionStack.peek().getNesting().empty() && functionStack.peek().getNestingFinisher().equals(yytext())){
+                                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] popNesting() for FUNCEND  \""+yytext()+"\" )");
+                                                        functionStack.peek().popNesting();
+                                                }else{
+                                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Doing nothing on imbrication for FUNCEND  \""+yytext()+"\" )");
+                                                }
+                                            }
+
+                                        }else{
+                                            if(!this.mainNestingStack.empty() && FunctionNesting.nestingFinisherOf(this.mainNestingStack.peek()).equals(yytext())){
+                                                LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] Handle nesting closing in the main for FUNCEND  \""+yytext()+"\" )");
+                                                this.mainNestingStack.pop();
+                                                this.mainNesting--;
+                                            }
+                                        }
+                                    }
+                {IGNORE}			{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
+                                    }
+                {STRING_D}			{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_DOUBLE (Transition : STRING_D \""+yytext()+"\" )");
+                                        yybegin(STRING_DOUBLE);
+                                    }
+                {STRING_S}			{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> STRING_SIMPLE (Transition : STRING_S \""+yytext()+"\" )");
+                                        yybegin(STRING_SIMPLE);
+                                    }
+                {COMMAND}			{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> COMMAND (Transition : COMMAND \""+yytext()+"\" )");
+                                        yybegin(COMMAND);
+                                    }
+
+                {VAR}				{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [YYINITIAL] do nothing for IGNORE  \""+yytext()+"\" )");
+                                    }
+
+
+                [^]|{SPACE} 		{}
+        }
+
+
 /************************/
 /* STRING_SIMPLE STATE	    */
 /************************/
 <STRING_SIMPLE>   	
-		{
-					{IGNORE}		{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_S] do nothing for IGNORE  \""+yytext()+"\" )");
-	
-									}
-					{STRING_S}    	{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_S -> YYINITIAL (Transition STRING_S : \""+yytext()+"\" )");
-										yybegin(YYINITIAL);
-									}  
-		  	 		[^]|{SPACE} 	{}
-		}
+        {
+                    {IGNORE}		{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_S] do nothing for IGNORE  \""+yytext()+"\" )");
+
+                                    }
+                    {STRING_S}    	{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_S -> YYINITIAL (Transition STRING_S : \""+yytext()+"\" )");
+                                        yybegin(YYINITIAL);
+                                    }
+                    [^]|{SPACE} 	{}
+        }
 /************************/
 /* STRING_DOUBLE STATE	    */
 /************************/
 <STRING_DOUBLE>   	
-		{
-					{IGNORE}		{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_DOUBLE] do nothing for IGNORE  \""+yytext()+"\" )");
-	
-									}
-					{STRING_D}    	{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> YYINITIAL (Transition STRING_D : \""+yytext()+"\" )");
-										yybegin(YYINITIAL);
-									}  
-		  	 		[^]|{SPACE} 	{}
-		}
+        {
+                    {IGNORE}		{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [STRING_DOUBLE] do nothing for IGNORE  \""+yytext()+"\" )");
+
+                                    }
+                    {STRING_D}    	{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - STRING_DOUBLE -> YYINITIAL (Transition STRING_D : \""+yytext()+"\" )");
+                                        yybegin(YYINITIAL);
+                                    }
+                    [^]|{SPACE} 	{}
+        }
 /************************/
 /* COMMAND STATE	    */
 /************************/
 <COMMAND>   	
-		{
-					{IGNORE}		{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] do nothing for IGNORE  \""+yytext()+"\" )");
-	
-									}
-					{COMMAND}    	{
-										LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition COMMAND : \""+yytext()+"\" )");
-										yybegin(YYINITIAL);
-									}  
-		  	 		[^]|{SPACE} 	{}
-		}
+        {
+                    {IGNORE}		{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [COMMAND] do nothing for IGNORE  \""+yytext()+"\" )");
+
+                                    }
+                    {COMMAND}    	{
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - COMMAND -> YYINITIAL (Transition COMMAND : \""+yytext()+"\" )");
+                                        yybegin(YYINITIAL);
+                                    }
+                    [^]|{SPACE} 	{}
+        }
 /************************/
 /* NAMING STATE	    */
 /************************/
 <NAMING>   	
-		{
-				{VAR}			{
-									location = yytext();
-									functionLine = yyline+1;
-									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
-									yybegin(BEGINFUNC);
-								}
-				\n             	{
-									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
-									yybegin(YYINITIAL);
-								}  
-			   	. | {SPACE}     {}
-		}
+        {
+                {VAR}			{
+                                    location = yytext();
+                                    functionLine = yyline+1;
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> BEGINFUNC (Transition : VAR \""+yytext()+"\" )");
+                                    yybegin(BEGINFUNC);
+                                }
+                \n             	{
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - NAMING -> YYINITIAL (Transition : \\n )");
+                                    yybegin(YYINITIAL);
+                                }
+                . | {SPACE}     {}
+        }
 
 /************************/
 /* BEGINFUNC STATE	    */
@@ -358,22 +358,22 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
  *
  */ 
 <BEGINFUNC>
-		{
-				\(\)			{}
-				{FUNCSTART}		{
-									FunctionNesting function;
-									if(this.functionStack.empty()){
-										function = new FunctionNesting(location, functionLine, yytext(), 1, 1);
-									}else{
-										function = new FunctionNesting(location, functionLine, yytext(),  1,  1);
-									}
-									LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
-									functionStack.push(function);
-								 	LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
-								 	yybegin(YYINITIAL);
-							 	}
-			   	[^]|{SPACE} { }
-		}
+        {
+                \(\)			{}
+                {FUNCSTART}		{
+                                    FunctionNesting function;
+                                    if(this.functionStack.empty()){
+                                        function = new FunctionNesting(location, functionLine, yytext(), 1, 1);
+                                    }else{
+                                        function = new FunctionNesting(location, functionLine, yytext(),  1,  1);
+                                    }
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [BEGINFUNC] push("+location+") for FUNCSTART  \""+yytext()+"\" )");
+                                    functionStack.push(function);
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - BEGINFUNC -> YYINITIAL (Transition : FUNCSTART \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+                [^]|{SPACE} { }
+        }
 
 /************************/
 /* ERROR STATE	        */
