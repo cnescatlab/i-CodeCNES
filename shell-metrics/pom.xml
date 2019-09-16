@@ -29,7 +29,14 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 	
 	<!-- generate the lex code -->
 	<build>
@@ -48,6 +55,36 @@
                             <lexDefinitions>
                                 <lexDefinition>src/main/resources/lex</lexDefinition>
                             </lexDefinitions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<filters>
+								<filter>
+									<artifact>fr.cnes.icode:shell-metrics</artifact>
+									<includes>
+										<include>**</include>
+									</includes>
+								</filter>
+								<filter>
+									<artifact>fr.cnes.icode:fr.cnes.icode</artifact>
+									<excludes>
+										<exclude>fr/cnes/analysis/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
 						</configuration>
 					</execution>
 				</executions>

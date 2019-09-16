@@ -19,6 +19,8 @@ import fr.cnes.icode.datas.AbstractChecker;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -45,7 +47,7 @@ import java.util.logging.Logger;
 %yylexthrow JFlexException
 %type List<CheckResult>
 
-%state HEREDOC_START, HEREDOC, COMMENT, NAMING, BEGINFUNC, STRING, COMMAND
+%state HERESTR, HEREDOC_START, HEREDOC, COMMENT, NAMING, BEGINFUNC, STRING, COMMAND
 
 COMMENT_WORD 	= [\#]
 FUNCT			= {FNAME}{SPACE}*[\(]{SPACE}*[\)]
@@ -236,10 +238,57 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
         }
 
 /************************/
+/* HERESTR STATE        */
+/************************/
+<HERESTR>
+        {
+                {SPACE}         {
+                                    LOGGER.fine("Do nothing");
+                                }
+                \"[^\"]*\"      {
+                                    int countNewLine = StringUtils.countMatches(yytext(), "\n");
+                                    for(int i = 0 ; i < countNewLine ; ++i) {
+                                        emptyLine = false;
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [HERESTR] count line for \\n");
+                                        addLines();
+                                        emptyLine = true;
+                                    }
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR -> YYINITIAL (Token: \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+                \'[^\']*\'      {
+                                    int countNewLine = StringUtils.countMatches(yytext(), "\n");
+                                    for(int i = 0 ; i < countNewLine ; ++i) {
+                                        emptyLine = false;
+                                        LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [HERESTR] count line for \\n");
+                                        addLines();
+                                        emptyLine = true;
+                                    }
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR -> YYINITIAL (Token: \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+                .               {
+                                    emptyLine = false;
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR (Token: . \""+yytext()+"\" )");
+                                }
+                \n              {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - [HERESTR] count line for \\n");
+                                    addLines();
+                                    emptyLine = true;
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR -> YYINITIAL (Token: \\n \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+        }
+
+/************************/
 /* YYINITIAL STATE	    */
 /************************/
 <YYINITIAL>
         {
+                {HERESTR_OP}    {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> HERESTR (Transition : HERESTR_OP \""+yytext()+"\" )");
+                                    yybegin(HERESTR);
+                                }
                 {HEREDOC_OP}    {
                                     LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> HEREDOC_START (Transition : HEREDOC_OP \""+yytext()+"\" )");
                                     yybegin(HEREDOC_START);

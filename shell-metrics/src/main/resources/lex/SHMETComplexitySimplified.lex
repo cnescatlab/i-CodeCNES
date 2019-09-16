@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 %yylexthrow JFlexException
 %type List<CheckResult>
 
-%state HEREDOC_START, HEREDOC, COMMENT, NAMING, BEGINFUNC, STRING_DOUBLE, STRING_SIMPLE, COMMAND, CASE
+%state HERESTR, HEREDOC_START, HEREDOC, COMMENT, NAMING, BEGINFUNC, STRING_DOUBLE, STRING_SIMPLE, COMMAND, CASE
 
 
 COMMENT_WORD 	= [\#]
@@ -180,10 +180,39 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
         }
 
 /************************/
+/* HERESTR STATE        */
+/************************/
+<HERESTR>
+        {
+                {SPACE}         {
+                                    LOGGER.fine("Do nothing");
+                                }
+                \"[^\"]*\"      {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR -> YYINITIAL (Token: \"\" \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+                \'[^\']*\'      {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR -> YYINITIAL (Token: \'\' \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+                .               {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR (Token: . \""+yytext()+"\" )");
+                                }
+                \n              {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - HERESTR -> YYINITIAL (Token: \\n \""+yytext()+"\" )");
+                                    yybegin(YYINITIAL);
+                                }
+        }
+
+/************************/
 /* YYINITIAL STATE	    */
 /************************/
 <YYINITIAL>
         {
+                {HERESTR_OP}    {
+                                    LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> HERESTR (Transition : HERESTR_OP \""+yytext()+"\" )");
+                                    yybegin(HERESTR);
+                                }
                 {HEREDOC_OP}    {
                                     LOGGER.fine("["+ this.getInputFile().getAbsolutePath()+":"+(yyline+1)+":"+yycolumn+"] - YYINITIAL -> HEREDOC_START (Transition : HEREDOC_OP \""+yytext()+"\" )");
                                     yybegin(HEREDOC_START);
