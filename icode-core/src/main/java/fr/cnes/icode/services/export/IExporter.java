@@ -23,6 +23,9 @@ import java.util.Map;
  */
 public interface IExporter {
 
+    /** <i>i-CodeVersion</i> parameter. */
+    public static final String PARAM_ICODE_VERSION = "icodeVersion";
+
     /**
      * This function export each {@link CheckResult} of {@code checkResults}
      * parameter into the {@link File} parameter.

@@ -12,6 +12,7 @@ import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 import fr.cnes.icode.services.checkers.CheckerService;
 import fr.cnes.icode.services.export.ExportService;
+import fr.cnes.icode.services.export.IExporter;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
 import fr.cnes.icode.services.languages.ILanguage;
@@ -221,7 +222,7 @@ public class ICodeApplication {
         if (cli.hasOption(CommandLineManager.EXPORT_FORMAT)) {
             exportFormat = cli.getOptionValue(CommandLineManager.EXPORT_FORMAT);
             if (!exportService.getAvailableFormats().containsValue(exportFormat)) {
-                String message = String.format("Exporting in format '%s' is not available in i-Code.", exportFormat);
+                String message = String.format("Export in format '%s' is not available in i-Code.", exportFormat);
                 throw new BadArgumentValueException(message);
             }
         }
@@ -236,6 +237,7 @@ public class ICodeApplication {
 
         // Get default parameters for the chosen export.
         exporterParameters = exportService.getParameters(exportFormat);
+        exporterParameters.put(IExporter.PARAM_ICODE_VERSION, getClass().getPackage().getImplementationVersion());
 
         // Add user parameters if there are some.
         if (cli.hasOption(CommandLineManager.EXPORT_PARAMETERS)) {

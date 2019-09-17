@@ -55,7 +55,7 @@ public class ExporterXml implements IExporter {
     public static final String PARAM_PROJECT_VERSION = "ProjectVersion";
     /** <i>CONFIGURATION_ID</i> parameter. */
     public static final String PARAM_CONFIGURATION_ID = "AnalysisConfigurationID";
-    /** DEfault <i>analysisDate</i> parameter */
+    /** Default <i>analysisDate</i> parameter */
     public static final String PARAM_DATE = "Date";
     /** Parameter required by this export. */
     private Map<String, String> parameters;
@@ -66,12 +66,12 @@ public class ExporterXml implements IExporter {
      */
     public ExporterXml() {
         this.parameters = new TreeMap<>();
-        this.parameters.put(PARAM_PROJECT_NAME, "Unknown");
+        this.parameters.put(PARAM_PROJECT_NAME, "undefined");
         this.parameters.put(PARAM_AUTHOR, "i-Code CNES Analyzer");
-        this.parameters.put(PARAM_PROJECT_VERSION, "1.0.0");
+        this.parameters.put(PARAM_PROJECT_VERSION, "undefined");
         this.parameters.put(PARAM_DATE, this.currentDate());
-        this.parameters.put(PARAM_CONFIGURATION_ID, "analysis1");
-
+        this.parameters.put(PARAM_CONFIGURATION_ID, "undefined");
+        this.parameters.put(PARAM_ICODE_VERSION, "undefined");
     }
 
     /**
@@ -93,8 +93,9 @@ public class ExporterXml implements IExporter {
     @Override
     public void export(List<CheckResult> checkResults, File outputFile,
                     Map<String, String> pParameters) throws IOException {
-        final List<Attribute> attributes = new ArrayList<Attribute>();
-        final List<Attribute> resultAttributes = new ArrayList<Attribute>();
+        final List<Attribute> attributes = new ArrayList<>();
+        final List<Attribute> resultAttributes = new ArrayList<>();
+        final String icodeVersion = pParameters.getOrDefault(PARAM_ICODE_VERSION, parameters.get(PARAM_ICODE_VERSION));
         /*
          * Creation of the root element <xsd:element name="analysisProject"
          * type="anr:analysisProjectType" minOccurs="1" maxOccurs="1" />
@@ -117,6 +118,7 @@ public class ExporterXml implements IExporter {
                         pParameters.get(PARAM_CONFIGURATION_ID)));
         attributes.add(new Attribute("analysisDate", pParameters.get(PARAM_DATE)));
         attributes.add(new Attribute("author", pParameters.get(PARAM_AUTHOR)));
+        attributes.add(new Attribute("icodeVersion", icodeVersion));
 
         analysisInformation.setAttributes(attributes);
         document.getRootElement().addContent(analysisInformation);
