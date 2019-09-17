@@ -1,72 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>fr.cnes.icode</groupId>
-	<artifactId>parent</artifactId>
-	<version>dev</version>
-	<packaging>pom</packaging>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.cnes.icode</groupId>
+    <artifactId>parent</artifactId>
+    <version>dev</version>
+    <packaging>pom</packaging>
 
-	<modules>
+    <modules>
 
         <module>icode-core</module>
 
-		<module>fortran77-language</module>
-		<module>fortran77-metrics</module>
-		<module>fortran77-rules</module>
+        <module>fortran77-language</module>
+        <module>fortran77-metrics</module>
+        <module>fortran77-rules</module>
 
-		<module>fortran90-language</module>
-		<module>fortran90-metrics</module>
-		<module>fortran90-rules</module>
+        <module>fortran90-language</module>
+        <module>fortran90-metrics</module>
+        <module>fortran90-rules</module>
 
-		<module>shell-language</module>
-		<module>shell-metrics</module>
-		<module>shell-rules</module>
+        <module>shell-language</module>
+        <module>shell-metrics</module>
+        <module>shell-rules</module>
 
         <module>export-xml</module>
         <module>export-csv</module>
 
-		<module>icode-library</module>
+        <module>icode-library</module>
 
-		<module>icode-ide</module>
+        <module>icode-ide</module>
         <module>icode-app</module>
 
-	</modules>
+    </modules>
 
-	<name>i-Code parent</name>
-	<description>CNES app analyzing Fortran 77, Fortran 90 and Shell files.</description>
+    <name>i-Code parent</name>
+    <description>CNES app analyzing Fortran 77, Fortran 90 and Shell files.</description>
 
-	<organization>
-		<name>CNES</name>
-		<url>https://cnes.fr/</url>
-	</organization>
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/lequal/i-CodeCNES/issues</url>
-	</issueManagement>
-	<ciManagement>
-		<system>Travis-CI</system>
-		<url>https://travis-ci.org/lequal/i-CodeCNES</url>
-	</ciManagement>
-	<scm>
-		<url>https://github.com/lequal/i-CodeCNES</url>
-	</scm>
+    <organization>
+        <name>CNES</name>
+        <url>https://cnes.fr/</url>
+    </organization>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/lequal/i-CodeCNES/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Travis-CI</system>
+        <url>https://travis-ci.org/lequal/i-CodeCNES</url>
+    </ciManagement>
+    <scm>
+        <url>https://github.com/lequal/i-CodeCNES</url>
+    </scm>
 
-	<licenses>
-		<license>
-			<name>GPL-3.0</name>
-			<url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>GPL-3.0</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<properties>
-		<icode.version>4.0.0-dev</icode.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+    <properties>
+        <icode.version>4.0.0-dev</icode.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <jacoco.version>0.8.4</jacoco.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <dataFile>target/jacoco.exec</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
