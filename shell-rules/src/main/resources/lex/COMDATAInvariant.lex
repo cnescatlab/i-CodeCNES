@@ -510,21 +510,21 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
 /* FOR STATE	    */
 /************************/
 <FOR>   	
-		{
-				{DONE}    		{
-									if(!functionStack.empty()){
-		      							if(functionStack.peek().isFinisher(yytext())){
-		      								if(functionStack.peek().getStarterRepetition()>0) {
-	      									    functionStack.peek().removeStarterRepetition();
-		      								} else {
-		      									endLocation();
-		      								}
-										}
-									}
-									yybegin(YYINITIAL);
-								}  
-				.				{}
-		}
+    {
+        {DONE}          {
+                            if(!functionStack.empty()){
+                                if(functionStack.peek().isFinisher(yytext())){
+                                    if(functionStack.peek().getStarterRepetition()>0) {
+                                        functionStack.peek().removeStarterRepetition();
+                                    } else {
+                                        endLocation();
+                                    }
+                                }
+                            }
+                            yybegin(YYINITIAL);
+                        }  
+        [^]|{SPACE}     {}
+    }
 
 /************************/
 /* ERROR STATE	        */
