@@ -58,7 +58,7 @@ STRING_S	 	= \'
 IGNORE_STRING_S = [\\][\']
 
 ACTWAIT_WHILE   = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}* 
-ACTWAIT		    = "read" | "sleep" | "wait"
+ACTWAIT		    = "sleep" | "wait"
                                                                 
 %{
 	/* MAINPROGRAM: constant for main program localisation */
