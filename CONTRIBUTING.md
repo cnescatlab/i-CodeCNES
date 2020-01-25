@@ -8,8 +8,7 @@ The following is a set of guidelines for contributing to i-Code Cnes, which are 
 * [Reporting Bugs](#reporting-bugs)  
 * [Suggesting Enhancements](#suggesting-enhancements)  
 * [Pull Requests](#pull-requests)
-
-[Git Commit Messages](#git-commit-messages)
+* [Git Commit Messages](#git-commit-messages)
 
 ## Code of Conduct
 This project and everyone participating in it is governed by the [Lequal Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [L-lequal@cnes.fr](mailto:L-lequal@cnes.fr).
@@ -59,7 +58,8 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 * Test your code before opening the PR
 * Set the current `dev-*` branch as the target branch for your PR
 
-## Git Commit Messages
+### Git Commit Messages
+* Start with the issue you are handling ("#187 ...")
 * Use the present tense ("Add feature" not "Added feature")
 * Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 * Limit the first line to 72 characters or less
