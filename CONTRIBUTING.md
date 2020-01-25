@@ -3,12 +3,12 @@ First off, thanks for taking the time to contribute!
 The following is a set of guidelines for contributing to i-Code Cnes, which are hosted in the [Lequal Organization](https://github.com/lequal) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 #### Table Of Contents
-[Code of Conduct](#code-of-conduct)
-[How Can I Contribute?](#how-can-i-contribute)  
-* [Reporting Bugs](#reporting-bugs)  
-* [Suggesting Enhancements](#suggesting-enhancements)  
-* [Pull Requests](#pull-requests)
-* [Git Commit Messages](#git-commit-messages)
++ [Code of Conduct](#code-of-conduct)
++ [How Can I Contribute?](#how-can-i-contribute)  
+  * [Reporting Bugs](#reporting-bugs)  
+  * [Suggesting Enhancements](#suggesting-enhancements)  
+  * [Pull Requests](#pull-requests)
+  * [Git Commit Messages](#git-commit-messages)
 
 ## Code of Conduct
 This project and everyone participating in it is governed by the [Lequal Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [L-lequal@cnes.fr](mailto:L-lequal@cnes.fr).
