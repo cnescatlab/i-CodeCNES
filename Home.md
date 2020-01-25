@@ -5,7 +5,7 @@ i-Code CNES is a static analysis tool for Fortran and Shell, it's verifying code
 # Documentation
 * [[User Manual]]
 * [[Installation Manual]]
-* [[Developper Guide]]
+* [[Developer Guide]]
 
 # Quick install 
 ## i-Code CNES Eclipse plugin 
@@ -29,7 +29,7 @@ alias icode=$(pwd)/i-CodeCNES-3.1.0-CLI-linux/icode
 ``` 
 
 **On Windows (powershell)**
-Extract the archive, then : 
+Extract the archive, then: 
 ```ps
 Set-Alias icode c:\user\tools\icode.exe
 ```
@@ -38,9 +38,9 @@ Set-Alias icode c:\user\tools\icode.exe
 ## ⚠️ Filename extension
 Analysis on project are based on file extension to attribute the good file to the good analyzer. Which mean, it's not required to filter file's extension when launching an anlysis on a project, however it's important (especially in shell) that files that should be analyzed have an appropriate extension.
 
-Extension supported by languages : 
-* Shell : sh, ksh, bash
-* Fortran : f, f77, f90, F, F90, F77, fortran
+Extension supported by languages: 
+* Shell: sh, ksh, bash
+* Fortran: f, f77, f90, F, F90, F77, fortran
 
 > A Shell file for instance `no_extension` should be renamed `no_extension.sh` in order to be analyzed.
 
@@ -54,7 +54,7 @@ You can set the severity configuration of the analysis using the scrollbar from 
 Select files to analysis, one or several, and then click on `i-Code CNES > Run analysis`.
 ## i-Code CNES CLI
 
-In your project folder, use the following command to analyze all files : 
+In your project folder, use the following command to analyze all files: 
 ```sh
 # Analyse whole project
 icode '**/*'
