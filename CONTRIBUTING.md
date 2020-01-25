@@ -53,11 +53,15 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 
 ### Pull Requests
 * Fill in [the required template](PULL_REQUEST_TEMPLATE.md)
-* Do not include issue numbers in the PR title* Include screenshots and animated GIFs in your pull request whenever possible.
-* Follow the Java styleguides.
+* Do not include issue numbers in the PR title
+* Include screenshots and animated GIFs in your pull request whenever possible
+* Follow the Java styleguides and fix all new SonarCloud issues
+* Test your code before opening the PR
+* Set the current `dev-*` branch as the target branch for your PR
 
 ## Git Commit Messages
 * Use the present tense ("Add feature" not "Added feature")
 * Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-* Limit the first line to 72 characters or less* Reference issues and pull requests liberally after the first line
+* Limit the first line to 72 characters or less
+* Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit description
