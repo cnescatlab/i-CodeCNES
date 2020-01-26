@@ -1,7 +1,4 @@
 * [[Home]]
 * [[User Manual]]
 * [[Installation Manual]]
-* [[Developer guide]]
-  * [[Architecture]]
-  * [[Checkers implementation]]
-  * [[Plugin contribution]]
+* [Developer guide](/lequal/icode-custom-plugin-example)
