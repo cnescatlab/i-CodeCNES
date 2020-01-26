@@ -51,7 +51,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 * **Specify the SonarQube version you're using.** The SonarQube version is mentionned at the bottom of the web page.
 
 ### Pull Requests
-* Fill in [the required template](PULL_REQUEST_TEMPLATE.md)
+* Fill in [the required template](.github/PULL_REQUEST_TEMPLATE.md)
 * Do not include issue numbers in the PR title
 * Include screenshots and animated GIFs in your pull request whenever possible
 * Follow the Java styleguides and fix all new SonarCloud issues
