@@ -39,7 +39,7 @@ public class TestAllShellRules {
                 {"/COM/DATA/Invariant/error.sh", "/COM/DATA/Invariant/noError.sh", new int[]{ 9, 14, 21, 27, 13, 8, 9, 30}, new String[]{ "MAIN PROGRAM", "MAIN PROGRAM", "fonction", "fonction2", "MAIN PROGRAM", "MAIN PROGRAM" , "MAIN PROGRAM", "MAIN PROGRAM" }, COMDATAInvariant.class},
                 {"/COM/DATA/LoopCondition/error.sh", "/COM/DATA/LoopCondition/noError.sh", new int[]{ 27, 44 }, new String[]{ "testFunction", "MAIN PROGRAM" }, COMDATALoopCondition.class},
                 {"/COM/DATA/NotUsed/error.sh", "/COM/DATA/NotUsed/noError.sh", new int[]{ 12 }, new String[]{ "MAIN PROGRAM" }, COMDATANotUsed.class},
-                {"/COM/DESIGN/ActiveWait/error.sh", "/COM/DESIGN/ActiveWait/noError.sh", new int[]{ 9, 21, 25 }, new String[]{ "MAIN PROGRAM", "readNum", "MAIN PROGRAM" }, COMDESIGNActiveWait.class},
+                {"/COM/DESIGN/ActiveWait/error.sh", "/COM/DESIGN/ActiveWait/noError.sh", new int[]{ 9, 25 }, new String[]{ "MAIN PROGRAM", "MAIN PROGRAM" }, COMDESIGNActiveWait.class},
                 {"/COM/FLOW/Abort/error.sh", "/COM/FLOW/Abort/noError.sh", new int[]{ 13, 14, 22, 25 }, new String[]{ "MAIN PROGRAM", "MAIN PROGRAM", "testFunction" , "MAIN PROGRAM"  }, COMFLOWAbort.class},
                 {"/COM/FLOW/BooleanExpression/error.sh", "/COM/FLOW/BooleanExpression/noError.sh", new int[]{ 12, 17, 27, 32, 34, 42, 47 }, new String[]{ "test_func", "test_func", "test_func2", "test_func2", "test_func2", "test_func2", "test_func2" }, COMFLOWBooleanExpression.class},
                 {"/COM/FLOW/CaseSwitch/error.sh", "/COM/FLOW/CaseSwitch/noError.sh", new int[]{ 17, 33, 37, 52 }, new String[]{ "MAIN PROGRAM", "caseFunction", "caseFunction", "MAIN PROGRAM" }, COMFLOWCaseSwitch.class},
