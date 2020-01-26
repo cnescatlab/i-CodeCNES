@@ -31,7 +31,9 @@ Explain the problem and include additional details to help maintainers reproduce
 * **If you're reporting that the plugin crashed**, include a crash report with a stack trace from the operating system.
 
 Provide more context by answering these questions:
-* **Did the problem start happening recently** (e.g. after updating to a new version of the plugin or SonarQube) or was this always a problem?* If the problem started happening recently, **can you reproduce the problem in an older version?** What's the most recent version in which the problem doesn't happen? You can download older versions from [the releases page](https://github.com/lequal/i-CodeCNES/releases).* **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
+* **Did the problem start happening recently** (e.g. after updating to a new version of the plugin or SonarQube) or was this always a problem?
+* If the problem started happening recently, **can you reproduce the problem in an older version?** What's the most recent version in which the problem doesn't happen? You can download older versions from [the releases page](https://github.com/lequal/i-CodeCNES/releases).
+* **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
 
 Include details about your configuration and environment:
 * **Which SonarQube version are you using?** You can get the exact version at the bottom of your SonarQube instance.
