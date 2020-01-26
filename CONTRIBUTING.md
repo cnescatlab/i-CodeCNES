@@ -65,3 +65,13 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit description
+
+## Management of contributions
+
+All contributions are welcome. They are made via a *pull request* on the branch `dev` which is the branch of the next version.
+
+* pull request with **major** changes must be approved by at least one maintainer of each team and the LEQUAL.
+
+* pull requests with **minor** changes must be approved by at least one organization's member.
+ 
+All maintainers have the ability to merge *pull requests* on the `dev` branch. If several maintainers belong to the same team, their validation only counts for one organization.
