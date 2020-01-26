@@ -20,7 +20,7 @@ Restart Eclipse.
 Download and unzip the latest IDE version in a folder.
 
 ### i-Code CNES CLI
-Download the latest i-Code CNES CLI version [link](https://github.com/lequal/i-CodeCNES/releases). Then put the archive in your choosen location.
+Download the latest i-Code CNES CLI version [link](https://github.com/lequal/i-CodeCNES/releases). Then put the archive in your chosen location.
 
 **On linux**
 ```sh
@@ -36,7 +36,7 @@ Set-Alias icode c:\user\tools\icode.exe
 
 ## Quick analysis
 ### ⚠️ Filename extension
-Analysis on project are based on file extension to attribute the good file to the good analyzer. Which mean, it's not required to filter file's extension when launching an anlysis on a project, however it's important (especially in shell) that files that should be analyzed have an appropriate extension.
+Analysis on project are based on file extension to attribute the good file to the good analyzer. Which mean, it's not required to filter file's extension when launching an analysis on a project, however it's important (especially in shell) that files that should be analyzed have an appropriate extension.
 
 Extension supported by languages: 
 * Shell: sh, ksh, bash
