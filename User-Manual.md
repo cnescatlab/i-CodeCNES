@@ -8,6 +8,11 @@
   + [2.5. i-Code Core](#25-i-code-core)
   + [2.6. i-Code Library](#26-i-code-library)
 + [3. Rules description](#3-rules-description)
+  + [3.1. Common rules](#31-common-rules)
+  + [3.2. Specific rules](#32-specific-rules)
+    + [3.2.1. Shell rules](#321-shell-rules)
+    + [3.2.2. Fortran 77 rules](#322-fortran-77-rules)
+    + [3.2.3. Fortran 90 rules](#323-fortran-90-rules)
 + [4. Metrics description](#4-metrics-description)
 + [5. Limitations](#5-limitations)
 + [6. References](#6-references)
@@ -31,7 +36,17 @@ Before using i-Code CNES, you should:
 
 ## 3. Rules description
 
+### 3.1. Common rules
+
+### 3.2. Specific rules
+
+#### 3.2.1. Shell rules
+#### 3.2.2. Fortran 77 rules
+#### 3.2.3. Fortran 90 rules
+
 ## 4. Metrics description
+
+
 
 ## 5. Limitations
 
