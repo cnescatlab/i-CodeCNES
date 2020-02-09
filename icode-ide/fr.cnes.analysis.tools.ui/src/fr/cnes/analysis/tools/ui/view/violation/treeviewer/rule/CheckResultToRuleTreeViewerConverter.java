@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 
 /**

@@ -3,7 +3,8 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.shell.metrics;
+
+package fr.cnes.icode.shell;
 
 import fr.cnes.icode.exception.JFlexException;
 
@@ -11,7 +12,7 @@ import fr.cnes.icode.exception.JFlexException;
  * This class contains data that are commonly used by metrics to identify a
  * SHELL function. This can be useful to locate a function and be implemented to
  * include special details in it.
- * 
+ *
  * <h2>The starter repetition</h2>
  * <p>
  * The {@link #starterRepetition} attribute must be used to count how many times
@@ -30,16 +31,21 @@ import fr.cnes.icode.exception.JFlexException;
  * <li>While trying to reduce the number of repetition of the starter while it's
  * value is zero or less</li>
  * </ul>
- * 
- * 
+ *
  * @since 3.0
  */
 public class Function {
-    /** Function's name */
+    /**
+     * Function's name
+     */
     private String name;
-    /** Function's line */
+    /**
+     * Function's line
+     */
     private int beginLine;
-    /** Function starter */
+    /**
+     * Function starter
+     */
     private String starter;
     /**
      * Number of control structure having the same closing as the function's one
@@ -49,13 +55,10 @@ public class Function {
 
     /**
      * Constructor for {@link Function} object.
-     * 
-     * @param pName
-     *            name of the function
-     * @param pBeginLine
-     *            line number of the function
-     * @param pStarter
-     *            element starting the function's body.
+     *
+     * @param pName      name of the function
+     * @param pBeginLine line number of the function
+     * @param pStarter   element starting the function's body.
      */
     public Function(final String pName, final int pBeginLine, final String pStarter) {
         this.name = pName;
@@ -75,76 +78,70 @@ public class Function {
     /**
      * Decrement the number of structure having same closing as the current
      * function. To use on the closing of one of them.
-     * 
-     * @throws JFlexException
-     *             when the number of repetition below or equal zero.
+     *
+     * @throws JFlexException when the number of repetition below or equal zero.
      */
     public void removeStarterRepetition() throws JFlexException {
         if (starterRepetition > 0) {
             starterRepetition--;
         } else {
             throw new JFlexException(
-                            new Exception("Count of function's starter closure is negative."));
+                    new Exception("Count of function's starter closure is negative."));
         }
     }
 
     /**
      * @return the {@link String} element that would close the function.
-     * @throws JFlexException
-     *             when no finisher can be recognized from the parameter
+     * @throws JFlexException when no finisher can be recognized from the parameter
      */
     public final String getFinisher() throws JFlexException {
         return Function.finisherOf(this.starter);
     }
 
     /**
-     * @param str
-     *            the {@link String} beginning a control structure or a
+     * @param str the {@link String} beginning a control structure or a
      *            function.
      * @return the {@link String} which should be considered as the function
-     *         closer of the parameter
-     * @throws JFlexException
-     *             when no finisher can be recognized from the parameter.
+     * closer of the parameter
+     * @throws JFlexException when no finisher can be recognized from the parameter.
      */
     public static final String finisherOf(String str) throws JFlexException {
         final String functionFinisher;
         switch (str) {
-        case "if":
-            functionFinisher = "fi";
-            break;
-        case "case":
-            functionFinisher = "esac";
-            break;
-        case "select":
-        case "for":
-        case "while":
-        case "until":
-            functionFinisher = "done";
-            break;
-        case "{":
-            functionFinisher = "}";
-            break;
-        case "(":
-            functionFinisher = ")";
-            break;
-        case "((":
-            functionFinisher = "))";
-            break;
-        case "[[":
-            functionFinisher = "]]";
-            break;
-        default:
-            throw new JFlexException(new Exception("Function's finisher unknown."));
+            case "if":
+                functionFinisher = "fi";
+                break;
+            case "case":
+                functionFinisher = "esac";
+                break;
+            case "select":
+            case "for":
+            case "while":
+            case "until":
+                functionFinisher = "done";
+                break;
+            case "{":
+                functionFinisher = "}";
+                break;
+            case "(":
+                functionFinisher = ")";
+                break;
+            case "((":
+                functionFinisher = "))";
+                break;
+            case "[[":
+                functionFinisher = "]]";
+                break;
+            default:
+                throw new JFlexException(new Exception("Function's finisher unknown."));
         }
         return functionFinisher;
     }
 
     /**
-     * @param str
-     *            the string to compare
+     * @param str the string to compare
      * @return if the parameter can close the function or not.
-     * @throws JFlexException
-     *             when no finisher can be recognized from the parameter
+     * @throws JFlexException when no finisher can be recognized from the parameter
      */
     public final boolean isFinisher(String str) throws JFlexException {
         return str.equals(this.getFinisher());
@@ -158,8 +155,7 @@ public class Function {
     }
 
     /**
-     * @param pName
-     *            the name to set
+     * @param pName the name to set
      */
     public final void setName(String pName) {
         this.name = pName;
@@ -173,8 +169,7 @@ public class Function {
     }
 
     /**
-     * @param pBeginLine
-     *            the beginLine to set
+     * @param pBeginLine the beginLine to set
      */
     public final void setBeginLine(int pBeginLine) {
         this.beginLine = pBeginLine;
@@ -188,8 +183,7 @@ public class Function {
     }
 
     /**
-     * @param pStarter
-     *            String starting the function
+     * @param pStarter String starting the function
      */
     public final void setStarter(String pStarter) {
         this.starter = pStarter;

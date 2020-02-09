@@ -8,7 +8,7 @@ package fr.cnes.icode.application;
 import com.google.common.collect.Sets;
 import fr.cnes.icode.Analyzer;
 import fr.cnes.icode.application.exception.BadArgumentValueException;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 import fr.cnes.icode.services.checkers.CheckerService;

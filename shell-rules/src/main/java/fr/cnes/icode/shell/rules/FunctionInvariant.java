@@ -1,3 +1,9 @@
+/************************************************************************************************/
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
+/************************************************************************************************/
+
 package fr.cnes.icode.shell.rules;
 
 import java.util.ArrayList;
@@ -10,47 +16,47 @@ import java.util.HashMap;
  */
 
 public class FunctionInvariant extends FunctionWithVariables {
-	
-	/* okVariables: contains all variables that have either been declared as consts or */
-	/* should be variables. There should be no violation on them. */
-	private ArrayList<String> okVariables;
-	
-	/* okGlobalVariables: contains all global to the function variables that should be variables. 
-	 * There should be no violation on them. */
-	private ArrayList<String> okGlobalVariables;
 
-	/* errVariables: contains all variables that for the moment should be consts */
-	/* String: variable name, Integer: variable line in code */
-	private HashMap<String,Integer> errVariables;
-	
-	public FunctionInvariant(String pName, int pBeginLine, String pStarter) {
-		super(pName, pBeginLine, pStarter);
-		this.okVariables  = new ArrayList<String>();
-		this.errVariables = new HashMap<String,Integer>();
-		this.okGlobalVariables = new ArrayList<String>();
-	}
-	
-	public HashMap<String,Integer> getErrVariables() {
-		return this.errVariables;
-	}
-	
-	public ArrayList<String> getOkVariables() {
-		return this.okVariables;
-	}
-	
-	public ArrayList<String> getOkGlobalVariables() {
-		return this.okGlobalVariables;
-	}
-	
-	/* update ok and err variables with variable status from son function */
-	public void addSonOkVariables(ArrayList<String> sonOkVariables)	{
-		for (String var : sonOkVariables) {
-			if (this.errVariables.containsKey(var)) {
-				this.errVariables.remove(var);
-				this.okVariables.add(var);
-			}
-		}
-	}
-	
+    /* okVariables: contains all variables that have either been declared as consts or */
+    /* should be variables. There should be no violation on them. */
+    private ArrayList<String> okVariables;
+
+    /* okGlobalVariables: contains all global to the function variables that should be variables.
+     * There should be no violation on them. */
+    private ArrayList<String> okGlobalVariables;
+
+    /* errVariables: contains all variables that for the moment should be consts */
+    /* String: variable name, Integer: variable line in code */
+    private HashMap<String, Integer> errVariables;
+
+    public FunctionInvariant(String pName, int pBeginLine, String pStarter) {
+        super(pName, pBeginLine, pStarter);
+        this.okVariables = new ArrayList<String>();
+        this.errVariables = new HashMap<String, Integer>();
+        this.okGlobalVariables = new ArrayList<String>();
+    }
+
+    public HashMap<String, Integer> getErrVariables() {
+        return this.errVariables;
+    }
+
+    public ArrayList<String> getOkVariables() {
+        return this.okVariables;
+    }
+
+    public ArrayList<String> getOkGlobalVariables() {
+        return this.okGlobalVariables;
+    }
+
+    /* update ok and err variables with variable status from son function */
+    public void addSonOkVariables(ArrayList<String> sonOkVariables) {
+        for (String var : sonOkVariables) {
+            if (this.errVariables.containsKey(var)) {
+                this.errVariables.remove(var);
+                this.okVariables.add(var);
+            }
+        }
+    }
+
 }
 	

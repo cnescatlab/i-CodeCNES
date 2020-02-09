@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
 

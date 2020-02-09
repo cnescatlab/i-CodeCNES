@@ -5,9 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.icode;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
-import fr.cnes.icode.datas.ParsingError;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.data.ParsingError;
 import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.logger.ICodeLogger;
 

@@ -5,7 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.icode.fortran90.metrics;
 
-import fr.cnes.icode.datas.CheckersDefinition;
+import fr.cnes.icode.data.CheckersDefinition;
 
 /**
  * Define checkers to be supported by this plugin.

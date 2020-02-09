@@ -15,20 +15,18 @@
 
 package fr.cnes.icode.shell.metrics;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
+import fr.cnes.icode.shell.Function;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
-
-
 
 %%
 

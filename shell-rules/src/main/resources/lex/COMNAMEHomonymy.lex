@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 
 %%

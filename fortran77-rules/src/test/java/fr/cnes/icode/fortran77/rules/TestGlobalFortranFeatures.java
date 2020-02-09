@@ -7,71 +7,75 @@
 package fr.cnes.icode.fortran77.rules;
 
 import fr.cnes.icode.Analyzer;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.*;
 import java.util.*;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * This class is intended to run test on all the files contained in the package
  * f77_1, f77_2, f77_3 and f77_4 of resources.
  */
-@RunWith(Parameterized.class)
 public class TestGlobalFortranFeatures {
 
-    @Parameterized.Parameters(name = "TEST GLOBAL {index}: {4}")
-    public static Iterable<Object[]> data() {
-        return Arrays.asList(new Object[][]{
+    /**
+     * This List represent the data set and contains:
+     * - directory containing sources to test
+     * - file containing reference results
+     *
+     * @return List of test data.
+     */
+    public static Object[][] data() {
+        return new Object[][]{
                 {"f77_1", "/globalTestValidated_1.txt"},
                 {"f77_2", "/globalTestValidated_2.txt"},
                 {"f77_3", "/globalTestValidated_3.txt"},
                 {"f77_4", "/globalTestValidated_4.txt"}
-        });
+        };
     }
 
-    /** This list contains all the violations when the analysis is executed **/
+    /**
+     * This list contains all the violations when the analysis is executed
+     **/
     private List<CheckResult> list = new LinkedList<>();
-    /** File to analyze */
+    /**
+     * File to analyze
+     */
     private Set<File> listFiles = new HashSet<>();
 
-    /**********************/
-    /** PARAMS TO DEFINE **/
-    /**********************/
-
-    /** Folder where the function find files to execute the analyze **/
-    @Parameterized.Parameter
-    public String resources;
-    /** Folder where the function find files to execute the analyze **/
-    @Parameterized.Parameter(1)
-    public String validatedResultFilename;
-    /** Extension of the files to be analyzed **/
-    private final String extension = "f";
-    /** Id to execute the analysis **/
-    private final String languageId = "fr.cnes.icode.languages.f77";
-    /** Id of metrics of Fortran 77 that are excluded from the analysis */
-    private final String[] excludedIds = new String[] {
-        "fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified",
-        "fr.cnes.icode.fortran77.metrics.F77METNesting",
-        "fr.cnes.icode.fortran77.metrics.F77METLineOfCode",
-        "fr.cnes.icode.fortran77.metrics.F77METRatioComment"
+    /**
+     * Id of metrics of Fortran 77 that are excluded from the analysis
+     */
+    private final String[] excludedIds = new String[]{
+            "fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified",
+            "fr.cnes.icode.fortran77.metrics.F77METNesting",
+            "fr.cnes.icode.fortran77.metrics.F77METLineOfCode",
+            "fr.cnes.icode.fortran77.metrics.F77METRatioComment"
     };
 
     /**
      * Function test to validate global test. This function do - get all files
      * in /resources folder - run analysis in this files - export results to
      * globalTest.txt file - compare file with the last one
-     * 
+     * <p>
      * NOTE: to run this test in jUnit: Run As > jUnit PlugIn in test
+     *
+     * @param resources               directory containing sources to test
+     * @param validatedResultFilename file containing reference results
      */
-    @Test
-    public void runGlobalTest() {
+    @ParameterizedTest(name = "TEST GLOBAL {index}: {0}")
+    @MethodSource("data")
+    public void runGlobalTest(final String resources, final String validatedResultFilename) {
+
+        // Id to execute the analysis.
+        final String languageId = "fr.cnes.icode.languages.f77";
+
         try {
             /* File where to save the result of the execution */
             final File fileResult = new File(String.format("target%s_result.txt", resources));
@@ -114,16 +118,21 @@ public class TestGlobalFortranFeatures {
      * @param folder to run analysis on.
      */
     private void getFilesIntoFolder(final File folder) {
+        // Extension of the files to be analyzed.
+        final String extension = "f";
+
         if (folder.isDirectory()) {
             final File[] listOfFiles = folder.listFiles();
             /* For each file, check the extension and save IPath into List */
-            for (final File file : listOfFiles) {
-                if (file.isDirectory()) {
-                    getFilesIntoFolder(file);
-                } else {
-                    final int i = file.getAbsolutePath().lastIndexOf(".");
-                    if (file.getAbsolutePath().substring(i + 1).equals(extension)) {
-                        listFiles.add(file);
+            if (listOfFiles != null) {
+                for (final File file : listOfFiles) {
+                    if (file.isDirectory()) {
+                        getFilesIntoFolder(file);
+                    } else {
+                        final int i = file.getAbsolutePath().lastIndexOf(".");
+                        if (file.getAbsolutePath().substring(i + 1).equals(extension)) {
+                            listFiles.add(file);
+                        }
                     }
                 }
             }
@@ -134,12 +143,12 @@ public class TestGlobalFortranFeatures {
     /**
      * Function to create the error file. The file has the following: RuleName
      * FileName NumError
-     * 
+     *
      * @param fileResult The file to export result in.
      */
     private void createExportFile(final File fileResult) {
         /* Create result file */
-        try (final BufferedWriter output = new BufferedWriter(new FileWriter(fileResult))){
+        try (final BufferedWriter output = new BufferedWriter(new FileWriter(fileResult))) {
             /* If the list is bigger than one */
             if (list.size() > 1) {
                 String rule = list.get(0).getName();
@@ -176,11 +185,9 @@ public class TestGlobalFortranFeatures {
             /* Only one error -> print directly */
             else if (list.size() > 0) {
                 output.write(list.get(0).getName() + " "
-                                + list.get(0).getFile().getAbsolutePath()
-                                + " 1\n");
+                        + list.get(0).getFile().getAbsolutePath()
+                        + " 1\n");
             }
-            /* After run for all files: close file writer */
-            output.close();
         } catch (IOException exception) {
             fail("Analysis error (IOException)");
         }
@@ -188,11 +195,9 @@ public class TestGlobalFortranFeatures {
 
     /**
      * Comparison between files
-     * 
-     * @param fileResult
-     *            File generated by the analysis.
-     * @param fileResultValidated
-     *            file to compare the analysis with.
+     *
+     * @param fileResult          File generated by the analysis.
+     * @param fileResultValidated file to compare the analysis with.
      * @return equals indicate the equality of the files
      */
     private boolean compareFiles(final File fileResult, final File fileResultValidated) {
@@ -208,7 +213,7 @@ public class TestGlobalFortranFeatures {
             testedLine = testReader.readLine();
             validatedLine = validatedReader.readLine();
             while ((testReader.readLine() != null) && ((validatedReader.readLine()) != null)
-                            && equals) {
+                    && equals) {
                 if (!testedLine.equalsIgnoreCase(validatedLine)) {
                     equals = false;
                 }
@@ -221,13 +226,13 @@ public class TestGlobalFortranFeatures {
              */
             final boolean bothDocumentEndingNull = (testedLine == null && validatedLine == null);
             final boolean bothDocumentEndingWithSameLine = (testedLine != null
-                            && validatedLine != null)
-                            && !testedLine.equalsIgnoreCase(validatedLine);
+                    && validatedLine != null)
+                    && !testedLine.equalsIgnoreCase(validatedLine);
             if (bothDocumentEndingNull || bothDocumentEndingWithSameLine) {
                 equals = false;
             }
         } catch (final IOException exception) {
-            fail("Analysis error ("+exception.getClass().getName()+")");
+            fail("Analysis error (" + exception.getClass().getName() + ")");
         }
         /* Return value */
         return equals;

@@ -18,7 +18,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileR
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 
 /**

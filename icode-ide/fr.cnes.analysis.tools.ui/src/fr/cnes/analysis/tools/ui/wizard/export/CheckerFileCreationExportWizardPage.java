@@ -23,7 +23,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import fr.cnes.analysis.tools.ui.view.MetricsView;
 import fr.cnes.analysis.tools.ui.view.ViolationsView;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.export.ExportService;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;

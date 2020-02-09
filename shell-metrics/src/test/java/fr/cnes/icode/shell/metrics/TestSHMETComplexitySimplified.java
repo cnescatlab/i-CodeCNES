@@ -6,10 +6,10 @@
 
 package fr.cnes.icode.shell.metrics;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,15 +18,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class aims to test Don.Declaration rule. There are 2 functions in this
  * class. The first one verifies that an error in a file is detected whenever
  * there is one, the other verifies that nothing is detected when there's no
  * error.
- * 
  */
 public class TestSHMETComplexitySimplified {
 
@@ -50,62 +48,61 @@ public class TestSHMETComplexitySimplified {
             final List<CheckResult> checkResults = metric.run();
             CheckResult fileValue = null;
             for (CheckResult check : checkResults) {
-                if (check.getLocation()==null || check.getLocation().isEmpty()) {
+                if (check.getLocation() == null || check.getLocation().isEmpty()) {
                     fileValue = check;
-                    checkResults.remove(checkResults.indexOf(check));
+                    checkResults.remove(check);
                 }
             }
             if (fileValue == null) {
                 fail("Error: No issue found in the file.");
             } else {
-                assertTrue(fileValue.getFile().getName().equals(fileName));
-                assertTrue(fileValue.getValue().equals((float) 131.0));
+                assertEquals(fileValue.getFile().getName(), fileName);
+                assertEquals(131.0f, fileValue.getValue(), 0.001);
 
-                final List<CheckResult> functionValues = checkResults;
                 Map<String, Float> exceptedValues = new TreeMap<>();
-                exceptedValues.put("MAIN PROGRAM",(float)5.0);
-                exceptedValues.put("nvm_alias",(float)3.0);
-                exceptedValues.put("nvm_alias_path",(float)1.0);
-                exceptedValues.put("nvm_cd",(float)1.0);
-                exceptedValues.put("nvm_clang_version",(float)1.0);
-                exceptedValues.put("nvm_command_info",(float)6.0);
-                exceptedValues.put("nvm_curl_libz_support",(float)1.0);
-                exceptedValues.put("nvm_curl_use_compression",(float)1.0);
-                exceptedValues.put("nvm_curl_version",(float)1.0);
-                exceptedValues.put("nvm_download",(float)4.0);
-                exceptedValues.put("nvm_ensure_version_installed",(float)6.0);
-                exceptedValues.put("nvm_err",(float)1.0);
-                exceptedValues.put("nvm_find_nvmrc",(float)2.0);
-                exceptedValues.put("nvm_find_up",(float)3.0);
-                exceptedValues.put("nvm_get_latest",(float)6.0);
-                exceptedValues.put("nvm_grep",(float)1.0);
-                exceptedValues.put("nvm_has",(float)1.0);
-                exceptedValues.put("nvm_has_colors",(float)2.0);
-                exceptedValues.put("nvm_has_non_aliased",(float)1.0);
-                exceptedValues.put("nvm_has_system_iojs",(float)1.0);
-                exceptedValues.put("nvm_has_system_node",(float)1.0);
-                exceptedValues.put("nvm_install_latest_npm",(float)16.0);
-                exceptedValues.put("nvm_is_alias",(float)1.0);
-                exceptedValues.put("nvm_is_valid_version",(float)4.0);
-                exceptedValues.put("nvm_is_version_installed",(float)1.0);
-                exceptedValues.put("nvm_ls_current",(float)7.0);
-                exceptedValues.put("nvm_make_alias",(float)3.0);
-                exceptedValues.put("nvm_prepend_path",(float)3.0);
-                exceptedValues.put("nvm_print_npm_version",(float)2.0);
-                exceptedValues.put("nvm_rc_version",(float)3.0);
-                exceptedValues.put("nvm_remote_version",(float)10.0);
-                exceptedValues.put("nvm_resolve_alias",(float)11.0);
-                exceptedValues.put("nvm_tree_contains_path",(float)4.0);
-                exceptedValues.put("nvm_version",(float)5.0);
-                exceptedValues.put("nvm_version_dir",(float)5.0);
-                exceptedValues.put("nvm_version_greater",(float)1.0);
-                exceptedValues.put("nvm_version_greater_than_or_equal_to",(float)1.0);
-                exceptedValues.put("nvm_version_path",(float)5.0);
-                for(CheckResult metricValue : functionValues){
-                	assertTrue("Test do not excepts function : "+metricValue.getLocation()+".",exceptedValues.containsKey(metricValue.getLocation()));
-                	assertTrue("Test excepts value of ["+Math.round(exceptedValues.get(metricValue.getLocation()))+"] while metric computed ["+Math.round(metricValue.getValue())+"] for the function "+metricValue.getLocation()+".",Math.round(metricValue.getValue()) == Math.round(exceptedValues.get(metricValue.getLocation())));
+                exceptedValues.put("MAIN PROGRAM", (float) 5.0);
+                exceptedValues.put("nvm_alias", (float) 3.0);
+                exceptedValues.put("nvm_alias_path", (float) 1.0);
+                exceptedValues.put("nvm_cd", (float) 1.0);
+                exceptedValues.put("nvm_clang_version", (float) 1.0);
+                exceptedValues.put("nvm_command_info", (float) 6.0);
+                exceptedValues.put("nvm_curl_libz_support", (float) 1.0);
+                exceptedValues.put("nvm_curl_use_compression", (float) 1.0);
+                exceptedValues.put("nvm_curl_version", (float) 1.0);
+                exceptedValues.put("nvm_download", (float) 4.0);
+                exceptedValues.put("nvm_ensure_version_installed", (float) 6.0);
+                exceptedValues.put("nvm_err", (float) 1.0);
+                exceptedValues.put("nvm_find_nvmrc", (float) 2.0);
+                exceptedValues.put("nvm_find_up", (float) 3.0);
+                exceptedValues.put("nvm_get_latest", (float) 6.0);
+                exceptedValues.put("nvm_grep", (float) 1.0);
+                exceptedValues.put("nvm_has", (float) 1.0);
+                exceptedValues.put("nvm_has_colors", (float) 2.0);
+                exceptedValues.put("nvm_has_non_aliased", (float) 1.0);
+                exceptedValues.put("nvm_has_system_iojs", (float) 1.0);
+                exceptedValues.put("nvm_has_system_node", (float) 1.0);
+                exceptedValues.put("nvm_install_latest_npm", (float) 16.0);
+                exceptedValues.put("nvm_is_alias", (float) 1.0);
+                exceptedValues.put("nvm_is_valid_version", (float) 4.0);
+                exceptedValues.put("nvm_is_version_installed", (float) 1.0);
+                exceptedValues.put("nvm_ls_current", (float) 7.0);
+                exceptedValues.put("nvm_make_alias", (float) 3.0);
+                exceptedValues.put("nvm_prepend_path", (float) 3.0);
+                exceptedValues.put("nvm_print_npm_version", (float) 2.0);
+                exceptedValues.put("nvm_rc_version", (float) 3.0);
+                exceptedValues.put("nvm_remote_version", (float) 10.0);
+                exceptedValues.put("nvm_resolve_alias", (float) 11.0);
+                exceptedValues.put("nvm_tree_contains_path", (float) 4.0);
+                exceptedValues.put("nvm_version", (float) 5.0);
+                exceptedValues.put("nvm_version_dir", (float) 5.0);
+                exceptedValues.put("nvm_version_greater", (float) 1.0);
+                exceptedValues.put("nvm_version_greater_than_or_equal_to", (float) 1.0);
+                exceptedValues.put("nvm_version_path", (float) 5.0);
+                for (CheckResult metricValue : checkResults) {
+                    assertTrue(exceptedValues.containsKey(metricValue.getLocation()));
+                    assertEquals(Math.round(metricValue.getValue()), Math.round(exceptedValues.get(metricValue.getLocation())));
                 }
-                assertTrue("Test excepts "+exceptedValues.size()+" functions computed for the file while the metric computed ["+functionValues.size()+"].",functionValues.size() == exceptedValues.size());
+                assertEquals(checkResults.size(), exceptedValues.size());
 
             }
         } catch (final FileNotFoundException e) {

@@ -33,7 +33,7 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeV
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 
 public class ViolationsView extends ViewPart {

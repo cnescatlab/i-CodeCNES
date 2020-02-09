@@ -67,7 +67,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="fr.cnes.icode.datas.AbstractMetric"
+  <class id="7" language="java" name="fr.cnes.icode.data.AbstractMetric"
     project="fr.cnes.icode"
     file="/fr.cnes.icode/src/fr/cnes/analysis/tools/analyzer/datas/AbstractMetric.java" binary="false"
     corner="BOTTOM_RIGHT">    
@@ -78,7 +78,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="fr.cnes.icode.datas.AbstractRule"
+  <class id="8" language="java" name="fr.cnes.icode.data.AbstractRule"
     project="fr.cnes.icode"
     file="/fr.cnes.icode/src/fr/cnes/analysis/tools/analyzer/datas/AbstractRule.java" binary="false"
     corner="BOTTOM_RIGHT">    
@@ -89,7 +89,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="fr.cnes.icode.datas.AbstractEvaluation"
+  <class id="9" language="java" name="fr.cnes.icode.data.AbstractEvaluation"
     project="fr.cnes.icode"
     file="/fr.cnes.icode/src/fr/cnes/analysis/tools/analyzer/datas/AbstractEvaluation.java"
     binary="false" corner="BOTTOM_RIGHT">    

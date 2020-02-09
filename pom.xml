@@ -70,12 +70,24 @@
         <maven.surfire.version>2.22.2</maven.surfire.version>
         <junit.jupiter.version>5.6.0</junit.jupiter.version>
         <jacoco.version>0.8.4</jacoco.version>
-        <sonar.projectKey>lequal_i-CodeCNES</sonar.projectKey>
         <sonar.exclusions>icode-ide/**/*</sonar.exclusions>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surfire.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>

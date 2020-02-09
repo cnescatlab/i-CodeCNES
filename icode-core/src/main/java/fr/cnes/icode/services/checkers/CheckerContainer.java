@@ -5,7 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.checkers;
 
-import fr.cnes.icode.datas.AbstractChecker;
+import fr.cnes.icode.data.AbstractChecker;
 import fr.cnes.icode.exception.NullContributionException;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.languages.ILanguage;

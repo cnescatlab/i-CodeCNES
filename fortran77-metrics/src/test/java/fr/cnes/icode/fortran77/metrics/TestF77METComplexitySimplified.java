@@ -1,14 +1,15 @@
 /************************************************************************************************/
-/** i-Code CNES is a static code analyzer.                                                       */
-/** This software is a free software, under the terms of the Eclipse Public License version 1.0. */
-/** http://www.eclipse.org/legal/epl-v10.html                                               */
+/* i-Code CNES is a static code analyzer.                                                       */
+/* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
+/* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
+
 package fr.cnes.icode.fortran77.metrics;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class aims to test Don.Declaration rule. There are 2 functions in this
@@ -49,7 +49,7 @@ public class TestF77METComplexitySimplified {
             for (CheckResult check : checkResults) {
                 if (check.getLocation()==null || check.getLocation().isEmpty()) {
                     fileValue = check;
-                    checkResults.remove(checkResults.indexOf(check));
+                    checkResults.remove(check);
                 }
 
             }
@@ -60,12 +60,11 @@ public class TestF77METComplexitySimplified {
                 for (CheckResult check : checkResults) {
                     if (check.getLocation()==null || check.getLocation().isEmpty()) {
                         fileValue = check;
-                        checkResults.remove(checkResults.indexOf(check));
+                        checkResults.remove(check);
                     }
                 }
                 Float exceptedFileValue = Float.NaN;
-            	assertTrue("Test except a file value of ["+exceptedFileValue +"] while metric computed ["+Math.round(fileValue.getValue())+"].", fileValue.getValue().equals(exceptedFileValue));
-                final List<CheckResult> functionValues = checkResults;
+                assertEquals(fileValue.getValue(), exceptedFileValue);
                 Map<String, Float> exceptedValues = new TreeMap<>();
                 exceptedValues.put("FUNCTION  DBEG",(float)3.0);
                 exceptedValues.put("FUNCTION  DDIFF",(float)1.0);
@@ -84,11 +83,11 @@ public class TestF77METComplexitySimplified {
                 exceptedValues.put("SUBROUTINE  DMVCH",(float)13.0);
                 exceptedValues.put("SUBROUTINE  XERBLA",(float)4.0);
 
-                for(CheckResult metricValue : functionValues){
-                	assertTrue("Test do not excepts function : "+metricValue.getLocation()+".",exceptedValues.containsKey(metricValue.getLocation()));
-                	assertTrue("Test excepts value of ["+Math.round(exceptedValues.get(metricValue.getLocation()))+"] while metric computed ["+Math.round(metricValue.getValue())+"] for the function "+metricValue.getLocation()+".",Math.round(metricValue.getValue()) == Math.round(exceptedValues.get(metricValue.getLocation())));
+                for(CheckResult metricValue : checkResults){
+                	assertTrue(exceptedValues.containsKey(metricValue.getLocation()));
+                    assertEquals(Math.round(metricValue.getValue()), Math.round(exceptedValues.get(metricValue.getLocation())));
                 }
-                assertTrue("Test excepts "+exceptedValues.size()+" functions computed for the file while the metric computed ["+functionValues.size()+"].",functionValues.size() == exceptedValues.size());
+                assertEquals(checkResults.size(), exceptedValues.size());
             }
 
         } catch (final FileNotFoundException e) {

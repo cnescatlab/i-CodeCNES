@@ -5,7 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.icode.fortran77.rules;
 
-import fr.cnes.icode.datas.CheckersDefinition;
+import fr.cnes.icode.data.CheckersDefinition;
 
 /**
  * Define checkers to be supported by this plugin.

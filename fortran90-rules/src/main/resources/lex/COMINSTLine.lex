@@ -19,8 +19,8 @@ import java.io.FileReader;
 import java.io.File;
 import java.util.List;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 
 %%

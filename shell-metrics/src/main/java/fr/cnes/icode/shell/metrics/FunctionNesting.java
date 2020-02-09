@@ -3,25 +3,25 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
+
 package fr.cnes.icode.shell.metrics;
 
-import java.util.Stack;
-
 import fr.cnes.icode.exception.JFlexException;
+import fr.cnes.icode.shell.Function;
+
+import java.util.Stack;
 
 /**
  * This class is intended to compute Nesting of a function for SHELL language.
  * To use it, please read first {@link Function} documentation.
- * 
- * @since 3.0
- */
-/**
- * @author waldmao
  *
+ * @since 3.0
  */
 public class FunctionNesting extends Function {
 
-    /** Element nested in the function */
+    /**
+     * Element nested in the function
+     */
     private Stack<String> nesting;
     /**
      * Maximal number of element nested inside the function (including function
@@ -36,20 +36,15 @@ public class FunctionNesting extends Function {
 
     /**
      * Constructor
-     * 
-     * @param pName
-     *            of the function
-     * @param pBeginLine
-     *            of the function
-     * @param pStarter
-     *            {@link String} of the function's body
-     * @param pInitialMaxValue
-     *            initial value of the maximal nesting
-     * @param pInitialNesting
-     *            initial value of nesting on new instance.
+     *
+     * @param pName            of the function
+     * @param pBeginLine       of the function
+     * @param pStarter         {@link String} of the function's body
+     * @param pInitialMaxValue initial value of the maximal nesting
+     * @param pInitialNesting  initial value of nesting on new instance.
      */
     public FunctionNesting(String pName, int pBeginLine, String pStarter, int pInitialMaxValue,
-                    int pInitialNesting) {
+                           int pInitialNesting) {
         super(pName, pBeginLine, pStarter);
         this.nesting = new Stack<>();
         this.maxNesting = pInitialMaxValue;
@@ -57,52 +52,49 @@ public class FunctionNesting extends Function {
     }
 
     /**
-     * @param str
-     *            String to verify
+     * @param str String to verify
      * @return whether or not <code>str</code> parameter is increasing nesting.
      */
     public static final boolean isNesting(String str) {
         boolean isNesting;
         switch (str) {
-        case "while":
-        case "for":
-        case "until":
-        case "select":
-        case "if":
-        case "case":
-            isNesting = true;
-            break;
-        default:
-            isNesting = false;
-            break;
+            case "while":
+            case "for":
+            case "until":
+            case "select":
+            case "if":
+            case "case":
+                isNesting = true;
+                break;
+            default:
+                isNesting = false;
+                break;
         }
         return isNesting;
     }
 
     /**
-     * @param str
-     *            String to get finisher of
+     * @param str String to get finisher of
      * @return character or string excepted as finisher of <code>str</code>.
-     * @throws JFlexException
-     *             when the finisher is unknown.
+     * @throws JFlexException when the finisher is unknown.
      */
     public static final String nestingFinisherOf(String str) throws JFlexException {
         final String nestingFinisher;
         switch (str) {
-        case "while":
-        case "for":
-        case "until":
-        case "select":
-            nestingFinisher = "done";
-            break;
-        case "if":
-            nestingFinisher = "fi";
-            break;
-        case "case":
-            nestingFinisher = "esac";
-            break;
-        default:
-            throw new JFlexException(new Exception("Nesting finisher unknown."));
+            case "while":
+            case "for":
+            case "until":
+            case "select":
+                nestingFinisher = "done";
+                break;
+            case "if":
+                nestingFinisher = "fi";
+                break;
+            case "case":
+                nestingFinisher = "esac";
+                break;
+            default:
+                throw new JFlexException(new Exception("Nesting finisher unknown."));
         }
         return nestingFinisher;
     }
@@ -110,10 +102,9 @@ public class FunctionNesting extends Function {
     /**
      * Increase and push nesting then compute, if required, maximum value of
      * nesting of the function.
-     * 
-     * @param nestingBeginner
-     *            Nesting beginner (char or str) of the nesting pushed in the
-     *            function.
+     *
+     * @param nestingBeginner Nesting beginner (char or str) of the nesting pushed in the
+     *                        function.
      */
     public void pushNesting(String nestingBeginner) {
         this.nesting.push(nestingBeginner);
@@ -126,11 +117,10 @@ public class FunctionNesting extends Function {
     /**
      * Pop a nesting of a function once it's finisher is crossed. Decrease
      * function's nesting.
-     * 
+     *
      * @return Nesting beginner (char or str) of the latest nesting popped from
-     *         the function.
-     * @throws JFlexException
-     *             when trying to pop nesting stack while it's empty.
+     * the function.
+     * @throws JFlexException when trying to pop nesting stack while it's empty.
      */
     public String popNesting() throws JFlexException {
         if (!this.nesting.empty()) {
@@ -144,11 +134,9 @@ public class FunctionNesting extends Function {
     }
 
     /**
-     * @param str
-     *            String to verify
+     * @param str String to verify
      * @return whether or not the String is closing current nesting.
-     * @throws JFlexException
-     *             when no finisher can be recognized from the parameter
+     * @throws JFlexException when no finisher can be recognized from the parameter
      */
     public boolean isNestingFinisher(String str) throws JFlexException {
         return FunctionNesting.finisherOf(this.nesting.peek()).equals(str);
@@ -156,8 +144,7 @@ public class FunctionNesting extends Function {
 
     /**
      * @return Nesting finisher (char or str) of the current nesting.
-     * @throws JFlexException
-     *             when no finisher can be recognized from the parameter
+     * @throws JFlexException when no finisher can be recognized from the parameter
      */
     public String getNestingFinisher() throws JFlexException {
         return FunctionNesting.finisherOf(this.nesting.peek());
@@ -171,8 +158,7 @@ public class FunctionNesting extends Function {
     }
 
     /**
-     * @param pMaxNesting
-     *            the maxNesting to set
+     * @param pMaxNesting the maxNesting to set
      */
     public final void setMaxNesting(int pMaxNesting) {
         this.maxNesting = pMaxNesting;
@@ -186,8 +172,7 @@ public class FunctionNesting extends Function {
     }
 
     /**
-     * @param pCurrentNesting
-     *            the currentNesting to set
+     * @param pCurrentNesting the currentNesting to set
      */
     public final void setCurrentNesting(int pCurrentNesting) {
         this.currentNesting = pCurrentNesting;
@@ -201,8 +186,7 @@ public class FunctionNesting extends Function {
     }
 
     /**
-     * @param pNesting
-     *            the nesting to set
+     * @param pNesting the nesting to set
      */
     public final void setNesting(Stack<String> pNesting) {
         this.nesting = pNesting;

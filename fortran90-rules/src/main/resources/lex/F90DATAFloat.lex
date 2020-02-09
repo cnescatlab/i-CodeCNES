@@ -20,8 +20,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 
 %%
@@ -89,7 +89,7 @@ VAR		     = [a-zA-Z][a-zA-Z0-9\_]*
     /*
      * (non-Javadoc)
      * @see
-     * fr.cnes.icode.datas.AbstractChecker#setInputFile(org.
+     * fr.cnes.icode.data.AbstractChecker#setInputFile(org.
      * eclipse.core.runtime.IPath)
      */
     @Override

@@ -39,7 +39,7 @@ import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
 import fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider;
 import fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 
 /**

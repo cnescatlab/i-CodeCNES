@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.reflexion.ClassFinder;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;

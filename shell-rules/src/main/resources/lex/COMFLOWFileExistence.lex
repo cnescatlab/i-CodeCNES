@@ -20,12 +20,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 import java.util.EmptyStackException;
 import java.util.Stack;
-import fr.cnes.icode.shell.metrics.Function;
+import fr.cnes.icode.shell.Function;
 
 import java.util.logging.Logger;
 

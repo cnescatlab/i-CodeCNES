@@ -8,4 +8,4 @@
  * 
  * @version 3.0
  */
-package fr.cnes.icode.datas;
+package fr.cnes.icode.data;

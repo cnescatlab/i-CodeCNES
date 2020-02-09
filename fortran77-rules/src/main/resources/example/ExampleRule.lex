@@ -19,8 +19,8 @@ package fr.cnes.icode.fortran77.rules;
 import java.util.LinkedList;
 
 import fr.cnes.icode.exception.JFlexException;
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.CheckResult;
 
 /* All code lines before this marker (%%) are directly written in the 		*/
 /* generated Java code, at the beginning. This is were you can declare your */

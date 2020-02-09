@@ -6,7 +6,7 @@
 package fr.cnes.icode.services.checkers;
 
 import com.google.common.collect.Lists;
-import fr.cnes.icode.datas.CheckersDefinition;
+import fr.cnes.icode.data.CheckersDefinition;
 import fr.cnes.icode.exception.NullContributionException;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.reflexion.ClassFinder;

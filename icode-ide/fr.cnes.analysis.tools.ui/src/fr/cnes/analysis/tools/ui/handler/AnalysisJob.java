@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.Analyzer;
-import fr.cnes.icode.datas.CheckResult;
+import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.logger.ICodeLogger;
 

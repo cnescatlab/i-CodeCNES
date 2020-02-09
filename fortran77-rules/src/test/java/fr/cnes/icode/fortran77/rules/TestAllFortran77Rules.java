@@ -6,35 +6,29 @@
 
 package fr.cnes.icode.fortran77.rules;
 
-import fr.cnes.icode.datas.AbstractChecker;
-import fr.cnes.icode.datas.CheckResult;
-import fr.cnes.icode.exception.JFlexException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import fr.cnes.icode.test.ICodeCheckerTester;
 
 /**
  * This class aims to test all Fortran 77 rules. There are 2 functions in this class.
  * The first one verifies that an error in a file is detected whenever there is
  * one, the other verifies that nothing is detected when there's no error.
- *
+ * <p>
  * These functions test all rules with values provided by parametrized test.
  */
-@RunWith(Parameterized.class)
-public class TestAllFortran77Rules {
+public class TestAllFortran77Rules implements ICodeCheckerTester {
 
-    @Parameters(name = "TEST {index}: {4}")
-    public static Iterable<Object[]> data() {
-        return Arrays.asList(new Object[][]{
+    /**
+     * This List represent the data set and contains:
+     * - path to an errored file
+     * - path to a correct file
+     * - array of line raising errors
+     * - array of function raising errors
+     * - class of the checker to apply to previous files
+     *
+     * @return Array of test data.
+     */
+    public static Object[][] data() {
+        return new Object[][]{
                 {"/COM/DATA/FloatCompare/error.f", "/COM/DATA/FloatCompare/noError.f", new int[]{5, 8, 9}, new String[]{"MAIN PROGRAM", "MAIN PROGRAM", "MAIN PROGRAM"}, COMDATAFloatCompare.class},
                 {"/COM/DATA/Initialisation/error.f", "/COM/DATA/Initialisation/noError.f", new int[]{11, 15, 16, 8}, new String[]{"PROGRAM TEST", "PROGRAM TEST", "PROGRAM TEST", "PROGRAM TEST"}, COMDATAInitialisation.class},
                 {"/COM/DATA/Invariant/error.f", "/COM/DATA/Invariant/noError.f", new int[]{4, 6, 12, 16}, new String[]{"PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI"}, COMDATAInvariant.class},
@@ -91,93 +85,6 @@ public class TestAllFortran77Rules {
                 {"/F77/REF/Parameter/error.f", "/F77/REF/Parameter/noError.f", new int[]{12, 12, 12, 12}, new String[]{"PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI"}, F77REFParameter.class},
                 {"/F77/TYPE/Basic/error.f", "/F77/TYPE/Basic/noError.f", new int[]{3, 4, 6, 7, 9}, new String[]{"PROGRAM", "PROGRAM", "PROGRAM", "PROGRAM", "PROGRAM"}, F77TYPEBasic.class},
                 {"/F77/TYPE/Hollerith/error.f", "/F77/TYPE/Hollerith/noError.f", new int[]{4, 4, 5, 8}, new String[]{"PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI", "PROGRAM ESSAI"}, F77TYPEHollerith.class}
-        });
-    }
-
-    @Parameter
-    public String errorFile;
-    @Parameter(1)
-    public String noErrorFile;
-    @Parameter(2)
-    public int[] lines;
-    @Parameter(3)
-    public String[] locations;
-    @Parameter(4)
-    public Class<?> checker;
-    public AbstractChecker rule;
-
-    /**
-     * This test verifies that an error can be detected.
-     */
-    @Test
-    public void testRunWithError() {
-
-        try {
-            // Initializing rule and getting error file.
-            final File file = new File(getClass().getResource(errorFile).getFile());
-
-            // Instantiate checker.
-            this.rule = (AbstractChecker) checker.newInstance();
-
-            // Defining file in the rule instantiation.
-            this.rule.setInputFile(file);
-            // Defining id in the rule instantiation.
-            this.rule.setId(checker.getName());
-
-            // Running rule
-            final List<CheckResult> list = this.rule.run();
-
-            // We verify that there is an error.
-            assertFalse("No error found.", list.isEmpty());
-
-            // We verify that there is the right number of errors
-
-            final int nb_CheckResults = list.size();
-            assertEquals("Wrong number of CheckResults : ", lines.length, nb_CheckResults);
-
-            // We verify that the error detected is the right one. There is
-            // only one case of error : a blank common (with no name) is
-            // detected.
-            final String fileName = list.get(0).getFile().getName();
-            final String[] split = errorFile.split("/");
-            assertEquals("Wrong file name : ", split[split.length - 1], fileName);
-
-            // We verify the values
-            for (final CheckResult value : list) {
-                final int index = list.indexOf(value);
-                final String location = value.getLocation();
-                assertTrue("CheckResult " + Integer.toString(index) + " has wrong location : " + location + " should contain "
-                        + locations[index], location.contains(locations[index]));
-                final int line = value.getLine();
-                assertEquals("CheckResult " + Integer.toString(index) + " is in wrong line : ", lines[index], line);
-            }
-        } catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
-            fail(String.format("Analysis error (%s): %s", e.getClass().getSimpleName(), e.getMessage()));
-        }
-    }
-
-    /**
-     * This test verifies nothing is returned when there's no error.
-     */
-    @Test
-    public void testRunWithoutError() {
-        try {
-            // Initializing rule and getting error file.
-            final File file = new File(getClass().getResource(noErrorFile).getFile());
-
-            // Defining file in the rule instantiation.
-            this.rule = (AbstractChecker) checker.newInstance();
-            this.rule.setInputFile(file);
-
-            // Running rule
-            final List<CheckResult> list = this.rule.run();
-
-            // We verify that there is an error.
-
-            assertTrue("Error(s) are detected: " + TestUtils.getCheckResults(list), list.isEmpty());
-
-        } catch (final JFlexException | IllegalAccessException | InstantiationException | IOException e) {
-            fail(String.format("Analysis error (%s): %s", e.getClass().getSimpleName(), e.getMessage()));
-        }
+        };
     }
 }
