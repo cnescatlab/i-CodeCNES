@@ -1,10 +1,10 @@
 ![i-Code logo](https://github.com/lequal/i-CodeCNES/blob/master/img/logo-i-code-cnes.png)
 
 [![Build Status](https://travis-ci.org/lequal/i-CodeCNES.svg?branch=master)](https://travis-ci.org/lequal/i-CodeCNES)
-[![SonarQube Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.icode%3Aparent&metric=alert_status)](https://sonarcloud.io/dashboard?id=fr.cnes.icode%3Aparent)
-[![SonarQube Bugs](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.icode%3Aparent&metric=bugs)](https://sonarcloud.io/project/issues?id=fr.cnes.icode%3Aparent&resolved=false&types=BUG)
-[![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.icode%3Aparent&metric=coverage)](https://sonarcloud.io/component_measures?id=fr.cnes.icode%3Aparent&metric=Coverage)
-[![SonarQube Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.icode%3Aparent&metric=sqale_index)](https://sonarcloud.io/component_measures?id=fr.cnes.icode%3Aparent&metric=Maintainability)
+[![SonarQube Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=alert_status)](https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
+[![SonarQube Bugs](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=bugs)](https://sonarcloud.io/project/issues?id=lequal_i-CodeCNES&resolved=false&types=BUG)
+[![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=coverage)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Coverage)
+[![SonarQube Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=sqale_index)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Maintainability)
 
 i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
 
