@@ -3,7 +3,6 @@ install: true
 
 os:
 - linux
-- windows
 
 jdk:
 - openjdk11
