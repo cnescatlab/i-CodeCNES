@@ -67,6 +67,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.surfire.version>2.22.2</maven.surfire.version>
+        <junit.jupiter.version>5.6.0</junit.jupiter.version>
         <jacoco.version>0.8.4</jacoco.version>
         <sonar.projectKey>lequal_i-CodeCNES</sonar.projectKey>
         <sonar.exclusions>icode-ide/**/*</sonar.exclusions>
