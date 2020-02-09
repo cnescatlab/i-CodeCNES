@@ -62,6 +62,24 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran77-language</artifactId>
+            <version>${icode.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>fortran90-language</artifactId>
+            <version>${icode.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.icode</groupId>
+            <artifactId>shell-language</artifactId>
+            <version>${icode.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

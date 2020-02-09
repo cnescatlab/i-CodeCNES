@@ -132,35 +132,37 @@ public class CommandLineManager {
     /**
      * Parse the provided command line.
      * @param pArgs Arguments to parse.
+     * @return true if analysis can be conducted
      */
-    public void parse(final String[] pArgs) {
+    public boolean parse(final String[] pArgs) {
+
+        boolean areOptionsCorrect = false;
+
         try {
-            boolean areOptionsCorrect;
             try {
                 // Parse the command line.
                 commandLine = parser.parse(options, pArgs);
                 areOptionsCorrect = checkOptionsUse(commandLine);
             } catch(final UnrecognizedOptionException e) {
                 LOGGER.warning(e.getLocalizedMessage());
-                areOptionsCorrect = false;
             }
             // If help option is present we print it.
             if(!areOptionsCorrect || commandLine.hasOption(HELP)) {
                 helpFormatter.printHelp(128, "icode [<FILE> [...]]",
                         "Analyze Shell, F77 & F90 code to find defects & bugs.\n\n", options,
                         "\n\nPlease report issues at https://github.com/lequal/i-CodeCNES/issues", true);
-                System.exit(0);
-            }
-            // If version option is present, version information are displayed.
-            if(commandLine.hasOption(VERSION)) {
+                // If version option is present, version information are displayed.
+            } else if (commandLine.hasOption(VERSION)) {
                 final String title = getClass().getPackage().getImplementationTitle();
                 final String version = getClass().getPackage().getImplementationVersion();
                 LOGGER.info(String.format("%s version %s", title, version));
-                System.exit(0);
             }
         } catch(final ParseException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
+
+        return areOptionsCorrect && !commandLine.hasOption(HELP) && !commandLine.hasOption(VERSION);
+
     }
 
     /**

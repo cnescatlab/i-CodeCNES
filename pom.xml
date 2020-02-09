@@ -68,6 +68,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <jacoco.version>0.8.4</jacoco.version>
+        <sonar.projectKey>lequal_i-CodeCNES</sonar.projectKey>
+        <sonar.exclusions>icode-ide/**/*</sonar.exclusions>
     </properties>
 
     <build>

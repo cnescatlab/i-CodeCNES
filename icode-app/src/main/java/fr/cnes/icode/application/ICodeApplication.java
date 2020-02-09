@@ -7,6 +7,7 @@ package fr.cnes.icode.application;
 
 import com.google.common.collect.Sets;
 import fr.cnes.icode.Analyzer;
+import fr.cnes.icode.application.exception.BadArgumentValueException;
 import fr.cnes.icode.datas.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.services.checkers.CheckerContainer;
@@ -17,7 +18,6 @@ import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
 import fr.cnes.icode.services.languages.ILanguage;
 import fr.cnes.icode.services.languages.LanguageService;
-import fr.cnes.icode.application.exception.BadArgumentValueException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public class ICodeApplication {
 
     /** Logger for the current class @see /logging.properties for more information. **/
-    private static final Logger LOGGER = Logger.getLogger(ICodeApplication.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(ICodeApplication.class.getName());
 
     // Static initialization to set logging configuration.
     static {
@@ -120,7 +120,7 @@ public class ICodeApplication {
      *
      * @param args Arguments passed in the command line.
      */
-    public static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
 
         final ICodeApplication application = new ICodeApplication();
 
@@ -134,42 +134,41 @@ public class ICodeApplication {
      * @param args Arguments passed in the command line.
      * @throws IOException When reading files.
      */
-    public void runICode(String[] args) throws IOException {
+    public void runICode(String[] args) {
         try {
             // Parse the command line arguments.
-            cli.parse(args);
+            if(cli.parse(args)) {
+                // Get list of filenames.
+                final String[] arguments = cli.getArgs().toArray(new String[0]);
 
-            // Get list of filenames.
-            final String[] arguments = cli.getArgs().toArray(new String[0]);
+                // Get list of files to analyze.
+                final Set<File> sources = getFiles(arguments);
 
-            // Get list of files to analyze.
-            final Set<File> sources = getFiles(arguments);
-
-            // Handle options.
-            if (cli.hasOption(CommandLineManager.EXPORTERS)) {
-                // display all available exporters
-                displayList(new ArrayList(exportService.getAvailableFormats().values()),
-                        "List of available exporters for analysis:");
-            } else if (cli.hasOption(CommandLineManager.LANGUAGES)) {
-                // display all available languages
-                displayList(languages.keySet(),
-                        "List of available languages for analysis:");
-            } else if (cli.hasOption(CommandLineManager.RULES)) {
-                // display all available checks by language
-                for (final ILanguage language : LanguageService.getLanguages()) {
-                    displayList(CheckerService.getCheckersIds(language.getId()),
-                            String.format("List of available rules for %s [%s]:", language.getName(), language.getId()));
+                // Handle options.
+                if (cli.hasOption(CommandLineManager.EXPORTERS)) {
+                    // display all available exporters
+                    displayList(new ArrayList(exportService.getAvailableFormats().values()),
+                            "List of available exporters for analysis:");
+                } else if (cli.hasOption(CommandLineManager.LANGUAGES)) {
+                    // display all available languages
+                    displayList(languages.keySet(),
+                            "List of available languages for analysis:");
+                } else if (cli.hasOption(CommandLineManager.RULES)) {
+                    // display all available checks by language
+                    for (final ILanguage language : LanguageService.getLanguages()) {
+                        displayList(CheckerService.getCheckersIds(language.getId()),
+                                String.format("List of available rules for %s [%s]:", language.getName(), language.getId()));
+                    }
+                } else if (cli.hasOption(CommandLineManager.LIST_EXPORT_PARAMETERS)) {
+                    displayAvailableExportFormat();
+                } else {
+                    runAnalysis(sources);
                 }
-            } else if (cli.hasOption(CommandLineManager.LIST_EXPORT_PARAMETERS)) {
-                displayAvailableExportFormat();
-            } else {
-                runAnalysis(sources);
             }
-        } catch (final NoContributorMatchingException | NoExtensionIndicatedException | JFlexException | BadArgumentValueException e) {
+        } catch (final NoContributorMatchingException | NoExtensionIndicatedException | JFlexException |
+                BadArgumentValueException | IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
-        // Force exit at the end of i-Code execution.
-        System.exit(0);
     }
 
     /**

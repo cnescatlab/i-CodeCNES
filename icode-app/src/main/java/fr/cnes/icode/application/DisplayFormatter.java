@@ -32,7 +32,7 @@ public class DisplayFormatter extends Formatter {
      * @return The formatted string as defined in FORMAT constant.
      */
     @Override
-    public String format(LogRecord pRecord) {
+    public String format(final LogRecord pRecord) {
         // Default format applied at beginning
         String message = String.format(FORMAT_DEFAULT, pRecord.getLevel().getLocalizedName(), pRecord.getMessage());
 
