@@ -61,6 +61,14 @@
         </license>
     </licenses>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub LEQUAL Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/LEQUAL/i-CodeCNES</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <icode.version>4.0.0-dev</icode.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,7 +78,6 @@
         <maven.surfire.version>2.22.2</maven.surfire.version>
         <junit.jupiter.version>5.6.0</junit.jupiter.version>
         <jacoco.version>0.8.4</jacoco.version>
-        <sonar.exclusions>icode-ide/**/*</sonar.exclusions>
     </properties>
 
     <dependencies>
