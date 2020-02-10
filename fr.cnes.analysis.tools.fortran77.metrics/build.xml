@@ -1,0 +1,12 @@
+<project name="Metrics" default="generate-all" basedir=".">
+
+	<!-- Override the properties used in the generateLex.xml before importing it -->
+	<property name="dest" value="src-gen/fr/cnes/analysis/tools/fortran77/metrics"/>
+	<property name="absdest" location="${dest}"/>
+	<property name="excludedLex" value="ExampleMetric.lex"/>
+
+	
+	<!-- Warning : must import the file after properties override -->
+	<import file="../generateLex.xml"/>
+  
+</project>

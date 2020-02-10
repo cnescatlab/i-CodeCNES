@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="fortran90.rules"
+         name="Fortran 90 Rules"
+         point="fr.cnes.analysis.tools.analyzer.checks">
+      <check 
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDATAFloatCompare"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDATAFloatCompare"
+            name="COM.DATA.FloatCompare" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDATAInitialisation"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDATAInitialisation"
+            name="COM.DATA.Initialisation" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDATAInvariant"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDATAInvariant"
+            name="COM.DATA.Invariant" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDATALoopCondition"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDATALoopCondition"
+            name="COM.DATA.LoopCondition" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDATANotUsed"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDATANotUsed"
+            name="COM.DATA.NotUsed" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDESIGNAlloc"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDESIGNAlloc"
+            name="COM.DESIGN.Alloc" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMDESIGNActiveWait"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMDESIGNActiveWait"
+            name="COM.DESIGN.ActiveWait" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWAbort"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWAbort"
+            name="COM.FLOW.Abort" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWBooleanExpression"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWBooleanExpression"
+            name="COM.FLOW.BooleanExpression" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWCaseSwitch"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWCaseSwitch"
+            name="COM.FLOW.CaseSwitch" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWCheckCodeReturn"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWCheckCodeReturn"
+            name="COM.FLOW.CheckCodeReturn" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWCheckUser"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWCheckUser"
+            name="COM.FLOW.CheckUser" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWExit"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWExit"
+            name="COM.FLOW.Exit" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWExitLoop"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWExitLoop"
+            name="COM.FLOW.ExitLoop" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWFileExistence"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWFileExistence"
+            name="COM.FLOW.FileExistence" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWFilePath"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWFilePath"
+            name="COM.FLOW.FilePath" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMFLOWRecursion"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMFLOWRecursion"
+            name="COM.FLOW.Recursion" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMINSTBoolNegation"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMINSTBoolNegation"
+            name="COM.INST.BoolNegation" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMINSTBrace"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMINSTBrace"
+            name="COM.INST.Brace" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMINSTCodeComment"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMINSTCodeComment"
+            name="COM.INST.CodeComment" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMINSTGoTo"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMINSTGoTo"
+            name="COM.INST.GoTo" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMINSTLine"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMINSTLine"
+            name="COM.INST.Line" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMINSTLoopCondition"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMINSTLoopCondition"
+            name="COM.INST.LoopCondition" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMNAMEHomonymy"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMNAMEHomonymy"
+            name="COM.NAME.Homonymy" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMPRESIndent"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMPRESIndent"
+            name="COM.PRES.Indent" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMPRESLengthLine"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMPRESLengthLine"
+            name="COM.PRES.LengthLine" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMPROJECTHeader"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMPROJECTHeader"
+            name="COM.PROJECT.Header" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.COMTYPEExpression"
+            id="fr.cnes.analysis.tools.fortran90.rules.COMTYPEExpression"
+            name="COM.TYPE.Expression" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90BLOCFile"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90BLOCFile"
+            name="F90.BLOC.File" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATAArray"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATAArray"
+            name="F90.DATA.Array" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATAArrayAccess"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATAArrayAccess"
+            name="F90.DATA.ArrayAccess" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATAConstant"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATAConstant"
+            name="F90.DATA.Constant" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATAConstantFloat"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATAConstantFloat"
+            name="F90.DATA.ConstantFloat" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+            <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATADeclaration"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATADeclaration"
+            name="F90.DATA.Declaration" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATAFloat"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATAFloat"
+            name="F90.DATA.Float" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DATAParameter"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DATAParameter"
+            name="F90.DATA.Parameter" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNFree"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNFree"
+            name="F90.DESIGN.Free" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNInclude"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNInclude"
+            name="F90.DESIGN.Include" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNInterface"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNInterface"
+            name="F90.DESIGN.Interface" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNIO"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNIO"
+            name="F90.DESIGN.IO" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNObsolete"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90DESIGNObsolete"
+            name="F90.DESIGN.Obsolete" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+	  <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90ERRAllocate"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90ERRAllocate"
+            name="F90.ERR.Allocate" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90ERROpenRead"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90ERROpenRead"
+            name="F90.ERR.OpenRead" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTAssociated"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTAssociated"
+            name="F90.INST.Associated" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTEntry"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTEntry"
+            name="F90.INST.Entry" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTEquivalence"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTEquivalence"
+            name="F90.INST.Equivalence" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTIf"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTIf"
+            name="F90.INST.If" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTIntent"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTIntent"
+            name="F90.INST.Intent" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTNullify"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTNullify"
+            name="F90.INST.Nullify" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTOnly"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTOnly"
+            name="F90.INST.Only" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTOperator"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTOperator"
+            name="F90.INST.Operator" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90INSTPointer"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90INSTPointer"
+            name="F90.INST.Pointer" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90NAMEGenericIntrinsic"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90NAMEGenericIntrinsic"
+            name="F90.NAME.GenericIntrinsic" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90NAMEKeyWords"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90NAMEKeyWords"
+            name="F90.NAME.KeyWords" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90PROTOOverload"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90PROTOOverload"
+            name="F90.PROTO.Overload" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90REFArray"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90REFArray"
+            name="F90.REF.Array" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90REFInterface"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90REFInterface"
+            name="F90.REF.Interface" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90REFLabel"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90REFLabel"
+            name="F90.REF.Label" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90REFOpen"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90REFOpen"
+            name="F90.REF.Open" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90REFVariable"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90REFVariable"
+            name="F90.REF.Variable" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90TYPEDerivate"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90TYPEDerivate"
+            name="F90.TYPE.Derivate" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90TYPEInteger"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90TYPEInteger"
+            name="F90.TYPE.Integer" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+      <check
+            class="fr.cnes.analysis.tools.fortran90.rules.F90TYPEReal"
+            id="fr.cnes.analysis.tools.fortran90.rules.F90TYPEReal"
+            name="F90.TYPE.Real" languageId="fr.cnes.analysis.tools.languages.f90">
+      </check>
+   </extension>
+
+</plugin>

@@ -102,6 +102,7 @@ If you need to add some new feature, the easiest way is to implment your own plu
 #### Release 3.1.0
 
 ###### New features
+
 * New command line #133 
 * New parsing error handling, a violation named "Parser error" is added instead of suspend the analysis. #154
 * New rules (Shell)
