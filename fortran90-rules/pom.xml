@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.cnes.icode</groupId>
+		<artifactId>parent</artifactId>
+		<version>dev</version>
+	</parent>
+
+	<artifactId>fortran90-rules</artifactId>
+	<version>${icode.version}</version>
+	<packaging>jar</packaging>
+
+	<name>Fortran 90 rules</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.cnes.icode</groupId>
+			<artifactId>icode-core</artifactId>
+			<version>${icode.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- generate the lex code -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>de.jflex</groupId>
+				<artifactId>jflex-maven-plugin</artifactId>
+				<version>1.7.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<minimize>true</minimize>
+							<lexDefinitions>
+								<lexDefinition>src/main/resources/lex</lexDefinition>
+							</lexDefinitions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
