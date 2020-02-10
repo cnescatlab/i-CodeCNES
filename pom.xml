@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.cnes.icode</groupId>
     <artifactId>parent</artifactId>
-    <version>4.0.0</version>
+    <version>dev</version>
     <packaging>pom</packaging>
 
     <modules>

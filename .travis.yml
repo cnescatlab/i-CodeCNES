@@ -15,7 +15,7 @@ addons:
 
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report
-  - sonar-scanner
+  - sonar-scanner -Dsonar.branch.name="$TRAVIS_BRANCH"
 
 cache:
   directories:
