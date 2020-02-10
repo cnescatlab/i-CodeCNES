@@ -4,9 +4,25 @@
 bin/
 target/
 */target/**
+*-pom.xml
+*/*-pom.xml
 
 # Ignore code generation directories 
 */src-gen/fr/
 
 #Ignore checkstyle configuration
 *.checkstyle
+
+# Ignore IDE metadata
+.idea
+.iml
+*.iml
+*/*.iml
+.project
+*/.project
+.classpath
+*/.classpath
+.settings
+
+# Ignore SonarQube metadata
+.scannerwork

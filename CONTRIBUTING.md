@@ -3,13 +3,12 @@ First off, thanks for taking the time to contribute!
 The following is a set of guidelines for contributing to i-Code Cnes, which are hosted in the [Lequal Organization](https://github.com/lequal) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 #### Table Of Contents
-[Code of Conduct](#code-of-conduct)
-[How Can I Contribute?](#how-can-i-contribute)  
-* [Reporting Bugs](#reporting-bugs)  
-* [Suggesting Enhancements](#suggesting-enhancements)  
-* [Pull Requests](#pull-requests)
-
-[Git Commit Messages](#git-commit-messages)
++ [Code of Conduct](#code-of-conduct)
++ [How Can I Contribute?](#how-can-i-contribute)  
+  * [Reporting Bugs](#reporting-bugs)  
+  * [Suggesting Enhancements](#suggesting-enhancements)  
+  * [Pull Requests](#pull-requests)
+  * [Git Commit Messages](#git-commit-messages)
 
 ## Code of Conduct
 This project and everyone participating in it is governed by the [Lequal Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [L-lequal@cnes.fr](mailto:L-lequal@cnes.fr).
@@ -32,7 +31,9 @@ Explain the problem and include additional details to help maintainers reproduce
 * **If you're reporting that the plugin crashed**, include a crash report with a stack trace from the operating system.
 
 Provide more context by answering these questions:
-* **Did the problem start happening recently** (e.g. after updating to a new version of the plugin or SonarQube) or was this always a problem?* If the problem started happening recently, **can you reproduce the problem in an older version?** What's the most recent version in which the problem doesn't happen? You can download older versions from [the releases page](https://github.com/lequal/i-CodeCNES/releases).* **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
+* **Did the problem start happening recently** (e.g. after updating to a new version of the plugin or SonarQube) or was this always a problem?
+* If the problem started happening recently, **can you reproduce the problem in an older version?** What's the most recent version in which the problem doesn't happen? You can download older versions from [the releases page](https://github.com/lequal/i-CodeCNES/releases).
+* **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
 
 Include details about your configuration and environment:
 * **Which SonarQube version are you using?** You can get the exact version at the bottom of your SonarQube instance.
@@ -52,12 +53,27 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 * **Specify the SonarQube version you're using.** The SonarQube version is mentionned at the bottom of the web page.
 
 ### Pull Requests
-* Fill in [the required template](PULL_REQUEST_TEMPLATE.md)
-* Do not include issue numbers in the PR title* Include screenshots and animated GIFs in your pull request whenever possible.
-* Follow the Java styleguides.
+* Fill in [the required template](.github/PULL_REQUEST_TEMPLATE.md)
+* Do not include issue numbers in the PR title
+* Include screenshots and animated GIFs in your pull request whenever possible
+* Follow the Java styleguides and fix all new SonarCloud issues
+* Test your code before opening the PR
+* Set the current `dev-*` branch as the target branch for your PR
 
-## Git Commit Messages
+### Git Commit Messages
+* Start with the issue you are handling ("#187 ...")
 * Use the present tense ("Add feature" not "Added feature")
 * Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-* Limit the first line to 72 characters or less* Reference issues and pull requests liberally after the first line
+* Limit the first line to 72 characters or less
+* Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit description
+
+## Management of contributions
+
+All contributions are welcome. They are made via a *pull request* on the branch `dev` which is the branch of the next version.
+
+* pull request with **major** changes must be approved by at least one maintainer of each team and the LEQUAL.
+
+* pull requests with **minor** changes must be approved by at least one organization's member.
+ 
+All maintainers have the ability to merge *pull requests* on the `dev` branch. If several maintainers belong to the same team, their validation only counts for one organization.
