@@ -98,6 +98,32 @@ If you need to add some new feature, the easiest way is to implment your own plu
 - Update packaging of i-Code #165
 - Update CI #145
 - Reintegrate RCP as a submodule using i-Code Core #165
+- This 4.0.0 version integrate a whole new architecture described in https://github.com/lequal/i-CodeCNES/wiki
+  - `icode-core`: contains core feature to build analyzer
+  - `icode-library`: contains the minimal classes to run i-Code analyzers in a Java application
+  - `icode-app`: a standalone command line version of i-Code analyzer
+  - `icode-ide`: contains the i-Code IDE version and Eclipse plugin
+  - `*-language`, `*-rules` and `*-metrics`: contain analyzer for several languages: Shell, Fortran, ...
+- The new documentation is available as a wiki https://github.com/lequal/i-CodeCNES/wiki
+- A `Developer Guide` is now available here: https://github.com/lequal/icode-custom-plugin-example/wiki/Developer-guide
+- Users are able to add custom plugins by putting their `jar` files into `icode/plugins/` directory
+- Bug about recursive analysis is fixed and users can now simply analyze a directory, e.g.: `icode .`
+- The continuous integration was enhanced with Travis(https://travis-ci.org/lequal/i-CodeCNES) and SonarCloud(https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
+- The contributing page and issue templates were updated
+- Eclipse RCP was removed from core features of i-Code
+- Some other minor enhancements and fixes
+- Fix #157: Recursive search of files for analysis command line enhancement
+- Fix #145: Connect i-Code build to SonarCloud enhancement
+- Fix #142: Add i-Code version to the xml results file enhancement
+- Fix #166: Bad support of heredoc notations bug shell
+- Fix #165: Refactor i-Code architecture enhancement
+- Fix #161: Files handling and recursive analysis issue command line fortran to analyse
+- Fix #170: Combined standalone subroutine + module in same file is crashing scanner in FORTRAN file fortran
+- Fix #159: SHDESIGNOptions false positive false positive shell
+- Fix #168: icode commandline gives incorrect and cryptic error when encountering '))' bug shell
+- Fix #158: Inconsistency between "RNC shell SH.FLOW.CheckUser example" and "I-code COMDESIGNActiveWait LEX" false positive shell
+- Fix #186: Links in README point to sonar-icode bug documentation
+- Fix #187: Consolidate community documentation documentation
 
 #### Release 3.1.0
 

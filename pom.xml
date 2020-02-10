@@ -55,8 +55,8 @@
 
     <licenses>
         <license>
-            <name>GPL-3.0</name>
-            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <name>EPL-3.0</name>
+            <url>https://www.eclipse.org/legal/epl-v10.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
