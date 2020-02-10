@@ -114,33 +114,11 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
+                        <id>aggregate</id>
                         <goals>
-                            <goal>report</goal>
+                            <goal>report-aggregate</goal>
                         </goals>
-                        <configuration>
-                            <!-- Sets the path to the file which contains the execution data. -->
-                            <dataFile>target/jacoco.exec</dataFile>
-                            <!-- Sets the output directory for the code coverage report. -->
-                            <outputDirectory>target/jacoco-ut</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>merge</id>
-                        <goals>
-                            <goal>merge</goal>
-                        </goals>
-                        <configuration>
-                            <fileSets>
-                                <fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
-                                    <directory>${project.basedir}</directory>
-                                    <includes>
-                                        <include>**/*.exec</include>
-                                    </includes>
-                                </fileSet>
-                            </fileSets>
-                        </configuration>
+                        <phase>verify</phase>
                     </execution>
                 </executions>
             </plugin>
