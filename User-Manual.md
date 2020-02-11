@@ -51,7 +51,7 @@ icode . -f xml -o output.xml
 icode --help
 ```
 
-Use `icode --helph` to get the following help about *i-Code*:
+Use `icode --help` to get the following help about *i-Code*:
 
 ```
 usage: icode [<FILE> [...]] [-c <arg>] [-e] [-f <arg>] [-h] [-l] [-o <arg>] [-p <arg>] [-q <arg>] [-r] [-v] [-x <arg>]
