@@ -201,6 +201,14 @@ Before using i-Code CNES, you should:
 
 ## 4. Metrics description
 
+| Metric                  | File computation                                          |
+|-------------------------|-----------------------------------------------------------|
+| MET.Nesting             | Maximum number of nested levels if a function/method. This number is 0 if there is no imbrication. |
+| MET.Cyclomatic          | Number of decisions into the source code.                 |
+| MET.LineOfCode          | Number of lines into the source code (except white line and comment line). |
+| MET.RatioComment        | Ratio of comment in the source code.                      |
+| MET.LineOfComment       | Number of comment lines.                                  |
+
 ## 5. Messages
 ### 5.1. Common messages
 
