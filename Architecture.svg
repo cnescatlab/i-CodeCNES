@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Généré par Microsoft Visio, SVG Export Architecture.svg Page 1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="7.83899in" height="6.47348in"
+		viewBox="0 0 564.407 466.091" xml:space="preserve" color-interpolation-filters="sRGB" class="st12">
+	<v:documentProperties v:langID="1033" v:metric="true" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {marker-end:url(#mrkr4-6);stroke:#2f902f;stroke-dasharray:3.5,2.5;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st2 {fill:#2f902f;fill-opacity:1;stroke:#2f902f;stroke-opacity:1;stroke-width:0.16556291390728}
+		.st3 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st4 {fill:#237023;font-family:Segoe UI;font-size:0.666664em}
+		.st5 {font-size:1em}
+		.st6 {fill:#1ba1e2;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st7 {fill:#ffffff;font-family:Segoe UI;font-size:1.00001em}
+		.st8 {fill:#005496;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st9 {marker-end:url(#mrkr4-45);stroke:#1897d5;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st10 {fill:#1897d5;fill-opacity:1;stroke:#1897d5;stroke-opacity:1;stroke-width:0.16556291390728}
+		.st11 {fill:#339933;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
+		.st12 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend4">
+			<path d="M 2 1 L 0 0 L 2 -1 L 2 1 " style="stroke:none"/>
+		</g>
+		<marker id="mrkr4-6" class="st2" v:arrowType="4" v:arrowSize="2" v:setback="12.08" refX="-12.08" orient="auto"
+				markerUnits="strokeWidth" overflow="visible">
+			<use xlink:href="#lend4" transform="scale(-6.04,-6.04) "/>
+		</marker>
+		<marker id="mrkr4-45" class="st10" v:arrowType="4" v:arrowSize="2" v:setback="12.08" refX="-12.08" orient="auto"
+				markerUnits="strokeWidth" overflow="visible">
+			<use xlink:href="#lend4" transform="scale(-6.04,-6.04) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Page 1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="Lien" v:index="0"/>
+		<g id="shape48-1" v:mID="48" v:groupContext="shape" v:layerMember="0" transform="translate(95.59,-257.494)">
+			<title>Lien dynamique.48</title>
+			<desc>On demand</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="61.3701" cy="466.091" width="52.04" height="17.6036"/>
+			<path d="M0 466.09 L111.22 466.09 L111.22 415.44" class="st1"/>
+			<rect v:rectContext="textBkgnd" x="40.4485" y="461.291" width="41.8434" height="9.59985" class="st3"/>
+			<text x="40.45" y="468.49" class="st4" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>On demand</text>		</g>
+		<g id="shape47-9" v:mID="47" v:groupContext="shape" v:layerMember="0" transform="translate(57.3223,-287.258)">
+			<title>Lien dynamique.47</title>
+			<desc>Custom installation in icode/plugins directory</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="-7.08661" cy="406.563" width="100.48" height="27.2035"/>
+			<path d="M-7.09 466.09 L-7.09 353.08" class="st1"/>
+			<rect v:rectContext="textBkgnd" x="-52.2247" y="396.963" width="90.2763" height="19.1997" class="st3"/>
+			<text x="-40.99" y="404.16" class="st4" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Custom installation <v:newlineChar/><tspan
+						x="-52.22" dy="1.2em" class="st5">in icode</tspan>/plugins directory</text>		</g>
+		<g id="shape45-17" v:mID="45" v:groupContext="shape" v:layerMember="0" transform="translate(206.814,-373.715)">
+			<title>Lien dynamique.45</title>
+			<path d="M0 466.09 L0 455.46 L311.99 455.46 L311.99 439.53" class="st1"/>
+		</g>
+		<g id="shape1-22" v:mID="1" v:groupContext="shape" transform="translate(122.023,-406.313)">
+			<title>Case</title>
+			<desc>i-Code for SonarQube</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+			<text x="18.48" y="432.73" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>i-Code for <tspan
+						x="15.53" dy="1.2em" class="st5">SonarQube</tspan></text>		</g>
+		<g id="shape3-26" v:mID="3" v:groupContext="shape" transform="translate(161.46,-314.187)">
+			<title>Case.3</title>
+			<desc>i-Code Library</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st8"/>
+			<text x="8.02" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>i-Code Library</text>		</g>
+		<g id="shape4-29" v:mID="4" v:groupContext="shape" transform="translate(4.88137,-406.313)">
+			<title>Case.4</title>
+			<desc>i-Code App (CLI)</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+			<text x="15.03" y="432.73" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>i-Code App<v:newlineChar/><tspan
+						x="33.6" dy="1.2em" class="st5">(</tspan>CLI)</text>		</g>
+		<g id="shape5-33" v:mID="5" v:groupContext="shape" transform="translate(239.165,-406.313)">
+			<title>Case.5</title>
+			<desc>i-Code IDE</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+			<text x="17.12" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>i-Code IDE</text>		</g>
+		<g id="shape6-36" v:mID="6" v:groupContext="shape" transform="translate(356.307,-406.313)">
+			<title>Case.6</title>
+			<desc>i-Code for Eclipse</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+			<text x="18.48" y="432.73" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>i-Code for <tspan
+						x="27.43" dy="1.2em" class="st5">Eclipse</tspan></text>		</g>
+		<g id="shape7-40" v:mID="7" v:groupContext="shape" v:layerMember="0" transform="translate(206.814,-373.715)">
+			<title>Lien dynamique</title>
+			<path d="M0 466.09 L0 455.46 L-156.58 455.46 L-156.58 439.53" class="st9"/>
+		</g>
+		<g id="shape8-46" v:mID="8" v:groupContext="shape" v:layerMember="0" transform="translate(206.814,-373.715)">
+			<title>Lien dynamique.8</title>
+			<path d="M0 466.09 L0 455.46 L77.7 455.46 L77.7 439.53" class="st9"/>
+		</g>
+		<g id="shape9-51" v:mID="9" v:groupContext="shape" v:layerMember="0" transform="translate(206.814,-373.715)">
+			<title>Lien dynamique.9</title>
+			<path d="M0 466.09 L0 455.46 L194.85 455.46 L194.85 439.53" class="st9"/>
+		</g>
+		<g id="shape11-56" v:mID="11" v:groupContext="shape" v:layerMember="0" transform="translate(206.814,-373.715)">
+			<title>Lien dynamique.11</title>
+			<path d="M0 466.09 L0 455.46 L-39.44 455.46 L-39.44 439.53" class="st9"/>
+		</g>
+		<g id="group25-61" transform="translate(249.511,-76.0768)" v:mID="25" v:groupContext="group">
+			<title>Feuille.25</title>
+			<g id="shape22-62" v:mID="22" v:groupContext="shape">
+				<title>Case.22</title>
+				<desc>F90 Language</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="8.39" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>F90 Language</text>			</g>
+			<g id="shape23-65" v:mID="23" v:groupContext="shape" transform="translate(223.937,5.68434E-14)">
+				<title>Case.23</title>
+				<desc>F90 Rules</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="20.19" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>F90 Rules</text>			</g>
+			<g id="shape24-68" v:mID="24" v:groupContext="shape" transform="translate(111.969,5.68434E-14)">
+				<title>Case.24</title>
+				<desc>F90 Metrics</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="14.9" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>F90 Metrics</text>			</g>
+		</g>
+		<g id="group26-71" transform="translate(249.511,-151.904)" v:mID="26" v:groupContext="group">
+			<title>Feuille.26</title>
+			<g id="shape19-72" v:mID="19" v:groupContext="shape">
+				<title>Case.19</title>
+				<desc>F77 Language</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="8.39" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>F77 Language</text>			</g>
+			<g id="shape20-75" v:mID="20" v:groupContext="shape" transform="translate(223.937,5.68434E-14)">
+				<title>Case.20</title>
+				<desc>F77 Rules</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="20.19" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>F77 Rules</text>			</g>
+			<g id="shape21-78" v:mID="21" v:groupContext="shape" transform="translate(111.969,5.68434E-14)">
+				<title>Case.21</title>
+				<desc>F77 Metrics</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="14.9" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>F77 Metrics</text>			</g>
+		</g>
+		<g id="group27-81" transform="translate(249.511,-227.73)" v:mID="27" v:groupContext="group">
+			<title>Feuille.27</title>
+			<g id="shape16-82" v:mID="16" v:groupContext="shape">
+				<title>Case.16</title>
+				<desc>Shell Language</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="5.16" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Shell Language</text>			</g>
+			<g id="shape17-85" v:mID="17" v:groupContext="shape" transform="translate(223.937,0)">
+				<title>Case.17</title>
+				<desc>Shell Rules</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="16.96" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Shell Rules</text>			</g>
+			<g id="shape18-88" v:mID="18" v:groupContext="shape" transform="translate(111.969,0)">
+				<title>Case.18</title>
+				<desc>Shell Metrics</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+				<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st6"/>
+				<text x="11.67" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Shell Metrics</text>			</g>
+		</g>
+		<g id="shape31-91" v:mID="31" v:groupContext="shape" v:layerMember="0" transform="translate(294.866,-211.431)">
+			<title>Lien dynamique.31</title>
+			<path d="M0 466.09 L0 460.78 L-88.05 460.78 L-88.05 369.37" class="st9"/>
+		</g>
+		<g id="shape32-96" v:mID="32" v:groupContext="shape" v:layerMember="0" transform="translate(406.834,-211.431)">
+			<title>Lien dynamique.32</title>
+			<path d="M0 466.09 L0 460.78 L-200.02 460.78 L-200.02 369.37" class="st9"/>
+		</g>
+		<g id="shape33-101" v:mID="33" v:groupContext="shape" v:layerMember="0" transform="translate(518.803,-211.431)">
+			<title>Lien dynamique.33</title>
+			<path d="M0 466.09 L0 460.78 L-311.99 460.78 L-311.99 369.37" class="st9"/>
+		</g>
+		<g id="shape34-106" v:mID="34" v:groupContext="shape" v:layerMember="0" transform="translate(518.803,-135.604)">
+			<title>Lien dynamique.34</title>
+			<path d="M0 466.09 L0 460.78 L-311.99 460.78 L-311.99 293.55" class="st9"/>
+		</g>
+		<g id="shape35-111" v:mID="35" v:groupContext="shape" v:layerMember="0" transform="translate(406.834,-135.604)">
+			<title>Lien dynamique.35</title>
+			<path d="M0 466.09 L0 460.78 L-200.02 460.78 L-200.02 293.55" class="st9"/>
+		</g>
+		<g id="shape36-116" v:mID="36" v:groupContext="shape" v:layerMember="0" transform="translate(294.866,-135.604)">
+			<title>Lien dynamique.36</title>
+			<path d="M0 466.09 L0 460.78 L-88.05 460.78 L-88.05 293.55" class="st9"/>
+		</g>
+		<g id="shape37-121" v:mID="37" v:groupContext="shape" v:layerMember="0" transform="translate(294.866,-287.258)">
+			<title>Lien dynamique.37</title>
+			<path d="M0 466.09 L0 455.46 L-88.05 455.46 L-88.05 445.2" class="st9"/>
+		</g>
+		<g id="shape38-126" v:mID="38" v:groupContext="shape" v:layerMember="0" transform="translate(406.834,-287.258)">
+			<title>Lien dynamique.38</title>
+			<path d="M0 466.09 L0 455.46 L-200.02 455.46 L-200.02 445.2" class="st9"/>
+		</g>
+		<g id="shape39-131" v:mID="39" v:groupContext="shape" v:layerMember="0" transform="translate(518.803,-287.258)">
+			<title>Lien dynamique.39</title>
+			<path d="M0 466.09 L0 455.46 L-311.99 455.46 L-311.99 445.2" class="st9"/>
+		</g>
+		<g id="shape41-136" v:mID="41" v:groupContext="shape" transform="translate(4.88137,-0.25)">
+			<title>Case.41</title>
+			<desc>i-Code Core</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="279.638" cy="436.327" width="559.28" height="59.5276"/>
+			<rect x="0" y="406.563" width="559.276" height="59.5276" class="st8"/>
+			<text x="247.79" y="439.93" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>i-Code Core</text>		</g>
+		<g id="shape44-139" v:mID="44" v:groupContext="shape" transform="translate(473.448,-406.313)">
+			<title>Case.44</title>
+			<desc>Community Applications</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st11"/>
+			<text x="14.61" y="432.73" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Community <tspan
+						x="12.76" dy="1.2em" class="st5">Applications</tspan></text>		</g>
+		<g id="shape46-143" v:mID="46" v:groupContext="shape" transform="translate(4.88137,-227.73)">
+			<title>Case.46</title>
+			<desc>Community Plugins</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="45.3543" cy="436.327" width="90.71" height="59.5276"/>
+			<rect x="0" y="406.563" width="90.7087" height="59.5276" class="st11"/>
+			<text x="14.61" y="432.73" class="st7" v:langID="1036"><v:paragraph v:horizAlign="1"/><v:tabList/>Community <tspan
+						x="26.22" dy="1.2em" class="st5">Plugins</tspan></text>		</g>
+	</g>
+</svg>
