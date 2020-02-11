@@ -29,15 +29,89 @@ This document is the i-Code CNES user manual. It describes how to use i-Code CNE
 Before using i-Code CNES, you should:
 + Know eclipse. Eclipse documentation is available here [ [R1] ].
 + Read CNES coding rules [ [R2] ] [ [R3] ] [ [R4] ] [ [R5] ].
-+ Installation instructions are available in the installation manual [ [R6] ].
+
+> Installation instructions are available in the installation manual [ [R6] ].
 
 ## 2. i-Code CNES products
+
+The new architecture of i-Code is decomposed as described in the following schema. It is designed to be easily extendable. Users can build their own checkers and simply add their `jar` in the `icode/plugins` directory. See the [Developer Guide](https://github.com/lequal/icode-custom-plugin-example/wiki) for more details.
+
+![i-Code CNES 4 architecture](https://github.com/lequal/i-CodeCNES/blob/wiki/Architecture.svg)
+
 ### 2.1. i-Code App or i-Code CLI
+This is the common command line application for i-Code. In your project directory, use the following command to analyze all files: 
+```sh
+# Analyze whole project
+icode .
+
+# Analyze whole project and make an xml output of the analysis
+icode . -f xml -o output.xml
+
+# List all functionality and description
+icode --help
+```
+
+Use `icode --helph` to get the following help about *i-Code*:
+
+```
+usage: icode [<FILE> [...]] [-c <arg>] [-e] [-f <arg>] [-h] [-l] [-o <arg>] [-p <arg>] [-q <arg>] [-r] [-v] [-x <arg>]
+Analyze Shell, F77 & F90 code to find defects & bugs.
+
+ -c,--checked-languages <arg>        Comma separated list of languages checked during analysis. All by default.
+ -e,--exporters                      Display all available exporters.
+ -f,--export-format <arg>            Set the format for result file. Default format is XML.
+ -h,--help                           Display this message.
+ -l,--languages                      Display all available languages.
+ -o,--output <arg>                   Set the name for result file. Results are displayed in standard output by default.
+ -p,--export-parameters <arg>        Comma separated list of parameters for the export. Format is:
+                                     key1=value1,key2=value2,key3=value3. Default values depend on the chosen export plugin.
+ -q,--list-export-parameters <arg>   Display all available parameters for the given export.
+ -r,--rules                          Display all available rules.
+ -v,--version                        Display version information.
+ -x,--excluded-rules <arg>           Comma separated list of rules id to exclude from analysis. None by default.
+```
+
 ### 2.2. i-Code IDE
+
+This is the common GUI application for i-Code.
+
+#### Preferences
+Select `Window > Preferences > i-Code CNES`.
+
+You can set the severity configuration of the analysis using the scrollbar from RNC A to D, and choose rules to enable or disable in the different tables. You can also edit metrics' threshold.
+
+#### Launching an analysis
+Select files to analysis, one or several, and then click on `i-Code CNES > Run analysis`.
+
 ### 2.3. i-Code plugin for Eclipse
+
+The Eclipse plugin for i-Code allows to use i-Code from Eclipse IDE.
+
+#### Preferences
+Select `Window > Preferences > i-Code CNES`.
+
+You can set the severity configuration of the analysis using the scrollbar from RNC A to D, and choose rules to enable or disable in the different tables. You can also edit Metrics threshold.
+
+#### Launching an analysis
+Select files to analysis, one or several, and then click on `i-Code CNES > Run analysis`.
+
 ### 2.4. i-Code plugin for SonarQube
+
+The SonarQube plugin for i-Code allows to use i-Code through SonarQube analysis. 
+
+> Please refer to [sonar-icode-cnes-plugin](https://github.com/lequal/sonar-icode-cnes-plugin) for more details.
+
 ### 2.5. i-Code Core
+
+This is the core library containing all i-Code utilities for code analysis.
+
+> See the [Developer Guide](https://github.com/lequal/icode-custom-plugin-example/wiki) for more details.
+
 ### 2.6. i-Code Library
+
+This is the full library containing all official checkers. It includes i-Code Core and all official language analyzers. 
+
+> See the [Developer Guide](https://github.com/lequal/icode-custom-plugin-example/wiki) for more details.
 
 ## 3. Rules description
 
