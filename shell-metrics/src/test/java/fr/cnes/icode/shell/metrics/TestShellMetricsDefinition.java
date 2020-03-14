@@ -3,20 +3,20 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/
-package fr.cnes.icode.shell.rules;
+package fr.cnes.icode.shell.metrics;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TestShellRulesDefinition {
+public class TestShellMetricsDefinition {
 
     @Test
     public void testDefinitionOfDefaultRules() {
-        final ShellRulesDefinition rulesDefinition = new ShellRulesDefinition();
+        final ShellMetricsDefinition rulesDefinition = new ShellMetricsDefinition();
 
         rulesDefinition.define();
 
-        Assertions.assertEquals(44, rulesDefinition.list().size());
+        Assertions.assertEquals(5, rulesDefinition.list().size());
     }
 
 }

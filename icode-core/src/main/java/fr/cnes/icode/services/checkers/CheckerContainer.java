@@ -46,9 +46,9 @@ public class CheckerContainer {
     @XStreamConverter(LanguageXMLConverter.class)
     private ILanguage language;
     /** Checker's analysis class */
-//    @XStreamAlias("languageId")
-//    @XStreamAsAttribute
-//    @XStreamConverter(ClassXMLConverter.class)
+    @XStreamAlias("class")
+    @XStreamAsAttribute
+    @XStreamConverter(ClassXMLConverter.class)
     private Class<?> checker;
     /** Whether or not the checker is a metric */
     @XStreamAlias("isMetric")

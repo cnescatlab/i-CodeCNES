@@ -7,8 +7,12 @@ package fr.cnes.icode.data.xml;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
 import java.io.InputStream;
+import java.util.Collection;
 
 /**
  * Class used to unmarshal i-Code xml file (rules definition).
@@ -42,6 +46,15 @@ public class XmlHandler {
                 };
             }
         };
+        xStream.addPermission(NoTypePermission.NONE);
+        // allow some basics
+        xStream.addPermission(NullPermission.NULL);
+        xStream.addPermission(PrimitiveTypePermission.PRIMITIVES);
+        xStream.allowTypeHierarchy(Collection.class);
+        // allow any type from the same package
+        xStream.allowTypesByWildcard(new String[] {
+                "fr.cnes.**"
+        });
         xStream.processAnnotations(cls);
         return xStream.fromXML(file);
     }
