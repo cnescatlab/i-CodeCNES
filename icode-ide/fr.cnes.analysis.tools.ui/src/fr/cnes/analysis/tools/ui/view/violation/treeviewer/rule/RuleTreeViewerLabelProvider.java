@@ -5,10 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.PlatformUI;
-
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
@@ -17,6 +13,9 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.Funct
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.IRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides column for the table viewer.

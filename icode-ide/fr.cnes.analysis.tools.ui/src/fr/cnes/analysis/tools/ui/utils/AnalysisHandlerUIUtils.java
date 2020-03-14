@@ -5,11 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.utils;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import fr.cnes.analysis.tools.ui.exception.*;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -18,11 +14,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import fr.cnes.analysis.tools.ui.exception.EmptyResourceException;
-import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.exception.InvalidResourceTypeException;
-import fr.cnes.analysis.tools.ui.exception.NonAccessibleResourceException;
-import fr.cnes.analysis.tools.ui.exception.UnknownResourceTypeException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Contains tools methods for handler purpose.

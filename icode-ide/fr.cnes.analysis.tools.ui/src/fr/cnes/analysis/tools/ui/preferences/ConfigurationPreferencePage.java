@@ -5,10 +5,14 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
+import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
+import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckersComposite;
+import fr.cnes.analysis.tools.ui.preferences.checkerstables.MetricsComposite;
+import fr.cnes.icode.exception.NullContributionException;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -19,23 +23,13 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ExpandBar;
-import org.eclipse.swt.widgets.ExpandItem;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import fr.cnes.analysis.tools.ui.Activator;
-import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
-import fr.cnes.analysis.tools.ui.configurations.ConfigurationService;
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.CheckersComposite;
-import fr.cnes.analysis.tools.ui.preferences.checkerstables.MetricsComposite;
-import fr.cnes.icode.exception.NullContributionException;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * i-Code CNES Preferences page.

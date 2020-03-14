@@ -1,318 +1,381 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkers>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDATAFloatCompare"
-            id="fr.cnes.icode.fortran90.rules.COMDATAFloatCompare"
-            name="COM.DATA.FloatCompare" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDATAFloatCompare</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDATAFloatCompare</id>
+        <name>COM.DATA.FloatCompare</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDATAInitialisation"
-            id="fr.cnes.icode.fortran90.rules.COMDATAInitialisation"
-            name="COM.DATA.Initialisation" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDATAInitialisation</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDATAInitialisation</id>
+        <name>COM.DATA.Initialisation</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDATAInvariant"
-            id="fr.cnes.icode.fortran90.rules.COMDATAInvariant"
-            name="COM.DATA.Invariant" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDATAInvariant</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDATAInvariant</id>
+        <name>COM.DATA.Invariant</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDATALoopCondition"
-            id="fr.cnes.icode.fortran90.rules.COMDATALoopCondition"
-            name="COM.DATA.LoopCondition" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDATALoopCondition</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDATALoopCondition</id>
+        <name>COM.DATA.LoopCondition</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDATANotUsed"
-            id="fr.cnes.icode.fortran90.rules.COMDATANotUsed"
-            name="COM.DATA.NotUsed" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDATANotUsed</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDATANotUsed</id>
+        <name>COM.DATA.NotUsed</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDESIGNAlloc"
-            id="fr.cnes.icode.fortran90.rules.COMDESIGNAlloc"
-            name="COM.DESIGN.Alloc" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDESIGNAlloc</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDESIGNAlloc</id>
+        <name>COM.DESIGN.Alloc</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMDESIGNActiveWait"
-            id="fr.cnes.icode.fortran90.rules.COMDESIGNActiveWait"
-            name="COM.DESIGN.ActiveWait" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMDESIGNActiveWait</class>
+        <id>fr.cnes.icode.fortran90.rules.COMDESIGNActiveWait</id>
+        <name>COM.DESIGN.ActiveWait</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWAbort"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWAbort"
-            name="COM.FLOW.Abort" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWAbort</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWAbort</id>
+        <name>COM.FLOW.Abort</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWBooleanExpression"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWBooleanExpression"
-            name="COM.FLOW.BooleanExpression" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWBooleanExpression</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWBooleanExpression</id>
+        <name>COM.FLOW.BooleanExpression</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWCaseSwitch"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWCaseSwitch"
-            name="COM.FLOW.CaseSwitch" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWCaseSwitch</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWCaseSwitch</id>
+        <name>COM.FLOW.CaseSwitch</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWCheckCodeReturn"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWCheckCodeReturn"
-            name="COM.FLOW.CheckCodeReturn" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWCheckCodeReturn</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWCheckCodeReturn</id>
+        <name>COM.FLOW.CheckCodeReturn</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWCheckUser"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWCheckUser"
-            name="COM.FLOW.CheckUser" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWCheckUser</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWCheckUser</id>
+        <name>COM.FLOW.CheckUser</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWExit"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWExit"
-            name="COM.FLOW.Exit" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWExit</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWExit</id>
+        <name>COM.FLOW.Exit</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWExitLoop"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWExitLoop"
-            name="COM.FLOW.ExitLoop" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWExitLoop</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWExitLoop</id>
+        <name>COM.FLOW.ExitLoop</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWFileExistence"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWFileExistence"
-            name="COM.FLOW.FileExistence" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWFileExistence</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWFileExistence</id>
+        <name>COM.FLOW.FileExistence</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWFilePath"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWFilePath"
-            name="COM.FLOW.FilePath" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWFilePath</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWFilePath</id>
+        <name>COM.FLOW.FilePath</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMFLOWRecursion"
-            id="fr.cnes.icode.fortran90.rules.COMFLOWRecursion"
-            name="COM.FLOW.Recursion" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMFLOWRecursion</class>
+        <id>fr.cnes.icode.fortran90.rules.COMFLOWRecursion</id>
+        <name>COM.FLOW.Recursion</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMINSTBoolNegation"
-            id="fr.cnes.icode.fortran90.rules.COMINSTBoolNegation"
-            name="COM.INST.BoolNegation" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMINSTBoolNegation</class>
+        <id>fr.cnes.icode.fortran90.rules.COMINSTBoolNegation</id>
+        <name>COM.INST.BoolNegation</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMINSTBrace"
-            id="fr.cnes.icode.fortran90.rules.COMINSTBrace"
-            name="COM.INST.Brace" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMINSTBrace</class>
+        <id>fr.cnes.icode.fortran90.rules.COMINSTBrace</id>
+        <name>COM.INST.Brace</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMINSTCodeComment"
-            id="fr.cnes.icode.fortran90.rules.COMINSTCodeComment"
-            name="COM.INST.CodeComment" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMINSTCodeComment</class>
+        <id>fr.cnes.icode.fortran90.rules.COMINSTCodeComment</id>
+        <name>COM.INST.CodeComment</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMINSTGoTo"
-            id="fr.cnes.icode.fortran90.rules.COMINSTGoTo"
-            name="COM.INST.GoTo" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMINSTGoTo</class>
+        <id>fr.cnes.icode.fortran90.rules.COMINSTGoTo</id>
+        <name>COM.INST.GoTo</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMINSTLine"
-            id="fr.cnes.icode.fortran90.rules.COMINSTLine"
-            name="COM.INST.Line" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMINSTLine</class>
+        <id>fr.cnes.icode.fortran90.rules.COMINSTLine</id>
+        <name>COM.INST.Line</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMINSTLoopCondition"
-            id="fr.cnes.icode.fortran90.rules.COMINSTLoopCondition"
-            name="COM.INST.LoopCondition" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMINSTLoopCondition</class>
+        <id>fr.cnes.icode.fortran90.rules.COMINSTLoopCondition</id>
+        <name>COM.INST.LoopCondition</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMNAMEHomonymy"
-            id="fr.cnes.icode.fortran90.rules.COMNAMEHomonymy"
-            name="COM.NAME.Homonymy" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMNAMEHomonymy</class>
+        <id>fr.cnes.icode.fortran90.rules.COMNAMEHomonymy</id>
+        <name>COM.NAME.Homonymy</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMPRESIndent"
-            id="fr.cnes.icode.fortran90.rules.COMPRESIndent"
-            name="COM.PRES.Indent" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMPRESIndent</class>
+        <id>fr.cnes.icode.fortran90.rules.COMPRESIndent</id>
+        <name>COM.PRES.Indent</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMPRESLengthLine"
-            id="fr.cnes.icode.fortran90.rules.COMPRESLengthLine"
-            name="COM.PRES.LengthLine" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMPRESLengthLine</class>
+        <id>fr.cnes.icode.fortran90.rules.COMPRESLengthLine</id>
+        <name>COM.PRES.LengthLine</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMPROJECTHeader"
-            id="fr.cnes.icode.fortran90.rules.COMPROJECTHeader"
-            name="COM.PROJECT.Header" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMPROJECTHeader</class>
+        <id>fr.cnes.icode.fortran90.rules.COMPROJECTHeader</id>
+        <name>COM.PROJECT.Header</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.COMTYPEExpression"
-            id="fr.cnes.icode.fortran90.rules.COMTYPEExpression"
-            name="COM.TYPE.Expression" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.COMTYPEExpression</class>
+        <id>fr.cnes.icode.fortran90.rules.COMTYPEExpression</id>
+        <name>COM.TYPE.Expression</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90BLOCFile"
-            id="fr.cnes.icode.fortran90.rules.F90BLOCFile"
-            name="F90.BLOC.File" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90BLOCFile</class>
+        <id>fr.cnes.icode.fortran90.rules.F90BLOCFile</id>
+        <name>F90.BLOC.File</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATAArray"
-            id="fr.cnes.icode.fortran90.rules.F90DATAArray"
-            name="F90.DATA.Array" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATAArray</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATAArray</id>
+        <name>F90.DATA.Array</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATAArrayAccess"
-            id="fr.cnes.icode.fortran90.rules.F90DATAArrayAccess"
-            name="F90.DATA.ArrayAccess" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATAArrayAccess</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATAArrayAccess</id>
+        <name>F90.DATA.ArrayAccess</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATAConstant"
-            id="fr.cnes.icode.fortran90.rules.F90DATAConstant"
-            name="F90.DATA.Constant" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATAConstant</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATAConstant</id>
+        <name>F90.DATA.Constant</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATAConstantFloat"
-            id="fr.cnes.icode.fortran90.rules.F90DATAConstantFloat"
-            name="F90.DATA.ConstantFloat" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATAConstantFloat</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATAConstantFloat</id>
+        <name>F90.DATA.ConstantFloat</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATADeclaration"
-            id="fr.cnes.icode.fortran90.rules.F90DATADeclaration"
-            name="F90.DATA.Declaration" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATADeclaration</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATADeclaration</id>
+        <name>F90.DATA.Declaration</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATAFloat"
-            id="fr.cnes.icode.fortran90.rules.F90DATAFloat"
-            name="F90.DATA.Float" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATAFloat</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATAFloat</id>
+        <name>F90.DATA.Float</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DATAParameter"
-            id="fr.cnes.icode.fortran90.rules.F90DATAParameter"
-            name="F90.DATA.Parameter" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DATAParameter</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DATAParameter</id>
+        <name>F90.DATA.Parameter</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DESIGNFree"
-            id="fr.cnes.icode.fortran90.rules.F90DESIGNFree"
-            name="F90.DESIGN.Free" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNFree</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNFree</id>
+        <name>F90.DESIGN.Free</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DESIGNInclude"
-            id="fr.cnes.icode.fortran90.rules.F90DESIGNInclude"
-            name="F90.DESIGN.Include" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNInclude</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNInclude</id>
+        <name>F90.DESIGN.Include</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DESIGNInterface"
-            id="fr.cnes.icode.fortran90.rules.F90DESIGNInterface"
-            name="F90.DESIGN.Interface" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNInterface</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNInterface</id>
+        <name>F90.DESIGN.Interface</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DESIGNIO"
-            id="fr.cnes.icode.fortran90.rules.F90DESIGNIO"
-            name="F90.DESIGN.IO" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNIO</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNIO</id>
+        <name>F90.DESIGN.IO</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90DESIGNObsolete"
-            id="fr.cnes.icode.fortran90.rules.F90DESIGNObsolete"
-            name="F90.DESIGN.Obsolete" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNObsolete</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNObsolete</id>
+        <name>F90.DESIGN.Obsolete</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90ERRAllocate"
-            id="fr.cnes.icode.fortran90.rules.F90ERRAllocate"
-            name="F90.ERR.Allocate" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90ERRAllocate</class>
+        <id>fr.cnes.icode.fortran90.rules.F90ERRAllocate</id>
+        <name>F90.ERR.Allocate</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90ERROpenRead"
-            id="fr.cnes.icode.fortran90.rules.F90ERROpenRead"
-            name="F90.ERR.OpenRead" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90ERROpenRead</class>
+        <id>fr.cnes.icode.fortran90.rules.F90ERROpenRead</id>
+        <name>F90.ERR.OpenRead</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTAssociated"
-            id="fr.cnes.icode.fortran90.rules.F90INSTAssociated"
-            name="F90.INST.Associated" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTAssociated</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTAssociated</id>
+        <name>F90.INST.Associated</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTEntry"
-            id="fr.cnes.icode.fortran90.rules.F90INSTEntry"
-            name="F90.INST.Entry" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTEntry</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTEntry</id>
+        <name>F90.INST.Entry</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTEquivalence"
-            id="fr.cnes.icode.fortran90.rules.F90INSTEquivalence"
-            name="F90.INST.Equivalence" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTEquivalence</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTEquivalence</id>
+        <name>F90.INST.Equivalence</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTIf"
-            id="fr.cnes.icode.fortran90.rules.F90INSTIf"
-            name="F90.INST.If" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTIf</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTIf</id>
+        <name>F90.INST.If</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTIntent"
-            id="fr.cnes.icode.fortran90.rules.F90INSTIntent"
-            name="F90.INST.Intent" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTIntent</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTIntent</id>
+        <name>F90.INST.Intent</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTNullify"
-            id="fr.cnes.icode.fortran90.rules.F90INSTNullify"
-            name="F90.INST.Nullify" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTNullify</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTNullify</id>
+        <name>F90.INST.Nullify</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTOnly"
-            id="fr.cnes.icode.fortran90.rules.F90INSTOnly"
-            name="F90.INST.Only" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTOnly</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTOnly</id>
+        <name>F90.INST.Only</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTOperator"
-            id="fr.cnes.icode.fortran90.rules.F90INSTOperator"
-            name="F90.INST.Operator" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTOperator</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTOperator</id>
+        <name>F90.INST.Operator</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90INSTPointer"
-            id="fr.cnes.icode.fortran90.rules.F90INSTPointer"
-            name="F90.INST.Pointer" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTPointer</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTPointer</id>
+        <name>F90.INST.Pointer</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90NAMEGenericIntrinsic"
-            id="fr.cnes.icode.fortran90.rules.F90NAMEGenericIntrinsic"
-            name="F90.NAME.GenericIntrinsic" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90NAMEGenericIntrinsic</class>
+        <id>fr.cnes.icode.fortran90.rules.F90NAMEGenericIntrinsic</id>
+        <name>F90.NAME.GenericIntrinsic</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90NAMEKeyWords"
-            id="fr.cnes.icode.fortran90.rules.F90NAMEKeyWords"
-            name="F90.NAME.KeyWords" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90NAMEKeyWords</class>
+        <id>fr.cnes.icode.fortran90.rules.F90NAMEKeyWords</id>
+        <name>F90.NAME.KeyWords</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90PROTOOverload"
-            id="fr.cnes.icode.fortran90.rules.F90PROTOOverload"
-            name="F90.PROTO.Overload" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90PROTOOverload</class>
+        <id>fr.cnes.icode.fortran90.rules.F90PROTOOverload</id>
+        <name>F90.PROTO.Overload</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90REFArray"
-            id="fr.cnes.icode.fortran90.rules.F90REFArray"
-            name="F90.REF.Array" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90REFArray</class>
+        <id>fr.cnes.icode.fortran90.rules.F90REFArray</id>
+        <name>F90.REF.Array</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90REFInterface"
-            id="fr.cnes.icode.fortran90.rules.F90REFInterface"
-            name="F90.REF.Interface" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90REFInterface</class>
+        <id>fr.cnes.icode.fortran90.rules.F90REFInterface</id>
+        <name>F90.REF.Interface</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90REFLabel"
-            id="fr.cnes.icode.fortran90.rules.F90REFLabel"
-            name="F90.REF.Label" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90REFLabel</class>
+        <id>fr.cnes.icode.fortran90.rules.F90REFLabel</id>
+        <name>F90.REF.Label</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90REFOpen"
-            id="fr.cnes.icode.fortran90.rules.F90REFOpen"
-            name="F90.REF.Open" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90REFOpen</class>
+        <id>fr.cnes.icode.fortran90.rules.F90REFOpen</id>
+        <name>F90.REF.Open</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90REFVariable"
-            id="fr.cnes.icode.fortran90.rules.F90REFVariable"
-            name="F90.REF.Variable" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90REFVariable</class>
+        <id>fr.cnes.icode.fortran90.rules.F90REFVariable</id>
+        <name>F90.REF.Variable</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90TYPEDerivate"
-            id="fr.cnes.icode.fortran90.rules.F90TYPEDerivate"
-            name="F90.TYPE.Derivate" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90TYPEDerivate</class>
+        <id>fr.cnes.icode.fortran90.rules.F90TYPEDerivate</id>
+        <name>F90.TYPE.Derivate</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90TYPEInteger"
-            id="fr.cnes.icode.fortran90.rules.F90TYPEInteger"
-            name="F90.TYPE.Integer" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90TYPEInteger</class>
+        <id>fr.cnes.icode.fortran90.rules.F90TYPEInteger</id>
+        <name>F90.TYPE.Integer</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.rules.F90TYPEReal"
-            id="fr.cnes.icode.fortran90.rules.F90TYPEReal"
-            name="F90.TYPE.Real" languageId="fr.cnes.icode.fortran90">
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90TYPEReal</class>
+        <id>fr.cnes.icode.fortran90.rules.F90TYPEReal</id>
+        <name>F90.TYPE.Real</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
 </checkers>

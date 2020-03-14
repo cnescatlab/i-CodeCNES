@@ -5,13 +5,18 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.checkers;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.converters.basic.BooleanConverter;
 import fr.cnes.icode.data.AbstractChecker;
+import fr.cnes.icode.data.xml.ClassXMLConverter;
+import fr.cnes.icode.data.xml.LanguageXMLConverter;
 import fr.cnes.icode.exception.NullContributionException;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.languages.ILanguage;
 import fr.cnes.icode.services.languages.LanguageService;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import java.util.List;
 
 /**
@@ -21,20 +26,34 @@ import java.util.List;
  * 
  * @since 3.0
  */
+@XStreamAlias("check")
 public class CheckerContainer {
 
     /** Class name **/
-    private static final String CLASS = CheckerContainer.class.getName();
+    private final String CLASS = CheckerContainer.class.getName();
 
     /** Checker identifier */
+    @XStreamAlias("id")
+    @XStreamAsAttribute
     private String id;
     /** Checker name */
+    @XStreamAlias("name")
+    @XStreamAsAttribute
     private String name;
     /** Checker's language */
+    @XStreamAlias("languageId")
+    @XStreamAsAttribute
+    @XStreamConverter(LanguageXMLConverter.class)
     private ILanguage language;
     /** Checker's analysis class */
+//    @XStreamAlias("languageId")
+//    @XStreamAsAttribute
+//    @XStreamConverter(ClassXMLConverter.class)
     private Class<?> checker;
     /** Whether or not the checker is a metric */
+    @XStreamAlias("isMetric")
+    @XStreamAsAttribute
+    @XStreamConverter(BooleanConverter.class)
     private boolean isMetric;
 
     /**
@@ -139,7 +158,6 @@ public class CheckerContainer {
      *
      * @param pId New ID.
      */
-    @XmlAttribute(name="id")
     protected final void setId(final String pId) {
         final String method = "setId";
         ICodeLogger.entering(CLASS, method, pId);
@@ -164,7 +182,6 @@ public class CheckerContainer {
      *
      * @param pName New name.
      */
-    @XmlAttribute(name="name")
     protected final void setName(final String pName) {
         final String method = "setName";
         ICodeLogger.entering(CLASS, method, pName);
@@ -189,7 +206,6 @@ public class CheckerContainer {
      *
      * @param pLanguageId New language ID.
      */
-    @XmlAttribute(name="languageId")
     protected final void setLanguageId(final String pLanguageId) {
         final String method = "setLanguageId";
         ICodeLogger.entering(CLASS, method, pLanguageId);
@@ -241,7 +257,6 @@ public class CheckerContainer {
      *
      * @param pClass New checker class.
      */
-    @XmlAttribute(name="class")
     protected final void setClass(final String pClass) {
         final String method = "setClass";
         ICodeLogger.entering(CLASS, method, pClass);
@@ -270,7 +285,6 @@ public class CheckerContainer {
      *
      * @param pIsMetric New checker metric status.
      */
-    @XmlAttribute(name="isMetric")
     public final void setMetric(final boolean pIsMetric) {
         final String method = "setMetric";
         ICodeLogger.entering(CLASS, method, pIsMetric);

@@ -5,14 +5,13 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.configurations;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.cnes.icode.exception.NullContributionException;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-import fr.cnes.icode.exception.NullContributionException;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class should be used to reach configurations data contributing to

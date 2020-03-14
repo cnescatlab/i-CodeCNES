@@ -5,14 +5,14 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.export.csv;
 
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.services.export.IExporter;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.services.export.IExporter;
 
 /**
  * This class is an attribute of the {@code ExtensionPoint} implementing

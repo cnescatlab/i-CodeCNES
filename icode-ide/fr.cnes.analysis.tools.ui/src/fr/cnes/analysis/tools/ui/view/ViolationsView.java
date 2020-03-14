@@ -5,11 +5,16 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
+import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -25,16 +30,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.IUpdatableAnalysisFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.FileTreeViewerContentProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.filter.FileTreeViewerFilter;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewer;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.RuleTreeViewerContentProvider;
-import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.filter.RuleViewerFilter;
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ViolationsView extends ViewPart {
 

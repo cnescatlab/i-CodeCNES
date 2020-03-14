@@ -6,10 +6,10 @@
 package fr.cnes.icode.data;
 
 import com.google.common.collect.Lists;
+import fr.cnes.icode.data.xml.XmlHandler;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 
-import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
@@ -105,9 +105,9 @@ public abstract class CheckersDefinition {
     public final void addFromResources(final String file) {
         final InputStream checkersFile = this.getClass().getResourceAsStream(file);
         try {
-            CheckersList checkers = (CheckersList) XmlHandler.unmarshal(checkersFile, CheckersList.class);
+            final CheckersList checkers = (CheckersList) XmlHandler.unmarshal(checkersFile, CheckersList.class);
             addAll(checkers.containers);
-        } catch (final JAXBException e) {
+        } catch (final Exception e) {
             ICodeLogger.error(getClass().getName(), "addFromResources", e);
         }
     }

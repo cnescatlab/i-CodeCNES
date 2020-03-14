@@ -5,12 +5,11 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.runtime.IPath;
 
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class descriptor for rule's violations in a file.

@@ -5,10 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.markers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -24,7 +21,9 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
 
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * ViolationErrorMarker This class implements the creation of marker and the
