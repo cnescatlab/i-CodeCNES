@@ -5,13 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.checkers;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.basic.BooleanConverter;
 import fr.cnes.icode.data.AbstractChecker;
-import fr.cnes.icode.data.xml.ClassXMLConverter;
-import fr.cnes.icode.data.xml.LanguageXMLConverter;
 import fr.cnes.icode.exception.NullContributionException;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.languages.ILanguage;
@@ -26,34 +20,20 @@ import java.util.List;
  * 
  * @since 3.0
  */
-@XStreamAlias("check")
 public class CheckerContainer {
 
     /** Class name **/
     private final String CLASS = CheckerContainer.class.getName();
 
     /** Checker identifier */
-    @XStreamAlias("id")
-    @XStreamAsAttribute
     private String id;
     /** Checker name */
-    @XStreamAlias("name")
-    @XStreamAsAttribute
     private String name;
     /** Checker's language */
-    @XStreamAlias("languageId")
-    @XStreamAsAttribute
-    @XStreamConverter(LanguageXMLConverter.class)
     private ILanguage language;
     /** Checker's analysis class */
-    @XStreamAlias("class")
-    @XStreamAsAttribute
-    @XStreamConverter(ClassXMLConverter.class)
     private Class<?> checker;
     /** Whether or not the checker is a metric */
-    @XStreamAlias("isMetric")
-    @XStreamAsAttribute
-    @XStreamConverter(BooleanConverter.class)
     private boolean isMetric;
 
     /**

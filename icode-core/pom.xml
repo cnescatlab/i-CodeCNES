@@ -30,11 +30,11 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
-        <!-- BSD library to parse xml configuration files -->
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.4.11.1</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
         </dependency>
     </dependencies>
 </project>

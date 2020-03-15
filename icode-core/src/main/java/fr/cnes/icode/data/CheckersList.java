@@ -6,8 +6,6 @@
 package fr.cnes.icode.data;
 
 import com.google.common.collect.Lists;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 
 import java.util.List;
@@ -15,11 +13,9 @@ import java.util.List;
 /**
  * Define a list checkers.
  */
-@XStreamAlias("checkers")
 public class CheckersList {
 
     /** List of checkers defined in a plugin. **/
-    @XStreamImplicit(itemFieldName = "check")
     public List<CheckerContainer> containers;
 
     /**

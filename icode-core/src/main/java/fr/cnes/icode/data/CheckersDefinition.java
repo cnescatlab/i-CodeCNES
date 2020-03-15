@@ -105,7 +105,7 @@ public abstract class CheckersDefinition {
     public final void addFromResources(final String file) {
         final InputStream checkersFile = this.getClass().getResourceAsStream(file);
         try {
-            final CheckersList checkers = (CheckersList) XmlHandler.unmarshal(checkersFile, CheckersList.class);
+            final CheckersList checkers = (CheckersList) XmlHandler.unmarshal(checkersFile);
             addAll(checkers.containers);
         } catch (final Exception e) {
             ICodeLogger.error(getClass().getName(), "addFromResources", e);
