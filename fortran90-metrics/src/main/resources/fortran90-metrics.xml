@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkers>
-    <check
-            class="fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified"
-            id="fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified"
-            isMetric="true"
-            languageId="fr.cnes.icode.fortran90"
-            name="F90.MET.ComplexitySimplified">
+    <check>
+        <class>fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified</class>
+        <id>fr.cnes.icode.fortran90.metrics.F90METComplexitySimplified</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+        <name>F90.MET.ComplexitySimplified</name>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.metrics.F90METNesting"
-            id="fr.cnes.icode.fortran90.metrics.F90METNesting"
-            isMetric="true"
-            languageId="fr.cnes.icode.fortran90"
-            name="F90.MET.Nesting">
+    <check>
+        <class>fr.cnes.icode.fortran90.metrics.F90METNesting</class>
+        <id>fr.cnes.icode.fortran90.metrics.F90METNesting</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+        <name>F90.MET.Nesting</name>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.metrics.F90METLineOfCode"
-            id="fr.cnes.icode.fortran90.metrics.F90METLineOfCode"
-            isMetric="true"
-            languageId="fr.cnes.icode.fortran90"
-            name="F90.MET.LineOfCode">
+    <check>
+        <class>fr.cnes.icode.fortran90.metrics.F90METLineOfCode</class>
+        <id>fr.cnes.icode.fortran90.metrics.F90METLineOfCode</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+        <name>F90.MET.LineOfCode</name>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.metrics.F90METRatioComment"
-            id="fr.cnes.icode.fortran90.metrics.F90METRatioComment"
-            isMetric="true"
-            languageId="fr.cnes.icode.fortran90"
-            name="F90.MET.RatioComment">
+    <check>
+        <class>fr.cnes.icode.fortran90.metrics.F90METRatioComment</class>
+        <id>fr.cnes.icode.fortran90.metrics.F90METRatioComment</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+        <name>F90.MET.RatioComment</name>
     </check>
-    <check
-            class="fr.cnes.icode.fortran90.metrics.F90METLineOfComment"
-            id="fr.cnes.icode.fortran90.metrics.F90METLineOfComment"
-            isMetric="true"
-            languageId="fr.cnes.icode.fortran90"
-            name="F90.MET.LineOfComment">
+    <check>
+        <class>fr.cnes.icode.fortran90.metrics.F90METLineOfComment</class>
+        <id>fr.cnes.icode.fortran90.metrics.F90METLineOfComment</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+        <name>F90.MET.LineOfComment</name>
     </check>
 </checkers>

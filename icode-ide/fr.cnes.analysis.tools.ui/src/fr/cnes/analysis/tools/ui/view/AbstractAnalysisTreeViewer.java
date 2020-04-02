@@ -5,6 +5,7 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -14,8 +15,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * AbstractviolationsTreeViewer is an abstract class containing most useful

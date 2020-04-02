@@ -8,14 +8,11 @@ package fr.cnes.icode.reflexion;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Utility class for retrieving class from interface.
- *
- * @author lequal
  */
 public class ClassFinder {
 

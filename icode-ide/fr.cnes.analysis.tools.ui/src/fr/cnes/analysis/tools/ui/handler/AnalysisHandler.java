@@ -5,22 +5,23 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
+import fr.cnes.analysis.tools.ui.decorators.InformationDecorator;
+import fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator;
+import fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator;
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
+import fr.cnes.analysis.tools.ui.markers.InformationMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -39,19 +40,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import fr.cnes.analysis.tools.ui.decorators.InformationDecorator;
-import fr.cnes.analysis.tools.ui.decorators.ViolationErrorDecorator;
-import fr.cnes.analysis.tools.ui.decorators.ViolationWarningDecorator;
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.exception.EmptySelectionException;
-import fr.cnes.analysis.tools.ui.markers.InformationMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class can run analysis using {@link Analyzer} service.

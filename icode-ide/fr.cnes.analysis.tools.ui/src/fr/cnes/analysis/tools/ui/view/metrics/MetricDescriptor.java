@@ -5,10 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import fr.cnes.icode.logger.ICodeLogger;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Class for general description of a metric.

@@ -5,6 +5,8 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export;
 
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.services.export.ExportService;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -12,9 +14,6 @@ import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-
-import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.services.export.ExportService;
 
 /**
  * This Wizard contains and handle the different Wizard Page to export analysis

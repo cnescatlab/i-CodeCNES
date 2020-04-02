@@ -5,15 +5,18 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.export;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.reflexion.ClassFinder;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class is an export service for i-Code CNES.

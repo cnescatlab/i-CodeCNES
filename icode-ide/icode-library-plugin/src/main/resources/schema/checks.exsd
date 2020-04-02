@@ -49,21 +49,21 @@
 
    <element name="check">
       <complexType>
-         <attribute name="id" type="string" use="required">
+         <element name="id" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
-         </attribute>
-         <attribute name="name" type="string" use="required">
+         </element>
+         <element name="name" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
-         </attribute>
-         <attribute name="class" type="string" use="required">
+         </element>
+         <element name="class" type="string">
             <annotation>
                <documentation>
                   
@@ -72,8 +72,8 @@
                   <meta.attribute kind="java" basedOn="fr.cnes.analysis.tools.analyzer.datas.AbstractChecker:"/>
                </appinfo>
             </annotation>
-         </attribute>
-         <attribute name="languageId" type="string" use="required">
+         </element>
+         <element name="languageId" type="string">
             <annotation>
                <documentation>
                   
@@ -82,14 +82,14 @@
                   <meta.attribute kind="identifier" basedOn="fr.cnes.analysis.tools.analyzer.languages/language/@id"/>
                </appinfo>
             </annotation>
-         </attribute>
-         <attribute name="isMetric" type="boolean">
+         </element>
+         <element name="isMetric" type="boolean"  minOccurs="0">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
-         </attribute>
+         </element>
       </complexType>
    </element>
 

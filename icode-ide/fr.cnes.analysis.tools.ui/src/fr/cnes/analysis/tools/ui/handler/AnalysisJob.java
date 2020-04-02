@@ -5,20 +5,19 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.List;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.Analyzer;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.

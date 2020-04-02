@@ -5,10 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.export;
 
+import fr.cnes.icode.data.CheckResult;
+
 import java.io.File;
 import java.util.List;
-
-import fr.cnes.icode.data.CheckResult;
 
 /**
  * This interface must be implemented by any class of {@code ImportClass}

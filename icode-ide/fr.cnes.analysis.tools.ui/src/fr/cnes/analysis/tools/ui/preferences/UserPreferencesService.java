@@ -5,15 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.PreferenceStore;
-import org.eclipse.ui.PlatformUI;
-
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.analysis.tools.ui.configurations.CheckConfigurationContainer;
 import fr.cnes.analysis.tools.ui.configurations.ConfigurationContainer;
@@ -24,6 +15,14 @@ import fr.cnes.icode.services.checkers.CheckerContainer;
 import fr.cnes.icode.services.checkers.CheckerService;
 import fr.cnes.icode.services.languages.ILanguage;
 import fr.cnes.icode.services.languages.LanguageService;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.PreferenceStore;
+import org.eclipse.ui.PlatformUI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

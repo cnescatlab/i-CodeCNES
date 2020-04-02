@@ -5,13 +5,12 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor;
+import fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider;
+import fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider;
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -19,11 +18,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -35,12 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.metrics.FunctionMetricDescriptor;
-import fr.cnes.analysis.tools.ui.view.metrics.MetricContentProvider;
-import fr.cnes.analysis.tools.ui.view.metrics.MetricLabelProvider;
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.*;
 
 /**
  * View displaying the metrics computation results.

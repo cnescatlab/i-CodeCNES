@@ -5,15 +5,14 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
+import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-
-import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
-import fr.cnes.analysis.tools.ui.view.AbstractLabelProvider;
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * This class provides column for the metric tree viewer.

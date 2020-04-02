@@ -5,10 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.configurations;
 
+import fr.cnes.icode.logger.ICodeLogger;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * This class is a data structure being used by {@link ConfigurationService}.
