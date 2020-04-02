@@ -8,7 +8,6 @@ package fr.cnes.icode.fortran77.rules;
 
 import fr.cnes.icode.Analyzer;
 import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.exception.JFlexException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -76,39 +75,33 @@ public class TestGlobalFortranFeatures {
         // Id to execute the analysis.
         final String languageId = "fr.cnes.icode.languages.f77";
 
-        try {
-            /* File where to save the result of the execution */
-            final File fileResult = new File(String.format("target%s_result.txt", resources));
-            fileResult.deleteOnExit();
-            /*
-             * File to compare with fileResult. This file is the verified
-             * version of the execution
-             */
-            final File fileResultValidated = new File(this.getClass().getResource(validatedResultFilename).getFile());
+        /* File where to save the result of the execution */
+        final File fileResult = new File(String.format("target%s_result.txt", resources));
+        fileResult.deleteOnExit();
+        /*
+         * File to compare with fileResult. This file is the verified
+         * version of the execution
+         */
+        final File fileResultValidated = new File(this.getClass().getResource(validatedResultFilename).getFile());
 
-            /* Get resources file */
-            final String resourcesPath = System.getProperty("user.dir") + resources;
-            final File folder = new File(resourcesPath);
-            /* Save files into a list */
-            getFilesIntoFolder(folder);
+        /* Get resources file */
+        final String resourcesPath = System.getProperty("user.dir") + resources;
+        final File folder = new File(resourcesPath);
+        /* Save files into a list */
+        getFilesIntoFolder(folder);
 
-            /* Create the analysis job */
-            final Analyzer analysis = new Analyzer();
-            final List<String> extensionIds = new ArrayList<>();
-            extensionIds.add(languageId);
+        /* Create the analysis job */
+        final Analyzer analysis = new Analyzer();
+        final List<String> extensionIds = new ArrayList<>();
+        extensionIds.add(languageId);
 
-            this.list = analysis.stableCheck(listFiles, extensionIds, Arrays.asList(excludedIds));
+        this.list = analysis.stableCheck(listFiles, extensionIds, Arrays.asList(excludedIds));
 
-            /* Export values into file */
-            createExportFile(fileResult);
+        /* Export values into file */
+        createExportFile(fileResult);
 
-            /* Compare new test with last one */
-            assertTrue(compareFiles(fileResult, fileResultValidated));
-
-        } catch (final JFlexException exception) {
-            fail("Analysis error (JFlexException)");
-            exception.printStackTrace();
-        }
+        /* Compare new test with last one */
+        assertTrue(compareFiles(fileResult, fileResultValidated));
 
     }
 

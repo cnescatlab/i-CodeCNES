@@ -8,7 +8,6 @@ package fr.cnes.analysis.tools.ui.handler;
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.Analyzer;
 import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -82,14 +81,7 @@ public class AnalysisJob extends Job {
         IStatus status = this.verifyInputs();
         monitor.setTaskName("Analyzing files...");
         if (status.isOK()) {
-            try {
-                this.checks = analyzer.check(new HashSet<>(inputFiles), languageIds, excludedIds);
-            } catch (final JFlexException exception) {
-                ICodeLogger.warning(CLASS, method, exception.getClass().getName()
-                        + " handled in method " + method + " changing Job status.");
-                status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-                        exception.getMessage());
-            }
+            this.checks = analyzer.stableCheck(new HashSet<>(inputFiles), languageIds, excludedIds);
         }
         ICodeLogger.exiting(CLASS, method, status);
         return status;
