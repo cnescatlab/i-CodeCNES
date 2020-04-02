@@ -5,10 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
-import org.eclipse.core.runtime.IPath;
-
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * Descriptor for rule's violations in a function.

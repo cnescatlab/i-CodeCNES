@@ -5,13 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.services.export.ExportService;
+import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -28,9 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.services.export.ExportService;
-import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This class is the main page of the {@link CheckerExportWizard}. It's

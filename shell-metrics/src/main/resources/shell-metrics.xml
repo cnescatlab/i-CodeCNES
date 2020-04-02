@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkers>
-    <check
-            class="fr.cnes.icode.shell.metrics.SHMETComplexitySimplified"
-            id="fr.cnes.icode.shell.metrics.SHMETComplexitySimplified"
-            isMetric="true"
-            languageId="fr.cnes.icode.shell"
-            name="SH.MET.ComplexitySimplified">
+    <check>
+        <class>fr.cnes.icode.shell.metrics.SHMETComplexitySimplified</class>
+        <id>fr.cnes.icode.shell.metrics.SHMETComplexitySimplified</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.shell</languageId>
+        <name>SH.MET.ComplexitySimplified</name>
     </check>
-    <check
-            class="fr.cnes.icode.shell.metrics.SHMETNesting"
-            id="fr.cnes.icode.shell.metrics.SHMETNesting"
-            isMetric="true"
-            languageId="fr.cnes.icode.shell"
-            name="SH.MET.Nesting">
+    <check>
+        <class>fr.cnes.icode.shell.metrics.SHMETNesting</class>
+        <id>fr.cnes.icode.shell.metrics.SHMETNesting</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.shell</languageId>
+        <name>SH.MET.Nesting</name>
     </check>
-    <check
-            class="fr.cnes.icode.shell.metrics.SHMETLineOfCode"
-            id="fr.cnes.icode.shell.metrics.SHMETLineOfCode"
-            isMetric="true"
-            languageId="fr.cnes.icode.shell"
-            name="SH.MET.LineOfCode">
+    <check>
+        <class>fr.cnes.icode.shell.metrics.SHMETLineOfCode</class>
+        <id>fr.cnes.icode.shell.metrics.SHMETLineOfCode</id>
+        <languageId>fr.cnes.icode.shell</languageId>
+        <name>SH.MET.LineOfCode</name>
     </check>
-    <check
-            class="fr.cnes.icode.shell.metrics.SHMETRatioComment"
-            id="fr.cnes.icode.shell.metrics.SHMETRatioComment"
-            isMetric="true"
-            languageId="fr.cnes.icode.shell"
-            name="SH.MET.RatioComment">
+    <check>
+        <class>fr.cnes.icode.shell.metrics.SHMETRatioComment</class>
+        <id>fr.cnes.icode.shell.metrics.SHMETRatioComment</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.shell</languageId>
+        <name>SH.MET.RatioComment</name>
     </check>
-    <check
-            class="fr.cnes.icode.shell.metrics.SHMETLineOfComment"
-            id="fr.cnes.icode.shell.metrics.SHMETLineOfComment"
-            isMetric="true"
-            languageId="fr.cnes.icode.shell"
-            name="SH.MET.LineOfComment">
+    <check>
+        <class>fr.cnes.icode.shell.metrics.SHMETLineOfComment</class>
+        <id>fr.cnes.icode.shell.metrics.SHMETLineOfComment</id>
+        <isMetric>false</isMetric>
+        <languageId>fr.cnes.icode.shell</languageId>
+        <name>SH.MET.LineOfComment</name>
     </check>
 </checkers>

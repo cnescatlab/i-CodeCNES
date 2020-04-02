@@ -5,11 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
-
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 
 /**
  * Filter for {@link CheckerPreferencesContainer}

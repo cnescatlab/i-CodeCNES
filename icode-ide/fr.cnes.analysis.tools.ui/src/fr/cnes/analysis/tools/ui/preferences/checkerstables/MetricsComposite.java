@@ -5,17 +5,16 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import java.util.List;
-
+import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
+import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
-import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.List;
 
 /**
  * This {@link CheckersComposite} is implemented to show and edit configuration

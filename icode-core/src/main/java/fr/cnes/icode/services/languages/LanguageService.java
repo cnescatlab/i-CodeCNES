@@ -116,7 +116,7 @@ public final class LanguageService {
 
         if(Objects.isNull(language)) {
             final NullContributionException exception = new NullContributionException(
-                    "Impossible to find " + languageId + " in analyzer contributors.");
+                    "Impossible to find " + languageId + " among " + getLanguages().size() + " analyzer contributors.");
             ICodeLogger.throwing(CLASS, method, exception);
             throw exception;
         }

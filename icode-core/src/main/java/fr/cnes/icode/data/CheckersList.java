@@ -8,18 +8,14 @@ package fr.cnes.icode.data;
 import com.google.common.collect.Lists;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
  * Define a list checkers.
  */
-@XmlRootElement(name="checkers")
 public class CheckersList {
 
     /** List of checkers defined in a plugin. **/
-    @XmlElement(name="check")
     public List<CheckerContainer> containers;
 
     /**

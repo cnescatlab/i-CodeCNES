@@ -5,11 +5,11 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class for general description of a rule for a

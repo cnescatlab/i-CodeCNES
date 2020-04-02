@@ -5,14 +5,13 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.wizard.export;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
+import fr.cnes.icode.services.export.ExportService;
+import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
+import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,13 +20,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.logger.ICodeLogger;
-import fr.cnes.icode.services.export.ExportService;
-import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
-import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is an adaptive {@link WizardNewFileCreationPage} which format is
