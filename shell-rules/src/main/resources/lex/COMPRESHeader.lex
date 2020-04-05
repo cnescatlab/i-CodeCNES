@@ -97,7 +97,9 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	 * @throws JFlexException
 	 */
 	private void raiseErrors() throws JFlexException {
-		if(!linesType.get(0).equals("comment")) 
+		if(linesType.isEmpty())
+		    setError("MAIN PROGRAM","The file should start with a brief description.", 0);
+		else if(!linesType.get(0).equals("comment"))
 			setError(locations.get(0).toString(),"The file should start with a brief description.", lines.get(0));
 		int max = linesType.size();
 		for (int index = 0; index < max; index++) {
