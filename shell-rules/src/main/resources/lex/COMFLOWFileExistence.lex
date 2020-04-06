@@ -234,7 +234,6 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 								    							String name = yytext().replaceAll("([\\s]|[\\>]|[\\\"]|[\\']|[\\<]|[\\&]|[\\{]|[\\}])+","");
 								    							LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - Redirection to file "+name+" detected.");
 								    							if(!filesExistence.contains(name)){
-                                                                System.err.println("A " + location + " The existence of the file " + name + " has not been checked. "+ (yyline+1));
 								    								LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - setError on "+name+" file redirection.");
 								    								setError(location,"The existence of the file " + name + " has not been checked.", yyline+1);
 								    							}
