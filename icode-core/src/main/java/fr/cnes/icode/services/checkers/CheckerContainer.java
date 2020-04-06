@@ -23,7 +23,7 @@ import java.util.List;
 public class CheckerContainer {
 
     /** Class name **/
-    private final String CLASS = CheckerContainer.class.getName();
+    private static final String CLASS = CheckerContainer.class.getName();
 
     /** Checker identifier */
     private String id;

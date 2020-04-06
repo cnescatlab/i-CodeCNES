@@ -53,7 +53,7 @@ public class XmlHandler {
                     classFromString(map.get("class").toString()),
                     (boolean) map.getOrDefault("isMetric", false));
 
-            checkersList.containers.add(container);
+            checkersList.getCheckers().add(container);
         }
 
         return checkersList;

@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fr.cnes.icode.data.AbstractChecker;
 import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.exception.JFlexException;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.checkers.CheckerContainer;
 import fr.cnes.icode.services.checkers.CheckerService;
@@ -21,10 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * <h1>i-Code CNES Analyzer service</h1>
@@ -48,14 +43,6 @@ import java.util.concurrent.Future;
  *
  */
 public class Analyzer {
-
-    /** Number of thread to run the analysis */
-    private static final int THREAD_NB = Runtime.getRuntime().availableProcessors();
-
-    /**
-     * Define ratio of max memory allocated to the JVM to use for the analysis.
-     */
-    private static final double MAX_MEMORY_THRESHOLD = 0.90;
 
     /**
      * <h1>{@link #stableCheck(Set, List, List)}</h1>

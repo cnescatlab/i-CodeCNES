@@ -16,7 +16,7 @@ import java.util.List;
 public class CheckersList {
 
     /** List of checkers defined in a plugin. **/
-    public List<CheckerContainer> containers;
+    private List<CheckerContainer> containers;
 
     /**
      * Default constructor.
@@ -25,4 +25,21 @@ public class CheckersList {
         this.containers = Lists.newArrayList();
     }
 
+    /**
+     * Get all the checkers contained in the list.
+     *
+     * @return Checkers as CheckerContainer list.
+     */
+    public List<CheckerContainer> getCheckers() {
+        return containers;
+    }
+
+    /**
+     * Add a checker into the list.
+     *
+     * @param checker A simple CheckerContainer.
+     */
+    public void addChecker(final CheckerContainer checker) {
+        this.containers.add(checker);
+    }
 }
