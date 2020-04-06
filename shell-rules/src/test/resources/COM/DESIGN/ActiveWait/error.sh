@@ -19,6 +19,7 @@ function readNum ()
 {
    echo "Insert one number"
    read x
+   wait 1106
    echo "You insert: $x"
 }
 

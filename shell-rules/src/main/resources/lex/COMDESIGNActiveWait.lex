@@ -48,6 +48,8 @@ FUNCTION     = "function"
 FNAME		 = [a-zA-Z0-9\.\!\-\_\@\?\+]+
 SPACE		 = [\ \r\t\f]
 VAR          = [a-zA-Z][a-zA-Z0-9\_]*
+ASSIGNMENT   = {VAR}"="
+OPTION       = "-"[a-zA-Z][a-zA-Z0-9\_\-]*
 
 FUNCSTART		= \{ | \( | \(\( | \[\[ | "if" | "case" | "select" | "for" | "while" | "until"
 FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
@@ -57,8 +59,9 @@ IGNORE_STRING_D = [\\][\"]
 STRING_S	 	= \'
 IGNORE_STRING_S = [\\][\']
 
+NOT_ACTWAIT     = "while"{SPACE}*{ASSIGNMENT}*{SPACE}*read{SPACE}*{OPTION}*{SPACE}*{VAR}
 ACTWAIT_WHILE   = "while"{SPACE}*\[{SPACE}*"1"{SPACE}*\]{SPACE}* 
-ACTWAIT		    = "sleep" | "wait"
+ACTWAIT		    = "read" | "sleep" | "wait"
                                                                 
 %{
 	/* MAINPROGRAM: constant for main program localisation */
@@ -146,6 +149,13 @@ ACTWAIT		    = "sleep" | "wait"
 				{FUNCT}			{functionLine = yyline+1;
 								 location = yytext().substring(0,yytext().length()-2).trim();
 								 yybegin(BEGINFUNC);}
+				{NOT_ACTWAIT}   {
+				                    if(!functionStack.empty()){
+                                        if(functionStack.peek().getFinisher().equals(Function.finisherOf(yytext()))){
+                                            functionStack.peek().addStarterRepetition();
+                                        }
+                                    }
+				                }
 				{ACTWAIT}       {setError(location,"There is an active wait in this point.", yyline+1); }
 				{ACTWAIT_WHILE} {
 									setError(location,"There is an active wait in this point.", yyline+1); 
@@ -188,6 +198,12 @@ ACTWAIT		    = "sleep" | "wait"
 <BEGINFUNC>
 		{
 				\(\)			{}
+				{NOT_ACTWAIT}   {
+									Function function;
+									function = new Function(location, functionLine, yytext());
+									functionStack.push(function);
+								 	yybegin(YYINITIAL);
+								}
 				{ACTWAIT_WHILE} {
 									setError(location,"There is an active wait in this point.", yyline+1); 
 									Function function;
