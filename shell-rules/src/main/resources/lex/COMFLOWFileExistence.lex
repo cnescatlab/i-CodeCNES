@@ -63,7 +63,7 @@ OPERATOR_LEFT	= [\<]|[\<][\&]|[\&][\<]|[\<][\<]|[\<][\<][\<]
 OPERATOR_RL		= [\<][\>]
 RIGHT_FILE_REDIRECT = ({OPERATOR_RIGHT}|{OPERATOR_RL}){SPACE}*{FILESTRING}
 LEFT_FILE_REDIRECT	= {FILESTRING}{SPACE}*({OPERATOR_LEFT}|{OPERATOR_RL})
-REDIRECT_IGNORE		= ([0-2]({OPERATOR_LEFT}|{OPERATOR_RL})) | (({OPERATOR_RIGHT}|{OPERATOR_RL})[0-2])
+REDIRECT_IGNORE		= ([0-2]({OPERATOR_LEFT}|{OPERATOR_RL})) | (({OPERATOR_RIGHT}|{OPERATOR_RL})[0-2]) | ("done"{SPACE}*({OPERATOR_LEFT}|{OPERATOR_RL}))
 
 
 STRING		 = [\"]|[\']
@@ -234,6 +234,7 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 								    							String name = yytext().replaceAll("([\\s]|[\\>]|[\\\"]|[\\']|[\\<]|[\\&]|[\\{]|[\\}])+","");
 								    							LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - Redirection to file "+name+" detected.");
 								    							if(!filesExistence.contains(name)){
+                                                                System.err.println("A " + location + " The existence of the file " + name + " has not been checked. "+ (yyline+1));
 								    								LOGGER.fine("["+this.parsedFileName+":"+(yyline+1)+":"+yycolumn+"] - setError on "+name+" file redirection.");
 								    								setError(location,"The existence of the file " + name + " has not been checked.", yyline+1);
 								    							}

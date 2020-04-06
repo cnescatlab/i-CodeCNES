@@ -32,3 +32,7 @@ while (( $STOP >= $START ))
     done
 	
 grep -v "P" $fichier | awk '($9>0.0) {print $0}'
+
+while read -r line; do
+    printf '%s\n' "$line"
+done < "$fichier"
