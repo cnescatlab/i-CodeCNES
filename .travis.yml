@@ -32,8 +32,10 @@ deploy:
   - "icode-app/target/icode-*.zip"
   - "icode-ide/fr.cnes.icode.repository/target/products/icode-ide.product-*.zip"
   - "icode-ide/fr.cnes.icode.repository/target/fr.cnes.icode.repository-*.zip"
-  cleanup: false
+  skip_cleanup: true
   name: "i-Code CNES"
   draft: true
   on:
+    branch: master
     tags: true
+    jdk: openjdk11
