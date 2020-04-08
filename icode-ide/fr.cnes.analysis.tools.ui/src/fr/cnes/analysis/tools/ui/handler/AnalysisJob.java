@@ -5,20 +5,18 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.List;
-
+import fr.cnes.analysis.tools.ui.Activator;
+import fr.cnes.icode.Analyzer;
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import fr.cnes.analysis.tools.ui.Activator;
-import fr.cnes.icode.Analyzer;
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.exception.JFlexException;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * This {@link Job} run an analysis using {@link Analyzer} service.
@@ -83,14 +81,7 @@ public class AnalysisJob extends Job {
         IStatus status = this.verifyInputs();
         monitor.setTaskName("Analyzing files...");
         if (status.isOK()) {
-            try {
-                this.checks = analyzer.check(new HashSet<>(inputFiles), languageIds, excludedIds);
-            } catch (final JFlexException exception) {
-                ICodeLogger.warning(CLASS, method, exception.getClass().getName()
-                        + " handled in method " + method + " changing Job status.");
-                status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-                        exception.getMessage());
-            }
+            this.checks = analyzer.stableCheck(new HashSet<>(inputFiles), languageIds, excludedIds);
         }
         ICodeLogger.exiting(CLASS, method, status);
         return status;

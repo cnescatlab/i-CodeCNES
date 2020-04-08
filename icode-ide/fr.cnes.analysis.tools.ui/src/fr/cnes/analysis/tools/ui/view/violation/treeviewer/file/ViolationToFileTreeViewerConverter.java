@@ -5,21 +5,20 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Thread job converting all {@link Violation} in {@link #inputs} into a

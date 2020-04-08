@@ -5,18 +5,17 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.decorators;
 
-import java.util.List;
-
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.analysis.tools.ui.markers.ViolationWarningMarker;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.List;
 
 /**
  * ViolationWarningDecorator add decorators to the file's icon when there is

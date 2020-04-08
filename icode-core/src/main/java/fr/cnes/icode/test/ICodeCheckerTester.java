@@ -94,7 +94,7 @@ public interface ICodeCheckerTester {
             for (final CheckResult value : list) {
                 final int index = list.indexOf(value);
                 final String location = value.getLocation();
-                assertTrue(location.contains(locations[index]));
+                assertEquals(locations[index], location);
                 final int line = value.getLine();
                 assertEquals(lines[index], line);
             }

@@ -5,14 +5,14 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.export;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
 import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
 import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is an import and export service for i-Code CNES.

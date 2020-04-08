@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.cnes.icode</groupId>
-			<artifactId>icode-core</artifactId>
+			<artifactId>fortran77-language</artifactId>
 			<version>${icode.version}</version>
 			<scope>compile</scope>
 		</dependency>

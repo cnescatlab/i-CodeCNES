@@ -5,13 +5,12 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.metrics;
 
+import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.core.runtime.IPath;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.core.runtime.IPath;
-
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Class descriptor for metric value in a file.

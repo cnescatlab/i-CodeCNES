@@ -5,6 +5,10 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
+import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
+import fr.cnes.analysis.tools.ui.view.MetricsView;
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IResource;
@@ -14,11 +18,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import fr.cnes.analysis.tools.ui.exception.EmptyProviderException;
-import fr.cnes.analysis.tools.ui.view.MetricsView;
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * Handler to clear the views.

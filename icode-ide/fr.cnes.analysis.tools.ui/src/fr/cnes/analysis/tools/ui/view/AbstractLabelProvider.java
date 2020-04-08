@@ -5,9 +5,8 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 
 /**
  * Label provider for columns of viewers

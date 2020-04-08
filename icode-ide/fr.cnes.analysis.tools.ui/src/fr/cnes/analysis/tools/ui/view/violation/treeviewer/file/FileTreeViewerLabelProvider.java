@@ -5,10 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.PlatformUI;
-
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import fr.cnes.analysis.tools.ui.images.ImageFactory;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
@@ -17,6 +13,9 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.IFile
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Set the content of a {@link FileTreeViewer} using

@@ -5,16 +5,11 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences.checkerstables;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CheckboxCellEditor;
-import org.eclipse.jface.viewers.ColumnViewer;
-import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.SWT;
-
 import fr.cnes.analysis.tools.ui.preferences.CheckerPreferencesContainer;
 import fr.cnes.analysis.tools.ui.preferences.UserPreferencesService;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.SWT;
 
 /**
  * Editing support for Enabled cells.

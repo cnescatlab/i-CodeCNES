@@ -5,11 +5,11 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.logger.ICodeLogger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Container for languages used {@link UserPreferencesService}

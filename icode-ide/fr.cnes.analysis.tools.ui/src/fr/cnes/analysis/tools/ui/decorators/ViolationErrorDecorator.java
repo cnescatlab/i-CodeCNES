@@ -5,8 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.decorators;
 
-import java.util.List;
-
+import fr.cnes.analysis.tools.ui.images.ImageFactory;
+import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IDecoration;
@@ -15,9 +16,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 
-import fr.cnes.analysis.tools.ui.images.ImageFactory;
-import fr.cnes.analysis.tools.ui.markers.ViolationErrorMarker;
-import fr.cnes.icode.logger.ICodeLogger;
+import java.util.List;
 
 /**
  * Put a new Decoration in the files tree on the top right of an icon of a file

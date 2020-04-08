@@ -5,14 +5,14 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.export;
 
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
+import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.services.export.exception.NoContributorMatchingException;
-import fr.cnes.icode.services.export.exception.NoExtensionIndicatedException;
 
 /**
  * Interface to implement to realize an export service.

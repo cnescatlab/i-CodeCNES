@@ -5,19 +5,18 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule;
 
-import java.util.List;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.PlatformUI;
-
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.FunctionRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.rule.descriptor.RuleDescriptor;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.PlatformUI;
+
+import java.util.List;
 
 /**
  * This class provides a content provider for the tree viewer in the metric

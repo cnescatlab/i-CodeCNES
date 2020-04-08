@@ -5,24 +5,19 @@
 /************************************************************************************************/
 package fr.cnes.icode.services.export.xml;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import fr.cnes.icode.data.CheckResult;
+import fr.cnes.icode.services.export.IExporter;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import fr.cnes.icode.data.CheckResult;
-import fr.cnes.icode.services.export.IExporter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This class is an attribute of the {@code ExtensionPoint} implementing

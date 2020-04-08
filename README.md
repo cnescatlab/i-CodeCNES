@@ -81,6 +81,18 @@ If you need to add some new feature, the easiest way is to implment your own plu
 
 ## Changelog
 
+#### Release 4.1.0
+
+###### New features
+- [x] **FEATURE #198** > i-Code should not crash on checker error
+- [x] **FEATURE #201** > Simplify logged information
+
+###### Fixed bugs
+- [x] **BUG #131** > Correction erreur COM.xxx
+- [x] **BUG #147** > Test files may have a "contains" instead of an "equals" to check the location value
+- [x] **BUG #197** > IndexOutOfBoundsException while analyzing an empty Shell script
+- [x] **BUG #200** > JAXB is still used but missing in icode-library
+
 #### Release 4.0.0
 
 ###### New features

@@ -5,13 +5,6 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file;
 
-import java.util.List;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.PlatformUI;
-
 import fr.cnes.analysis.tools.ui.exception.UnknownInstanceException;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FileRuleDescriptor;
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.FunctionDescriptor;
@@ -19,6 +12,12 @@ import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.RuleD
 import fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor.ViolationDescriptor;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.PlatformUI;
+
+import java.util.List;
 
 /**
  * @version 2.1

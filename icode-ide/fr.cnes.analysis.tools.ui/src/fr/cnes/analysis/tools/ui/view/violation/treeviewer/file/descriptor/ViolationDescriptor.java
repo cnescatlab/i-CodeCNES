@@ -5,9 +5,8 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.view.violation.treeviewer.file.descriptor;
 
-import org.eclipse.core.runtime.IPath;
-
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * Descriptor for a violation that is intended to be shown.</br>

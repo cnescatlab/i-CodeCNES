@@ -5,10 +5,9 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.preferences;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-
 import fr.cnes.analysis.tools.ui.Activator;
 import fr.cnes.icode.logger.ICodeLogger;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * Container for Checker preferences used by {@link UserPreferencesService}

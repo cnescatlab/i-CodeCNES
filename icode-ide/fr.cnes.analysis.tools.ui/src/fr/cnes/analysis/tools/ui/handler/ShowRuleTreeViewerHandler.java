@@ -5,14 +5,13 @@
 /************************************************************************************************/
 package fr.cnes.analysis.tools.ui.handler;
 
+import fr.cnes.analysis.tools.ui.view.ViolationsView;
+import fr.cnes.icode.logger.ICodeLogger;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.ui.PlatformUI;
-
-import fr.cnes.analysis.tools.ui.view.ViolationsView;
-import fr.cnes.icode.logger.ICodeLogger;
 
 /**
  * This Handler is being used by {@link ViolationsView} to dispose and show
