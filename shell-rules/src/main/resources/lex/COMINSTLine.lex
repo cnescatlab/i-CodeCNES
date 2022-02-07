@@ -86,6 +86,7 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

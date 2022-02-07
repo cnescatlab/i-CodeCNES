@@ -72,6 +72,7 @@ OPTION		 = "-e"		| "--expression" 	| "-f"		| "--file"		|
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

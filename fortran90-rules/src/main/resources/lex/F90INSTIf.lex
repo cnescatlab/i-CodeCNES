@@ -79,6 +79,7 @@ BRANCH		 = [^a-zA-Z0-9\_]("exit" | "cycle" | "goto" | "return")[^a-zA-Z0-9\_]
 
 %eofval{ 
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

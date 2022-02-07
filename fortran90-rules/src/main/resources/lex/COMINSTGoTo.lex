@@ -69,6 +69,7 @@ GOTO		 = [^a-zA-Z0-9\_]("go") {SPACE}*("to")
 %eofval{
     
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

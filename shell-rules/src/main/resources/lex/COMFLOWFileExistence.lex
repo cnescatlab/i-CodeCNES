@@ -148,6 +148,7 @@ IGNORE		   = {REDIRECT_IGNORE} | {STRING_ESCAPED} | ([\\][\#]) | "ssh"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

@@ -105,6 +105,7 @@ ESAC		 = "esac"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

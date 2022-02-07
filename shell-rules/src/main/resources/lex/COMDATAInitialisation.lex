@@ -167,6 +167,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

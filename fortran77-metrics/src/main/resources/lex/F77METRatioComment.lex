@@ -112,6 +112,7 @@ END			 = END		  | end
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{
 	this.computeMetric(null, Float.NaN, 0);
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

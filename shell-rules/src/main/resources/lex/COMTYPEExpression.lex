@@ -115,6 +115,7 @@ EXPR		 = {VARIABLE} {SPACE}+ {OPER} {SPACE}+ ({STRING}|{INT}|{VARIABLE})
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

@@ -71,7 +71,8 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %}
 
 %eofval{
-  	return getCheckResults();
+     	this.zzReader.close();
+	return getCheckResults();
 %eofval}
 
 

@@ -123,6 +123,7 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

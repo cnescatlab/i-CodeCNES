@@ -89,6 +89,7 @@ ESAC		 = "esac"
 		if (lineError == 0) location = "MAIN PROGRAM";
 		setError(location,"It is mandatory to use getopts and getopt and to provide the –h, -help, –v and -version options at least.", lineError);
 	}
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

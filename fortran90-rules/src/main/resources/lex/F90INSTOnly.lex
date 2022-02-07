@@ -74,6 +74,7 @@ ONLY		 = "only"
 
 /* At the end of analysis, atEOF is set at true. This is not meant to be modified. */
 %eofval{ 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

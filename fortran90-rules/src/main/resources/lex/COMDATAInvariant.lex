@@ -105,6 +105,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 	printError();
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

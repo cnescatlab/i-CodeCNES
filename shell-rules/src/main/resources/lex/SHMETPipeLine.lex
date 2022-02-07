@@ -126,6 +126,7 @@ IGNORE_STRING_S = [\\][\']
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

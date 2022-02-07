@@ -93,6 +93,7 @@ HELP	 	 = "help"
 		if (lineError == 0) location = "MAIN PROGRAM";
 		setError(location,"The help options (-h & --help) must be implemented in getopt & getopts commands.", lineError);
 	}
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

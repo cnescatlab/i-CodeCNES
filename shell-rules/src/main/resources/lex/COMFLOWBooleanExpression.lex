@@ -72,6 +72,7 @@ BOOL		 = \|\|		| \&\&	| \-"o"	| \-"a"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

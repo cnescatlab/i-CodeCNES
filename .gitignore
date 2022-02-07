@@ -23,6 +23,7 @@ target/
 .classpath
 */.classpath
 .settings
+.vscode
 
 # Ignore SonarQube metadata
 .scannerwork

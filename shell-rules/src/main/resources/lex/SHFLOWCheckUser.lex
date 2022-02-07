@@ -100,6 +100,7 @@ DIRECT_CHECK = {DIRECT_USER} {SPACE}+ {OP} {SPACE}+ {ROOT_VALUE}
 
 %eofval{
 	checkErrors();
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

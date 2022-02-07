@@ -139,6 +139,7 @@ SPACE		 = [\ \r\t\f]
 %eofval{
     
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

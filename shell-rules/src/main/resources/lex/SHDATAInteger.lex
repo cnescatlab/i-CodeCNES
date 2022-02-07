@@ -76,6 +76,7 @@ TYPESET		 = "typeset"{SPACE}+\-"i"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

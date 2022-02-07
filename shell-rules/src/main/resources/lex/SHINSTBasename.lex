@@ -71,6 +71,7 @@ DIRNAME		 = "dirname"{SPACE}+\$"0" | "dirname"{SPACE}+\"\$"0"\"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

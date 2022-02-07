@@ -90,6 +90,7 @@ ASSOCIATED	 = ("associated")
 
 %eofval{ 
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

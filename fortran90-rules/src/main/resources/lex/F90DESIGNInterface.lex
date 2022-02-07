@@ -79,6 +79,7 @@ ERROR		 = "allocatable" | "allocate" | "assign" | "backspace" | "block" | "call"
 %}
 
 %eofval{ 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

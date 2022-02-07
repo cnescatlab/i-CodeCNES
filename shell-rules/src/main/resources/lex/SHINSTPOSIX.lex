@@ -140,6 +140,7 @@ VAR_ERROR   = ([\$]{ERROR}) | ([\$][\{]{ERROR}[\}])
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

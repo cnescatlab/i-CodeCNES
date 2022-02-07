@@ -70,6 +70,7 @@ LS			 = "ls" | "/bin/ls"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

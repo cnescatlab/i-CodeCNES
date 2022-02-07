@@ -226,6 +226,7 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	sortResults();
     
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

@@ -69,6 +69,7 @@ GETUID		 = "GETUID"{SPACE}*\({SPACE}*\)
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

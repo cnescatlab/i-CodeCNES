@@ -82,6 +82,7 @@ GETUID		 = "GETUID"{SPACE}*\({SPACE}*\)
 	   LOGGER.fine("Setting error line "+(line+1)+" cause the user identity is not verified in the main program.");
 	   setError(location,"The user identity is not verified in the main program.", line+1);
     }
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

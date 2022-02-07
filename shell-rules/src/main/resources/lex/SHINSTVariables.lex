@@ -75,6 +75,7 @@ VAR_ERROR	 = ([\$]({NAME}|{SHELL_VAR}))
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

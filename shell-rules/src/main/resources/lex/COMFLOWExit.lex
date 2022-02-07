@@ -70,6 +70,7 @@ RETURN		 = "return"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

@@ -132,6 +132,7 @@ BRACING		 = "expr"	| "let"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

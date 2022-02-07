@@ -104,6 +104,7 @@ OPTIONS		= \- ("9" | "SIGKILL" | "kill")
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

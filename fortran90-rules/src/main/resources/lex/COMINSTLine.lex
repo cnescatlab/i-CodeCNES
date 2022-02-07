@@ -71,6 +71,7 @@ CHAR		 = [a-zA-Z0-9]
 %eofval{
     
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

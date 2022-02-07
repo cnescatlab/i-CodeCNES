@@ -83,6 +83,7 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 
 %eofval{ 
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

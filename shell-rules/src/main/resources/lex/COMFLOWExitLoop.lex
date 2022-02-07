@@ -75,6 +75,7 @@ BREAK		 = "break" | "exit"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

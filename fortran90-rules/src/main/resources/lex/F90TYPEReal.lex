@@ -77,6 +77,7 @@ ERROR		 = ( "real" | ("double"){SPACE}*("precision") | "complex" )
 
 %eofval{ 
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

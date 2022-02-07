@@ -138,6 +138,7 @@ INT			 = [0-9]+
 %eofval{
 	raiseRemainingErrors();
 	sortResults();
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

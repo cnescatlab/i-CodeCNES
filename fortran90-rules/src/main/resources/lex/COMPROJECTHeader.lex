@@ -198,6 +198,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	lines.clear();
     
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

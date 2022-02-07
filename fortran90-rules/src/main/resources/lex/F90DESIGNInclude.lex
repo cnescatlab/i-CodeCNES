@@ -76,6 +76,7 @@ INCLUDE	 	 = [^a-zA-Z0-9\_]("include"){SPACE}+{STRING}
 
 %eofval{ 
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

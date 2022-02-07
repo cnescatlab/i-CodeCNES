@@ -106,6 +106,7 @@ EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{FNAME}
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

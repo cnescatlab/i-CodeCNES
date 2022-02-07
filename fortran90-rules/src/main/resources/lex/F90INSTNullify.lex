@@ -86,6 +86,7 @@ NULLIFY		 = [^a-zA-Z0-9\_]("nullify"){SPACE}*("(")
 %eofval{ 
 	raiseRemainingErrors();
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

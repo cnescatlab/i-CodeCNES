@@ -96,6 +96,7 @@ EQUAL		 = \= [^\,\n\"\']*
 %eofval{
 	printError();
 	
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

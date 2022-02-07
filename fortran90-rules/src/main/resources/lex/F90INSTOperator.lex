@@ -72,6 +72,7 @@ OP_RELAT	 = ".eq." | ".ne." | ".lt." | ".le." | ".gt." | ".ge."
 
 %eofval{ 
 	 
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

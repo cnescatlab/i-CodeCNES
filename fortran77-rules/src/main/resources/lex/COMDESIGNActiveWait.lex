@@ -80,6 +80,7 @@ WAIT		 = "sleep" 	| "wait"	| "pause"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

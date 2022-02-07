@@ -116,6 +116,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 %eofval{
 	this.computeMetric(null, Float.NaN, 0);
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 %%

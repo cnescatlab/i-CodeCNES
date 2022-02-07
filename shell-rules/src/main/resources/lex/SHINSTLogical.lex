@@ -73,6 +73,7 @@ ENDCOND		 = "do"		| "then"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

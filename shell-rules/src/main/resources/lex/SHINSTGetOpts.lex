@@ -92,6 +92,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 	}else if(!foundGetOpt){
 		setError("MAIN PROGRAM","It is mandatory to use getopts & getopt in the script. (getopt is missing)", 0);
 	}
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

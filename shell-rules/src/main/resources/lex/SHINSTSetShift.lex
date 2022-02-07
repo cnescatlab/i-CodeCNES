@@ -71,6 +71,7 @@ AVOID		 = "set"{SPACE}+\-"o"{SPACE}+"pipefail"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 

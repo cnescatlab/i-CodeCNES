@@ -131,6 +131,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 %}
 
 %eofval{
+   	this.zzReader.close();
 	return getCheckResults();
 %eofval}
 
