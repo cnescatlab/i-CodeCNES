@@ -84,6 +84,7 @@ GETUID		 = "GETUID"{SPACE}*\({SPACE}*\)
     }
 	return getCheckResults();
 %eofval}
+%eofclose
 
 
 %%          

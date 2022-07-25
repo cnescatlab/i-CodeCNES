@@ -73,6 +73,7 @@ END_STRUCT	 = "end"{SPACE}*"type"
 %eofval{ 
 	return getCheckResults(); 
 %eofval}
+%eofclose
 
 %%          
 

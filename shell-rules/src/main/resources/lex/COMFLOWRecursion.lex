@@ -154,7 +154,7 @@ IGNORE_STRING_S = [\\][\']
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

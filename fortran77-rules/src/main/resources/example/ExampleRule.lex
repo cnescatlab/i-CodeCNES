@@ -95,7 +95,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 return violations;
 %eofval}
-
+%eofclose
 /* Here is where you can declare transition words for the rule. */
 RULE_WORD = first_word | SECOND_WORD
 

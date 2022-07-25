@@ -88,7 +88,7 @@ CONDITIONAL_STRUCT		= [\[][\[]({VAR}|{SPACE}|{VALUE}|{OPERATOR}|{BRACKET})*[\]][
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

@@ -74,7 +74,7 @@ OP_RELAT	 = ".eq." | ".ne." | ".lt." | ".le." | ".gt." | ".ge."
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 			{COMMENT_WORD}	{yybegin(COMMENT);}

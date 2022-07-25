@@ -78,7 +78,7 @@ TYPESET		 = "typeset"{SPACE}+\-"i"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

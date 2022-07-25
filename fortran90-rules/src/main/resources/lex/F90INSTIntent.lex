@@ -99,7 +99,7 @@ SPACE		 = [\ \t\f]
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

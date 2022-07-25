@@ -152,7 +152,7 @@ SPACE		 = [\ \t\f\r]
 	comparerError();
  	return getCheckResults(); 
 %eofval}
-
+%eofclose
 
 %%          
 

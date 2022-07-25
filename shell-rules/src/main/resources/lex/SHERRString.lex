@@ -72,7 +72,7 @@ COMPARISON	 = ("if" | "while") {SPACE}* \[ {SPACE}
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

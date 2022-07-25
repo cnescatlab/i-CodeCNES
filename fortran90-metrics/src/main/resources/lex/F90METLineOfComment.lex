@@ -103,6 +103,7 @@ END			 = END		  | end
 	this.computeMetric(null, numCommentTotal, 0);
 	return getCheckResults();
 %eofval}
+%eofclose
 
 %%
 				

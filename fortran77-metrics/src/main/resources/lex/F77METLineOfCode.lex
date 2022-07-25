@@ -108,6 +108,7 @@ SPACE		 = [\ \r\f\t]
 	this.computeMetric(null, numTotal, 0);
 	return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /************************************************************************/

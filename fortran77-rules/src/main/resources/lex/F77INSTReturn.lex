@@ -70,6 +70,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word is return (or RETURN). This word can only be found once and */
 /* without any value following it.											   */

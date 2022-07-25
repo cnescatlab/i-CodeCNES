@@ -139,7 +139,7 @@ SPACE		 = [\ \r\t\f]
 %eofval{
 return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 				

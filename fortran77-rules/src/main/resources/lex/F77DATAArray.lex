@@ -88,7 +88,7 @@ SMB 		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| [0-9]
 %eofval{
     return getCheckResults();
 %eofval}
-
+%eofclose
 
 
 %%          

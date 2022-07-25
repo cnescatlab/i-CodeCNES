@@ -267,6 +267,7 @@ SEE_FUNC	 = ([^a-zA-Z0-9\_])?("if" | "elseif" | "forall" | "while" | "where" | "
 displayErrorVariableByType();
 return getCheckResults();
 %eofval}
+%eofclose
 
 
 %%          

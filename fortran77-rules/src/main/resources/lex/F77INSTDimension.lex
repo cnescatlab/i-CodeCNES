@@ -68,6 +68,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word is dimension (or DIMENSION). This word must not be found. */
 /* Whenever it's found, an error is returned.	  						     */

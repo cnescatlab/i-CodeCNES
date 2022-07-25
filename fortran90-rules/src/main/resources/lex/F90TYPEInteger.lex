@@ -81,6 +81,7 @@ SELECTED 	 = ("selected_")("int"|"real"|"char")("_kind")
 %eofval{ 
 	return getCheckResults(); 
 %eofval}
+%eofclose
 
 %%          
 

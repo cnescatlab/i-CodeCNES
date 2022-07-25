@@ -78,7 +78,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

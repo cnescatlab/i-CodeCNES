@@ -169,7 +169,7 @@ OPTION		 = \- ("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "k" |
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

@@ -160,6 +160,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	lines.clear();
 return getCheckResults();
 %eofval}
+%eofclose
 
 /* There is no specific rule word in this rule. However, we define END to avoid */
 /* Violations on FUNCTION put after END.											*/

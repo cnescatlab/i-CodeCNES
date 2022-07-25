@@ -102,7 +102,7 @@ DIRECT_CHECK = {DIRECT_USER} {SPACE}+ {OP} {SPACE}+ {ROOT_VALUE}
 	checkErrors();
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

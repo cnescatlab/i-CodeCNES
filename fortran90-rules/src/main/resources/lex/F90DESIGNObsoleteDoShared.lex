@@ -84,6 +84,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word is else (or ELSE). We also look for DO, END, THEN and IF. */
 DO		  = do		 | DO

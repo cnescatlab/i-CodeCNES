@@ -98,7 +98,7 @@ EQUAL		 = \= [^\,\n\"\']*
 	
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

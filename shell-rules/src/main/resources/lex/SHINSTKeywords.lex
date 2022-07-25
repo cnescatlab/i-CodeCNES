@@ -101,7 +101,7 @@ NO_ERROR = (([a-zA-Z0-9\_]+{KEYWORD}|{KEYWORD}[a-zA-Z0-9\_]+)[\=])| {KEYWORD_VAR
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

@@ -74,7 +74,7 @@ BOOL		 = \|\|		| \&\&	| \-"o"	| \-"a"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

@@ -131,6 +131,7 @@ SMBL		 = \&   	  | \+			| \$
 	this.computeMetric(null, Float.NaN, 0);
 	return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /* This is the general automaton. Each part will be described later. */

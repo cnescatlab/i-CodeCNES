@@ -122,6 +122,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	 
 	return getCheckResults();
 %eofval}
+%eofclose
 
 /* Rule words are FILE, SCRATCH, STATUS, UNKNOWN and POSITION. 		 */
 /* The main rule word is OPEN, to see when an OPEN statement starts. */

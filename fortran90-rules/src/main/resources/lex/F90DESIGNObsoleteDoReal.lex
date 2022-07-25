@@ -77,6 +77,7 @@ SPACE		 = [\ \t\r]
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 /* A boolean called error is to determine if a non integer value is found. */
 /* A list of String will contain name of declared variables.			   */

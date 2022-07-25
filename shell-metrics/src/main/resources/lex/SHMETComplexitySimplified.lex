@@ -121,6 +121,7 @@ CASE_STATEMENT	=  ({SPACE}*([^\space\(\)\n]*|{VAR})+{SPACE}*)([\|]({SPACE}*([^\s
     this.computeMetric(null, mainComplexity+totalComplexity, 0);
     return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /************************/
