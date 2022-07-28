@@ -81,6 +81,10 @@ If you need to add some new feature, the easiest way is to implment your own plu
 
 ## Changelog
 
+#### Release 4.2.0
+###### Fixed bugs
+- [x] **BUG #221** > Too many open files
+
 #### Release 4.1.0
 
 ###### New features
