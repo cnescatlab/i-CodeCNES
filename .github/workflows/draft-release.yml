@@ -28,7 +28,7 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
-      run: mvn -B clean package
+      run: mvn -B clean install
     - name: Create Release Notes
       uses: docker://decathlon/release-notes-generator-action:2.0.1
       env:
@@ -36,7 +36,7 @@ jobs:
         OUTPUT_FOLDER: temp_release_notes
     - name: Set tag and project values
       run: |
-        echo "tag=$(cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')" >> $GITHUB_ENV
+        echo "tag=$(cat pom.xml | grep "<icode\.version>.*</icode\.version>" | head -1 |awk -F'[><]' '{print $3}')" >> $GITHUB_ENV
         echo "project=$(echo ${{ github.repository }} | awk -F '/' '{print $2}')" >> $GITHUB_ENV
     - name: Create a tag for the release
       run: |
