@@ -46,8 +46,8 @@
         <url>https://github.com/cnescatlab/i-CodeCNES/issues</url>
     </issueManagement>
     <ciManagement>
-        <system>Travis-CI</system>
-        <url>https://travis-ci.org/cnescatlab/i-CodeCNES</url>
+        <system>GitHub Actions</system>
+        <url>https://github.com/cnescatlab/i-CodeCNES/actions</url>
     </ciManagement>
     <scm>
         <url>https://github.com/cnescatlab/i-CodeCNES</url>
@@ -70,7 +70,7 @@
     </distributionManagement>
 
     <properties>
-        <icode.version>4.1.1</icode.version>
+        <icode.version>4.1.2</icode.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
