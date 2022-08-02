@@ -46,8 +46,8 @@
         <url>https://github.com/cnescatlab/i-CodeCNES/issues</url>
     </issueManagement>
     <ciManagement>
-        <system>Travis-CI</system>
-        <url>https://travis-ci.org/cnescatlab/i-CodeCNES</url>
+        <system>GitHub Actions</system>
+        <url>https://github.com/cnescatlab/i-CodeCNES/actions</url>
     </ciManagement>
     <scm>
         <url>https://github.com/cnescatlab/i-CodeCNES</url>

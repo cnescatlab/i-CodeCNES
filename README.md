@@ -1,6 +1,6 @@
 ![i-Code logo](https://github.com/cnescatlab/i-CodeCNES/blob/master/img/logo-i-code-cnes.png)
 
-[![Build Status](https://travis-ci.org/cnescatlab/i-CodeCNES.svg?branch=master)](https://travis-ci.org/cnescatlab/i-CodeCNES)
+[![Java CI](https://github.com/cnescatlab/sonar-cnes-report/actions/workflows/java-continuous-integration.yml/badge.svg)](https://github.com/cnescatlab/i-CodeCNES/actions/workflows/java-continuous-integration.yml)
 [![SonarQube Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=alert_status)](https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
 [![SonarQube Bugs](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=bugs)](https://sonarcloud.io/project/issues?id=lequal_i-CodeCNES&resolved=false&types=BUG)
 [![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=coverage)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Coverage)
@@ -129,7 +129,7 @@ If you need to add some new feature, the easiest way is to implment your own plu
 - A `Developer Guide` is now available here: https://github.com/cnescatlab/icode-custom-plugin-example/wiki/Developer-guide
 - Users are able to add custom plugins by putting their `jar` files into `icode/plugins/` directory
 - Bug about recursive analysis is fixed and users can now simply analyze a directory, e.g.: `icode .`
-- The continuous integration was enhanced with Travis(https://travis-ci.org/cnescatlab/i-CodeCNES) and SonarCloud(https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
+- The continuous integration was enhanced with GitHub Actions (https://github.com/cnescatlab/i-CodeCNES/actions) and SonarCloud(https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
 - The contributing page and issue templates were updated
 - Eclipse RCP was removed from core features of i-Code
 - Some other minor enhancements and fixes
