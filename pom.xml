@@ -43,14 +43,14 @@
     </organization>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/lequal/i-CodeCNES/issues</url>
+        <url>https://github.com/cnescatlab/i-CodeCNES/issues</url>
     </issueManagement>
     <ciManagement>
         <system>Travis-CI</system>
-        <url>https://travis-ci.org/lequal/i-CodeCNES</url>
+        <url>https://travis-ci.org/cnescatlab/i-CodeCNES</url>
     </ciManagement>
     <scm>
-        <url>https://github.com/lequal/i-CodeCNES</url>
+        <url>https://github.com/cnescatlab/i-CodeCNES</url>
     </scm>
 
     <licenses>
@@ -64,8 +64,8 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>GitHub LEQUAL Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/LEQUAL/i-CodeCNES</url>
+            <name>GitHub CNES CatLab Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/cnescatlab/i-CodeCNES</url>
         </repository>
     </distributionManagement>
 
