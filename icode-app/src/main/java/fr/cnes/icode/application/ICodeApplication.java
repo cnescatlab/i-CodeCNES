@@ -30,8 +30,6 @@ import java.util.logging.Logger;
 /**
  * This class provide a main command line application to
  * use i-Code in a console without GUI.
- *
- * @author lequal
  */
 public class ICodeApplication {
 
