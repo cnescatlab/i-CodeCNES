@@ -107,6 +107,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
     fileValue.setFileValue(valueOfFile);
 	return fileValue;
 %eofval}
+%eofclose
 
 /* Here is where you can declare transition words for the Metric. */
 METRIC_WORD = first_word | SECOND_WORD

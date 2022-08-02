@@ -104,7 +104,7 @@ UNIT		 = (("unit"){SPACE}*("="))?{SPACE}*{VAR}
 	checkOpenClose();
 	return getCheckResults(); 
 %eofval}
-
+%eofclose
 
 %%          
 			{COMMENT_WORD}	{yybegin(COMMENT);}

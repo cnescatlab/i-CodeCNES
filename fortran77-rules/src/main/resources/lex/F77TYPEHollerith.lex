@@ -68,6 +68,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 /* The structure of transitional word is a number followed by H (or h) and some	*/
 /* letters. The import in this is the number and h letter.						*/

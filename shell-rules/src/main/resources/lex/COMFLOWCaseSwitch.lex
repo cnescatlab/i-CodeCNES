@@ -107,7 +107,7 @@ ESAC		 = "esac"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

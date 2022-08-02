@@ -76,7 +76,7 @@ ONLY		 = "only"
 %eofval{ 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 		{COMMENT_WORD}	{yybegin(COMMENT);}

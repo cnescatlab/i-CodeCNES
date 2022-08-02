@@ -82,6 +82,7 @@ INT			 = [0-9]+
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 /* A list of String is made, with identifiers such as DO and IF. Its aim  	*/
 /* is to determine when an END is met if it corresponds to an IF.		  	*/

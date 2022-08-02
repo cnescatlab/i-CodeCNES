@@ -123,7 +123,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
   
  return getCheckResults(); 
 %eofval}
-
+%eofclose
 
 %%          
 

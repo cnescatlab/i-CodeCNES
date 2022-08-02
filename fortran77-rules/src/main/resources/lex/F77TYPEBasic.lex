@@ -76,6 +76,7 @@ SPACE		 = [\ \t\r]
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 %%          
 

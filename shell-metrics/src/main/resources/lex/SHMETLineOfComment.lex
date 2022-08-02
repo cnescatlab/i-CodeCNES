@@ -165,6 +165,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 
     return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /************************/

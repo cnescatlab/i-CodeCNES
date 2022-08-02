@@ -77,7 +77,7 @@ VAR_ERROR	 = ([\$]({NAME}|{SHELL_VAR}))
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

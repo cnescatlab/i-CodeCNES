@@ -81,7 +81,7 @@ OPERATEUR	 = "+" | "-" | "*" | "/" | "**"
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

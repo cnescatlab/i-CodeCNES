@@ -78,7 +78,7 @@ TIPUS		 = "type"
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 			{COMMENT_WORD}	{yybegin(COMMENT);}

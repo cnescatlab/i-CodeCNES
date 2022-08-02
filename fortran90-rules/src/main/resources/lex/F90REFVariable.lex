@@ -115,7 +115,7 @@ PARAM		 = \( [^\)]* \)
   
  return getCheckResults(); 
 %eofval}
-
+%eofclose
 
 %%          
 

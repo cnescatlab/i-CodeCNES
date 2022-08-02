@@ -74,7 +74,7 @@ EQUIV		 = [^a-zA-Z0-9\_]("equivalence")[^a-zA-Z0-9\_]
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 		{COMMENT_WORD}	{yybegin(COMMENT);}

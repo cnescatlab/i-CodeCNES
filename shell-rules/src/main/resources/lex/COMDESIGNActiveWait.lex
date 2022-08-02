@@ -108,7 +108,7 @@ ACTWAIT		    = "read" | "sleep" | "wait"
 %eofval{
     return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

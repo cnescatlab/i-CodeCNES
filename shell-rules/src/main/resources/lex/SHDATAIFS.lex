@@ -72,7 +72,7 @@ IFS			 = "IFS"\=
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

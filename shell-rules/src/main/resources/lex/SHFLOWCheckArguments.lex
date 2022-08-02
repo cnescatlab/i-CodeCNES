@@ -75,7 +75,7 @@ NUMBER_PARAMS = \$\# | \$\{\#\}
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

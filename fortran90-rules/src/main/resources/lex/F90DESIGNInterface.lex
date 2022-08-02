@@ -81,7 +81,7 @@ ERROR		 = "allocatable" | "allocate" | "assign" | "backspace" | "block" | "call"
 %eofval{ 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

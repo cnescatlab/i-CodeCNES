@@ -91,7 +91,7 @@ SPACE		 = [\ \t\f]
 %eofval{ 
  return getCheckResults(); 
 %eofval}
-
+%eofclose
 
 %%          
 

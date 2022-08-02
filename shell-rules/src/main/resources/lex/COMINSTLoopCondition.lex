@@ -85,7 +85,7 @@ LOOP		 = {WHILE}	| {UNTIL}
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

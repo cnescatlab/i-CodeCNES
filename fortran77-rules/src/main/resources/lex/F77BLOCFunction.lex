@@ -106,6 +106,7 @@ EQUAL		 = \=
 	checkList();
 return getCheckResults();
 %eofval}
+%eofclose
 
 %%          
 				{FREE_COMMENT}	{

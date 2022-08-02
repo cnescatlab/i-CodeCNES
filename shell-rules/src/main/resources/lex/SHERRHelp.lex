@@ -95,7 +95,7 @@ HELP	 	 = "help"
 	}
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

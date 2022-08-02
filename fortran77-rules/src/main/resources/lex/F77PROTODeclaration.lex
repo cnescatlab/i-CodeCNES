@@ -120,6 +120,7 @@ SIMBOL		 = \& 		  | \$ 		   | \+			| [A-Za-z][\ ]	| \.	| \*
 	compareLists();
     return getCheckResults();
 %eofval}
+%eofclose
 
 %%          
 

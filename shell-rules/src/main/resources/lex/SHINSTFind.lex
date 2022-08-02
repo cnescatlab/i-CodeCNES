@@ -72,7 +72,7 @@ LS			 = "ls" | "/bin/ls"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

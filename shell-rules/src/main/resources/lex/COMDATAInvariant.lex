@@ -315,7 +315,7 @@ CLE			 = "alias" | "apropos" | "apt-get" | "aptitude" | "ascp" | "aspell" |
     }
     return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

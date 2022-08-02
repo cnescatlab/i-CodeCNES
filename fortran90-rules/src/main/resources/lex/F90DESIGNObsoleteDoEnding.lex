@@ -74,6 +74,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 return getCheckResults();
 %eofval}
+%eofclose
 
 /* The word to catch are DO, END DO and CONTINUE. **/
 DO		  = [^a-zA-Z0-9\_]("do")[^a-zA-Z0-9\_]

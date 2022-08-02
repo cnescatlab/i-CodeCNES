@@ -247,6 +247,7 @@ AVOIDED		 = {SPACE}*( "abs" | "achar" | "acos" | "acosh" | "adjustl" | "adjustr"
 	sortResults();
 return getCheckResults();
 %eofval}
+%eofclose
 
 
 %%          

@@ -120,6 +120,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
     this.computeMetric(null, mainMaxNesting, 0);
     return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /************************/

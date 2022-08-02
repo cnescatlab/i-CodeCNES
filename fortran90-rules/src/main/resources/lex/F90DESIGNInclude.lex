@@ -78,6 +78,7 @@ INCLUDE	 	 = [^a-zA-Z0-9\_]("include"){SPACE}+{STRING}
 	 
 	return getCheckResults();
 %eofval}
+%eofclose
 
 %%          
 			{COMMENT_WORD}	{yybegin(COMMENT);}

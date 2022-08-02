@@ -117,7 +117,7 @@ EXPR		 = {VARIABLE} {SPACE}+ {OPER} {SPACE}+ ({STRING}|{INT}|{VARIABLE})
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

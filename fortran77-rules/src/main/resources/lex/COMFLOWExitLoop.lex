@@ -89,6 +89,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word are STOP, EXIT, CYCLE and GO TO. If these words are met inside */
 /* a DO-loop, an error is thrown.												  */

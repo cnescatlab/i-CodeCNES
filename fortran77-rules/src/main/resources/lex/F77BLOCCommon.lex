@@ -76,7 +76,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
 return getCheckResults();
 %eofval}
-
+%eofclose
 
 
 /* Transition word is common (or COMMON). If COMMON is found without a	*/

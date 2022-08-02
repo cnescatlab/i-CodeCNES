@@ -95,6 +95,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	this.computeMetric(null, numTotal, 0);
 	return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /* This is the general automaton. Each part will be described later. */

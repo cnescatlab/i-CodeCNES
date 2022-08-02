@@ -77,7 +77,7 @@ BREAK		 = "break" | "exit"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

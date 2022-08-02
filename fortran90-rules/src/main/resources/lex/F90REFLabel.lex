@@ -85,7 +85,7 @@ FALSE_END	 = ("end"[\ ]*"if") | ("end"[\ ]*"do") | ("end"[\ ]*"file") | ("end"[\
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

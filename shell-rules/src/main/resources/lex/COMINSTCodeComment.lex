@@ -125,7 +125,7 @@ CLE			= {RESERVED}| {POSIX} | {BUILTINS}
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 
