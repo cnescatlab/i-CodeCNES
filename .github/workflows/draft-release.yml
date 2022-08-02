@@ -49,10 +49,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        artifacts:
-          - "icode-app/target/icode-*.zip"
-          - "icode-ide/fr.cnes.icode.repository/target/products/icode-ide.product-*.zip"
-          - "icode-ide/fr.cnes.icode.repository/target/fr.cnes.icode.repository-*.zip"
+        artifacts: "icode-app/target/icode-*.zip,icode-ide/fr.cnes.icode.repository/target/products/icode-ide.product-*.zip,icode-ide/fr.cnes.icode.repository/target/fr.cnes.icode.repository-*.zip"
         tag: ${{ env.tag }}
         name: ${{ env.project }} ${{ env.tag }}
         bodyFile: "temp_release_notes/release_file.md"
