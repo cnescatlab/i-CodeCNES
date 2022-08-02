@@ -81,9 +81,14 @@ If you need to add some new feature, the easiest way is to implment your own plu
 
 ## Changelog
 
+#### Release 4.1.2
+###### Fixed bugs
+- [x] **BUG #226** > Continuous integration on Travis doesn't work anymore
+
 #### Release 4.1.1
 ###### Fixed bugs
 - [x] **BUG #221** > Too many open files
+- [x] **BUG #224** > Remove LEQUAL from this repository
 
 #### Release 4.1.0
 
