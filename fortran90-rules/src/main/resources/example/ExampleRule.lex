@@ -106,7 +106,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 
 /* Here is where you can declare transition words for the rule. */
 RULE_WORD = first_word | SECOND_WORD
-
+%eofclose
 %%          
 
 /* This is the general automaton. Each part will be described later. */
