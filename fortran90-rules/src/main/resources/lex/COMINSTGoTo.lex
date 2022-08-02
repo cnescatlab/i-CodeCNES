@@ -71,7 +71,7 @@ GOTO		 = [^a-zA-Z0-9\_]("go") {SPACE}*("to")
 	
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

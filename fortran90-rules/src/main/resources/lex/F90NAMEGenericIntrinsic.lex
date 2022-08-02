@@ -88,6 +88,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
   
  return getCheckResults(); 
 %eofval}
+%eofclose
 
 /* Transition word is entry (or ENTRY). This word must not be found. */
 /* Whenever it's found, an error is returned.						 */

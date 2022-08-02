@@ -108,7 +108,7 @@ EXPORT		 = "export"{SPACE}+\-"f"{SPACE}+{FNAME}
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

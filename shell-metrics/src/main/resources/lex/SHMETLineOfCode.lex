@@ -146,6 +146,7 @@ FUNCEND			= \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
     this.computeMetric(null, linesTotal, 0);
     return getCheckResults();
 %eofval}
+%eofclose
 %%
 
 /************************/

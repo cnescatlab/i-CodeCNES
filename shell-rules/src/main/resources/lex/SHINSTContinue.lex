@@ -69,7 +69,7 @@ CONTINUE	= "continue"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

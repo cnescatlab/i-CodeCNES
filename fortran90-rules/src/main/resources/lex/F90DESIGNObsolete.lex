@@ -139,7 +139,7 @@ CHAR		 = "character" {SPACE}* \*
 	sortResults();
 	return getCheckResults(); 
 %eofval}
-
+%eofclose
 
 %%          
 			{COMMENT_WORD}	{yybegin(COMMENT);}

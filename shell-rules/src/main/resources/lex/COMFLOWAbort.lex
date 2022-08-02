@@ -106,7 +106,7 @@ OPTIONS		= \- ("9" | "SIGKILL" | "kill")
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

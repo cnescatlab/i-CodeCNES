@@ -142,7 +142,7 @@ VAR_ERROR   = ([\$]{ERROR}) | ([\$][\{]{ERROR}[\}])
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

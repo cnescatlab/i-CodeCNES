@@ -134,7 +134,7 @@ BRACING		 = "expr"	| "let"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

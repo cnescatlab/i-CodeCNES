@@ -75,7 +75,7 @@ ENDCOND		 = "do"		| "then"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

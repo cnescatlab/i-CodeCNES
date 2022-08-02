@@ -164,7 +164,7 @@ IGNORE_STRING_S = [\\][\']
 /* The eofval function MUST NOT be used in combination with EOF recognition in states (exclusive). 	 */
 /* ------------------------------------------------------------------------------------------------- */
 
-
+%eofclose
 %%          
 
 

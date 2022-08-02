@@ -72,7 +72,7 @@ RETURN		 = "return"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

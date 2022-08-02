@@ -94,7 +94,7 @@ ESCAPE_STRING = [\\]([\']|[\"])
 	}
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

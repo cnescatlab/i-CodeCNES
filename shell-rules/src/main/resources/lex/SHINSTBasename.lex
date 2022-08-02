@@ -73,7 +73,7 @@ DIRNAME		 = "dirname"{SPACE}+\$"0" | "dirname"{SPACE}+\"\$"0"\"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

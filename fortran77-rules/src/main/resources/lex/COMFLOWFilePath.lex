@@ -82,7 +82,7 @@ FILENAME	 = \'[\.]*[a-zA-Z\/][a-zA-Z0-9\_\/]*(\.[a-zA-Z0-9]+)?\'  |
 %eofval{
 return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

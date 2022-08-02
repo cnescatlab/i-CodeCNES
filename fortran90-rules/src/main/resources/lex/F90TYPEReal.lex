@@ -79,6 +79,7 @@ ERROR		 = ( "real" | ("double"){SPACE}*("precision") | "complex" )
 	 
 	return getCheckResults();
 %eofval}
+%eofclose
 
 %%          
 

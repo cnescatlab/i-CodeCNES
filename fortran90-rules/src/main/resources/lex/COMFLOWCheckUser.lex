@@ -71,7 +71,7 @@ GETUID		 = "GETUID"{SPACE}*\({SPACE}*\)
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

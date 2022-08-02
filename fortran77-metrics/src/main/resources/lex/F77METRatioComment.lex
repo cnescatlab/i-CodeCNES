@@ -114,7 +114,7 @@ END			 = END		  | end
 	this.computeMetric(null, Float.NaN, 0);
 	return getCheckResults();
 %eofval}
-
+%eofclose
 %%
 				
 /*********************/

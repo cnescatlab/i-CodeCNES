@@ -107,6 +107,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
     
 	return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word are  real, complex and double precision. Whenever this word is */
 /* encountered, we store all variables declared.								  */ 

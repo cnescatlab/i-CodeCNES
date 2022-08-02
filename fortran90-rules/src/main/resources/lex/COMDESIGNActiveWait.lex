@@ -73,7 +73,7 @@ WAIT		 = "sleep" 	| "wait"	| "pause"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

@@ -94,7 +94,7 @@ public class JFlexException extends Exception {
 
                         + "Last word scanned: [" + pLastScan + "] [" + toDecimalCode(pLastScan)
                         + "]" + BLANK
-                        + "Please report this issue on : https://github.com/lequal/i-CodeCNES/issues/";
+                        + "Please report this issue on : https://github.com/cnescatlab/i-CodeCNES/issues/";
         return message;
     }
 

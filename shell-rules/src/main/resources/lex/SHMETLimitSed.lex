@@ -74,7 +74,7 @@ OPTION		 = "-e"		| "--expression" 	| "-f"		| "--file"		|
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

@@ -75,6 +75,7 @@ INT			 = [0-9]+
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 /* An integer called LAST_STATE is used to avoid error due to line continuation. */
 %{

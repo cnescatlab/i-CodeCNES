@@ -68,6 +68,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word is recursive (or RECURSIVE). This word must not be found. */
 /* Whenever it's found, an error is returned.						 		 */

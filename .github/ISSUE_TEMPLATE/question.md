@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-> **Before posting a new question, please read the documentation](https://github.com/lequal/i-CodeCNES/wiki) and check [existing issues](https://github.com/lequal/i-CodeCNES/issues)**
+> **Before posting a new question, please read the documentation](https://github.com/cnescatlab/i-CodeCNES/wiki) and check [existing issues](https://github.com/cnescatlab/i-CodeCNES/issues)**
 
 **Describe what you need to know**
 A clear and concise description of what your question is.

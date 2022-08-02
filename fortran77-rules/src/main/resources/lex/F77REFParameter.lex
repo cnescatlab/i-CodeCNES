@@ -76,7 +76,7 @@ PARAM		 = [^\,\)\n\ ]
 %eofval{
     return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

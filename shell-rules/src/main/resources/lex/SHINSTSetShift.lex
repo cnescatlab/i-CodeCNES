@@ -73,7 +73,7 @@ AVOID		 = "set"{SPACE}+\-"o"{SPACE}+"pipefail"
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

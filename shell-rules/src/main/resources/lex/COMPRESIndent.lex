@@ -200,7 +200,7 @@ IGNORETEXT	 = "<<" {SPACE}* "EOF" [^"<<"]* "EOF" | ` [^`]* `
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

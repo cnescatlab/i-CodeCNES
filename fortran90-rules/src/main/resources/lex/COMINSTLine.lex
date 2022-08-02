@@ -73,7 +73,7 @@ CHAR		 = [a-zA-Z0-9]
 	
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

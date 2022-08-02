@@ -98,7 +98,7 @@ IOSTAT 		 = ("iostat") {SPACE}* \= {SPACE}* {VAR}
 %eofval{ 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

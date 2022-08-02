@@ -232,7 +232,7 @@ FUNCEND		 = \} | \) | \)\) | \]\] | "fi" | "esac" | "done"
 %eofval{
     return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

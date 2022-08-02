@@ -69,7 +69,7 @@ CORRECT		 = \#\!\/"bin"\/"bash"	|
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

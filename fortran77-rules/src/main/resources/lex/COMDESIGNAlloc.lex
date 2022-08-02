@@ -154,7 +154,7 @@ INT			 = [0-9]+
 	sortResults();
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

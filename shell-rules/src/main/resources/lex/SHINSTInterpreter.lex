@@ -66,7 +66,7 @@ CORRECT		 = [\#][\!][\ ]*[\/]
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 

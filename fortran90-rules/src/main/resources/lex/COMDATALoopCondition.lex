@@ -162,6 +162,7 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 %eofval{
     return getCheckResults();
 %eofval}
+%eofclose
 
 /* Transition word is do (or DO). If this word is met, we focus on out condition */
 /* end verifies that it's not modified within the DO-loop. If WHILE is found,    */

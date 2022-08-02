@@ -1,6 +1,6 @@
-![i-Code logo](https://github.com/lequal/i-CodeCNES/blob/master/img/logo-i-code-cnes.png)
+![i-Code logo](https://github.com/cnescatlab/i-CodeCNES/blob/master/img/logo-i-code-cnes.png)
 
-[![Build Status](https://travis-ci.org/lequal/i-CodeCNES.svg?branch=master)](https://travis-ci.org/lequal/i-CodeCNES)
+[![Build Status](https://travis-ci.org/cnescatlab/i-CodeCNES.svg?branch=master)](https://travis-ci.org/cnescatlab/i-CodeCNES)
 [![SonarQube Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=alert_status)](https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
 [![SonarQube Bugs](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=bugs)](https://sonarcloud.io/project/issues?id=lequal_i-CodeCNES&resolved=false&types=BUG)
 [![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=coverage)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Coverage)
@@ -8,10 +8,10 @@
 
 i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
 
-All the information on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/lequal/i-CodeCNES/wiki). 
+All the information on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/cnescatlab/i-CodeCNES/wiki). 
 
 ## Quick start
-- Download latest i-Code version on [GitHub Releases](https://github.com/lequal/i-CodeCNES/releases).
+- Download latest i-Code version on [GitHub Releases](https://github.com/cnescatlab/i-CodeCNES/releases).
 - Unzip i-Code archive where you need it.
 - Add `icode` to your path.
 - Grant `icode` execution permission.
@@ -30,7 +30,7 @@ This is the common GUI application for i-Code.
 ##### i-Code plugin for Eclipse
 The Eclipse plugin for i-Code allows to use i-Code from Eclipse IDE.
 ##### i-Code plugin for SonarQube
-The SonarQube plugin for i-Code allows to use i-Code through SonarQube analysis. Please refer to [sonar-icode-cnes-plugin](https://github.com/lequal/sonar-icode-cnes-plugin) for more details.
+The SonarQube plugin for i-Code allows to use i-Code through SonarQube analysis. Please refer to [sonar-icode-cnes-plugin](https://github.com/cnescatlab/sonar-icode-cnes-plugin) for more details.
 
 ## Installation
 ##### i-Code CLI
@@ -65,21 +65,25 @@ Analyze Shell, F77 & F90 code to find defects & bugs.
  -x,--excluded-rules <arg>           Comma separated list of rules id to exclude from analysis. None by default.
 
 
-Please report issues at https://github.com/lequal/i-CodeCNES/issues
+Please report issues at https://github.com/cnescatlab/i-CodeCNES/issues
 ```
 
 ## Build
 You can easily rebuild all i-Code products with Maven:
 ```bash
-git clone https://github.com/lequal/i-CodeCNES icode
+git clone https://github.com/cnescatlab/i-CodeCNES icode
 cd ./icode/
 mvn clean install
 ```
 
 ## Extending i-Code with your own plugin
-If you need to add some new feature, the easiest way is to implment your own plugin by forking [icode-custom-plugin-example](https://github.com/lequal/icode-custom-plugin-example) and its dedicated [Developer Guide](https://github.com/lequal/icode-custom-plugin-example/wiki/Developer-guide).
+If you need to add some new feature, the easiest way is to implment your own plugin by forking [icode-custom-plugin-example](https://github.com/cnescatlab/icode-custom-plugin-example) and its dedicated [Developer Guide](https://github.com/cnescatlab/icode-custom-plugin-example/wiki/Developer-guide).
 
 ## Changelog
+
+#### Release 4.1.1
+###### Fixed bugs
+- [x] **BUG #221** > Too many open files
 
 #### Release 4.1.0
 
@@ -110,17 +114,17 @@ If you need to add some new feature, the easiest way is to implment your own plu
 - Update packaging of i-Code #165
 - Update CI #145
 - Reintegrate RCP as a submodule using i-Code Core #165
-- This 4.0.0 version integrate a whole new architecture described in https://github.com/lequal/i-CodeCNES/wiki
+- This 4.0.0 version integrate a whole new architecture described in https://github.com/cnescatlab/i-CodeCNES/wiki
   - `icode-core`: contains core feature to build analyzer
   - `icode-library`: contains the minimal classes to run i-Code analyzers in a Java application
   - `icode-app`: a standalone command line version of i-Code analyzer
   - `icode-ide`: contains the i-Code IDE version and Eclipse plugin
   - `*-language`, `*-rules` and `*-metrics`: contain analyzer for several languages: Shell, Fortran, ...
-- The new documentation is available as a wiki https://github.com/lequal/i-CodeCNES/wiki
-- A `Developer Guide` is now available here: https://github.com/lequal/icode-custom-plugin-example/wiki/Developer-guide
+- The new documentation is available as a wiki https://github.com/cnescatlab/i-CodeCNES/wiki
+- A `Developer Guide` is now available here: https://github.com/cnescatlab/icode-custom-plugin-example/wiki/Developer-guide
 - Users are able to add custom plugins by putting their `jar` files into `icode/plugins/` directory
 - Bug about recursive analysis is fixed and users can now simply analyze a directory, e.g.: `icode .`
-- The continuous integration was enhanced with Travis(https://travis-ci.org/lequal/i-CodeCNES) and SonarCloud(https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
+- The continuous integration was enhanced with Travis(https://travis-ci.org/cnescatlab/i-CodeCNES) and SonarCloud(https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
 - The contributing page and issue templates were updated
 - Eclipse RCP was removed from core features of i-Code
 - Some other minor enhancements and fixes
@@ -200,20 +204,20 @@ If you need to add some new feature, the easiest way is to implment your own plu
 * Improvements of analysis failure notifications #50 
 * XML and CSV export improvements #69  #19 
 
-*Minor fixes and other enhancements : [milestone 3.0.0](https://github.com/lequal/i-CodeCNES/milestone/1).*
+*Minor fixes and other enhancements : [milestone 3.0.0](https://github.com/cnescatlab/i-CodeCNES/milestone/1).*
 
 ### Previous Releases
-* [Release 3.1.0](https://github.com/lequal/i-CodeCNES/releases/tag/v3.1.0)
-* [Release 3.0.1](https://github.com/lequal/i-CodeCNES/releases/tag/v3.0.1)
-* [Release 3.0.0](https://github.com/lequal/i-CodeCNES/releases/tag/v3.0.0)
-* [Release 2.0.0](https://github.com/lequal/i-CodeCNES/releases/tag/v2.0.0)
-* [Release 1.0.0](https://github.com/lequal/i-CodeCNES/releases/tag/v1.0.0)
+* [Release 3.1.0](https://github.com/cnescatlab/i-CodeCNES/releases/tag/v3.1.0)
+* [Release 3.0.1](https://github.com/cnescatlab/i-CodeCNES/releases/tag/v3.0.1)
+* [Release 3.0.0](https://github.com/cnescatlab/i-CodeCNES/releases/tag/v3.0.0)
+* [Release 2.0.0](https://github.com/cnescatlab/i-CodeCNES/releases/tag/v2.0.0)
+* [Release 1.0.0](https://github.com/cnescatlab/i-CodeCNES/releases/tag/v1.0.0)
 
 
 ### Feedback and Support
-Contact : L-lequal@cnes.fr
+Contact : catlab@cnes.fr
 
-Bugs and feature requests: https://github.com/lequal/i-CodeCNES/issues 
+Bugs and feature requests: https://github.com/cnescatlab/i-CodeCNES/issues 
 
 ### How to contribute
 If you experienced a problem with the plugin please open an issue. Inside this issue please explain us how to reproduce this issue and paste the log.
@@ -221,7 +225,7 @@ If you experienced a problem with the plugin please open an issue. Inside this i
 If you want to do a PR, please put inside of it the reason of this pull request. If this pull request fix an issue please insert the number of the issue or explain inside of the PR how to reproduce this issue.
 
 ### License
-Copyright 2019 LEQUAL.
+Copyright 2022 CATLab.
 
 This software is licensed under the terms in the file named "LICENSE" in this directory.
 

@@ -88,7 +88,7 @@ NULLIFY		 = [^a-zA-Z0-9\_]("nullify"){SPACE}*("(")
 	 
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 			{COMMENT_WORD}	{yybegin(COMMENT);}

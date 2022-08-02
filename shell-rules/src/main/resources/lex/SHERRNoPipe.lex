@@ -88,7 +88,7 @@ OR			 = \|\|
 %eofval{
 	return getCheckResults();
 %eofval}
-
+%eofclose
 
 %%          
 
