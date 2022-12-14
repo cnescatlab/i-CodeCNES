@@ -342,4 +342,10 @@
         <languageId>fr.cnes.icode.fortran77</languageId>
         <name>F77.TYPE.Hollerith</name>
     </check>
+	<check>
+        <class>fr.cnes.icode.fortran77.rules.COMPRESCodeLines</class>
+        <id>fr.cnes.icode.fortran77.rules.COMPRESCodeLines</id>
+        <name>COM.PRES.CodeLines</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
 </checkers>
