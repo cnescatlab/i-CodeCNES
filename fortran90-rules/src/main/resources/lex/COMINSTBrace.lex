@@ -160,6 +160,7 @@ SPACE		 = [\ \r\t\f]
 /* NAMING STATE	        */
 /************************/
 <NAMING>		{VAR}			{location = location + " " + yytext(); yybegin(LINE);}
+<NAMING>		\(				{yybegin(AVOID);}
 <NAMING>    	\n             	{yybegin(NEW_LINE);}
 <NAMING>    	.              	{}
 
