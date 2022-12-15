@@ -408,4 +408,10 @@
         <name>F90.DESIGN.LogicUnit</name>
         <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90INSTPercentageComment</class>
+        <id>fr.cnes.icode.fortran90.rules.F90INSTPercentageComment</id>
+        <name>F90.INST.PercentageComment</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+    </check>
 </checkers>

@@ -372,4 +372,10 @@
         <name>F77.DESIGN.LogicUnit</name>
         <languageId>fr.cnes.icode.fortran77</languageId>
     </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.F77INSTPercentageComment</class>
+        <id>fr.cnes.icode.fortran77.rules.F77INSTPercentageComment</id>
+        <name>F77.INST.PercentageComment</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
 </checkers>
