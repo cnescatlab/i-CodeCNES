@@ -402,4 +402,10 @@
         <name>F90.DESIGN.CyclomaticComplexity</name>
         <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNLogicUnit</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNLogicUnit</id>
+        <name>F90.DESIGN.LogicUnit</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+    </check>
 </checkers>
