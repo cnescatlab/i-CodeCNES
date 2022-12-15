@@ -396,4 +396,10 @@
         <name>F90.DESIGN.ArgumentsProcedure</name>
         <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
+    <check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNCyclomaticComplexity</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNCyclomaticComplexity</id>
+        <name>F90.DESIGN.CyclomaticComplexity</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+    </check>
 </checkers>
