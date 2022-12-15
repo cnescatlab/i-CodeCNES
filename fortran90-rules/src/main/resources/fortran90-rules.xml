@@ -384,4 +384,10 @@
         <name>COM.PRES.CodeLines</name>
         <languageId>fr.cnes.icode.fortran90</languageId>
     </check>
+	<check>
+        <class>fr.cnes.icode.fortran90.rules.F90DESIGNProcedureLines</class>
+        <id>fr.cnes.icode.fortran90.rules.F90DESIGNProcedureLines</id>
+        <name>F90.DESIGN.ProcedureLines</name>
+        <languageId>fr.cnes.icode.fortran90</languageId>
+    </check>
 </checkers>

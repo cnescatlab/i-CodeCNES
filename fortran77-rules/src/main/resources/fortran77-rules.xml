@@ -348,4 +348,10 @@
         <name>COM.PRES.CodeLines</name>
         <languageId>fr.cnes.icode.fortran77</languageId>
     </check>
+	<check>
+        <class>fr.cnes.icode.fortran77.rules.F77DESIGNProcedureLines</class>
+        <id>fr.cnes.icode.fortran77.rules.F77DESIGNProcedureLines</id>
+        <name>F77.DESIGN.ProcedureLines</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
 </checkers>
