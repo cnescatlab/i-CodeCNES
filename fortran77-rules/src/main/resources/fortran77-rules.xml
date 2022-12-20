@@ -378,4 +378,10 @@
         <name>F77.INST.PercentageComment</name>
         <languageId>fr.cnes.icode.fortran77</languageId>
     </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.F77DATACommentVar</class>
+        <id>fr.cnes.icode.fortran77.rules.F77DATACommentVar</id>
+        <name>F77.DATA.CommentVar</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
 </checkers>
