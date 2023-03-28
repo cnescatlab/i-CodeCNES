@@ -20,7 +20,7 @@ import fr.cnes.icode.data.AbstractChecker;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
 %%
-%class F77DESIGNCyclomaticComplexity
+%class COMMETComplexitySimplified
 %extends AbstractChecker
 %public
 %column
@@ -51,7 +51,7 @@ STRING       = \'[^\']*\' | \"[^\"]*\"
     int numCyclomatic = 1;
     int procedureLine = 0;
     
-    public F77DESIGNCyclomaticComplexity(){
+    public COMMETComplexitySimplified(){
     }
     
     @Override

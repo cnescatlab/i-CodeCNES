@@ -3,61 +3,59 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/ 
-/***********************************************************************************/
-/* This file is used to generate a rule checker for F77.DESIGN.ProcedureLines rule.*/
-/* For further information on this, we advise you to refer to RNC manuals.         */
-/* As many comments have been done on the ExampleRule.lex file, this file          */
-/* will restrain its comments on modifications.                                    */
-/*                                                                                 */
-/***********************************************************************************/
-
-package fr.cnes.icode.fortran77.rules;
-
+/********************************************************************************************/
+/* This file is used to generate a rule checker for F90.DESIGN.CyclomaticComplexity rule.   */
+/* For further information on this, we advise you to refer to RNC manuals.                  */
+/* As many comments have been done on the ExampleRule.lex file, this file                   */
+/* will restrain its comments on modifications.                                             */
+/*                                                                                          */
+/********************************************************************************************/
+package fr.cnes.icode.fortran90.rules;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.util.List;
 import java.util.LinkedList;
-
 import fr.cnes.icode.data.AbstractChecker;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
-
 %%
-
-%class F77DESIGNProcedureLines
+%class COMMETComplexitySimplified
 %extends AbstractChecker
 %public
 %column
 %line
-%ignorecase
-
 %function run
 %yylexthrow JFlexException
 %type List<CheckResult>
-%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, INLINE_COMMENT, PROCEDURES_DEF
-
-COMMENT_WORD = \!         | c          | C     | \*
-FREE_COMMENT = \!
-PROCEDURES   = PROCEDURE | procedure | SUBROUTINE | subroutine | FUNCTION | function
-PROG         = PROGRAM   | program
-MOD          = MODULE    | module
-INTER        = INTERFACE | interface
+%state COMMENT, NAMING, NEW_LINE, LINE, AVOID
+COMMENT_WORD = \!
+FUNC         = FUNCTION   | function
+PROC         = PROCEDURE  | procedure
+SUB          = SUBROUTINE | subroutine
+PROG         = PROGRAM    | program
+MOD          = MODULE     | module
+INTER        = INTERFACE  | interface
 TYPE         = {PROG} | {MOD} | {INTER}
+PROCEDURES   = {FUNC} | {PROC} | {SUB}
+UNION        = \.AND\. | \.and\. | \.OR\. | \.or\.
+CICLO	     = DO | do | IF | if | ELSE[\ ]*IF | else[\ ]*if | SELECT | select |
+               DO [\ ]+ WHILE | do [\ ]+ while | WHILE [\ ]* \( [^\)]* \) [\ ]* DO |
+			   while [\ ]* \( [^\)]* \) [\ ]* do | WHILE | while | WHERE | where |
+               ELSEWHERE | elsewhere
+CLOSING		    = END[\ ]*IF | end[\ ]*if | END[\ ]*DO | end[\ ]*do |
+			   END[\ ]*WHERE | end[\ ]*where | END[\ ]*SELECT | end[\ ]*select 
 VAR          = [a-zA-Z][a-zA-Z0-9\_]*
-CLOSING      = END[\ ]*IF | end[\ ]*if | END[\ ]*DO | end[\ ]*do
-END          = END 		| end
+END          = END[\ ]*{PROCEDURES} | end[\ ]*{PROCEDURES}
 STRING       = \'[^\']*\' | \"[^\"]*\"
-SPACE        = [\ \r\t\f]
-BLANK_LINE 	 = {SPACE}*\R 
                                                                 
 %{
     String location = "MAIN PROGRAM";
     private String parsedFileName;
-    int codeLines = 0;
-	boolean procStarted = false;
+	int numCyclomatic = 1;
+    int procedureLine = 0;
     
-    public F77DESIGNProcedureLines(){
+    public COMMETComplexitySimplified(){
     }
     
     @Override
@@ -66,10 +64,10 @@ BLANK_LINE 	 = {SPACE}*\R
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new File(file.getAbsolutePath()));
     }
-	
-	private void checkProcedureCodeLines() {
-        if(procStarted && codeLines > 150 ) {
-            this.setError(location,"This procedure contains more than 150 lines of code: " + codeLines, yyline+1);
+    
+    private void checkTotalComplexity() {
+        if(numCyclomatic > 15 ) {
+            setError(location,"The cyclomatic complexity of this function is more than 15: " +numCyclomatic, procedureLine+1); 
         }
     }
     
@@ -89,26 +87,18 @@ BLANK_LINE 	 = {SPACE}*\R
             \n              {yybegin(NEW_LINE);}
             .               {}
         }
-/*************************/
-/* INLINE_COMMENT STATE  */
-/*************************/
-<INLINE_COMMENT>   
-        {
-            \n              {codeLines++; yybegin(NEW_LINE);}
-            .               {}
-        }
 /************************/
 /* AVOID STATE          */
 /************************/
-<AVOID>           \n          {codeLines++; yybegin(NEW_LINE);}
+<AVOID>           \n          {yybegin(NEW_LINE);}
 <AVOID>           .           {}
 /************************/
 /* NAMING STATE         */
 /************************/
 <NAMING>
         {
-            {VAR}           {yybegin(AVOID);}
-            \n              {codeLines++; yybegin(NEW_LINE);}
+            {VAR}           {location = location + " " + yytext(); yybegin(AVOID);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -118,20 +108,11 @@ BLANK_LINE 	 = {SPACE}*\R
         {
             {COMMENT_WORD}  {yybegin(COMMENT);}
             {STRING}        {yybegin(LINE);}
-            {TYPE}          {yybegin(NAMING);}
-            {SPACE}         {yybegin(LINE);}
+            {TYPE}          {yybegin(AVOID);}
+			{PROCEDURES}    {numCyclomatic = 1; location = yytext(); procedureLine = yyline; yybegin(NAMING);}
             \n              {yybegin(NEW_LINE);}
             .               {yybegin(LINE);}
         }
-/************************/
-/* PROCEDURES_DEF STATE     */
-/************************/
-<PROCEDURES_DEF>
-		{
-			{VAR}				{location = location + " " + yytext(); codeLines--; yybegin(AVOID);}
-			\n             	   {yybegin(NEW_LINE);}
-		 	.              	   {}
-		 }
 /************************/
 /* NEW_LINE STATE       */
 /************************/
@@ -139,14 +120,14 @@ BLANK_LINE 	 = {SPACE}*\R
         {
             {COMMENT_WORD}      {yybegin(COMMENT);}
             {STRING}            {yybegin(LINE);}
-            {TYPE}              { yybegin(NAMING);}
-            {PROCEDURES}        {codeLines = 0; location = yytext(); procStarted = true;
-                                yybegin(PROCEDURES_DEF);}
+            {TYPE}              {yybegin(AVOID);}
+            {PROCEDURES}        {numCyclomatic = 1; location = yytext(); procedureLine = yyline; yybegin(NAMING);}
+            {CICLO}             {numCyclomatic++; yybegin(LINE);}
+            {UNION}             {numCyclomatic++; yybegin(LINE);}
             {CLOSING}           {yybegin(LINE);}
-            {END}               {checkProcedureCodeLines(); procStarted = false;}
-			{BLANK_LINE}        {}
-            {SPACE}             {yybegin(LINE);}
-            \n                  {yybegin(NEW_LINE);}
+            {END}               {checkTotalComplexity();}
+            {VAR}               {yybegin(LINE);}
+            \n                  {}
             .                   {yybegin(LINE);}
         }
 /************************/
@@ -154,15 +135,16 @@ BLANK_LINE 	 = {SPACE}*\R
 /************************/
 <LINE>            
         {
-            {FREE_COMMENT}  {yybegin(INLINE_COMMENT);}
+            {COMMENT_WORD}  {yybegin(COMMENT);}
             {STRING}        {}
-            {TYPE}          {yybegin(NAMING);}
-            {PROCEDURES}    {codeLines = 0; location = yytext();  procStarted = true;
-                            yybegin(PROCEDURES_DEF);}
+            {TYPE}          {yybegin(AVOID);}
+            {PROCEDURES}    {numCyclomatic = 1; location = yytext(); procedureLine = yyline; yybegin(NAMING);}
+            {CICLO}			{numCyclomatic++;}
+            {UNION}         {numCyclomatic++;}
             {CLOSING}       {}
-            {END}           {checkProcedureCodeLines(); procStarted = false;}
+            {END}           {checkTotalComplexity();}
             {VAR}           {}
-            \n              {codeLines++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /************************/

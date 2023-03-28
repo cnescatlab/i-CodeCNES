@@ -4,15 +4,15 @@
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/ 
 
-/*****************************************************************************/
-/* This file is used to generate a rule checker for F77.DATA.CommentVar rule.	 */
-/* For further information on this, we advise you to refer to RNC manuals.	 */
-/* As many comments have been done on the ExampleRule.lex file, this file    */
-/* will restrain its comments on modifications.								 */
-/*																			 */
-/*****************************************************************************/
+/****************************************************************************************/
+/* This file is used to generate a rule checker for F90.INST.PercentageComment rule.	*/
+/* For further information on this, we advise you to refer to RNC manuals.	            */
+/* As many comments have been done on the ExampleRule.lex file, this file               */
+/* will restrain its comments on modifications.								            */
+/*																			            */
+/****************************************************************************************/
 
-package fr.cnes.icode.fortran77.rules;
+package fr.cnes.icode.fortran90.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -26,41 +26,41 @@ import fr.cnes.icode.exception.JFlexException;
 
 %%
 
-%class F77DATACommentVar
+%class COMMETRatioComment
 %extends AbstractChecker
 %public
 %column
 %line
+
 %ignorecase
 
 %function run
 %yylexthrow JFlexException
 %type List<CheckResult>
-%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, YYINITIAL, VARCOMMENT_DEF
 
-COMMENT_WORD = \!         | c          | C     | \*
-PROG         = PROGRAM   | program
-MOD          = MODULE    | module
-INTER        = INTERFACE | interface
-TYPE         = {PROG} | {MOD} | {INTER}
+%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, INLINE_COMMENT
+COMMENT_WORD = \!
+FUNC         = FUNCTION   | function
+PROC         = PROCEDURE  | procedure
+SUB          = SUBROUTINE | subroutine
+PROG         = PROGRAM    | program
+MOD          = MODULE     | module
+INTER        = INTERFACE  | interface
+TYPE         = {FUNC}     | {PROC} | {SUB} | {INTER} | {MOD} | {PROG}
 VAR          = [a-zA-Z][a-zA-Z0-9\_]*
+CLOSING      = END[\ ]*IF | end[\ ]*if | END[\ ]*DO | end[\ ]*do
+END          = END        | end
 STRING       = \'[^\']*\' | \"[^\"]*\"
 SPACE        = [\ \r\t\f]
-VAR_T     = INTEGER |integer | LOGICAL | logical | CHARACTER | character |
-               REAL | real | COMPLEX | complex | DOUBLE[\ ]+PRECISION |
-               double[\ ]+precision
-VARIABLE	= {VAR_T}({SPACE}*"\*"{SPACE}*([:digit:]+ | \(\*\)))?
-WORD 		 = ([:letter:] | [:digit:])+
-IMPL 		= implicit | IMPLICIT
-
                                                                 
 %{
     String location = "MAIN PROGRAM";
     private String parsedFileName;
-    int lineComment = 0;
-	int lineVar = 0;
+    int commentsLines = 0;
+    int numTotal = 0;
+	double commentsPercent = 0;
     
-    public F77DATACommentVar(){
+    public COMMETRatioComment(){
     }
     
     @Override
@@ -69,15 +69,17 @@ IMPL 		= implicit | IMPLICIT
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new File(file.getAbsolutePath()));
     }
-	
-	private void checkCommentVar() {
-        if(lineComment!=lineVar-1){
-            this.setError(location, "This variable is not commented", yyline+1);
+    
+    private void checkPercentageComment() {
+		commentsPercent = (double)commentsLines / numTotal * 100;
+        if(commentsPercent < 30.00) {
+            setError(location,"There are less than 30% lines of comments in this file: " + String.format("%,.2f", commentsPercent) + "% (" + commentsLines + " / " + numTotal + ")", yyline+1); 
         }
     }
     
 %}
 %eofval{
+    checkPercentageComment();
     return getCheckResults();
 %eofval}
 %eofclose
@@ -89,14 +91,21 @@ IMPL 		= implicit | IMPLICIT
 /************************/
 <COMMENT>     
         {
-			{WORD}			{lineComment=yyline;}
-            \n              {yybegin(NEW_LINE);}
+            \n              {numTotal++; commentsLines++; yybegin(NEW_LINE);}
+            .               {}
+        }
+/*************************/
+/* INLINE_COMMENT STATE  */
+/*************************/
+<INLINE_COMMENT>      
+        {
+            \n              {numTotal++; commentsLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
 /* AVOID STATE          */
 /************************/
-<AVOID>           \n          {yybegin(NEW_LINE);}
+<AVOID>           \n          {numTotal++; yybegin(NEW_LINE);}
 <AVOID>           .           {}
 /************************/
 /* NAMING STATE         */
@@ -104,7 +113,7 @@ IMPL 		= implicit | IMPLICIT
 <NAMING>
         {
             {VAR}           {yybegin(AVOID);}
-            \n              {yybegin(NEW_LINE);}
+            \n              {numTotal++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -120,25 +129,12 @@ IMPL 		= implicit | IMPLICIT
             .               {yybegin(LINE);}
         }
 /************************/
-/* VARCOMMENT_DEF STATE  */
-/************************/
-<VARCOMMENT_DEF>
-		{
-			\({VAR}\)		{}
-            {VAR}			{location=yytext(); checkCommentVar();}
-			\R{SPACE}*(\* | \&)	{}
-			\n             	{yybegin(NEW_LINE);}
-		 	.              	{}
-		}
-/************************/
 /* NEW_LINE STATE       */
 /************************/
 <NEW_LINE>    
         {
             {COMMENT_WORD}      {yybegin(COMMENT);}
-            {VARIABLE}          {lineVar=yyline; yybegin(VARCOMMENT_DEF);}
             {STRING}            {yybegin(LINE);}
-			{IMPL}				{yybegin(AVOID);}
             {TYPE}              {yybegin(NAMING);}
             {SPACE}             {}
             \n                  {yybegin(NEW_LINE);}
@@ -149,11 +145,11 @@ IMPL 		= implicit | IMPLICIT
 /************************/
 <LINE>            
         {
-            {VARIABLE}      {lineVar=yyline; yybegin(VARCOMMENT_DEF);}
+            {COMMENT_WORD}  {yybegin(INLINE_COMMENT);}
             {STRING}        {}
             {TYPE}          {yybegin(NAMING);}
             {VAR}           {}
-            \n              {yybegin(NEW_LINE);}
+            \n              {numTotal++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -162,5 +158,6 @@ IMPL 		= implicit | IMPLICIT
                 [^]            {
                                     
                                     final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
-                                    throw new JFlexException(this.getClass().getName(), parsedFileName, errorMessage, yytext(), yyline, yycolumn);
+                                    throw new JFlexException(this.getClass().getName(), parsedFileName,
+                                                    errorMessage, yytext(), yyline, yycolumn);
                                 }

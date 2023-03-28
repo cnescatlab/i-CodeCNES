@@ -3,22 +3,21 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/ 
+/***********************************************************************************/
+/* This file is used to generate a rule checker for F77.DESIGN.ProcedureLines rule.*/
+/* For further information on this, we advise you to refer to RNC manuals.         */
+/* As many comments have been done on the ExampleRule.lex file, this file          */
+/* will restrain its comments on modifications.                                    */
+/*                                                                                 */
+/***********************************************************************************/
 
-/****************************************************************************************/
-/* This file is used to generate a rule checker for F90.INST.PercentageComment rule.	*/
-/* For further information on this, we advise you to refer to RNC manuals.	            */
-/* As many comments have been done on the ExampleRule.lex file, this file               */
-/* will restrain its comments on modifications.								            */
-/*																			            */
-/****************************************************************************************/
-
-package fr.cnes.icode.fortran90.rules;
+package fr.cnes.icode.fortran77.rules;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 
 import fr.cnes.icode.data.AbstractChecker;
 import fr.cnes.icode.data.CheckResult;
@@ -26,41 +25,39 @@ import fr.cnes.icode.exception.JFlexException;
 
 %%
 
-%class F90INSTPercentageComment
+%class COMMETLineOfCode
 %extends AbstractChecker
 %public
 %column
 %line
-
 %ignorecase
 
 %function run
 %yylexthrow JFlexException
 %type List<CheckResult>
+%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, INLINE_COMMENT, PROCEDURES_DEF
 
-%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, INLINE_COMMENT
-COMMENT_WORD = \!
-FUNC         = FUNCTION   | function
-PROC         = PROCEDURE  | procedure
-SUB          = SUBROUTINE | subroutine
-PROG         = PROGRAM    | program
-MOD          = MODULE     | module
-INTER        = INTERFACE  | interface
-TYPE         = {FUNC}     | {PROC} | {SUB} | {INTER} | {MOD} | {PROG}
+COMMENT_WORD = \!         | c          | C     | \*
+FREE_COMMENT = \!
+PROCEDURES   = PROCEDURE | procedure | SUBROUTINE | subroutine | FUNCTION | function
+PROG         = PROGRAM   | program
+MOD          = MODULE    | module
+INTER        = INTERFACE | interface
+TYPE         = {PROG} | {MOD} | {INTER}
 VAR          = [a-zA-Z][a-zA-Z0-9\_]*
 CLOSING      = END[\ ]*IF | end[\ ]*if | END[\ ]*DO | end[\ ]*do
-END          = END        | end
+END          = END 		| end
 STRING       = \'[^\']*\' | \"[^\"]*\"
 SPACE        = [\ \r\t\f]
+BLANK_LINE 	 = {SPACE}*\R 
                                                                 
 %{
     String location = "MAIN PROGRAM";
     private String parsedFileName;
-    int commentsLines = 0;
-    int numTotal = 0;
-	double commentsPercent = 0;
+    int codeLines = 0;
+	boolean procStarted = false;
     
-    public F90INSTPercentageComment(){
+    public COMMETLineOfCode(){
     }
     
     @Override
@@ -69,17 +66,15 @@ SPACE        = [\ \r\t\f]
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new File(file.getAbsolutePath()));
     }
-    
-    private void checkPercentageComment() {
-		commentsPercent = (double)commentsLines / numTotal * 100;
-        if(commentsPercent < 30.00) {
-            setError(location,"There are less than 30% lines of comments in this file: " + String.format("%,.2f", commentsPercent) + "% (" + commentsLines + " / " + numTotal + ")", yyline+1); 
+	
+	private void checkProcedureCodeLines() {
+        if(procStarted && codeLines > 150 ) {
+            this.setError(location,"This procedure contains more than 150 lines of code: " + codeLines, yyline+1);
         }
     }
     
 %}
 %eofval{
-    checkPercentageComment();
     return getCheckResults();
 %eofval}
 %eofclose
@@ -91,21 +86,21 @@ SPACE        = [\ \r\t\f]
 /************************/
 <COMMENT>     
         {
-            \n              {numTotal++; commentsLines++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /*************************/
 /* INLINE_COMMENT STATE  */
 /*************************/
-<INLINE_COMMENT>      
+<INLINE_COMMENT>   
         {
-            \n              {numTotal++; commentsLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
 /* AVOID STATE          */
 /************************/
-<AVOID>           \n          {numTotal++; yybegin(NEW_LINE);}
+<AVOID>           \n          {codeLines++; yybegin(NEW_LINE);}
 <AVOID>           .           {}
 /************************/
 /* NAMING STATE         */
@@ -113,7 +108,7 @@ SPACE        = [\ \r\t\f]
 <NAMING>
         {
             {VAR}           {yybegin(AVOID);}
-            \n              {numTotal++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -124,10 +119,19 @@ SPACE        = [\ \r\t\f]
             {COMMENT_WORD}  {yybegin(COMMENT);}
             {STRING}        {yybegin(LINE);}
             {TYPE}          {yybegin(NAMING);}
-            {SPACE}         {}
+            {SPACE}         {yybegin(LINE);}
             \n              {yybegin(NEW_LINE);}
             .               {yybegin(LINE);}
         }
+/************************/
+/* PROCEDURES_DEF STATE     */
+/************************/
+<PROCEDURES_DEF>
+		{
+			{VAR}				{location = location + " " + yytext(); codeLines--; yybegin(AVOID);}
+			\n             	   {yybegin(NEW_LINE);}
+		 	.              	   {}
+		 }
 /************************/
 /* NEW_LINE STATE       */
 /************************/
@@ -135,8 +139,13 @@ SPACE        = [\ \r\t\f]
         {
             {COMMENT_WORD}      {yybegin(COMMENT);}
             {STRING}            {yybegin(LINE);}
-            {TYPE}              {yybegin(NAMING);}
-            {SPACE}             {}
+            {TYPE}              { yybegin(NAMING);}
+            {PROCEDURES}        {codeLines = 0; location = yytext(); procStarted = true;
+                                yybegin(PROCEDURES_DEF);}
+            {CLOSING}           {yybegin(LINE);}
+            {END}               {checkProcedureCodeLines(); procStarted = false;}
+			{BLANK_LINE}        {}
+            {SPACE}             {yybegin(LINE);}
             \n                  {yybegin(NEW_LINE);}
             .                   {yybegin(LINE);}
         }
@@ -145,11 +154,15 @@ SPACE        = [\ \r\t\f]
 /************************/
 <LINE>            
         {
-            {COMMENT_WORD}  {yybegin(INLINE_COMMENT);}
+            {FREE_COMMENT}  {yybegin(INLINE_COMMENT);}
             {STRING}        {}
             {TYPE}          {yybegin(NAMING);}
+            {PROCEDURES}    {codeLines = 0; location = yytext();  procStarted = true;
+                            yybegin(PROCEDURES_DEF);}
+            {CLOSING}       {}
+            {END}           {checkProcedureCodeLines(); procStarted = false;}
             {VAR}           {}
-            \n              {numTotal++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/

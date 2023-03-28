@@ -3,59 +3,55 @@
 /* This software is a free software, under the terms of the Eclipse Public License version 1.0. */ 
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/ 
-/***********************************************************************************/
-/* This file is used to generate a rule checker for F90.DESIGN.ProcedureLines rule.*/
-/* For further information on this, we advise you to refer to RNC manuals.         */
-/* As many comments have been done on the ExampleRule.lex file, this file          */
-/* will restrain its comments on modifications.                                    */
-/*                                                                                 */
-/***********************************************************************************/
-
-package fr.cnes.icode.fortran90.rules;
-
+/***************************************************************************************/
+/* This file is used to generate a rule checker for F77.DESIGN.ArgumentsProcedure rule.*/
+/* For further information on this, we advise you to refer to RNC manuals.             */
+/* As many comments have been done on the ExampleRule.lex file, this file              */
+/* will restrain its comments on modifications.                                        */
+/*                                                                                     */
+/***************************************************************************************/
+package fr.cnes.icode.fortran77.rules;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.util.List;
 import java.util.LinkedList;
-
 import fr.cnes.icode.data.AbstractChecker;
 import fr.cnes.icode.data.CheckResult;
 import fr.cnes.icode.exception.JFlexException;
-
 %%
-
-%class F90DESIGNProcedureLines
+%class COMFLOWCheckArguments
 %extends AbstractChecker
 %public
 %column
 %line
 %ignorecase
-
 %function run
 %yylexthrow JFlexException
 %type List<CheckResult>
-%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, INLINE_COMMENT, PROCEDURES_DEF
-
-COMMENT_WORD = \!
+%state COMMENT, NAMING, NEW_LINE, LINE, AVOID, YYINITIAL, ARGUMENTS_DEF
+COMMENT_WORD = \!         | c          | C     | \*
 PROCEDURES   = PROCEDURE | procedure | SUBROUTINE | subroutine | FUNCTION | function
 PROG         = PROGRAM   | program
 MOD          = MODULE    | module
 INTER        = INTERFACE | interface
 TYPE         = {PROG} | {MOD} | {INTER}
 VAR          = [a-zA-Z][a-zA-Z0-9\_]*
-CLOSING      = END[\ ]*IF | end[\ ]*if | END[\ ]*DO | end[\ ]*do
-END          = END[\ ]*{PROCEDURES} | end[\ ]*{PROCEDURES}
 STRING       = \'[^\']*\' | \"[^\"]*\"
 SPACE        = [\ \r\t\f]
+END          = END | end
+INITARG      = \(
+FINARG       = \)
+COMA         = \,
                                                                 
 %{
     String location = "MAIN PROGRAM";
     private String parsedFileName;
-    int codeLines = 0;
-	boolean procStarted = false;
+    int arguments = 1;
+    boolean procStarted = false;
+    boolean nameRead = false;
     
-    public F90DESIGNProcedureLines(){
+    public COMFLOWCheckArguments(){
     }
     
     @Override
@@ -64,11 +60,13 @@ SPACE        = [\ \r\t\f]
         this.parsedFileName = file.toString();
         this.zzReader = new FileReader(new File(file.getAbsolutePath()));
     }
-	
-	private void checkProcedureCodeLines() {
-        if(procStarted && codeLines > 150 ) {
-            this.setError(location,"This procedure contains more than 150 lines of code: " + codeLines, yyline+1);
+    
+    private void checkArgumentsProcedure() {
+        if(procStarted && arguments > 7) {
+            this.setError(location,"This procedure contains more than 7 arguments: " + arguments, yyline+1);
         }
+        procStarted = false;
+        nameRead = false;
     }
     
 %}
@@ -87,18 +85,10 @@ SPACE        = [\ \r\t\f]
             \n              {yybegin(NEW_LINE);}
             .               {}
         }
-/*************************/
-/* INLINE_COMMENT STATE  */
-/*************************/
-<INLINE_COMMENT>   
-        {
-            \n              {codeLines++; yybegin(NEW_LINE);}
-            .               {}
-        }
 /************************/
 /* AVOID STATE          */
 /************************/
-<AVOID>           \n          {codeLines++; yybegin(NEW_LINE);}
+<AVOID>           \n          {yybegin(NEW_LINE);}
 <AVOID>           .           {}
 /************************/
 /* NAMING STATE         */
@@ -106,7 +96,7 @@ SPACE        = [\ \r\t\f]
 <NAMING>
         {
             {VAR}           {yybegin(AVOID);}
-            \n              {codeLines++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -117,21 +107,24 @@ SPACE        = [\ \r\t\f]
             {COMMENT_WORD}  {yybegin(COMMENT);}
             {STRING}        {yybegin(LINE);}
             {TYPE}          {yybegin(NAMING);}
-			{PROCEDURES}        {codeLines = 0; location = yytext(); procStarted = true;
-                                yybegin(PROCEDURES_DEF);}
+            {END}           {yybegin(AVOID);}
+			{PROCEDURES}    {location = yytext(); procStarted = true; yybegin(ARGUMENTS_DEF);}
             {SPACE}         {}
             \n              {yybegin(NEW_LINE);}
             .               {yybegin(LINE);}
         }
 /************************/
-/* PROCEDURES_DEF STATE     */
+/* ARGUMENTS_DEF STATE  */
 /************************/
-<PROCEDURES_DEF>
-		{
-			{VAR}				{location = location + " " + yytext(); codeLines--; yybegin(AVOID);}
-			\n             	   {yybegin(NEW_LINE);}
-		 	.              	   {}
-		 }
+<ARGUMENTS_DEF>
+        {
+            {VAR}           {if(!nameRead) {location = location + " " + yytext(); nameRead = true;}}
+            {INITARG}       {arguments = 1;}
+            {COMA}          {arguments++;}
+            {FINARG}        {checkArgumentsProcedure(); yybegin(AVOID);}
+            \n              {if(procStarted == false) yybegin(NEW_LINE);}
+            .               {}
+        }
 /************************/
 /* NEW_LINE STATE       */
 /************************/
@@ -140,10 +133,8 @@ SPACE        = [\ \r\t\f]
             {COMMENT_WORD}      {yybegin(COMMENT);}
             {STRING}            {yybegin(LINE);}
             {TYPE}              {yybegin(NAMING);}
-            {PROCEDURES}        {codeLines = 0; location = yytext(); procStarted = true;
-                                yybegin(PROCEDURES_DEF);}
-            {CLOSING}           {yybegin(LINE);}
-            {END}               {checkProcedureCodeLines(); procStarted = false;}
+            {END}               {yybegin(AVOID);}
+            {PROCEDURES}        {location = yytext(); procStarted = true; yybegin(ARGUMENTS_DEF);}
             {SPACE}             {}
             \n                  {yybegin(NEW_LINE);}
             .                   {yybegin(LINE);}
@@ -153,15 +144,13 @@ SPACE        = [\ \r\t\f]
 /************************/
 <LINE>            
         {
-            {COMMENT_WORD}  {yybegin(INLINE_COMMENT);}
+            {COMMENT_WORD}  {}
             {STRING}        {}
-            {TYPE}          { yybegin(NAMING);}
-            {PROCEDURES}    {codeLines = 0; location = yytext();
-                            yybegin(PROCEDURES_DEF);}
-            {CLOSING}       {}
-            {END}           {checkProcedureCodeLines(); procStarted = false;}
+            {TYPE}          {yybegin(NAMING);}
+            {END}           {yybegin(AVOID);}
+			{PROCEDURES}    {location = yytext(); procStarted = true; yybegin(ARGUMENTS_DEF);}
             {VAR}           {}
-            \n              {codeLines++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -170,6 +159,5 @@ SPACE        = [\ \r\t\f]
                 [^]            {
                                     
                                     final String errorMessage = "Analysis failure : Your file could not be analyzed. Please verify that it was encoded in an UNIX format.";
-                                    throw new JFlexException(this.getClass().getName(), parsedFileName,
-                                                    errorMessage, yytext(), yyline, yycolumn);
+                                    throw new JFlexException(this.getClass().getName(), parsedFileName, errorMessage, yytext(), yyline, yycolumn);
                                 }
