@@ -5,7 +5,7 @@
 /************************************************************************************************/ 
 
 /*****************************************************************************/
-/* This file is used to generate a rule checker for F77.DATA.CommentVar rule.	 */
+/* This file is used to generate a rule checker for COM.PRES.Data rule.	 */
 /* For further information on this, we advise you to refer to RNC manuals.	 */
 /* As many comments have been done on the ExampleRule.lex file, this file    */
 /* will restrain its comments on modifications.								 */

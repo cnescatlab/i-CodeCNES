@@ -4,7 +4,7 @@
 /* http://www.eclipse.org/legal/epl-v10.html                                                    */
 /************************************************************************************************/ 
 /********************************************************************************/
-/* This file is used to generate a rule checker for COM.PRES.CodeLines rule.   */
+/* This file is used to generate a rule checker for COM.PRES.FileLength rule.   */
 /* For further information on this, we advise you to refer to RNC manuals.      */
 /* As many comments have been done on the ExampleRule.lex file, this file       */
 /* will restrain its comments on modifications.                                 */
