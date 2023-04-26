@@ -220,8 +220,6 @@ If you need to add some new feature, the easiest way is to implment your own plu
 
 
 ### Feedback and Support
-Contact : catlab@cnes.fr
-
 Bugs and feature requests: https://github.com/cnescatlab/i-CodeCNES/issues 
 
 ### How to contribute
