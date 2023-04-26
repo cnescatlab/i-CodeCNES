@@ -11,7 +11,7 @@ The following is a set of guidelines for contributing to i-Code Cnes, which are 
   * [Git Commit Messages](#git-commit-messages)
 
 ## Code of Conduct
-This project and everyone participating in it is governed by the [CATLab Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [catlab@cnes.fr](mailto:catlab@cnes.fr).
+This project and everyone participating in it is governed by the [CATLab Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 ## How Can I Contribute?
 
