@@ -74,7 +74,7 @@ SPACE        = [\ \r\t\f]
     private void checkPercentageComment() {
 		commentsPercent = (double)commentsLines / numTotal * 100;
         if(commentsPercent < 20.00) {
-            setError(location,"There are less than 30% lines of comments in this file: " + String.format("%,.2f", commentsPercent) + "% (" + commentsLines + " / " + numTotal + ")", yyline+1); 
+            setError(location,"There are less than 20% lines of comments in this file: " + String.format("%,.2f", commentsPercent) + "% (" + commentsLines + " / " + numTotal + ")", yyline+1); 
         }
     }
     
