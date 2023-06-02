@@ -71,7 +71,7 @@ COMA         = \,
 	
 	private void checkArgumentsProcedure() {
         if(procStarted && arguments > 7) {
-            this.setError(location,"This procedure contains more than 7 arguments: " + arguments, yyline+1);
+            this.setError(location,"This procedure contains more than 5 arguments: " + arguments, yyline+1);
         }
         procStarted = false;
 		nameRead = false;
