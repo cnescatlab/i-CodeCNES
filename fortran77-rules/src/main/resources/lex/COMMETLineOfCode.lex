@@ -68,7 +68,7 @@ BLANK_LINE 	 = {SPACE}*\R
     }
 	
 	private void checkProcedureCodeLines() {
-        if(procStarted && codeLines > 150 ) {
+        if(procStarted && codeLines > 100 ) {
             this.setError(location,"This procedure contains more than 150 lines of code: " + codeLines, yyline+1);
         }
     }
