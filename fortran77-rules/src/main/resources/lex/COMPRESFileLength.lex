@@ -50,7 +50,6 @@ BLANK_LINE 	 = {SPACE}*\R
     String location = "MAIN PROGRAM";
     private String parsedFileName;
     int codeLines = 0;
-    int numTotal = 1;
     
     public COMPRESFileLength(){
     }
@@ -82,7 +81,7 @@ BLANK_LINE 	 = {SPACE}*\R
 /************************/
 <COMMENT>     
         {
-            \n              {numTotal++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /*************************/
@@ -90,13 +89,13 @@ BLANK_LINE 	 = {SPACE}*\R
 /*************************/
 <INLINE_COMMENT>      
         {
-            \n              {numTotal++; codeLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
 /* AVOID STATE          */
 /************************/
-<AVOID>           \n          {numTotal++; codeLines++; yybegin(NEW_LINE);}
+<AVOID>           \n          {codeLines++; yybegin(NEW_LINE);}
 <AVOID>           .           {}
 /************************/
 /* NAMING STATE         */
@@ -104,7 +103,7 @@ BLANK_LINE 	 = {SPACE}*\R
 <NAMING>
         {
             {VAR}           {location = location + " " + yytext(); yybegin(AVOID);}
-            \n              {numTotal++; codeLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -116,7 +115,7 @@ BLANK_LINE 	 = {SPACE}*\R
             {STRING}        {yybegin(LINE);}
             {TYPE}          {location = yytext(); yybegin(NAMING);}
             {SPACE}         {}
-            \n              {numTotal++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {yybegin(LINE);}
         }
 /************************/
@@ -131,7 +130,7 @@ BLANK_LINE 	 = {SPACE}*\R
             {END}               {yybegin(AVOID);}
 			{BLANK_LINE}        {}
 			{SPACE}				{yybegin(LINE);}
-            \n                  {numTotal++; yybegin(NEW_LINE);}
+            \n                  {yybegin(NEW_LINE);}
             .                   {yybegin(LINE);}
         }
 /************************/
@@ -145,7 +144,7 @@ BLANK_LINE 	 = {SPACE}*\R
             {CLOSING}       {}
             {END}           {yybegin(AVOID);}
             {VAR}           {}
-            \n              {numTotal++; codeLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/

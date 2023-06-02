@@ -47,7 +47,6 @@ SPACE        = [\ \r\t\f]
     String location = "MAIN PROGRAM";
     private String parsedFileName;
     int codeLines = 0;
-    int numTotal = 1;
     
     public COMPRESFileLength(){
     }
@@ -79,7 +78,7 @@ SPACE        = [\ \r\t\f]
 /************************/
 <COMMENT>     
         {
-            \n              {numTotal++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {}
         }
 /*************************/
@@ -87,13 +86,13 @@ SPACE        = [\ \r\t\f]
 /*************************/
 <INLINE_COMMENT>      
         {
-            \n              {numTotal++; codeLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
 /* AVOID STATE          */
 /************************/
-<AVOID>           \n          {numTotal++; codeLines++; yybegin(NEW_LINE);}
+<AVOID>           \n          {codeLines++; yybegin(NEW_LINE);}
 <AVOID>           .           {}
 /************************/
 /* NAMING STATE         */
@@ -101,7 +100,7 @@ SPACE        = [\ \r\t\f]
 <NAMING>
         {
             {VAR}           {location = location + " " + yytext(); yybegin(AVOID);}
-            \n              {numTotal++; codeLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
@@ -113,7 +112,7 @@ SPACE        = [\ \r\t\f]
             {STRING}        {yybegin(LINE);}
             {TYPE}          {location = yytext(); yybegin(NAMING);}
             {SPACE}         {}
-            \n              {numTotal++; yybegin(NEW_LINE);}
+            \n              {yybegin(NEW_LINE);}
             .               {yybegin(LINE);}
         }
 /************************/
@@ -127,7 +126,7 @@ SPACE        = [\ \r\t\f]
             {CLOSING}           {yybegin(LINE);}
             {END}               {yybegin(AVOID);}
             {SPACE}             {}
-            \n                  {numTotal++; yybegin(NEW_LINE);}
+            \n                  {yybegin(NEW_LINE);}
             .                   {yybegin(LINE);}
         }
 /************************/
@@ -141,7 +140,7 @@ SPACE        = [\ \r\t\f]
             {CLOSING}       {}
             {END}           {yybegin(AVOID);}
             {VAR}           {}
-            \n              {numTotal++; codeLines++; yybegin(NEW_LINE);}
+            \n              {codeLines++; yybegin(NEW_LINE);}
             .               {}
         }
 /************************/
