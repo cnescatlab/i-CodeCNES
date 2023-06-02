@@ -6,7 +6,8 @@
 
 /*****************************************************************************/
 /* This file is used to generate a rule checker for F90.DESIGN.Interface rule. */
-/* For further information on this, we advise you to refer to RNC manuals.	 */
+/* This rule is not defined in RNC.	                                         */
+/* This rule checks files where there is more han one PROGRAM or MODULE.     */
 /* As many comments have been done on the ExampleRule.lex file, this file    */
 /* will restrain its comments on modifications.								 */
 /*																			 */
