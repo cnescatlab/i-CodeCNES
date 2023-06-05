@@ -109,47 +109,43 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	
 	private void raiseErrors() throws JFlexException {	
         LOGGER.finest("begin method raiseErrors");
-		if(linesType.isEmpty()){
+		if(!linesType.isEmpty()){
+			if (!linesType.get(0).equals("comment") && !linesType.get(1).equals("comment")){
+				LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
+				this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
+			} else if (linesType.get(0).equals("comment") && !locations.get(0).toString().toLowerCase()
+																.contains(super.getInputFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
+				LOGGER.fine("Setting error line "+(lines.get(0))+" because no file header (file name not found). This module/function should have a header with a brief description..");
+				this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(0));
+			} else if (linesType.size() > 1 && linesType.get(1).equals("comment") && !locations.get(1).toString().toLowerCase()
+																.contains(super.getInputFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
+				LOGGER.fine("Setting error line "+(lines.get(1))+" because no file header (file name not found). This module/function should have a header with a brief description..");
+				this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(1));
+			}	
 			
-            final String errorMessage = "Analysis failure : Raising violation failed. Line type unreachable.";
-            throw new JFlexException(this.getClass().getName(), parsedFileName,
-        errorMessage, yytext(), yyline, yycolumn);
-		}
-		if (!linesType.get(0).equals("comment") && !linesType.get(1).equals("comment")){
-            LOGGER.fine("Setting error line 0 because no file header (file name not found). This module/function should have a header with a brief description..");
-			this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
-		} else if (linesType.get(0).equals("comment") && !locations.get(0).toString().toLowerCase()
-															.contains(super.getInputFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
-            LOGGER.fine("Setting error line "+(lines.get(0))+" because no file header (file name not found). This module/function should have a header with a brief description..");
-			this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(0));
-		} else if (linesType.get(1).equals("comment") && !locations.get(1).toString().toLowerCase()
-															.contains(super.getInputFile().getName().replaceFirst("[.][^.]+$", "").toLowerCase())){
-			LOGGER.fine("Setting error line "+(lines.get(1))+" because no file header (file name not found). This module/function should have a header with a brief description..");
-			this.setError("No file header (file name not found)."," This module/function should have a header with a brief description.", lines.get(1));
-		}	
-		
-		int index = linesType.indexOf("function");
-		while(index != -1){
-			int prevIndex = index - 1;
-			int nextIndex = index + 1;
-			boolean prevIndexNoHead = prevIndex < 0 || !linesType.get(prevIndex).equals("comment")
-										|| !locations.get(prevIndex).toString().toLowerCase().contains(
-											locations.get(index).substring(locations.get(index).indexOf(" ")+1).toLowerCase());
-			boolean nextIndexNoHead = nextIndex >= linesType.size() || !linesType.get(nextIndex).equals("comment")
-										|| !locations.get(nextIndex).toString().toLowerCase().contains(
-											locations.get(index).substring(locations.get(index).indexOf(" ")+1).toLowerCase());
-			
-			if (prevIndexNoHead && nextIndexNoHead){
-                LOGGER.fine("Setting error line "+(lines.get(index))+" because the module/function should have a header with a brief description.");
-				this.setError(locations.get(index).toString(),"This module/function should have a header with a brief description.", lines.get(index));
+			int index = linesType.indexOf("function");
+			while(index != -1){
+				int prevIndex = index - 1;
+				int nextIndex = index + 1;
+				boolean prevIndexNoHead = prevIndex < 0 || !linesType.get(prevIndex).equals("comment")
+											|| !locations.get(prevIndex).toString().toLowerCase().contains(
+												locations.get(index).substring(locations.get(index).indexOf(" ")+1).toLowerCase());
+				boolean nextIndexNoHead = nextIndex >= linesType.size() || !linesType.get(nextIndex).equals("comment")
+											|| !locations.get(nextIndex).toString().toLowerCase().contains(
+												locations.get(index).substring(locations.get(index).indexOf(" ")+1).toLowerCase());
+				
+				if (prevIndexNoHead && nextIndexNoHead){
+					LOGGER.fine("Setting error line "+(lines.get(index))+" because the module/function should have a header with a brief description.");
+					this.setError(locations.get(index).toString(),"This module/function should have a header with a brief description.", lines.get(index));
+				}
+				
+				linesType.remove(index);
+				locations.remove(index);
+				lines.remove(index);
+				index = linesType.indexOf("function");
 			}
-			
-			linesType.remove(index);
-			locations.remove(index);
-			lines.remove(index);
-			index = linesType.indexOf("function");
+			LOGGER.finest("end method raiseErrors");
 		}
-        LOGGER.finest("end method raiseErrors");
 	}
 %}
 
