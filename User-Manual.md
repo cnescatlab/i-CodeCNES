@@ -71,6 +71,20 @@ Analyze Shell, F77 & F90 code to find defects & bugs.
  -x,--excluded-rules <arg>           Comma separated list of rules id to exclude from analysis. None by default.
 ```
 
+`icode` can automatically detect the language from the file extensions:
+
+* Fortran 77: `for`, `f`, `fpp`, `ftn`, `FOR`, `F`, `FPP`, `FTN`
+* Fortran 90: `f90`, `F90`
+* Shell: `bash`, `sh`, `ksh`
+
+but you may also specify the language you want to check against:
+
+```
+icode <FILE> -c "Fortran 77"
+```
+
+Please pay attention to the double quotation marks, the spacing and the first capital character.
+
 ### 2.2. i-Code IDE
 
 This is the common GUI application for i-Code.
