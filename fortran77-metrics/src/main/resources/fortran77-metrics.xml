@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkers>
+    <check>
+        <class>fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified</class>
+        <id>fr.cnes.icode.fortran77.metrics.F77METComplexitySimplified</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+        <name>F77.MET.ComplexitySimplified</name>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.metrics.F77METNesting</class>
+        <id>fr.cnes.icode.fortran77.metrics.F77METNesting</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+        <name>F77.MET.Nesting</name>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.metrics.F77METLineOfCode</class>
+        <id>fr.cnes.icode.fortran77.metrics.F77METLineOfCode</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+        <name>F77.MET.LineOfCode</name>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.metrics.F77METRatioComment</class>
+        <id>fr.cnes.icode.fortran77.metrics.F77METRatioComment</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+        <name>F77.MET.RatioComment</name>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.metrics.F77METLineOfComment</class>
+        <id>fr.cnes.icode.fortran77.metrics.lineofcomment</id>
+        <isMetric>true</isMetric>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+        <name>F77.MET.LineOfComment</name>
+    </check>
+</checkers>

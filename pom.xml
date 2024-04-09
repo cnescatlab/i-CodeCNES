@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.cnes.icode</groupId>
+    <artifactId>parent</artifactId>
+    <version>dev</version>
+    <packaging>pom</packaging>
+
+    <modules>
+
+        <module>icode-core</module>
+
+        <module>fortran77-language</module>
+        <module>fortran77-metrics</module>
+        <module>fortran77-rules</module>
+
+        <module>fortran90-language</module>
+        <module>fortran90-metrics</module>
+        <module>fortran90-rules</module>
+
+        <module>shell-language</module>
+        <module>shell-metrics</module>
+        <module>shell-rules</module>
+
+        <module>export-xml</module>
+        <module>export-csv</module>
+
+        <module>icode-library</module>
+
+        <module>icode-ide</module>
+        <module>icode-app</module>
+
+    </modules>
+
+    <name>i-Code parent</name>
+    <description>CNES app analyzing Fortran 77, Fortran 90 and Shell files.</description>
+
+    <organization>
+        <name>CNES</name>
+        <url>https://cnes.fr/</url>
+    </organization>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/cnescatlab/i-CodeCNES/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/cnescatlab/i-CodeCNES/actions</url>
+    </ciManagement>
+    <scm>
+        <url>https://github.com/cnescatlab/i-CodeCNES</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>EPL-3.0</name>
+            <url>https://www.eclipse.org/legal/epl-v10.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub CNES CatLab Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/cnescatlab/i-CodeCNES</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <icode.version>4.1.2</icode.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.surfire.version>2.22.2</maven.surfire.version>
+        <junit.jupiter.version>5.6.0</junit.jupiter.version>
+        <jacoco.version>0.8.4</jacoco.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${maven.multiModuleProjectDirectory}/sonar-project.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surfire.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>merge</id>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>**/*.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
