@@ -109,6 +109,10 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surfire.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <configuration>
+                    <forkCount>0</forkCount>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
