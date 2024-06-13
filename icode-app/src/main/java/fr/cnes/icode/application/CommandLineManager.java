@@ -147,7 +147,7 @@ public class CommandLineManager {
             // If help option is present we print it.
             if(!areOptionsCorrect || commandLine.hasOption(HELP)) {
                 helpFormatter.printHelp(128, "icode [<FILE> [...]]",
-                        "Analyze Shell, F77 & F90 code to find defects & bugs.\n\n", options,
+                        "Analyze F77 & F90 code to find defects & bugs.\n\n", options,
                         "\n\nPlease report issues at https://github.com/cnescatlab/i-CodeCNES/issues", true);
                 // If version option is present, version information are displayed.
             } else if (commandLine.hasOption(VERSION)) {

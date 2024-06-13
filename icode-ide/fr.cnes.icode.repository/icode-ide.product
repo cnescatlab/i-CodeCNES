@@ -41,10 +41,6 @@
       <plugin id="fr.cnes.analysis.tools.fortran90.metrics"/>
       <plugin id="fr.cnes.analysis.tools.fortran90.rules"/>
       <plugin id="fr.cnes.analysis.tools.fortran90.ui"/>
-      <plugin id="fr.cnes.analysis.tools.shell.analyzer"/>
-      <plugin id="fr.cnes.analysis.tools.shell.metrics"/>
-      <plugin id="fr.cnes.analysis.tools.shell.rules"/>
-      <plugin id="fr.cnes.analysis.tools.shell.ui"/>
       <plugin id="fr.cnes.analysis.tools.ui"/>
    </plugins>
 
