@@ -92,4 +92,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn sonar:sonar -Dsonar.organization=lequal -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        run: mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.organization=lequal -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
