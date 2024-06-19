@@ -75,21 +75,14 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build
-        env:
-          # Needed to get some information about the pull request, if any
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package
       - name: "Setup java for just sonar analysis"
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '17'
-      - name: Analyze
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2.2 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
         env:
-          # Needed to get some information about the pull request, if any
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.organization=lequal -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+          SONAR_HOST_URL: https://sonarcloud.io
