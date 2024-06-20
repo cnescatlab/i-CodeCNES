@@ -42,7 +42,6 @@ public class ICodeApplicationTest {
         assertFalse(icodeLog.contains("+ C++"));
         assertFalse(icodeLog.contains("+ C"));
         assertFalse(icodeLog.contains("+ Python"));
-        assertTrue(icodeLog.contains("+ Shell"));
         assertTrue(icodeLog.contains("+ Fortran 77"));
         assertTrue(icodeLog.contains("+ Fortran 90"));
 

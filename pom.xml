@@ -20,10 +20,6 @@
         <module>fortran90-metrics</module>
         <module>fortran90-rules</module>
 
-        <module>shell-language</module>
-        <module>shell-metrics</module>
-        <module>shell-rules</module>
-
         <module>export-xml</module>
         <module>export-csv</module>
 
@@ -35,7 +31,7 @@
     </modules>
 
     <name>i-Code parent</name>
-    <description>CNES app analyzing Fortran 77, Fortran 90 and Shell files.</description>
+    <description>CNES app analyzing Fortran 77 and Fortran 90 files.</description>
 
     <organization>
         <name>CNES</name>
@@ -70,7 +66,7 @@
     </distributionManagement>
 
     <properties>
-        <icode.version>4.1.2</icode.version>
+        <icode.version>5.0.0</icode.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -113,6 +109,10 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surfire.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <configuration>
+                    <forkCount>0</forkCount>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

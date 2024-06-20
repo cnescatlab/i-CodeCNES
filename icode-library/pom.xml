@@ -52,21 +52,6 @@
             <artifactId>fortran90-rules</artifactId>
             <version>${icode.version}</version>
         </dependency>
-        <dependency>
-            <groupId>fr.cnes.icode</groupId>
-            <artifactId>shell-language</artifactId>
-            <version>${icode.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.cnes.icode</groupId>
-            <artifactId>shell-metrics</artifactId>
-            <version>${icode.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.cnes.icode</groupId>
-            <artifactId>shell-rules</artifactId>
-            <version>${icode.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

@@ -6,7 +6,7 @@
 [![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=coverage)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Coverage)
 [![SonarQube Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=sqale_index)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Maintainability)
 
-i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77, Fortran 90 and Shell.
+i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77 and Fortran 90 .
 
 All the information on CNES standards coverage, and rules availabilities and limitations can be read in the [documentation](https://github.com/cnescatlab/i-CodeCNES/wiki). 
 
@@ -49,7 +49,7 @@ Refer to SonarQube documentation to know how to install a standard SonarQube plu
 Use `icode -h` to get the following help about *i-Code*:
 ```
 usage: icode [<FILE> [...]] [-c <arg>] [-e] [-f <arg>] [-h] [-l] [-o <arg>] [-p <arg>] [-q <arg>] [-r] [-v] [-x <arg>]
-Analyze Shell, F77 & F90 code to find defects & bugs.
+Analyze F77 & F90 code to find defects & bugs.
 
  -c,--checked-languages <arg>        Comma separated list of languages checked during analysis. All by default.
  -e,--exporters                      Display all available exporters.
