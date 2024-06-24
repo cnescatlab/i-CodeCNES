@@ -53,11 +53,16 @@ PROC         = PROCEDURE  | procedure
 SUB          = SUBROUTINE | subroutine
 PROG         = PROGRAM    | program
 MOD          = MODULE     | module
+REC          = RECURSIVE  | recursive
+ELE          = ELEMENTAL  | elemental
+PUR			 = PURE 	  | pure
+MODIF		 = {REC} | {ELE} | {PUR} 
 TYPE		 = {FUNC}     | {PROC}	   | {SUB} | {PROG} | {MOD} | 
-			   {DATA_TYPE}[\ ]+{FUNC}  | "RECURSIVE SUBROUTINE"
+			   {DATA_TYPE}[\ ]+{FUNC}  | ({MODIF}{SPACE})*({SUB} | {FUNC})
 DATA_TYPE	 = INTEGER |integer | LOGICAL | logical | CHARACTER | character |
-               REAL | real | COMPLEX | complex | DOUBLE[\ ]+PRECISION | double[\ ]+precision |
-               CHARACTER{SPACE}*"\*"{SPACE}*"("{SPACE}*{VAR}{SPACE}*")" | character{SPACE}*"\*"{SPACE}*"("{SPACE}*{VAR}{SPACE}*")"
+               REAL | real | COMPLEX | complex | DOUBLE[\ ]+PRECISION |
+               double[\ ]+precision| CHARACTER{SPACE}*"\*"{SPACE}*"("{SPACE}*{VAR}{SPACE}*")" | 
+               character{SPACE}*"\*"{SPACE}*"("{SPACE}*{VAR}{SPACE}*")" 
 END			 = END		  | end
 END_TYPE	 = {END} [\ ]* {TYPE}
 STRUCT		 = TYPE		  | type

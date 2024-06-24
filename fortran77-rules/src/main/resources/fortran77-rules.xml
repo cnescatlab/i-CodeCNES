@@ -342,4 +342,52 @@
         <languageId>fr.cnes.icode.fortran77</languageId>
         <name>F77.TYPE.Hollerith</name>
     </check>
+	<check>
+        <class>fr.cnes.icode.fortran77.rules.COMPRESFileLength</class>
+        <id>fr.cnes.icode.fortran77.rules.COMPRESFileLength</id>
+        <name>COM.PRES.FileLength</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+	<check>
+        <class>fr.cnes.icode.fortran77.rules.COMMETLineOfCode</class>
+        <id>fr.cnes.icode.fortran77.rules.COMMETLineOfCode</id>
+        <name>COM.MET.LineOfCode</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.COMFLOWCheckArguments</class>
+        <id>fr.cnes.icode.fortran77.rules.COMFLOWCheckArguments</id>
+        <name>COM.FLOW.CheckArguments</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.COMMETComplexitySimplified</class>
+        <id>fr.cnes.icode.fortran77.rules.COMMETComplexitySimplified</id>
+        <name>COM.MET.ComplexitySimplified</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.F77DESIGNLogicUnit</class>
+        <id>fr.cnes.icode.fortran77.rules.F77DESIGNLogicUnit</id>
+        <name>F77.DESIGN.LogicUnit</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.COMMETRatioComment</class>
+        <id>fr.cnes.icode.fortran77.rules.COMMETRatioComment</id>
+        <name>COM.MET.RatioComment</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.COMPRESData</class>
+        <id>fr.cnes.icode.fortran77.rules.COMPRESData</id>
+        <name>COM.PRES.Data</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
+    <check>
+        <class>fr.cnes.icode.fortran77.rules.F77FILEHeader</class>
+        <id>fr.cnes.icode.fortran77.rules.F77FILEHeader</id>
+        <name>F77.FILE.Header</name>
+        <languageId>fr.cnes.icode.fortran77</languageId>
+    </check>
 </checkers>
