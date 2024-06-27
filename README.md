@@ -81,6 +81,9 @@ If you need to add some new feature, the easiest way is to implment your own plu
 
 ## Changelog
 
+#### Release 5.0.0
+- Remove shell support
+
 #### Release 4.1.2
 ###### Fixed bugs
 - [x] **BUG #226** > Continuous integration on Travis doesn't work anymore

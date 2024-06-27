@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="i-Code CNES IDE" uid="icode-ide.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="4.1.2" useFeatures="true" includeLaunchers="true">
+<product name="i-Code CNES IDE" uid="icode-ide.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="5.0.0" useFeatures="true" includeLaunchers="true">
 
 
    <configIni use="default">
@@ -69,7 +69,7 @@
       <feature id="org.eclipse.cdt.gnu.debug"/>
       <feature id="org.eclipse.cdt.gdb"/>
       <feature id="org.eclipse.e4.rcp"/>
-      <feature id="fr.cnes.icode.feature.ui" version="4.1.2.qualifier"/>
+      <feature id="fr.cnes.icode.feature.ui" version="5.0.0"/>
       <feature id="icode.library.feature" installMode="root"/>
    </features>
 

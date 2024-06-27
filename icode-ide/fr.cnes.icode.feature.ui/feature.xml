@@ -2,7 +2,7 @@
 <feature
         id="fr.cnes.icode.feature.ui"
         label="i-Code CNES UI"
-        version="4.1.2.qualifier"
+        version="5.0.0"
         provider-name="CNES">
 
     <description url="http://www.example.com/description">
