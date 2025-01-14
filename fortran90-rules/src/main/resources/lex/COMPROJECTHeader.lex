@@ -104,90 +104,86 @@ STRING		 = \'[^\']*\' | \"[^\"]*\"
 	}
 	
 	private void raiseErrors() throws JFlexException {
-		if(this.linesType.isEmpty()){
-				
-        		final String errorMessage = "Analysis failure : Line type unreachable.";
-            	throw new JFlexException(this.getClass().getName(), parsedFileName,
-        errorMessage, yytext(), yyline, yycolumn);
-        }
-        if (!this.linesType.get(0).equals("comment")
-                && !this.linesType.get(1).equals("comment")) {
-            this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
-        } else if (this.linesType.get(0).equals("comment")
-                && !this.locations
-                        .get(0)
-                        .toString()
-                        .toLowerCase()
-                        .contains(
-                                super.getInputFile()
-                                        .getName()
-                                        .replaceFirst("[.][^.]+$", "")
-                                        .toLowerCase())) {
-            this.setError("No file header (file name not found)","This module/function should have a header with a brief description.",
-                    this.lines.get(0));
-        } else if (this.linesType.get(1).equals("comment")
-                && !this.locations
-                        .get(1)
-                        .toString()
-                        .toLowerCase()
-                        .contains(
-                                super.getInputFile()
-                                        .getName()
-                                        .replaceFirst("[.][^.]+$", "")
-                                        .toLowerCase())) {
-            this.setError("No file header (file name not found)"," This module/function should have a header with a brief description.",
-                    this.lines.get(1));
-        }
+		if(!this.linesType.isEmpty()){
+			if (!this.linesType.get(0).equals("comment")
+					&& !this.linesType.get(1).equals("comment")) {
+				this.setError("No file header existing.","This module/function should have a header with a brief description.", 0);
+			} else if (this.linesType.get(0).equals("comment")
+					&& !this.locations
+							.get(0)
+							.toString()
+							.toLowerCase()
+							.contains(
+									super.getInputFile()
+											.getName()
+											.replaceFirst("[.][^.]+$", "")
+											.toLowerCase())) {
+				this.setError("No file header (file name not found)","This module/function should have a header with a brief description.",
+						this.lines.get(0));
+			} else if (linesType.size() > 1 && this.linesType.get(1).equals("comment")
+					&& !this.locations
+							.get(1)
+							.toString()
+							.toLowerCase()
+							.contains(
+									super.getInputFile()
+											.getName()
+											.replaceFirst("[.][^.]+$", "")
+											.toLowerCase())) {
+				this.setError("No file header (file name not found)"," This module/function should have a header with a brief description.",
+						this.lines.get(1));
+			}
 
-        int index = this.linesType.indexOf("function");
-        while (index != -1) {
-            final int prevIndex = index - 1;
-            final int nextIndex = index + 1;
-            final boolean prevIndexNoHead =
-                    prevIndex < 0
-                            || !this.linesType.get(prevIndex)
-                                    .equals("comment")
-                            || !this.locations
-                                    .get(prevIndex)
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(
-                                            this.locations
-                                                    .get(index)
-                                                    .substring(
-                                                            this.locations
-                                                                    .get(index)
-                                                                    .indexOf(
-                                                                            " ") + 1)
-                                                    .toLowerCase());
-            final boolean nextIndexNoHead =
-                    nextIndex >= this.linesType.size()
-                            || !this.linesType.get(nextIndex)
-                                    .equals("comment")
-                            || !this.locations
-                                    .get(nextIndex)
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(
-                                            this.locations
-                                                    .get(index)
-                                                    .substring(
-                                                            this.locations
-                                                                    .get(index)
-                                                                    .indexOf(
-                                                                            " ") + 1)
-                                                    .toLowerCase());
+			int index = this.linesType.indexOf("function");
+			while (index != -1) {
+				final int prevIndex = index - 1;
+				final int nextIndex = index + 1;
+				final boolean prevIndexNoHead =
+						prevIndex < 0
+								|| !this.linesType.get(prevIndex)
+										.equals("comment")
+								|| !this.locations
+										.get(prevIndex)
+										.toString()
+										.toLowerCase()
+										.contains(
+												this.locations
+														.get(index)
+														.substring(
+																this.locations
+																		.get(index)
+																		.indexOf(
+																				" ") + 1)
+														.toLowerCase());
+				final boolean nextIndexNoHead =
+						nextIndex >= this.linesType.size()
+								|| !this.linesType.get(nextIndex)
+										.equals("comment")
+								|| !this.locations
+										.get(nextIndex)
+										.toString()
+										.toLowerCase()
+										.contains(
+												this.locations
+														.get(index)
+														.substring(
+																this.locations
+																		.get(index)
+																		.indexOf(
+																				" ") + 1)
+														.toLowerCase());
 
-            if (prevIndexNoHead && nextIndexNoHead) {
-                this.setError(this.locations.get(index).toString(),"This module/function should have a header with a brief description.",
-                        this.lines.get(index));
-            }
+				if (prevIndexNoHead && nextIndexNoHead) {
+					this.setError(this.locations.get(index).toString(),"This module/function should have a header with a brief description.",
+							this.lines.get(index));
+				}
 
-            this.linesType.remove(index);
-            this.locations.remove(index);
-            this.lines.remove(index);
-            index = this.linesType.indexOf("function");
-        }
+				this.linesType.remove(index);
+				this.locations.remove(index);
+				this.lines.remove(index);
+				index = this.linesType.indexOf("function");
+			}
+		}
     }
 %}
 
