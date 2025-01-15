@@ -81,6 +81,10 @@ If you need to add some new feature, the easiest way is to implment your own plu
 
 ## Changelog
 
+#### Release 5.1.0
+- Includes fixes from Eumetsat (thanks for your contribution!)
+- Includes security fixes from dependabot
+
 #### Release 5.0.0
 - Remove shell support
 

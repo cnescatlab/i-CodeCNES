@@ -2,7 +2,7 @@
 <feature
         id="icode.library.feature"
         label="i-Code Library Feature"
-        version="5.0.0"
+        version="5.1.0"
         provider-name="CNES">
 
     <description url="http://www.example.com/description">
