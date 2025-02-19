@@ -1,0 +1,1 @@
+i-Code CNES is an open source project under license EPL-1.0
