@@ -1,10 +1,10 @@
 ![i-Code logo](https://github.com/cnescatlab/i-CodeCNES/blob/master/img/logo-i-code-cnes.png)
 
 [![Java CI](https://github.com/cnescatlab/sonar-cnes-report/actions/workflows/java-continuous-integration.yml/badge.svg)](https://github.com/cnescatlab/i-CodeCNES/actions/workflows/java-continuous-integration.yml)
-[![SonarQube Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=alert_status)](https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
-[![SonarQube Bugs](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=bugs)](https://sonarcloud.io/project/issues?id=lequal_i-CodeCNES&resolved=false&types=BUG)
-[![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=coverage)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Coverage)
-[![SonarQube Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=lequal_i-CodeCNES&metric=sqale_index)](https://sonarcloud.io/component_measures?id=lequal_i-CodeCNES&metric=Maintainability)
+[![SonarQube Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.sonar.plugins%3Aicode-cnes&metric=alert_status)](https://sonarcloud.io/dashboard?id=fr.cnes.sonar.plugins%3Aicode-cnes)
+[![SonarQube Bugs](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.sonar.plugins%3Aicode-cnes&metric=bugs)](https://sonarcloud.io/project/issues?id=fr.cnes.sonar.plugins%3Aicode-cnes&resolved=false&types=BUG)
+[![SonarQube Coverage](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.sonar.plugins%3Aicode-cnes&metric=coverage)](https://sonarcloud.io/component_measures?id=fr.cnes.sonar.plugins%3Aicode-cnes&metric=Coverage)
+[![SonarQube Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fr.cnes.sonar.plugins%3Aicode-cnes&metric=sqale_index)](https://sonarcloud.io/component_measures?id=fr.cnes.sonar.plugins%3Aicode-cnes&metric=Maintainability)
 
 i-Code CNES is a static code analysis tool to help developers write code compliant with CNES coding rules for Fortran 77 and Fortran 90 .
 
@@ -27,8 +27,6 @@ This is the full library containing all official checkers. It includes i-Code Co
 This is the common command line application for i-Code.
 ##### i-Code IDE
 This is the common GUI application for i-Code.
-##### i-Code plugin for Eclipse
-The Eclipse plugin for i-Code allows to use i-Code from Eclipse IDE.
 ##### i-Code plugin for SonarQube
 The SonarQube plugin for i-Code allows to use i-Code through SonarQube analysis. Please refer to [sonar-icode-cnes-plugin](https://github.com/cnescatlab/sonar-icode-cnes-plugin) for more details.
 
@@ -39,8 +37,6 @@ Just unzip the corresponding archive.
 ##### i-Code IDE
 Just unzip the corresponding archive.
 
-##### i-Code plugin for Eclipse
-Refer to Eclipse documentation to know how to install a standard Eclipse plugin.
 
 ##### i-Code plugin for SonarQube
 Refer to SonarQube documentation to know how to install a standard SonarQube plugin.
@@ -80,6 +76,11 @@ mvn clean install
 If you need to add some new feature, the easiest way is to implment your own plugin by forking [icode-custom-plugin-example](https://github.com/cnescatlab/icode-custom-plugin-example) and its dedicated [Developer Guide](https://github.com/cnescatlab/icode-custom-plugin-example/wiki/Developer-guide).
 
 ## Changelog
+
+#### Release 6.0.0
+- Remove Eclipse Support
+- Rework CI
+- Use revision in pom.xml
 
 #### Release 5.1.0
 - Includes fixes from Eumetsat (thanks for your contribution!)
@@ -136,7 +137,7 @@ If you need to add some new feature, the easiest way is to implment your own plu
 - A `Developer Guide` is now available here: https://github.com/cnescatlab/icode-custom-plugin-example/wiki/Developer-guide
 - Users are able to add custom plugins by putting their `jar` files into `icode/plugins/` directory
 - Bug about recursive analysis is fixed and users can now simply analyze a directory, e.g.: `icode .`
-- The continuous integration was enhanced with GitHub Actions (https://github.com/cnescatlab/i-CodeCNES/actions) and SonarCloud(https://sonarcloud.io/dashboard?id=lequal_i-CodeCNES)
+- The continuous integration was enhanced with GitHub Actions (https://github.com/cnescatlab/i-CodeCNES/actions) and SonarCloud(https://sonarcloud.io/dashboard?id=fr.cnes.sonar.plugins%3Aicode-cnes)
 - The contributing page and issue templates were updated
 - Eclipse RCP was removed from core features of i-Code
 - Some other minor enhancements and fixes
