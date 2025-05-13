@@ -57,7 +57,7 @@ jobs:
       # the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
       # Triggering SonarQube analysis as results of it are required by Quality Gate check.
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@v5
         with:
           args: >
             -Dsonar.qualitygate.wait=true
