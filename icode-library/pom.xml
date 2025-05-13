@@ -7,11 +7,10 @@
     <parent>
         <groupId>fr.cnes.icode</groupId>
         <artifactId>parent</artifactId>
-        <version>dev</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>icode-library</artifactId>
-    <version>${icode.version}</version>
     <packaging>jar</packaging>
 
     <name>i-Code Library</name>
@@ -20,37 +19,37 @@
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>icode-core</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>fortran77-language</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>fortran77-metrics</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>fortran77-rules</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>fortran90-language</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>fortran90-metrics</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>fortran90-rules</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

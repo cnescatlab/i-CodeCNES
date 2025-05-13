@@ -1,0 +1,37 @@
+# Description
+# ===========
+# This workflow is triggered each time a release is created
+# It push I-Code to github repository
+---
+    name: Push release
+    
+    on: 
+      release:
+        types: [created]
+    
+    jobs:
+      release:
+        runs-on: ubuntu-latest
+        permissions:
+          contents: write
+          packages: write
+        steps:
+        - name: Check out repository code
+          uses: actions/checkout@v4
+        - name: Setup java
+          uses: actions/setup-java@v4
+          with:
+            distribution: 'adopt'
+            java-version: '11'
+        - name: Cache Maven packages
+          uses: actions/cache@v4
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2
+        - name: Publish on github repository
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: mvn --batch-mode deploy
+    
+    

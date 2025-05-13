@@ -7,11 +7,10 @@
     <parent>
         <groupId>fr.cnes.icode</groupId>
         <artifactId>parent</artifactId>
-        <version>dev</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>icode-core</artifactId>
-    <version>${icode.version}</version>
     <packaging>jar</packaging>
 
     <name>i-Code Core</name>

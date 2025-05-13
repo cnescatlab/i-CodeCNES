@@ -3,9 +3,10 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>fr.cnes.icode</groupId>
     <artifactId>parent</artifactId>
-    <version>dev</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -25,7 +26,6 @@
 
         <module>icode-library</module>
 
-        <module>icode-ide</module>
         <module>icode-app</module>
 
     </modules>
@@ -66,7 +66,9 @@
     </distributionManagement>
 
     <properties>
-        <icode.version>5.1.0</icode.version>
+        <!-- versionning based on this
+        https://maven.apache.org/guides/mini/guide-maven-ci-friendly.html  -->
+        <revision>9.9.9-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -74,6 +76,7 @@
         <maven.surfire.version>2.22.2</maven.surfire.version>
         <junit.jupiter.version>5.6.0</junit.jupiter.version>
         <jacoco.version>0.8.4</jacoco.version>
+        <enforce.version>3.5.0</enforce.version>
     </properties>
 
     <dependencies>
@@ -132,7 +135,8 @@
                         </goals>
                         <configuration>
                             <fileSets>
-                                <fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+                                <fileSet
+                                    implementation="org.apache.maven.shared.model.fileset.FileSet">
                                     <directory>${project.basedir}</directory>
                                     <includes>
                                         <include>**/*.exec</include>
@@ -159,5 +163,41 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <version>${enforce.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <id>enforce-versions</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireReleaseDeps>
+                                            <message>No Snapshots Allowed for Dependencies!</message>
+                                        </requireReleaseDeps>
+                                        <requireReleaseVersion>
+                                            <message>Snapshot Version is Not Allowed for Release</message>
+                                        </requireReleaseVersion>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

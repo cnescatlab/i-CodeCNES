@@ -7,11 +7,10 @@
     <parent>
 		<groupId>fr.cnes.icode</groupId>
 		<artifactId>parent</artifactId>
-		<version>dev</version>
+		<version>${revision}</version>
 	</parent>
 
 	<artifactId>fortran90-language</artifactId>
-    <version>${icode.version}</version>
 	<packaging>jar</packaging>
 
     <name>Fortran 90 language</name>
@@ -20,9 +19,9 @@
         <dependency>
             <groupId>fr.cnes.icode</groupId>
             <artifactId>icode-core</artifactId>
-            <version>${icode.version}</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-	
+
 </project>
